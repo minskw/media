@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Battle Tournament - Template</title>
+    <title>Adu Kecerdasan - Template</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
@@ -271,7 +271,7 @@
                         1. Download template Excel di bawah ini<br>
                         2. Isi soal sesuai format yang disediakan<br>
                         3. Upload file Excel yang sudah diisi<br>
-                        4. Soal akan otomatis terbaca untuk semua babak tournament
+                        4. Soal akan otomatis terbaca untuk semua babak permainan
                     </p>
                     <div class="flex flex-wrap gap-3 mb-4">
                         <button onclick="downloadTemplate()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all flex items-center gap-2">
@@ -384,7 +384,7 @@
         <!-- Tournament Progress -->
         <div id="tournamentProgress" class="hidden max-w-4xl mx-auto mb-6">
             <div class="bg-white rounded-xl shadow-lg p-4">
-                <h3 class="text-lg font-bold text-center mb-3">🏆 Progress Tournament</h3>
+                <h3 class="text-lg font-bold text-center mb-3">🏆 Progress Permainan</h3>
                 <div class="flex justify-between items-center mb-2">
                     <span class="text-xs font-medium">Penyisihan</span>
                     <span class="text-xs font-medium">Semifinal</span>
@@ -471,7 +471,7 @@
             
             <!-- Tournament Progress in Modal -->
             <div class="mb-6">
-                <h3 class="text-lg font-bold text-center mb-3">🏆 Progress Tournament</h3>
+                <h3 class="text-lg font-bold text-center mb-3">🏆 Progress Permainan</h3>
                 <div class="flex justify-between items-center mb-2">
                     <span class="text-xs font-medium">Penyisihan</span>
                     <span class="text-xs font-medium">Semifinal</span>
@@ -520,12 +520,12 @@
     <!-- Results Screen -->
     <div id="resultsScreen" class="hidden container mx-auto p-6">
         <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8 text-center">
-            <h2 class="text-3xl font-bold mb-6 text-gray-800">🏆 Hasil Akhir Tournament</h2>
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">🏆 Hasil Akhir Adu Kecerdasan</h2>
             <div id="winnerAnnouncement" class="text-2xl font-bold mb-6"></div>
             
             <!-- Tournament Summary -->
             <div id="tournamentSummary" class="mb-8 p-6 bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl">
-                <h3 class="text-xl font-bold mb-4">📈 Ringkasan Tournament</h3>
+                <h3 class="text-xl font-bold mb-4">📈 Ringkasan Permainan</h3>
                 <div id="summaryStats" class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                     <!-- Tournament stats will be shown here -->
                 </div>
@@ -676,7 +676,7 @@
             // Dynamic main title with "AKU SUKA BELAJAR" format
             let mainTitle = '';
             if (subject && subject.toLowerCase() !== 'quiz battle') {
-                mainTitle = `AYO BELAJAR ${subject.toUpperCase()}`;
+                mainTitle = `AYO BELAJAR ${subject.toUpperCase()} BERSAMA`;
             } else {
                 mainTitle = 'QUIZ BATTLE';
             }
@@ -2321,7 +2321,7 @@
             if (gameState.superFinalNeeded) {
                 winnerText = `🎉 ${winner.name} Juara Super Final! 🎉`;
             } else {
-                winnerText = `🎉 ${winner.name} Juara Tournament! 🎉`;
+                winnerText = `🎉 ${winner.name} Juara Adu Kecerdasan! 🎉`;
             }
 
             document.getElementById('winnerAnnouncement').textContent = winnerText;
