@@ -222,14 +222,14 @@
         <!-- Main Title -->
         <div class="relative z-10 text-center">
             <h1 class="text-5xl md:text-6xl font-black mb-4 bg-gradient-to-r from-yellow-300 via-orange-300 to-red-300 bg-clip-text text-transparent drop-shadow-2xl" style="font-family: 'Impact', 'Arial Black', sans-serif; text-shadow: 3px 3px 0px rgba(0,0,0,0.3), 6px 6px 0px rgba(0,0,0,0.1);">
-                QUIZ BATTLE
+                AKU SUKA BELAJAR AKIDAH AKHLAK
             </h1>
             <div class="text-2xl md:text-3xl font-bold mb-3 text-yellow-200 drop-shadow-lg" id="gameSubtitle">
-                🕌 Asmaul Husna & Qadha Qadar 🕌
+                🎓 Kelas 6
             </div>
             <div class="bg-black bg-opacity-30 rounded-full px-6 py-2 inline-block">
                 <p class="text-lg text-blue-200 font-semibold" id="gameDescription">
-                    📚 Akidah Akhlak Kelas 6 • Al-Gaffar, Al-Wasi' & Iman kepada Qadha Qadar
+                    📖 Al-Gaffar, Al-Wasi' & Iman kepada Qadha Qadar
                 </p>
             </div>
         </div>
@@ -640,11 +640,21 @@
         document.addEventListener('DOMContentLoaded', function() {
             loadFromLocalStorage();
             updateTeamInputs();
+            updateGameTitle(); // Initialize title on page load
             
-            // Add auto-save event listeners to form elements
-            document.getElementById('subjectName').addEventListener('input', saveToLocalStorage);
-            document.getElementById('className').addEventListener('input', saveToLocalStorage);
-            document.getElementById('materialName').addEventListener('input', saveToLocalStorage);
+            // Add auto-save and auto-update event listeners to form elements
+            document.getElementById('subjectName').addEventListener('input', function() {
+                updateGameTitle();
+                saveToLocalStorage();
+            });
+            document.getElementById('className').addEventListener('input', function() {
+                updateGameTitle();
+                saveToLocalStorage();
+            });
+            document.getElementById('materialName').addEventListener('input', function() {
+                updateGameTitle();
+                saveToLocalStorage();
+            });
             document.getElementById('teamCount').addEventListener('change', saveToLocalStorage);
             
             // Add auto-save to game mode radio buttons
@@ -659,15 +669,21 @@
         });
 
         function updateGameTitle() {
-            const subject = document.getElementById('subjectName').value || 'Quiz Battle';
+            const subject = document.getElementById('subjectName').value || 'QUIZ BATTLE';
             const className = document.getElementById('className').value || '';
             const material = document.getElementById('materialName').value || '';
             
+            // Dynamic main title with "AKU SUKA BELAJAR" format
+            let mainTitle = '';
+            if (subject && subject.toLowerCase() !== 'quiz battle') {
+                mainTitle = `AYO BELAJAR ${subject.toUpperCase()}`;
+            } else {
+                mainTitle = 'QUIZ BATTLE';
+            }
+            
             let subtitle = '';
-            if (subject && className) {
-                subtitle = `📚 ${subject} ${className}`;
-            } else if (subject) {
-                subtitle = `📚 ${subject}`;
+            if (className) {
+                subtitle = `🎓 ${className}`;
             }
             
             let description = '';
@@ -675,6 +691,8 @@
                 description = `📖 ${material}`;
             }
             
+            // Update main title
+            document.querySelector('h1').textContent = mainTitle;
             document.getElementById('gameSubtitle').textContent = subtitle;
             document.getElementById('gameDescription').textContent = description;
             
@@ -2868,5 +2886,5 @@
             localStorage.removeItem(STORAGE_KEYS.GAME_STATE);
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9729a41b25adb486',t:'MTc1NTc3NDE3Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9729ac2e222cb486',t:'MTc1NTc3NDUwNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
