@@ -318,15 +318,19 @@
 
             <div class="mb-6">
                 <label class="block text-lg font-semibold mb-3 text-gray-700">Pilih Kategori Soal:</label>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div id="categorySelection" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50">
                         <input type="checkbox" class="category-checkbox mr-3" value="category1" checked>
-                        <span class="font-medium">🌟 Asmaul Husna (Al-Gaffar & Al-Wasi')</span>
+                        <span class="font-medium" id="category1Label">🌟 Asmaul Husna (Al-Gaffar & Al-Wasi')</span>
                     </label>
                     <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-green-50">
                         <input type="checkbox" class="category-checkbox mr-3" value="category2" checked>
-                        <span class="font-medium">⚖️ Qadha & Qadar</span>
+                        <span class="font-medium" id="category2Label">⚖️ Qadha & Qadar</span>
                     </label>
+                </div>
+                <div id="importedCategoriesInfo" class="hidden mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                    <div class="text-sm text-blue-800 font-medium">📂 Kategori dari file import:</div>
+                    <div id="importedCategoriesList" class="text-sm text-blue-700 mt-1"></div>
                 </div>
             </div>
 
@@ -501,6 +505,7 @@
         // Import functionality variables
         let importedQuestions = null;
         let hasImportedQuestions = false;
+        let importedCategoryMapping = new Map();
 
         // Game State
         let gameState = {
@@ -575,6 +580,39 @@
             
             document.getElementById('gameSubtitle').textContent = subtitle;
             document.getElementById('gameDescription').textContent = description;
+        }
+
+        function updateCategoryLabels() {
+            if (hasImportedQuestions && importedCategoryMapping.size > 0) {
+                const categories = Array.from(importedCategoryMapping.keys());
+                
+                // Update category labels with imported category names
+                if (categories[0]) {
+                    document.getElementById('category1Label').textContent = `📂 ${categories[0]}`;
+                }
+                if (categories[1]) {
+                    document.getElementById('category2Label').textContent = `📂 ${categories[1]}`;
+                }
+                
+                // Show imported categories info
+                document.getElementById('importedCategoriesInfo').classList.remove('hidden');
+                document.getElementById('importedCategoriesList').textContent = categories.join(' • ');
+                
+                // If only one category imported, hide the second checkbox
+                if (categories.length === 1) {
+                    const category2Container = document.querySelector('input[value="category2"]').closest('label');
+                    category2Container.style.display = 'none';
+                }
+            } else {
+                // Reset to default labels
+                document.getElementById('category1Label').textContent = '🌟 Asmaul Husna (Al-Gaffar & Al-Wasi\')';
+                document.getElementById('category2Label').textContent = '⚖️ Qadha & Qadar';
+                document.getElementById('importedCategoriesInfo').classList.add('hidden');
+                
+                // Show both categories
+                const category2Container = document.querySelector('input[value="category2"]').closest('label');
+                category2Container.style.display = 'flex';
+            }
         }
 
         function toggleGameMode() {
@@ -1327,7 +1365,9 @@
             
             // Determine category display
             let categoryText = '';
-            if (gameState.selectedCategories.includes('category1') && question.explanation.includes('Al-')) {
+            if (hasImportedQuestions && question.originalCategory) {
+                categoryText = `📂 ${question.originalCategory}`;
+            } else if (gameState.selectedCategories.includes('category1') && question.explanation.includes('Al-')) {
                 categoryText = '🌟 Asmaul Husna';
             } else {
                 categoryText = '⚖️ Qadha & Qadar';
@@ -2130,6 +2170,7 @@
                     }
 
                     importedQuestions = processedQuestions.questions;
+                    importedCategoryMapping = processedQuestions.categoryMapping;
                     hasImportedQuestions = true;
                     
                     let successMessage = `✅ Berhasil import ${processedQuestions.totalQuestions} soal!`;
@@ -2142,6 +2183,7 @@
                     
                     showImportStatus('success', successMessage);
                     showImportPreview(processedQuestions);
+                    updateCategoryLabels(); // Update category labels immediately
                     
                 } catch (error) {
                     console.error('Import error:', error);
@@ -2393,9 +2435,11 @@
             // Reset import state
             importedQuestions = null;
             hasImportedQuestions = false;
+            importedCategoryMapping = new Map();
             document.getElementById('questionsFile').value = '';
             document.getElementById('importStatus').classList.add('hidden');
             document.getElementById('importPreview').classList.add('hidden');
+            updateCategoryLabels(); // Reset category labels to default
 
             // Clear inputs
             const teamInputs = document.querySelectorAll('[id^="team"][id$="Name"]');
@@ -2414,5 +2458,5 @@
             document.getElementById('setupScreen').classList.remove('hidden');
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97293e8f2653fe0d',t:'MTc1NTc3MDAxNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97294cb0c26afd2f',t:'MTc1NTc3MDU5Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
