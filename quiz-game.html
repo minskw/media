@@ -1,0 +1,2348 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Battle Tournament - Template</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        body { font-family: 'Poppins', sans-serif; }
+        .team-card { transition: all 0.3s ease; }
+        .team-card:hover { transform: translateY(-5px); }
+        .question-card { animation: slideIn 0.5s ease-out; }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .correct-answer { animation: bounce 0.6s ease-in-out; }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        /* Fireworks Animation */
+        .fireworks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        .firework {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            animation: firework 2s ease-out forwards;
+        }
+        
+        @keyframes firework {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 1;
+            }
+            15% {
+                transform: translateY(20vh) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(20vh) scale(0);
+                opacity: 0;
+            }
+        }
+        
+        .spark {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            animation: spark 1.5s ease-out forwards;
+        }
+        
+        @keyframes spark {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0) translate(var(--dx), var(--dy));
+                opacity: 0;
+            }
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            animation: confetti 3s ease-out forwards;
+        }
+        
+        @keyframes confetti {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Penalty Animation */
+        @keyframes penaltyShake {
+            0%, 100% { 
+                transform: translateX(0);
+                color: inherit;
+            }
+            10%, 30%, 50%, 70%, 90% { 
+                transform: translateX(-3px);
+                color: #dc2626;
+            }
+            20%, 40%, 60%, 80% { 
+                transform: translateX(3px);
+                color: #dc2626;
+            }
+        }
+
+        /* Grid Box Animations */
+        .grid-box {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .grid-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .grid-box.answered {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        
+        .grid-box.answered:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .pulse-team {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Super Final Special Effects */
+        .super-final-glow {
+            animation: superFinalGlow 2s ease-in-out infinite;
+            position: relative;
+        }
+        
+        @keyframes superFinalGlow {
+            0%, 100% { 
+                box-shadow: 0 0 30px rgba(255, 215, 0, 0.6), 0 0 60px rgba(255, 0, 255, 0.4);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 40px rgba(255, 215, 0, 0.9), 0 0 80px rgba(255, 0, 255, 0.6);
+                transform: scale(1.05);
+            }
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            transition: width 0.5s ease;
+        }
+
+        /* Elimination Animation */
+        .eliminated-team {
+            animation: eliminateTeam 1s ease-out forwards;
+        }
+        
+        @keyframes eliminateTeam {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.95); }
+            100% { opacity: 0.3; transform: scale(0.9); filter: grayscale(100%); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-green-50 min-h-screen">
+    <!-- Header -->
+    <div id="gameHeader" class="bg-gradient-to-r from-purple-900 via-blue-900 to-indigo-900 text-white p-8 shadow-2xl relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-4 left-4 text-6xl">⚔️</div>
+            <div class="absolute top-8 right-8 text-4xl">🏆</div>
+            <div class="absolute bottom-4 left-8 text-5xl">⭐</div>
+            <div class="absolute bottom-6 right-4 text-3xl">💫</div>
+        </div>
+        
+        <!-- Main Title -->
+        <div class="relative z-10 text-center">
+            <h1 class="text-5xl md:text-6xl font-black mb-4 bg-gradient-to-r from-yellow-300 via-orange-300 to-red-300 bg-clip-text text-transparent drop-shadow-2xl" style="font-family: 'Impact', 'Arial Black', sans-serif; text-shadow: 3px 3px 0px rgba(0,0,0,0.3), 6px 6px 0px rgba(0,0,0,0.1);">
+                QUIZ BATTLE
+            </h1>
+            <div class="text-2xl md:text-3xl font-bold mb-3 text-yellow-200 drop-shadow-lg" id="gameSubtitle">
+                🕌 Asmaul Husna & Qadha Qadar 🕌
+            </div>
+            <div class="bg-black bg-opacity-30 rounded-full px-6 py-2 inline-block">
+                <p class="text-lg text-blue-200 font-semibold" id="gameDescription">
+                    📚 Akidah Akhlak Kelas 6 • Al-Gaffar, Al-Wasi' & Iman kepada Qadha Qadar
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Setup -->
+    <div id="setupScreen" class="container mx-auto p-6">
+        <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">Persiapan Game</h2>
+            
+            <!-- Subject Configuration -->
+            <div class="mb-6 p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
+                <h3 class="text-lg font-bold mb-3 text-blue-800">📚 Konfigurasi Mata Pelajaran</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold mb-2 text-gray-700">Mata Pelajaran:</label>
+                        <input type="text" id="subjectName" value="Akidah Akhlak" class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-2 text-gray-700">Kelas:</label>
+                        <input type="text" id="className" value="Kelas 6" class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 outline-none">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-semibold mb-2 text-gray-700">Materi:</label>
+                        <input type="text" id="materialName" value="Al-Gaffar, Al-Wasi' & Iman kepada Qadha Qadar" class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 outline-none">
+                    </div>
+                </div>
+                <button onclick="updateGameTitle()" class="mt-3 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all">
+                    🔄 Update Judul Game
+                </button>
+            </div>
+
+            <!-- Import Questions Feature -->
+            <div class="mb-6 p-4 bg-green-50 rounded-lg border-2 border-green-200">
+                <h3 class="text-lg font-bold mb-3 text-green-800">📥 Import Soal Kustom</h3>
+                <div class="mb-4">
+                    <p class="text-sm text-green-700 mb-3">
+                        💡 <strong>Cara menggunakan:</strong><br>
+                        1. Download template Excel di bawah ini<br>
+                        2. Isi soal sesuai format yang disediakan<br>
+                        3. Upload file Excel yang sudah diisi<br>
+                        4. Soal akan otomatis terbaca untuk semua babak tournament
+                    </p>
+                    <div class="flex flex-wrap gap-3 mb-4">
+                        <button onclick="downloadTemplate()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all flex items-center gap-2">
+                            📋 Download Template Excel
+                        </button>
+                        <button onclick="downloadSampleQuestions()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all flex items-center gap-2">
+                            📖 Download Contoh Soal
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold mb-2 text-gray-700">Upload File Excel (.xlsx):</label>
+                    <input type="file" id="questionsFile" accept=".xlsx,.xls" class="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-green-500 outline-none" onchange="handleFileUpload(event)">
+                    <div class="text-xs text-gray-600 mt-1">
+                        Format yang didukung: .xlsx, .xls (maksimal 5MB)
+                    </div>
+                </div>
+                
+                <div id="importStatus" class="hidden p-3 rounded-lg mb-3">
+                    <div id="importMessage" class="font-medium"></div>
+                </div>
+                
+                <div id="importPreview" class="hidden">
+                    <h4 class="font-bold text-gray-800 mb-2">📊 Preview Soal yang Diimport:</h4>
+                    <div id="importSummary" class="text-sm text-gray-700 mb-3"></div>
+                    <div class="max-h-40 overflow-y-auto bg-white p-3 rounded border">
+                        <div id="previewContent" class="text-xs"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-6">
+                <label class="block text-lg font-semibold mb-3 text-gray-700">Jumlah Tim:</label>
+                <select id="teamCount" onchange="updateTeamInputs()" class="p-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 outline-none mb-4">
+                    <option value="4">4 Tim</option>
+                    <option value="5">5 Tim</option>
+                    <option value="6">6 Tim</option>
+                    <option value="8">8 Tim</option>
+                </select>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-lg font-semibold mb-3 text-gray-700">Nama Tim:</label>
+                <div id="teamInputsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Team inputs will be generated here -->
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-lg font-semibold mb-3 text-gray-700">Mode Permainan:</label>
+                <div class="grid grid-cols-1 gap-4 mb-4">
+                    <label class="flex items-center p-4 border-2 border-blue-200 rounded-lg cursor-pointer hover:bg-blue-50 bg-blue-50">
+                        <input type="radio" name="gameMode" class="mr-3" value="tournament" checked onchange="toggleGameMode()">
+                        <div class="flex-1">
+                            <span class="font-bold text-blue-800">🏆 Mode Tournament</span>
+                            <div class="text-sm text-blue-600 mt-1">
+                                • <strong>Penyisihan:</strong> 20 soal mudah (10-15 poin)<br>
+                                • <strong>Semifinal:</strong> 15 soal sedang (15-25 poin)<br>
+                                • <strong>Final:</strong> 10 soal sulit (25-50 poin)<br>
+                                • <strong>Super Final:</strong> 5 soal ultimate (hanya jika seri)
+                            </div>
+                            <div class="text-xs text-blue-500 mt-2 font-medium">
+                                ⚡ Setiap babak: 30% tim dengan skor terendah tereliminasi!<br>
+                                ⚠️ Jawaban salah mengurangi skor (tidak minus)!
+                            </div>
+                        </div>
+                    </label>
+                    <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
+                        <input type="radio" name="gameMode" class="mr-3" value="classic" onchange="toggleGameMode()">
+                        <div>
+                            <span class="font-bold text-gray-800">⚡ Mode Klasik</span>
+                            <div class="text-sm text-gray-600">Langsung main semua soal tanpa eliminasi</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-lg font-semibold mb-3 text-gray-700">Pilih Kategori Soal:</label>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50">
+                        <input type="checkbox" class="category-checkbox mr-3" value="category1" checked>
+                        <span class="font-medium">🌟 Asmaul Husna (Al-Gaffar & Al-Wasi')</span>
+                    </label>
+                    <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-green-50">
+                        <input type="checkbox" class="category-checkbox mr-3" value="category2" checked>
+                        <span class="font-medium">⚖️ Qadha & Qadar</span>
+                    </label>
+                </div>
+            </div>
+
+            <button onclick="startGame()" class="w-full bg-gradient-to-r from-blue-600 to-green-600 text-white py-4 px-6 rounded-lg font-bold text-lg hover:from-blue-700 hover:to-green-700 transition-all">
+                🚀 Mulai Game!
+            </button>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="gameScreen" class="hidden container mx-auto p-6 pt-8">
+        <!-- Tournament Progress -->
+        <div id="tournamentProgress" class="hidden max-w-4xl mx-auto mb-6">
+            <div class="bg-white rounded-xl shadow-lg p-4">
+                <h3 class="text-lg font-bold text-center mb-3">🏆 Progress Tournament</h3>
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-xs font-medium">Penyisihan</span>
+                    <span class="text-xs font-medium">Semifinal</span>
+                    <span class="text-xs font-medium">Final</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2 mb-3">
+                    <div id="progressBar" class="progress-bar bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full" style="width: 33%"></div>
+                </div>
+                <div class="text-center text-xs text-gray-600">
+                    <span id="eliminationInfo">Tim aktif: <span id="activeTeamsCount">4</span> | Tereliminasi: <span id="eliminatedCount">0</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Score Board -->
+        <div id="scoreBoard" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <!-- Team score cards will be generated here -->
+        </div>
+
+        <!-- Round and Turn Info -->
+        <div class="max-w-6xl mx-auto mb-6">
+            <div class="flex justify-between items-center mb-3">
+                <div id="gridTitle" class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2 rounded-full shadow-lg">
+                    <span class="text-lg font-bold">🎯 BABAK PENYISIHAN</span>
+                </div>
+                <div class="bg-white px-6 py-2 rounded-full shadow-lg">
+                    <span class="text-lg font-semibold">Giliran: </span>
+                    <span id="currentTurn" class="text-xl font-bold text-blue-600">Tim 1</span>
+                    <span class="text-sm text-gray-600 ml-2">- Pilih nomor soal!</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question Grid -->
+        <div class="max-w-6xl mx-auto mb-6">
+            <div id="questionGrid" class="grid grid-cols-4 md:grid-cols-5 gap-2">
+                <!-- Grid boxes will be generated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Question Modal -->
+    <div id="questionModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2">
+        <div class="bg-white rounded-xl shadow-2xl w-full h-full max-w-6xl max-h-[95vh] overflow-y-auto flex flex-col">
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center p-6 border-b">
+                <div class="flex items-center gap-3">
+                    <span id="modalQuestionCategory" class="inline-block bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-semibold"></span>
+                    <span id="modalQuestionPoints" class="inline-block bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-bold">10 Poin</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="bg-gray-100 px-4 py-2 rounded-full">
+                        <span class="text-sm font-semibold text-gray-600">⏰ Waktu: </span>
+                        <span id="modalTimer" class="text-xl font-bold text-green-600">30</span>
+                        <span class="text-sm font-semibold text-gray-600">s</span>
+                    </div>
+                    <button onclick="closeQuestionModal()" class="bg-red-500 hover:bg-red-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg transition-all">
+                        ✕
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Modal Content -->
+            <div class="flex-1 p-6 flex flex-col">
+                <div class="text-center mb-6">
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4 leading-relaxed" id="modalQuestionText"></h3>
+                </div>
+
+                <div class="flex-1 flex items-center justify-center">
+                    <div class="grid grid-cols-2 gap-4 w-full max-w-4xl" id="modalAnswersContainer">
+                        <!-- Answers will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Round Transition Modal -->
+    <div id="roundTransitionModal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full p-8 text-center max-h-[90vh] overflow-y-auto">
+            <div class="text-6xl mb-4" id="transitionEmoji">🏆</div>
+            <h2 class="text-3xl font-bold mb-4" id="transitionTitle">BABAK SELANJUTNYA</h2>
+            <div class="text-lg mb-6" id="transitionDescription">Bersiap untuk babak yang lebih menantang!</div>
+            
+            <!-- Tournament Progress in Modal -->
+            <div class="mb-6">
+                <h3 class="text-lg font-bold text-center mb-3">🏆 Progress Tournament</h3>
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-xs font-medium">Penyisihan</span>
+                    <span class="text-xs font-medium">Semifinal</span>
+                    <span class="text-xs font-medium">Final</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2 mb-3">
+                    <div id="modalProgressBar" class="progress-bar bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full" style="width: 33%"></div>
+                </div>
+                <div class="text-center text-xs text-gray-600">
+                    <span>Tim aktif: <span id="modalActiveTeamsCount">4</span> | Tereliminasi: <span id="modalEliminatedCount">0</span></span>
+                </div>
+            </div>
+            
+            <!-- Round Results -->
+            <div id="roundResults" class="mb-6">
+                <h3 class="text-xl font-bold mb-4">📊 Hasil Babak Ini:</h3>
+                <div id="roundScoreBoard" class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+                    <!-- Round scores will be shown here -->
+                </div>
+                
+                <!-- Elimination Info -->
+                <div id="eliminationThreshold" class="mb-4 p-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg">
+                    <h4 class="font-bold text-yellow-800 mb-2">📏 Aturan Eliminasi:</h4>
+                    <div id="thresholdInfo" class="text-yellow-700"></div>
+                </div>
+            </div>
+            
+            <!-- Elimination Notice -->
+            <div id="eliminationNotice" class="hidden mb-6 p-4 bg-red-50 border-2 border-red-200 rounded-lg">
+                <h4 class="font-bold text-red-800 mb-2">❌ Tim Tersingkir:</h4>
+                <div id="eliminatedTeamsList" class="text-red-700"></div>
+            </div>
+            
+            <!-- Qualification Notice -->
+            <div id="qualificationNotice" class="mb-6 p-4 bg-green-50 border-2 border-green-200 rounded-lg">
+                <h4 class="font-bold text-green-800 mb-2">✅ Tim Lolos:</h4>
+                <div id="qualifiedTeamsList" class="text-green-700"></div>
+            </div>
+            
+            <button id="continueToNextRound" onclick="continueToNextRound()" class="bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 px-8 rounded-lg font-bold hover:from-purple-700 hover:to-blue-700 transition-all">
+                🚀 Lanjut ke Babak Selanjutnya
+            </button>
+        </div>
+    </div>
+
+    <!-- Results Screen -->
+    <div id="resultsScreen" class="hidden container mx-auto p-6">
+        <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8 text-center">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">🏆 Hasil Akhir Tournament</h2>
+            <div id="winnerAnnouncement" class="text-2xl font-bold mb-6"></div>
+            
+            <!-- Tournament Summary -->
+            <div id="tournamentSummary" class="mb-8 p-6 bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl">
+                <h3 class="text-xl font-bold mb-4">📈 Ringkasan Tournament</h3>
+                <div id="summaryStats" class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <!-- Tournament stats will be shown here -->
+                </div>
+            </div>
+            
+            <div id="finalScoreBoard" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <!-- Final scores will be generated here -->
+            </div>
+            <button onclick="resetGame()" class="bg-gradient-to-r from-blue-600 to-green-600 text-white py-3 px-8 rounded-lg font-bold hover:from-blue-700 hover:to-green-700 transition-all">
+                🔄 Main Lagi
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Import functionality variables
+        let importedQuestions = null;
+        let hasImportedQuestions = false;
+
+        // Game State
+        let gameState = {
+            teams: [],
+            teamCount: 4,
+            currentTurn: 0,
+            questions: [],
+            selectedCategories: [],
+            timer: null,
+            timeLeft: 30,
+            questionAnswered: false,
+            answeredQuestions: [],
+            currentQuestionIndex: -1,
+            // Tournament System - 3 Rounds + Super Final if tie
+            currentRound: 1,
+            maxRounds: 3,
+            roundNames: ['PENYISIHAN', 'SEMIFINAL', 'FINAL'],
+            roundDescriptions: [
+                '20 Soal Mudah (10-15 Poin)',
+                '15 Soal Sedang (15-25 Poin)', 
+                '10 Soal Sulit (25-50 Poin)'
+            ],
+            questionsPerRound: [20, 15, 10],
+            superFinalNeeded: false,
+            eliminatedTeams: [],
+            roundScores: [],
+            totalQuestionsAnswered: 0,
+            tournamentStats: {
+                totalQuestions: 0,
+                correctAnswers: 0,
+                eliminatedInRound: [0, 0, 0]
+            }
+        };
+
+        // Team colors for visual variety
+        const teamColors = [
+            'bg-blue-500', 'bg-green-500', 'bg-purple-500', 'bg-red-500',
+            'bg-yellow-500', 'bg-indigo-500', 'bg-pink-500', 'bg-teal-500'
+        ];
+
+        const teamColorsBg = [
+            'bg-blue-100', 'bg-green-100', 'bg-purple-100', 'bg-red-100',
+            'bg-yellow-100', 'bg-indigo-100', 'bg-pink-100', 'bg-teal-100'
+        ];
+
+        const teamColorsText = [
+            'text-blue-800', 'text-green-800', 'text-purple-800', 'text-red-800',
+            'text-yellow-800', 'text-indigo-800', 'text-pink-800', 'text-teal-800'
+        ];
+
+        // Initialize team inputs on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTeamInputs();
+        });
+
+        function updateGameTitle() {
+            const subject = document.getElementById('subjectName').value || 'Quiz Battle';
+            const className = document.getElementById('className').value || '';
+            const material = document.getElementById('materialName').value || '';
+            
+            let subtitle = '';
+            if (subject && className) {
+                subtitle = `📚 ${subject} ${className}`;
+            } else if (subject) {
+                subtitle = `📚 ${subject}`;
+            }
+            
+            let description = '';
+            if (material) {
+                description = `📖 ${material}`;
+            }
+            
+            document.getElementById('gameSubtitle').textContent = subtitle;
+            document.getElementById('gameDescription').textContent = description;
+        }
+
+        function toggleGameMode() {
+            const tournamentMode = document.querySelector('input[name="gameMode"]:checked').value === 'tournament';
+            const tournamentLabel = document.querySelector('input[value="tournament"]').closest('label');
+            const classicLabel = document.querySelector('input[value="classic"]').closest('label');
+            
+            if (tournamentMode) {
+                tournamentLabel.className = 'flex items-center p-4 border-2 border-blue-200 rounded-lg cursor-pointer hover:bg-blue-50 bg-blue-50';
+                classicLabel.className = 'flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50';
+            } else {
+                tournamentLabel.className = 'flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50';
+                classicLabel.className = 'flex items-center p-4 border-2 border-blue-200 rounded-lg cursor-pointer hover:bg-gray-50 bg-gray-50';
+            }
+        }
+
+        function updateTeamInputs() {
+            const teamCount = parseInt(document.getElementById('teamCount').value);
+            const container = document.getElementById('teamInputsContainer');
+            container.innerHTML = '';
+
+            for (let i = 1; i <= teamCount; i++) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.id = `team${i}Name`;
+                input.placeholder = `Nama Tim ${i}`;
+                input.className = 'p-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 outline-none';
+                container.appendChild(input);
+            }
+        }
+
+        // Enhanced Question Bank - Template Structure
+        const questionBankByRound = {
+            // BABAK PENYISIHAN - 20 Soal Mudah (10-15 poin)
+            penyisihan: {
+                'category1': [
+                    {
+                        question: "Apa arti dari Asmaul Husna 'Al-Gaffar'?",
+                        answers: ["Maha Pengampun", "Maha Luas", "Maha Penyayang", "Maha Adil"],
+                        correct: 0,
+                        points: 10,
+                        explanation: "Al-Gaffar artinya Maha Pengampun. Allah SWT selalu siap mengampuni hamba-Nya yang bertaubat."
+                    },
+                    {
+                        question: "Apa arti dari Asmaul Husna 'Al-Wasi'?",
+                        answers: ["Maha Pengampun", "Maha Luas", "Maha Mengetahui", "Maha Kuasa"],
+                        correct: 1,
+                        points: 10,
+                        explanation: "Al-Wasi' artinya Maha Luas. Allah memiliki sifat yang luas dalam segala hal."
+                    },
+                    {
+                        question: "Al-Gaffar termasuk dalam...",
+                        answers: ["Asmaul Husna", "Rukun Islam", "Rukun Iman", "Sifat Wajib"],
+                        correct: 0,
+                        points: 10,
+                        explanation: "Al-Gaffar adalah salah satu dari 99 Asmaul Husna (nama-nama baik Allah)."
+                    },
+                    {
+                        question: "Al-Wasi' termasuk dalam...",
+                        answers: ["Rukun Islam", "Asmaul Husna", "Rukun Iman", "Sifat Mustahil"],
+                        correct: 1,
+                        points: 10,
+                        explanation: "Al-Wasi' adalah salah satu dari 99 Asmaul Husna (nama-nama baik Allah)."
+                    },
+                    {
+                        question: "Kata 'Al-Gaffar' berasal dari bahasa...",
+                        answers: ["Arab", "Indonesia", "Inggris", "Melayu"],
+                        correct: 0,
+                        points: 15,
+                        explanation: "Al-Gaffar berasal dari bahasa Arab yang artinya Maha Pengampun."
+                    },
+                    {
+                        question: "Berapa jumlah Asmaul Husna?",
+                        answers: ["99", "100", "98", "101"],
+                        correct: 0,
+                        points: 10,
+                        explanation: "Asmaul Husna berjumlah 99 nama-nama baik Allah SWT."
+                    },
+                    {
+                        question: "Sifat Al-Gaffar mengajarkan kita untuk...",
+                        answers: ["Sombong", "Mudah memaafkan", "Marah", "Dendam"],
+                        correct: 1,
+                        points: 15,
+                        explanation: "Al-Gaffar mengajarkan kita untuk mudah memaafkan kesalahan orang lain."
+                    },
+                    {
+                        question: "Contoh sederhana sifat Al-Wasi' adalah...",
+                        answers: ["Langit yang luas", "Air yang jernih", "Api yang panas", "Tanah yang keras"],
+                        correct: 0,
+                        points: 15,
+                        explanation: "Langit yang luas menunjukkan keluasan ciptaan Allah, mencerminkan sifat Al-Wasi'."
+                    },
+                    {
+                        question: "Orang yang sering meminta maaf menunjukkan pemahaman terhadap sifat...",
+                        answers: ["Al-Wasi'", "Al-Gaffar", "Ar-Rahman", "Al-Hakeem"],
+                        correct: 1,
+                        points: 15,
+                        explanation: "Meminta maaf menunjukkan pemahaman terhadap Al-Gaffar (Maha Pengampun)."
+                    },
+                    {
+                        question: "Keluasan rahmat Allah menunjukkan sifat...",
+                        answers: ["Al-Gaffar", "Al-Wasi'", "Ar-Rahman", "Al-Hakeem"],
+                        correct: 1,
+                        points: 15,
+                        explanation: "Keluasan rahmat Allah menunjukkan sifat Al-Wasi' (Maha Luas)."
+                    }
+                ],
+                'category2': [
+                    {
+                        question: "Apa pengertian Qadha?",
+                        answers: ["Ketentuan Allah yang sudah terjadi", "Ketentuan Allah yang belum terjadi", "Doa kepada Allah", "Ibadah kepada Allah"],
+                        correct: 0,
+                        points: 10,
+                        explanation: "Qadha adalah ketentuan Allah SWT yang sudah terjadi dan tidak bisa diubah lagi."
+                    },
+                    {
+                        question: "Apa pengertian Qadar?",
+                        answers: ["Ketentuan Allah yang sudah terjadi", "Ketentuan Allah sejak azali", "Rezeki dari Allah", "Ujian dari Allah"],
+                        correct: 1,
+                        points: 10,
+                        explanation: "Qadar adalah ketentuan Allah SWT sejak azali (dari dulu) tentang segala sesuatu."
+                    },
+                    {
+                        question: "Beriman kepada Qadha dan Qadar termasuk rukun iman yang ke...",
+                        answers: ["Lima", "Enam", "Empat", "Tiga"],
+                        correct: 1,
+                        points: 10,
+                        explanation: "Beriman kepada Qadha dan Qadar adalah rukun iman yang keenam."
+                    },
+                    {
+                        question: "Qadha dan Qadar adalah ketentuan dari...",
+                        answers: ["Manusia", "Allah SWT", "Malaikat", "Rasul"],
+                        correct: 1,
+                        points: 10,
+                        explanation: "Qadha dan Qadar adalah ketentuan dari Allah SWT."
+                    },
+                    {
+                        question: "Kata Qadha berasal dari bahasa...",
+                        answers: ["Indonesia", "Arab", "Inggris", "Melayu"],
+                        correct: 1,
+                        points: 15,
+                        explanation: "Kata Qadha berasal dari bahasa Arab yang artinya ketentuan yang sudah terjadi."
+                    },
+                    {
+                        question: "Contoh Qadha dalam kehidupan adalah...",
+                        answers: ["Berencana pergi", "Hujan yang sudah turun", "Belajar untuk ujian", "Membantu orang tua"],
+                        correct: 1,
+                        points: 15,
+                        explanation: "Hujan yang sudah turun adalah contoh Qadha karena sudah terjadi dan tidak bisa diubah."
+                    },
+                    {
+                        question: "Contoh Qadar yang tidak bisa diubah adalah...",
+                        answers: ["Nilai rapor", "Orang tua kita", "Pilihan sekolah", "Cita-cita"],
+                        correct: 1,
+                        points: 15,
+                        explanation: "Orang tua kita adalah contoh Qadar yang tidak bisa diubah karena sudah ditentukan Allah."
+                    },
+                    {
+                        question: "Perbedaan utama Qadha dan Qadar adalah...",
+                        answers: ["Tidak ada perbedaan", "Qadha sudah terjadi, Qadar belum terjadi", "Qadha dari Allah, Qadar dari manusia", "Qadha baik, Qadar buruk"],
+                        correct: 1,
+                        points: 15,
+                        explanation: "Qadha adalah ketentuan yang sudah terjadi, sedangkan Qadar adalah ketentuan sejak azali."
+                    },
+                    {
+                        question: "Contoh Qadar yang bisa kita usahakan adalah...",
+                        answers: ["Tinggi badan", "Nilai ujian", "Warna kulit", "Tempat lahir"],
+                        correct: 1,
+                        points: 15,
+                        explanation: "Nilai ujian bisa kita usahakan dengan belajar rajin, meskipun hasilnya tetap dalam ketentuan Allah."
+                    },
+                    {
+                        question: "Jenis kelamin kita adalah contoh...",
+                        answers: ["Qadha", "Qadar", "Ikhtiar", "Tawakal"],
+                        correct: 1,
+                        points: 15,
+                        explanation: "Jenis kelamin adalah contoh Qadar karena sudah ditentukan Allah sejak kita lahir."
+                    }
+                ]
+            },
+            
+            // BABAK SEMIFINAL - 15 Soal Sedang (15-25 poin)
+            semifinal: {
+                'category1': [
+                    {
+                        question: "Bagaimana cara mengamalkan sifat Al-Gaffar dalam kehidupan sehari-hari?",
+                        answers: ["Suka memaafkan orang lain", "Suka marah-marah", "Suka menyombongkan diri", "Suka berbohong"],
+                        correct: 0,
+                        points: 20,
+                        explanation: "Kita mengamalkan Al-Gaffar dengan suka memaafkan kesalahan orang lain."
+                    },
+                    {
+                        question: "Hikmah memahami sifat Al-Wasi' adalah...",
+                        answers: ["Menjadi sombong", "Bersyukur atas keluasan rahmat Allah", "Menjadi malas", "Suka mengeluh"],
+                        correct: 1,
+                        points: 20,
+                        explanation: "Memahami Al-Wasi' membuat kita bersyukur atas keluasan rahmat dan karunia Allah."
+                    },
+                    {
+                        question: "Mengapa kita harus yakin bahwa Allah Maha Pengampun?",
+                        answers: ["Agar bisa berbuat dosa", "Agar selalu berharap pada ampunan-Nya", "Agar tidak perlu bertaubat", "Agar bisa sombong"],
+                        correct: 1,
+                        points: 25,
+                        explanation: "Yakin pada Al-Gaffar membuat kita selalu berharap pada ampunan Allah dan rajin bertaubat."
+                    },
+                    {
+                        question: "Apa hubungan antara sifat Al-Wasi' dengan kebesaran Allah?",
+                        answers: ["Tidak ada hubungan", "Menunjukkan Allah terbatas", "Menunjukkan keluasan sifat-sifat Allah", "Menunjukkan Allah lemah"],
+                        correct: 2,
+                        points: 25,
+                        explanation: "Al-Wasi' menunjukkan keluasan sifat-sifat Allah yang tidak terbatas."
+                    },
+                    {
+                        question: "Sikap yang tepat ketika orang lain berbuat salah kepada kita adalah...",
+                        answers: ["Membalas dendam", "Memaafkan seperti sifat Al-Gaffar", "Mengabaikan saja", "Menyebarkan kesalahannya"],
+                        correct: 1,
+                        points: 20,
+                        explanation: "Kita harus memaafkan seperti Allah yang memiliki sifat Al-Gaffar."
+                    },
+                    {
+                        question: "Manakah yang menunjukkan keluasan sifat Al-Wasi' Allah?",
+                        answers: ["Hanya langit saja", "Hanya bumi saja", "Seluruh alam semesta", "Hanya manusia saja"],
+                        correct: 2,
+                        points: 20,
+                        explanation: "Seluruh alam semesta menunjukkan keluasan sifat Al-Wasi' Allah."
+                    },
+                    {
+                        question: "Bagaimana cara meminta ampunan kepada Allah yang Al-Gaffar?",
+                        answers: ["Dengan istighfar dan bertaubat", "Dengan marah-marah", "Dengan menyalahkan orang lain", "Dengan berbohong"],
+                        correct: 0,
+                        points: 15,
+                        explanation: "Kita meminta ampunan dengan istighfar dan bertaubat dengan sungguh-sungguh."
+                    },
+                    {
+                        question: "Keluasan ilmu Allah menunjukkan sifat...",
+                        answers: ["Al-Gaffar", "Al-Wasi'", "Al-Alim", "Ar-Rahman"],
+                        correct: 1,
+                        points: 25,
+                        explanation: "Keluasan ilmu Allah menunjukkan sifat Al-Wasi' yang meliputi segala sesuatu."
+                    }
+                ],
+                'category2': [
+                    {
+                        question: "Sikap yang benar terhadap Qadha dan Qadar adalah...",
+                        answers: ["Menolak dan marah", "Menerima dengan ikhlas", "Menyalahkan orang lain", "Putus asa"],
+                        correct: 1,
+                        points: 20,
+                        explanation: "Kita harus menerima Qadha dan Qadar dengan ikhlas sambil tetap berusaha."
+                    },
+                    {
+                        question: "Hikmah beriman kepada Qadha dan Qadar adalah...",
+                        answers: ["Menjadi malas berusaha", "Hati menjadi tenang", "Suka menyalahkan orang", "Menjadi sombong"],
+                        correct: 1,
+                        points: 20,
+                        explanation: "Beriman kepada Qadha dan Qadar membuat hati tenang karena yakin semua dalam kendali Allah."
+                    },
+                    {
+                        question: "Mengapa kita tetap harus berusaha meskipun sudah ada Qadar?",
+                        answers: ["Karena usaha adalah bagian dari Qadar Allah", "Karena Qadar bisa diubah", "Karena Allah tidak tahu", "Karena kita lebih pintar"],
+                        correct: 0,
+                        points: 25,
+                        explanation: "Kita tetap harus berusaha karena usaha itu sendiri adalah bagian dari Qadar Allah."
+                    },
+                    {
+                        question: "Bagaimana cara menyikapi musibah menurut ajaran Qadha dan Qadar?",
+                        answers: ["Marah dan mengeluh", "Sabar dan tetap berusaha", "Menyalahkan orang lain", "Putus asa"],
+                        correct: 1,
+                        points: 25,
+                        explanation: "Musibah harus disikapi dengan sabar dan tetap berusaha karena itu adalah Qadha Allah."
+                    },
+                    {
+                        question: "Apa yang dimaksud dengan 'tawakal' dalam kaitannya dengan Qadar?",
+                        answers: ["Berserah diri setelah berusaha maksimal", "Tidak berusaha sama sekali", "Hanya berdoa tanpa usaha", "Menyerah pada keadaan"],
+                        correct: 0,
+                        points: 25,
+                        explanation: "Tawakal adalah berserah diri kepada Allah setelah berusaha maksimal."
+                    },
+                    {
+                        question: "Contoh sikap yang salah terhadap Qadar adalah...",
+                        answers: ["Berusaha dengan sungguh-sungguh", "Berdoa kepada Allah", "Malas berusaha karena sudah ada takdir", "Sabar menghadapi cobaan"],
+                        correct: 2,
+                        points: 20,
+                        explanation: "Malas berusaha dengan alasan sudah ada takdir adalah sikap yang salah terhadap Qadar."
+                    },
+                    {
+                        question: "Bagaimana hubungan antara doa dan Qadar?",
+                        answers: ["Doa tidak berguna karena sudah ada Qadar", "Doa adalah bagian dari Qadar Allah", "Doa bisa mengubah Qadar", "Tidak ada hubungan"],
+                        correct: 1,
+                        points: 25,
+                        explanation: "Doa adalah bagian dari Qadar Allah, jadi kita tetap harus berdoa."
+                    }
+                ]
+            },
+            
+            // BABAK FINAL - 10 Soal Sulit (25-50 poin)
+            final: {
+                'category1': [
+                    {
+                        question: "Jelaskan perbedaan antara pengampunan Allah (Al-Gaffar) dengan pengampunan manusia!",
+                        answers: ["Tidak ada perbedaan", "Allah mengampuni tanpa syarat, manusia dengan syarat", "Allah mengampuni dengan syarat bertaubat, manusia sering sulit mengampuni", "Manusia lebih mudah mengampuni"],
+                        correct: 2,
+                        points: 35,
+                        explanation: "Allah mengampuni dengan syarat bertaubat yang tulus, sedangkan manusia sering sulit mengampuni meski sudah diminta maaf."
+                    },
+                    {
+                        question: "Bagaimana sifat Al-Wasi' Allah mempengaruhi cara kita memandang masalah hidup?",
+                        answers: ["Membuat kita putus asa", "Membuat kita yakin Allah mampu mengatasi semua masalah", "Membuat kita malas berusaha", "Tidak berpengaruh apa-apa"],
+                        correct: 1,
+                        points: 35,
+                        explanation: "Al-Wasi' membuat kita yakin bahwa Allah mampu mengatasi semua masalah karena sifat-Nya yang luas."
+                    },
+                    {
+                        question: "Mengapa pemahaman terhadap Al-Gaffar dan Al-Wasi' penting dalam akidah Islam?",
+                        answers: ["Tidak penting", "Menguatkan iman dan membentuk akhlak mulia", "Hanya untuk hafalan", "Supaya terlihat pintar"],
+                        correct: 1,
+                        points: 30,
+                        explanation: "Memahami Al-Gaffar dan Al-Wasi' menguatkan iman kepada Allah dan membentuk akhlak mulia dalam diri kita."
+                    },
+                    {
+                        question: "Apa dampak jika seseorang tidak memahami sifat Al-Gaffar dalam hidupnya?",
+                        answers: ["Menjadi orang yang pemaaf", "Menjadi orang yang sulit memaafkan dan sombong", "Tidak ada dampak", "Menjadi lebih rajin ibadah"],
+                        correct: 1,
+                        points: 30,
+                        explanation: "Tidak memahami Al-Gaffar membuat seseorang sulit memaafkan orang lain dan bisa menjadi sombong."
+                    },
+                    {
+                        question: "Bagaimana cara mengintegrasikan pemahaman Al-Wasi' dalam kehidupan modern?",
+                        answers: ["Dengan teknologi canggih", "Dengan menyadari keluasan ciptaan Allah di era digital", "Dengan mengabaikan teknologi", "Dengan menjadi anti-sosial"],
+                        correct: 1,
+                        points: 35,
+                        explanation: "Di era modern, kita bisa menyadari keluasan ciptaan Allah melalui teknologi yang menunjukkan kebesaran-Nya."
+                    }
+                ],
+                'category2': [
+                    {
+                        question: "Jelaskan hubungan antara ikhtiar (usaha) manusia dengan Qadar Allah!",
+                        answers: ["Tidak ada hubungan", "Ikhtiar bisa mengubah Qadar", "Ikhtiar adalah bagian dari Qadar Allah", "Qadar menghapus ikhtiar"],
+                        correct: 2,
+                        points: 35,
+                        explanation: "Ikhtiar (usaha) manusia adalah bagian dari Qadar Allah, jadi kita tetap harus berusaha maksimal."
+                    },
+                    {
+                        question: "Mengapa pemahaman Qadha dan Qadar penting dalam membentuk kepribadian Muslim?",
+                        answers: ["Supaya malas berusaha", "Membentuk sikap sabar, tawakal, dan optimis", "Supaya pasrah saja", "Tidak penting"],
+                        correct: 1,
+                        points: 35,
+                        explanation: "Pemahaman Qadha dan Qadar membentuk sikap sabar, tawakal, dan optimis dalam menghadapi hidup."
+                    },
+                    {
+                        question: "Apa dampak negatif jika seseorang salah memahami konsep Qadha dan Qadar?",
+                        answers: ["Menjadi rajin beribadah", "Menjadi malas berusaha atau putus asa", "Menjadi lebih sabar", "Tidak ada dampak"],
+                        correct: 1,
+                        points: 30,
+                        explanation: "Salah memahami Qadha dan Qadar bisa membuat seseorang malas berusaha atau mudah putus asa."
+                    },
+                    {
+                        question: "Bagaimana Islam menyeimbangkan antara beriman kepada Qadar dengan tanggung jawab manusia?",
+                        answers: ["Islam hanya menekankan Qadar", "Islam menyeimbangkan keduanya: beriman pada Qadar sambil bertanggung jawab", "Islam hanya menekankan tanggung jawab", "Tidak ada keseimbangan"],
+                        correct: 1,
+                        points: 35,
+                        explanation: "Islam menyeimbangkan keduanya: beriman kepada Qadar sambil tetap bertanggung jawab dan berusaha."
+                    },
+                    {
+                        question: "Bagaimana konsep Qadha dan Qadar membantu seseorang menghadapi kegagalan?",
+                        answers: ["Membuat menyerah total", "Membantu bangkit dengan tetap berusaha dan berserah kepada Allah", "Membuat menyalahkan orang lain", "Tidak ada pengaruh"],
+                        correct: 1,
+                        points: 25,
+                        explanation: "Qadha dan Qadar membantu kita bangkit dari kegagalan dengan tetap berusaha dan berserah kepada Allah."
+                    }
+                ]
+            },
+            
+            // SUPER FINAL - 5 Soal Ultimate (50 poin) - Hanya jika seri
+            superFinal: {
+                'category1': [
+                    {
+                        question: "Analisis bagaimana pemahaman mendalam tentang Al-Gaffar dan Al-Wasi' dapat mengubah paradigma seseorang dalam menghadapi konflik interpersonal!",
+                        answers: [
+                            "Membuat seseorang menjadi lemah dan mudah dimanfaatkan",
+                            "Mengembangkan kemampuan resolusi konflik dengan pendekatan yang bijaksana dan penuh pengampunan",
+                            "Membuat seseorang menjadi acuh tak acuh terhadap masalah",
+                            "Tidak ada pengaruh terhadap cara menangani konflik"
+                        ],
+                        correct: 1,
+                        points: 50,
+                        explanation: "Pemahaman Al-Gaffar dan Al-Wasi' mengembangkan kemampuan resolusi konflik dengan pendekatan bijaksana, penuh pengampunan, dan memahami keluasan perspektif dalam menyelesaikan masalah."
+                    },
+                    {
+                        question: "Bagaimana seorang pemimpin dapat mengimplementasikan nilai-nilai Al-Gaffar dan Al-Wasi' dalam kepemimpinannya?",
+                        answers: [
+                            "Dengan menjadi otoriter dan tidak mau mengampuni kesalahan",
+                            "Dengan menerapkan kepemimpinan yang penuh pengampunan namun tegas, serta memiliki visi yang luas",
+                            "Dengan mengabaikan kesalahan bawahan tanpa memberikan pembelajaran",
+                            "Dengan fokus hanya pada hasil tanpa memperhatikan proses"
+                        ],
+                        correct: 1,
+                        points: 50,
+                        explanation: "Pemimpin yang memahami Al-Gaffar dan Al-Wasi' akan menerapkan kepemimpinan yang penuh pengampunan namun tegas dalam memberikan pembelajaran, serta memiliki visi yang luas untuk kemajuan bersama."
+                    }
+                ],
+                'category2': [
+                    {
+                        question: "Evaluasi bagaimana konsep Qadha dan Qadar dapat membantu seseorang dalam mengambil keputusan penting dalam hidup!",
+                        answers: [
+                            "Membuat seseorang tidak berani mengambil keputusan karena takut salah",
+                            "Membantu mengambil keputusan dengan pertimbangan matang, usaha maksimal, dan berserah kepada Allah",
+                            "Membuat seseorang mengambil keputusan secara sembarangan",
+                            "Tidak ada pengaruh dalam pengambilan keputusan"
+                        ],
+                        correct: 1,
+                        points: 50,
+                        explanation: "Konsep Qadha dan Qadar membantu dalam pengambilan keputusan dengan melakukan pertimbangan matang, berusaha maksimal, kemudian berserah kepada Allah atas hasilnya."
+                    },
+                    {
+                        question: "Bagaimana pemahaman Qadha dan Qadar dapat membantu seseorang dalam menghadapi era globalisasi dan perubahan zaman?",
+                        answers: [
+                            "Membuat seseorang menolak semua perubahan zaman",
+                            "Membantu beradaptasi dengan perubahan sambil tetap berpegang pada prinsip dan berserah kepada Allah",
+                            "Membuat seseorang pasif terhadap perkembangan zaman",
+                            "Tidak ada relevansi dengan era modern"
+                        ],
+                        correct: 1,
+                        points: 50,
+                        explanation: "Pemahaman Qadha dan Qadar membantu beradaptasi dengan perubahan zaman sambil tetap berpegang pada prinsip-prinsip Islam dan berserah kepada Allah dalam menghadapi tantangan era globalisasi."
+                    },
+                    {
+                        question: "Analisis bagaimana konsep Qadha dan Qadar dapat menjadi solusi terhadap masalah kesehatan mental di era modern!",
+                        answers: [
+                            "Tidak ada hubungan antara Qadha Qadar dengan kesehatan mental",
+                            "Membantu mengurangi kecemasan dan depresi dengan memberikan ketenangan hati dan penerimaan yang sehat",
+                            "Membuat seseorang menjadi pasif dan tidak peduli dengan kesehatan mental",
+                            "Hanya berlaku untuk orang yang sudah tua"
+                        ],
+                        correct: 1,
+                        points: 50,
+                        explanation: "Konsep Qadha dan Qadar membantu kesehatan mental dengan memberikan ketenangan hati, mengurangi kecemasan berlebihan, dan mengembangkan penerimaan yang sehat terhadap situasi hidup sambil tetap berusaha."
+                    }
+                ]
+            }
+        };
+
+        function startGame() {
+            // Get team count and names
+            gameState.teamCount = parseInt(document.getElementById('teamCount').value);
+            gameState.teams = [];
+
+            for (let i = 1; i <= gameState.teamCount; i++) {
+                const teamName = document.getElementById(`team${i}Name`).value.trim() || `Tim ${i}`;
+                gameState.teams.push({
+                    name: teamName,
+                    score: 0,
+                    roundScores: [0, 0, 0, 0], // Include space for Super Final
+                    eliminated: false,
+                    totalCorrect: 0,
+                    totalAnswered: 0
+                });
+            }
+
+            // Get selected categories
+            const checkboxes = document.querySelectorAll('.category-checkbox:checked');
+            gameState.selectedCategories = Array.from(checkboxes).map(cb => cb.value);
+
+            if (gameState.selectedCategories.length === 0) {
+                alert('Pilih minimal satu kategori soal!');
+                return;
+            }
+
+            // Check game mode
+            const gameMode = document.querySelector('input[name="gameMode"]:checked').value;
+            
+            if (gameMode === 'tournament') {
+                startTournamentMode();
+            } else {
+                startClassicMode();
+            }
+        }
+
+        function startTournamentMode() {
+            // Initialize tournament
+            gameState.currentRound = 1;
+            gameState.eliminatedTeams = [];
+            gameState.roundScores = [];
+            gameState.superFinalNeeded = false;
+            gameState.tournamentStats = {
+                totalQuestions: 0,
+                correctAnswers: 0,
+                eliminatedInRound: [0, 0, 0]
+            };
+            
+            // Show tournament intro
+            alert('🏆 MODE TOURNAMENT DIMULAI! 🏆\n\n' +
+                  '📋 Format Tournament:\n\n' +
+                  '🎯 PENYISIHAN: 20 soal mudah (10-15 poin)\n' +
+                  '⚡ SEMIFINAL: 15 soal sedang (15-25 poin)\n' +
+                  '🔥 FINAL: 10 soal sulit (25-50 poin)\n' +
+                  '👑 SUPER FINAL: 5 soal ultimate (hanya jika seri)\n\n' +
+                  '📊 Sistem Eliminasi:\n' +
+                  '• Setiap babak: 30% tim dengan skor terendah tereliminasi\n' +
+                  '• Super Final hanya muncul jika ada skor seri di Final\n' +
+                  '• Jawaban salah mengurangi skor!\n\n' +
+                  'Bersiaplah untuk kompetisi yang sengit! 🚀');
+            
+            startRound();
+        }
+
+        function startClassicMode() {
+            // Use imported questions if available, otherwise use default questions
+            gameState.questions = [];
+            const questionSource = hasImportedQuestions ? importedQuestions : questionBankByRound;
+            
+            gameState.selectedCategories.forEach(category => {
+                // Use all available questions from all rounds for classic mode
+                Object.keys(questionSource).forEach(round => {
+                    if (questionSource[round][category]) {
+                        gameState.questions.push(...questionSource[round][category]);
+                    }
+                });
+            });
+
+            gameState.questions = gameState.questions.sort(() => Math.random() - 0.5);
+            createScoreBoard();
+            createQuestionGrid();
+
+            // Update grid title for classic mode
+            const gridTitle = document.getElementById('gridTitle');
+            if (gridTitle) {
+                const sourceText = hasImportedQuestions ? ' (Soal Import)' : '';
+                gridTitle.innerHTML = `<span class="text-lg font-bold">🎯 QUIZ BATTLE${sourceText}</span>`;
+            }
+
+            document.getElementById('gameHeader').classList.add('hidden');
+            document.getElementById('setupScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.remove('hidden');
+            updateCurrentTurn();
+        }
+
+        function startRound() {
+            // Reset scores for new round
+            gameState.teams.forEach(team => {
+                if (!team.eliminated) {
+                    team.score = 0;
+                }
+            });
+            
+            // Prepare questions for this round
+            prepareRoundQuestions();
+            
+            // Create score board and question grid
+            createScoreBoard();
+            createQuestionGrid();
+            updateRoundDisplay();
+            
+            // Hide setup and show game screen
+            document.getElementById('gameHeader').classList.add('hidden');
+            document.getElementById('setupScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.remove('hidden');
+            
+            // Reset game state for new round
+            gameState.answeredQuestions = [];
+            gameState.currentTurn = 0;
+            
+            // Skip eliminated teams
+            while (gameState.teams[gameState.currentTurn].eliminated) {
+                gameState.currentTurn = (gameState.currentTurn + 1) % gameState.teamCount;
+            }
+            
+            updateCurrentTurn();
+        }
+
+        function prepareRoundQuestions() {
+            const roundNames = ['penyisihan', 'semifinal', 'final', 'superFinal'];
+            const currentRoundName = roundNames[gameState.currentRound - 1];
+            const questionsNeeded = gameState.questionsPerRound[gameState.currentRound - 1];
+            
+            let availableQuestions = [];
+            
+            // Use imported questions if available, otherwise use default questions
+            const questionSource = hasImportedQuestions ? importedQuestions : questionBankByRound;
+            
+            gameState.selectedCategories.forEach(category => {
+                if (questionSource[currentRoundName] && questionSource[currentRoundName][category]) {
+                    const categoryQuestions = questionSource[currentRoundName][category].map(q => ({...q}));
+                    availableQuestions.push(...categoryQuestions);
+                }
+            });
+            
+            // If no questions available for this round, try to use questions from other rounds
+            if (availableQuestions.length === 0 && hasImportedQuestions) {
+                console.log(`No questions found for ${currentRoundName}, trying other rounds...`);
+                Object.keys(questionSource).forEach(round => {
+                    if (round !== currentRoundName) {
+                        gameState.selectedCategories.forEach(category => {
+                            if (questionSource[round] && questionSource[round][category]) {
+                                const categoryQuestions = questionSource[round][category].map(q => ({...q}));
+                                availableQuestions.push(...categoryQuestions);
+                            }
+                        });
+                    }
+                });
+            }
+            
+            // Shuffle and select needed questions
+            availableQuestions = availableQuestions.sort(() => Math.random() - 0.5);
+            gameState.questions = availableQuestions.slice(0, questionsNeeded);
+            
+            console.log(`Round ${gameState.currentRound}: Prepared ${gameState.questions.length} questions from ${hasImportedQuestions ? 'imported' : 'default'} source`);
+        }
+
+        function updateTournamentProgress() {
+            const progressPercentage = (gameState.currentRound / gameState.maxRounds) * 100;
+            document.getElementById('progressBar').style.width = progressPercentage + '%';
+            
+            const activeTeams = gameState.teams.filter(team => !team.eliminated).length;
+            const eliminatedTeams = gameState.teams.length - activeTeams;
+            
+            document.getElementById('activeTeamsCount').textContent = activeTeams;
+            document.getElementById('eliminatedCount').textContent = eliminatedTeams;
+        }
+
+        function updateModalTournamentProgress() {
+            const progressPercentage = (gameState.currentRound / gameState.maxRounds) * 100;
+            document.getElementById('modalProgressBar').style.width = progressPercentage + '%';
+            
+            const activeTeams = gameState.teams.filter(team => !team.eliminated).length;
+            const eliminatedTeams = gameState.teams.length - activeTeams;
+            
+            document.getElementById('modalActiveTeamsCount').textContent = activeTeams;
+            document.getElementById('modalEliminatedCount').textContent = eliminatedTeams;
+        }
+
+        function updateRoundDisplay() {
+            const roundIndex = gameState.currentRound - 1;
+            
+            // Update grid title with round name
+            const gridTitle = document.getElementById('gridTitle');
+            if (gridTitle) {
+                const gameMode = document.querySelector('input[name="gameMode"]:checked')?.value;
+                if (gameMode === 'tournament') {
+                    if (gameState.currentRound === 4) {
+                        gridTitle.innerHTML = `<span class="text-lg font-bold">👑 SUPER FINAL</span>`;
+                    } else {
+                        gridTitle.innerHTML = `<span class="text-lg font-bold">🎯 BABAK ${gameState.roundNames[roundIndex]}</span>`;
+                    }
+                } else {
+                    gridTitle.innerHTML = `<span class="text-lg font-bold">🎯 QUIZ BATTLE</span>`;
+                }
+            }
+        }
+
+        function createScoreBoard() {
+            const scoreBoard = document.getElementById('scoreBoard');
+            scoreBoard.innerHTML = '';
+
+            gameState.teams.forEach((team, index) => {
+                if (team.eliminated) return;
+                
+                const teamCard = document.createElement('div');
+                teamCard.className = `team-card ${teamColors[index]} text-white p-4 rounded-xl shadow-lg ${team.eliminated ? 'eliminated-team' : ''}`;
+                teamCard.id = `teamCard${index}`;
+                teamCard.innerHTML = `
+                    <h3 class="text-lg font-bold mb-2">${team.name}</h3>
+                    <div class="text-2xl font-bold" id="team${index}Score">${team.score}</div>
+                    <div class="text-sm opacity-90">Poin</div>
+                    ${team.eliminated ? '<div class="text-xs mt-1 opacity-75">TERELIMINASI</div>' : ''}
+                `;
+                scoreBoard.appendChild(teamCard);
+            });
+        }
+
+        function createQuestionGrid() {
+            const questionGrid = document.getElementById('questionGrid');
+            questionGrid.innerHTML = '';
+
+            // Adjust grid based on number of questions
+            const questionCount = gameState.questions.length;
+            if (questionCount === 5) {
+                questionGrid.className = 'grid grid-cols-5 gap-2'; // Super Final
+            } else if (questionCount === 10) {
+                questionGrid.className = 'grid grid-cols-5 gap-2'; // Final
+            } else if (questionCount === 15) {
+                questionGrid.className = 'grid grid-cols-5 gap-2'; // Semifinal
+            } else {
+                questionGrid.className = 'grid grid-cols-4 md:grid-cols-5 gap-2'; // Penyisihan
+            }
+
+            // Color gradients for different point values
+            const pointColors = {
+                10: 'bg-gradient-to-br from-green-400 to-green-600',
+                15: 'bg-gradient-to-br from-blue-400 to-blue-600',
+                20: 'bg-gradient-to-br from-yellow-400 to-yellow-600',
+                25: 'bg-gradient-to-br from-orange-400 to-orange-600',
+                30: 'bg-gradient-to-br from-red-400 to-red-600',
+                35: 'bg-gradient-to-br from-purple-400 to-purple-600',
+                50: 'bg-gradient-to-br from-purple-500 via-pink-500 to-red-500'
+            };
+
+            const pointEmojis = {
+                10: '🌟', 15: '⭐', 20: '💫', 25: '🔥',
+                30: '💎', 35: '🏆', 50: '👑'
+            };
+
+            gameState.questions.forEach((question, index) => {
+                const gridBox = document.createElement('div');
+                let colorClass = pointColors[question.points];
+                let emoji = pointEmojis[question.points];
+                
+                if (question.points === 50) {
+                    gridBox.classList.add('super-final-glow');
+                }
+                
+                gridBox.className = `grid-box ${colorClass} text-white p-3 rounded-lg shadow-lg text-center`;
+                gridBox.innerHTML = `
+                    <div class="text-xl mb-1">${emoji}</div>
+                    <div class="text-base font-bold mb-1">${index + 1}</div>
+                    <div class="text-xs opacity-90">${question.points} Poin</div>
+                `;
+                gridBox.onclick = () => openQuestionModal(index);
+                questionGrid.appendChild(gridBox);
+            });
+        }
+
+        function updateCurrentTurn() {
+            const currentTeam = gameState.teams[gameState.currentTurn];
+            document.getElementById('currentTurn').textContent = currentTeam.name;
+            document.getElementById('currentTurn').className = `text-xl font-bold ${teamColorsText[gameState.currentTurn]}`;
+            
+            // Add pulse animation to current team's score card
+            gameState.teams.forEach((_, index) => {
+                const teamCard = document.getElementById(`teamCard${index}`);
+                if (teamCard) {
+                    if (index === gameState.currentTurn) {
+                        teamCard.classList.add('pulse-team');
+                    } else {
+                        teamCard.classList.remove('pulse-team');
+                    }
+                }
+            });
+        }
+
+        function openQuestionModal(questionIndex) {
+            if (gameState.answeredQuestions.includes(questionIndex)) {
+                return;
+            }
+
+            gameState.currentQuestionIndex = questionIndex;
+            const question = gameState.questions[questionIndex];
+            
+            document.getElementById('questionModal').classList.remove('hidden');
+            document.getElementById('modalQuestionText').textContent = question.question;
+            
+            // Determine category display
+            let categoryText = '';
+            if (gameState.selectedCategories.includes('category1') && question.explanation.includes('Al-')) {
+                categoryText = '🌟 Asmaul Husna';
+            } else {
+                categoryText = '⚖️ Qadha & Qadar';
+            }
+            document.getElementById('modalQuestionCategory').textContent = categoryText;
+            
+            document.getElementById('modalQuestionPoints').textContent = `${question.points} Poin`;
+            
+            // Set point color based on difficulty
+            const pointColors = {
+                10: 'bg-green-100 text-green-800',
+                15: 'bg-blue-100 text-blue-800',
+                20: 'bg-yellow-100 text-yellow-800',
+                25: 'bg-orange-100 text-orange-800',
+                30: 'bg-red-100 text-red-800',
+                35: 'bg-purple-100 text-purple-800',
+                50: 'bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800'
+            };
+            
+            document.getElementById('modalQuestionPoints').className = `inline-block ${pointColors[question.points]} px-3 py-1 rounded-full text-sm font-bold`;
+
+            // Shuffle answers
+            const shuffledAnswers = [...question.answers];
+            const correctAnswer = shuffledAnswers[question.correct];
+            
+            for (let i = shuffledAnswers.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffledAnswers[i], shuffledAnswers[j]] = [shuffledAnswers[j], shuffledAnswers[i]];
+            }
+            
+            const newCorrectIndex = shuffledAnswers.indexOf(correctAnswer);
+
+            // Show answers
+            const answersContainer = document.getElementById('modalAnswersContainer');
+            answersContainer.innerHTML = '';
+
+            shuffledAnswers.forEach((answer, index) => {
+                const button = document.createElement('button');
+                button.className = 'answer-btn p-6 bg-gray-100 hover:bg-gray-200 rounded-xl text-left font-medium transition-all border-2 border-transparent hover:border-gray-300 min-h-[120px] flex items-center';
+                
+                const optionLetter = String.fromCharCode(65 + index);
+                button.innerHTML = `
+                    <div class="flex items-center w-full">
+                        <div class="bg-blue-500 text-white w-10 h-10 rounded-lg flex items-center justify-center font-bold text-lg mr-4 flex-shrink-0">
+                            ${optionLetter}
+                        </div>
+                        <div class="text-lg font-medium leading-relaxed">${answer}</div>
+                    </div>
+                `;
+                button.onclick = () => selectAnswer(index, newCorrectIndex);
+                answersContainer.appendChild(button);
+            });
+            
+            startTimer();
+        }
+
+        function closeQuestionModal() {
+            document.getElementById('questionModal').classList.add('hidden');
+            if (gameState.timer) {
+                clearInterval(gameState.timer);
+            }
+            
+            // Reset question state if closed manually
+            if (!gameState.questionAnswered) {
+                gameState.questionAnswered = true;
+                
+                // Update stats for manual close (no score added)
+                gameState.teams[gameState.currentTurn].totalAnswered++;
+                gameState.tournamentStats.totalQuestions++;
+                
+                finishQuestion(false);
+            }
+        }
+
+        function startTimer() {
+            gameState.timeLeft = 30;
+            gameState.questionAnswered = false;
+            updateTimerDisplay();
+            
+            gameState.timer = setInterval(() => {
+                gameState.timeLeft--;
+                updateTimerDisplay();
+                
+                if (gameState.timeLeft <= 0) {
+                    clearInterval(gameState.timer);
+                    if (!gameState.questionAnswered) {
+                        timeUp();
+                    }
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const timerElement = document.getElementById('modalTimer');
+            timerElement.textContent = gameState.timeLeft;
+            
+            if (gameState.timeLeft <= 10) {
+                timerElement.className = 'text-xl font-bold text-red-600';
+            } else if (gameState.timeLeft <= 20) {
+                timerElement.className = 'text-xl font-bold text-yellow-600';
+            } else {
+                timerElement.className = 'text-xl font-bold text-green-600';
+            }
+        }
+
+        function timeUp() {
+            gameState.questionAnswered = true;
+            const buttons = document.querySelectorAll('.answer-btn');
+            buttons.forEach(btn => btn.disabled = true);
+            
+            const question = gameState.questions[gameState.currentQuestionIndex];
+            const shuffledAnswers = [];
+            
+            // Get shuffled answers from current buttons
+            buttons.forEach(btn => {
+                const answerText = btn.querySelector('div:last-child').textContent;
+                shuffledAnswers.push(answerText);
+            });
+            
+            buttons.forEach((btn, index) => {
+                if (shuffledAnswers[index] === question.answers[question.correct]) {
+                    btn.className = 'answer-btn p-6 bg-green-500 text-white rounded-xl text-left font-medium border-2 border-green-600 correct-answer min-h-[120px] flex items-center';
+                    const optionLetter = String.fromCharCode(65 + index);
+                    btn.innerHTML = `
+                        <div class="flex items-center w-full">
+                            <div class="bg-green-700 text-white w-10 h-10 rounded-lg flex items-center justify-center font-bold text-lg mr-4 flex-shrink-0">
+                                ${optionLetter}
+                            </div>
+                            <div class="text-lg font-medium leading-relaxed">${question.answers[question.correct]}</div>
+                        </div>
+                    `;
+                }
+            });
+            
+            // Update stats for time up (no score added)
+            gameState.teams[gameState.currentTurn].totalAnswered++;
+            gameState.tournamentStats.totalQuestions++;
+            
+            setTimeout(() => {
+                document.getElementById('questionModal').classList.add('hidden');
+                finishQuestion(false);
+            }, 3000);
+        }
+
+        function selectAnswer(selectedIndex, correctIndex) {
+            if (gameState.questionAnswered) return;
+            
+            gameState.questionAnswered = true;
+            clearInterval(gameState.timer);
+            
+            const question = gameState.questions[gameState.currentQuestionIndex];
+            const buttons = document.querySelectorAll('.answer-btn');
+            const answersContainer = document.getElementById('modalAnswersContainer');
+            const shuffledAnswers = [];
+            
+            // Get shuffled answers from current buttons
+            buttons.forEach(btn => {
+                const answerText = btn.querySelector('div:last-child').textContent;
+                shuffledAnswers.push(answerText);
+            });
+            
+            buttons.forEach(btn => btn.disabled = true);
+
+            buttons.forEach((btn, index) => {
+                if (index === correctIndex) {
+                    btn.className = 'answer-btn p-6 bg-green-500 text-white rounded-xl text-left font-medium border-2 border-green-600 correct-answer min-h-[120px] flex items-center';
+                    const optionLetter = String.fromCharCode(65 + index);
+                    btn.innerHTML = `
+                        <div class="flex items-center w-full">
+                            <div class="bg-green-700 text-white w-10 h-10 rounded-lg flex items-center justify-center font-bold text-lg mr-4 flex-shrink-0">
+                                ${optionLetter}
+                            </div>
+                            <div class="text-lg font-medium leading-relaxed">${shuffledAnswers[index]}</div>
+                        </div>
+                    `;
+                } else if (index === selectedIndex && selectedIndex !== correctIndex) {
+                    btn.className = 'answer-btn p-6 bg-red-500 text-white rounded-xl text-left font-medium border-2 border-red-600 min-h-[120px] flex items-center';
+                    const optionLetter = String.fromCharCode(65 + index);
+                    btn.innerHTML = `
+                        <div class="flex items-center w-full">
+                            <div class="bg-red-700 text-white w-10 h-10 rounded-lg flex items-center justify-center font-bold text-lg mr-4 flex-shrink-0">
+                                ${optionLetter}
+                            </div>
+                            <div class="text-lg font-medium leading-relaxed">${shuffledAnswers[index]}</div>
+                        </div>
+                    `;
+                }
+            });
+
+            const isCorrect = selectedIndex === correctIndex;
+
+            // Update score and stats IMMEDIATELY
+            if (isCorrect) {
+                gameState.teams[gameState.currentTurn].score += question.points;
+                gameState.teams[gameState.currentTurn].totalCorrect++;
+                gameState.tournamentStats.correctAnswers++;
+                
+                // Update score display immediately with animation
+                const scoreElement = document.getElementById(`team${gameState.currentTurn}Score`);
+                if (scoreElement) {
+                    scoreElement.textContent = gameState.teams[gameState.currentTurn].score;
+                    scoreElement.classList.add('correct-answer');
+                    setTimeout(() => {
+                        scoreElement.classList.remove('correct-answer');
+                    }, 600);
+                }
+            } else {
+                // PENALTY SYSTEM: Reduce score if team has points and answered incorrectly
+                const currentTeam = gameState.teams[gameState.currentTurn];
+                if (currentTeam.score > 0) {
+                    const penalty = Math.min(question.points, currentTeam.score); // Don't go below 0
+                    currentTeam.score -= penalty;
+                    
+                    // Update score display immediately with penalty animation
+                    const scoreElement = document.getElementById(`team${gameState.currentTurn}Score`);
+                    if (scoreElement) {
+                        scoreElement.textContent = currentTeam.score;
+                        scoreElement.style.animation = 'none';
+                        scoreElement.offsetHeight; // Trigger reflow
+                        scoreElement.style.animation = 'penaltyShake 0.6s ease-in-out';
+                        setTimeout(() => {
+                            scoreElement.style.animation = '';
+                        }, 600);
+                    }
+                }
+            }
+            
+            gameState.teams[gameState.currentTurn].totalAnswered++;
+            gameState.tournamentStats.totalQuestions++;
+
+            // Close modal after exactly 3 seconds
+            setTimeout(() => {
+                document.getElementById('questionModal').classList.add('hidden');
+                finishQuestion(isCorrect);
+            }, 3000);
+        }
+
+        function finishQuestion(isCorrect) {
+            gameState.answeredQuestions.push(gameState.currentQuestionIndex);
+            
+            // Update grid box appearance
+            const gridBoxes = document.querySelectorAll('.grid-box');
+            const currentBox = gridBoxes[gameState.currentQuestionIndex];
+            if (currentBox) {
+                currentBox.classList.add('answered');
+                if (isCorrect) {
+                    currentBox.innerHTML = `
+                        <div class="text-2xl mb-1">✅</div>
+                        <div class="text-sm font-bold">Benar!</div>
+                        <div class="text-xs opacity-90">${gameState.questions[gameState.currentQuestionIndex].points} Poin</div>
+                    `;
+                    currentBox.className = 'grid-box answered bg-gradient-to-br from-green-400 to-green-600 text-white p-3 rounded-lg shadow-lg text-center';
+                } else {
+                    currentBox.innerHTML = `
+                        <div class="text-2xl mb-1">❌</div>
+                        <div class="text-sm font-bold">Salah</div>
+                        <div class="text-xs opacity-90">0 Poin</div>
+                    `;
+                    currentBox.className = 'grid-box answered bg-gradient-to-br from-gray-400 to-gray-600 text-white p-3 rounded-lg shadow-lg text-center';
+                }
+            }
+            
+            // Check if round is finished
+            if (gameState.answeredQuestions.length >= gameState.questions.length) {
+                setTimeout(() => {
+                    finishRound();
+                }, 1000);
+            } else {
+                // Next turn
+                do {
+                    gameState.currentTurn = (gameState.currentTurn + 1) % gameState.teamCount;
+                } while (gameState.teams[gameState.currentTurn].eliminated);
+                
+                updateCurrentTurn();
+            }
+        }
+
+        function finishRound() {
+            // Save round scores
+            gameState.teams.forEach((team, index) => {
+                if (!team.eliminated) {
+                    team.roundScores[gameState.currentRound - 1] = team.score;
+                }
+            });
+            
+            // Check if tournament is finished or if Super Final is needed
+            if (gameState.currentRound >= gameState.maxRounds) {
+                // Check for tie in Final round
+                const activeTeams = gameState.teams.filter(team => !team.eliminated);
+                if (activeTeams.length > 1 && gameState.currentRound === 3) {
+                    const sortedTeams = [...activeTeams].sort((a, b) => b.score - a.score);
+                    const topScore = sortedTeams[0].score;
+                    const tiedTeams = sortedTeams.filter(team => team.score === topScore);
+                    
+                    if (tiedTeams.length > 1) {
+                        // Need Super Final
+                        gameState.superFinalNeeded = true;
+                        gameState.currentRound = 4; // Super Final
+                        gameState.maxRounds = 4;
+                        gameState.roundNames.push('SUPER FINAL');
+                        gameState.roundDescriptions.push('5 Soal Ultimate (50 Poin)');
+                        gameState.questionsPerRound.push(5);
+                        
+                        alert('🔥 SKOR SERI! 🔥\n\nSuper Final akan dimulai untuk menentukan juara!\n\n👑 5 Soal Ultimate (50 poin)\n⚡ Hanya tim yang seri yang akan bertanding!');
+                        
+                        // Eliminate non-tied teams
+                        gameState.teams.forEach(team => {
+                            if (!tiedTeams.includes(team)) {
+                                team.eliminated = true;
+                            }
+                        });
+                        
+                        showRoundTransition();
+                        return;
+                    }
+                }
+                
+                showResults();
+                return;
+            }
+            
+            // Determine eliminations using 30% threshold
+            if (gameState.currentRound < gameState.maxRounds) {
+                eliminateTeamsWithThreshold();
+            }
+            
+            showRoundTransition();
+        }
+
+        function eliminateTeamsWithThreshold() {
+            const activeTeams = gameState.teams.filter(team => !team.eliminated);
+            
+            // Don't eliminate if only 2 teams left or in Super Final
+            if (activeTeams.length <= 2 || gameState.currentRound >= 4) return;
+            
+            // 30% elimination for all rounds
+            const eliminationPercentage = 0.3;
+            
+            // Calculate number of teams to eliminate (minimum 1 if percentage results in 0)
+            let teamsToEliminateCount = Math.floor(activeTeams.length * eliminationPercentage);
+            
+            // Ensure at least 1 team is eliminated if we have more than 2 teams
+            if (teamsToEliminateCount === 0 && activeTeams.length > 2) {
+                teamsToEliminateCount = 1;
+            }
+            
+            if (teamsToEliminateCount === 0) return;
+            
+            // Sort teams by score (ascending - lowest first)
+            const sortedTeams = [...activeTeams].sort((a, b) => a.score - b.score);
+            
+            // Eliminate the lowest scoring teams
+            const teamsToEliminate = sortedTeams.slice(0, teamsToEliminateCount);
+            
+            // Eliminate teams
+            teamsToEliminate.forEach(team => {
+                team.eliminated = true;
+                gameState.eliminatedTeams.push(team.name);
+                gameState.tournamentStats.eliminatedInRound[gameState.currentRound - 1]++;
+            });
+            
+            // Store info for display
+            gameState.lastEliminationCount = teamsToEliminateCount;
+            gameState.lastEliminationPercentage = eliminationPercentage * 100;
+            
+            console.log(`Round ${gameState.currentRound}: Eliminated ${teamsToEliminateCount} teams. Active teams remaining: ${activeTeams.length - teamsToEliminateCount}`);
+        }
+
+        function showRoundTransition() {
+            const modal = document.getElementById('roundTransitionModal');
+            const roundIndex = gameState.currentRound - 1;
+            
+            const emojis = ['🎯', '⚡', '🔥', '👑'];
+            const titles = [
+                'BABAK PENYISIHAN SELESAI!',
+                'SEMIFINAL SELESAI!', 
+                'FINAL SELESAI!',
+                'SUPER FINAL SELESAI!'
+            ];
+            
+            document.getElementById('transitionEmoji').textContent = emojis[roundIndex];
+            document.getElementById('transitionTitle').textContent = titles[roundIndex];
+            
+            if (gameState.currentRound < gameState.maxRounds) {
+                const nextRoundName = gameState.currentRound === 3 && gameState.superFinalNeeded ? 'SUPER FINAL' : gameState.roundNames[gameState.currentRound];
+                document.getElementById('transitionDescription').textContent = 
+                    `Bersiap untuk ${nextRoundName}!`;
+            } else {
+                document.getElementById('transitionDescription').textContent = 
+                    'Selamat kepada semua peserta!';
+            }
+            
+            // Update tournament progress in modal
+            updateModalTournamentProgress();
+            
+            showRoundResults();
+            showEliminationNotices();
+            
+            const continueBtn = document.getElementById('continueToNextRound');
+            if (gameState.currentRound >= gameState.maxRounds) {
+                continueBtn.textContent = '🏆 Lihat Hasil Akhir';
+            } else {
+                const nextRoundName = gameState.currentRound === 3 && gameState.superFinalNeeded ? 'SUPER FINAL' : gameState.roundNames[gameState.currentRound];
+                continueBtn.textContent = `🚀 Lanjut ke ${nextRoundName}`;
+            }
+            
+            modal.classList.remove('hidden');
+        }
+
+        function showRoundResults() {
+            const roundScoreBoard = document.getElementById('roundScoreBoard');
+            roundScoreBoard.innerHTML = '';
+            
+            const sortedTeams = [...gameState.teams].sort((a, b) => b.score - a.score);
+            
+            sortedTeams.forEach((team, index) => {
+                const originalIndex = gameState.teams.findIndex(t => t.name === team.name);
+                const teamCard = document.createElement('div');
+                teamCard.className = `${teamColorsBg[originalIndex]} p-3 rounded-lg ${team.eliminated ? 'opacity-50' : ''}`;
+                teamCard.innerHTML = `
+                    <div class="text-sm font-bold ${teamColorsText[originalIndex]}">${team.name}</div>
+                    <div class="text-lg font-bold ${teamColorsText[originalIndex]}">${team.score}</div>
+                    <div class="text-xs ${teamColorsText[originalIndex]} opacity-75">Poin</div>
+                    ${team.eliminated ? '<div class="text-xs text-red-600 font-bold">TERELIMINASI</div>' : ''}
+                `;
+                roundScoreBoard.appendChild(teamCard);
+            });
+            
+            // Show elimination info
+            if (gameState.lastEliminationCount !== undefined) {
+                const thresholdInfo = document.getElementById('thresholdInfo');
+                const roundNames = ['Penyisihan', 'Semifinal', 'Final', 'Super Final'];
+                const currentRoundName = roundNames[gameState.currentRound - 1];
+                
+                thresholdInfo.innerHTML = `
+                    Babak <strong>${currentRoundName}</strong>: 30% tim dengan skor terendah tereliminasi<br>
+                    Jumlah tim yang tereliminasi: <strong>${gameState.lastEliminationCount}</strong> tim<br>
+                    <span class="text-sm">Sistem eliminasi yang adil dan kompetitif</span>
+                `;
+            }
+        }
+
+        function showEliminationNotices() {
+            const eliminationNotice = document.getElementById('eliminationNotice');
+            const qualificationNotice = document.getElementById('qualificationNotice');
+            const eliminatedList = document.getElementById('eliminatedTeamsList');
+            const qualifiedList = document.getElementById('qualifiedTeamsList');
+            
+            // Show eliminated teams this round
+            const currentRoundEliminated = gameState.teams.filter(team => 
+                team.eliminated && gameState.eliminatedTeams.includes(team.name)
+            ).slice(-gameState.lastEliminationCount || 0);
+            
+            if (currentRoundEliminated.length > 0) {
+                eliminationNotice.classList.remove('hidden');
+                eliminatedList.innerHTML = currentRoundEliminated.map(team => 
+                    `<strong>${team.name}</strong> (${team.score} poin)`
+                ).join(', ');
+            } else {
+                eliminationNotice.classList.add('hidden');
+            }
+            
+            // Show qualified teams
+            const qualifiedTeams = gameState.teams.filter(team => !team.eliminated);
+            qualifiedList.innerHTML = qualifiedTeams.map(team => 
+                `<strong>${team.name}</strong> (${team.score} poin)`
+            ).join(', ');
+        }
+
+        function continueToNextRound() {
+            document.getElementById('roundTransitionModal').classList.add('hidden');
+            
+            if (gameState.currentRound >= gameState.maxRounds) {
+                showResults();
+            } else {
+                gameState.currentRound++;
+                startRound();
+            }
+        }
+
+        function createFireworks() {
+            const fireworksContainer = document.createElement('div');
+            fireworksContainer.className = 'fireworks';
+            document.body.appendChild(fireworksContainer);
+
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const firework = document.createElement('div');
+                    firework.className = 'firework';
+                    firework.style.left = Math.random() * 100 + '%';
+                    firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                    fireworksContainer.appendChild(firework);
+
+                    setTimeout(() => {
+                        for (let j = 0; j < 12; j++) {
+                            const spark = document.createElement('div');
+                            spark.className = 'spark';
+                            spark.style.left = firework.style.left;
+                            spark.style.top = '20vh';
+                            spark.style.backgroundColor = firework.style.backgroundColor;
+                            
+                            const angle = (j * 30) * Math.PI / 180;
+                            const distance = 50 + Math.random() * 50;
+                            spark.style.setProperty('--dx', Math.cos(angle) * distance + 'px');
+                            spark.style.setProperty('--dy', Math.sin(angle) * distance + 'px');
+                            
+                            fireworksContainer.appendChild(spark);
+                        }
+                    }, 300);
+                }, i * 200);
+            }
+
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                    confetti.style.animationDelay = Math.random() * 2 + 's';
+                    fireworksContainer.appendChild(confetti);
+                }, i * 50);
+            }
+
+            setTimeout(() => {
+                document.body.removeChild(fireworksContainer);
+            }, 5000);
+        }
+
+        function showResults() {
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('resultsScreen').classList.remove('hidden');
+
+            const sortedTeams = [...gameState.teams].sort((a, b) => {
+                // Sort by total score across all rounds
+                const aTotal = a.roundScores.reduce((sum, score) => sum + score, 0);
+                const bTotal = b.roundScores.reduce((sum, score) => sum + score, 0);
+                return bTotal - aTotal;
+            });
+            
+            // Determine winner
+            let winnerText = '';
+            const winner = sortedTeams[0];
+            const winnerTotalScore = winner.roundScores.reduce((sum, score) => sum + score, 0);
+            
+            if (gameState.superFinalNeeded) {
+                winnerText = `🎉 ${winner.name} Juara Super Final! 🎉`;
+            } else {
+                winnerText = `🎉 ${winner.name} Juara Tournament! 🎉`;
+            }
+
+            document.getElementById('winnerAnnouncement').textContent = winnerText;
+            
+            // Show tournament summary
+            showTournamentSummary();
+            
+            createFireworks();
+
+            // Create final score board
+            const finalScoreBoard = document.getElementById('finalScoreBoard');
+            finalScoreBoard.innerHTML = '';
+
+            sortedTeams.forEach((team, index) => {
+                const originalIndex = gameState.teams.findIndex(t => t.name === team.name);
+                const totalScore = team.roundScores.reduce((sum, score) => sum + score, 0);
+                const teamCard = document.createElement('div');
+                teamCard.className = `${teamColorsBg[originalIndex]} p-4 rounded-lg`;
+                
+                let rankEmoji = '';
+                if (index === 0) rankEmoji = '🥇';
+                else if (index === 1) rankEmoji = '🥈';
+                else if (index === 2) rankEmoji = '🥉';
+                else rankEmoji = `#${index + 1}`;
+                
+                teamCard.innerHTML = `
+                    <div class="text-center mb-2">${rankEmoji}</div>
+                    <h3 class="text-lg font-bold ${teamColorsText[originalIndex]} text-center">${team.name}</h3>
+                    <div class="text-2xl font-bold ${teamColorsText[originalIndex]} text-center">${totalScore}</div>
+                    <div class="text-sm ${teamColorsText[originalIndex]} opacity-75 text-center">Total Poin</div>
+                    <div class="text-xs ${teamColorsText[originalIndex]} opacity-60 text-center mt-1">
+                        Benar: ${team.totalCorrect}/${team.totalAnswered}
+                    </div>
+                `;
+                finalScoreBoard.appendChild(teamCard);
+            });
+        }
+
+        function showTournamentSummary() {
+            const summaryStats = document.getElementById('summaryStats');
+            const totalTeams = gameState.teams.length;
+            const totalEliminated = gameState.teams.filter(team => team.eliminated).length;
+            const accuracyRate = gameState.tournamentStats.totalQuestions > 0 ? 
+                Math.round((gameState.tournamentStats.correctAnswers / gameState.tournamentStats.totalQuestions) * 100) : 0;
+            
+            summaryStats.innerHTML = `
+                <div class="bg-white p-3 rounded-lg">
+                    <div class="font-bold text-blue-800">Total Tim</div>
+                    <div class="text-xl font-bold text-blue-600">${totalTeams}</div>
+                </div>
+                <div class="bg-white p-3 rounded-lg">
+                    <div class="font-bold text-green-800">Soal Dijawab</div>
+                    <div class="text-xl font-bold text-green-600">${gameState.tournamentStats.totalQuestions}</div>
+                </div>
+                <div class="bg-white p-3 rounded-lg">
+                    <div class="font-bold text-yellow-800">Akurasi</div>
+                    <div class="text-xl font-bold text-yellow-600">${accuracyRate}%</div>
+                </div>
+                <div class="bg-white p-3 rounded-lg">
+                    <div class="font-bold text-red-800">Tereliminasi</div>
+                    <div class="text-xl font-bold text-red-600">${totalEliminated}</div>
+                </div>
+            `;
+        }
+
+        // Import Functions
+        function downloadTemplate() {
+            const templateData = [
+                {
+                    'Babak': 'penyisihan',
+                    'Kategori': 'category1',
+                    'Soal': 'Contoh: Apa arti dari Asmaul Husna Al-Gaffar?',
+                    'Pilihan A': 'Maha Pengampun',
+                    'Pilihan B': 'Maha Luas',
+                    'Pilihan C': 'Maha Penyayang',
+                    'Pilihan D': 'Maha Adil',
+                    'Jawaban Benar': 'A',
+                    'Poin': 10,
+                    'Penjelasan': 'Al-Gaffar artinya Maha Pengampun. Allah SWT selalu siap mengampuni hamba-Nya yang bertaubat.'
+                },
+                {
+                    'Babak': 'penyisihan',
+                    'Kategori': 'category2',
+                    'Soal': 'Contoh: Apa pengertian Qadha?',
+                    'Pilihan A': 'Ketentuan Allah yang sudah terjadi',
+                    'Pilihan B': 'Ketentuan Allah yang belum terjadi',
+                    'Pilihan C': 'Doa kepada Allah',
+                    'Pilihan D': 'Ibadah kepada Allah',
+                    'Jawaban Benar': 'A',
+                    'Poin': 10,
+                    'Penjelasan': 'Qadha adalah ketentuan Allah SWT yang sudah terjadi dan tidak bisa diubah lagi.'
+                },
+                {
+                    'Babak': 'semifinal',
+                    'Kategori': 'category1',
+                    'Soal': 'Contoh: Bagaimana cara mengamalkan sifat Al-Gaffar dalam kehidupan sehari-hari?',
+                    'Pilihan A': 'Suka memaafkan orang lain',
+                    'Pilihan B': 'Suka marah-marah',
+                    'Pilihan C': 'Suka menyombongkan diri',
+                    'Pilihan D': 'Suka berbohong',
+                    'Jawaban Benar': 'A',
+                    'Poin': 20,
+                    'Penjelasan': 'Kita mengamalkan Al-Gaffar dengan suka memaafkan kesalahan orang lain.'
+                },
+                {
+                    'Babak': 'final',
+                    'Kategori': 'category1',
+                    'Soal': 'Contoh: Jelaskan perbedaan antara pengampunan Allah (Al-Gaffar) dengan pengampunan manusia!',
+                    'Pilihan A': 'Tidak ada perbedaan',
+                    'Pilihan B': 'Allah mengampuni tanpa syarat, manusia dengan syarat',
+                    'Pilihan C': 'Allah mengampuni dengan syarat bertaubat, manusia sering sulit mengampuni',
+                    'Pilihan D': 'Manusia lebih mudah mengampuni',
+                    'Jawaban Benar': 'C',
+                    'Poin': 35,
+                    'Penjelasan': 'Allah mengampuni dengan syarat bertaubat yang tulus, sedangkan manusia sering sulit mengampuni meski sudah diminta maaf.'
+                },
+                {
+                    'Babak': 'superFinal',
+                    'Kategori': 'category1',
+                    'Soal': 'Contoh: Analisis bagaimana pemahaman mendalam tentang Al-Gaffar dapat mengubah paradigma seseorang!',
+                    'Pilihan A': 'Membuat seseorang menjadi lemah',
+                    'Pilihan B': 'Mengembangkan kemampuan resolusi konflik dengan bijaksana',
+                    'Pilihan C': 'Membuat seseorang acuh tak acuh',
+                    'Pilihan D': 'Tidak berpengaruh apa-apa',
+                    'Jawaban Benar': 'B',
+                    'Poin': 50,
+                    'Penjelasan': 'Pemahaman Al-Gaffar mengembangkan kemampuan resolusi konflik dengan pendekatan bijaksana dan penuh pengampunan.'
+                }
+            ];
+
+            const ws = XLSX.utils.json_to_sheet(templateData);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Template Soal");
+            
+            // Set column widths
+            ws['!cols'] = [
+                {wch: 12}, // Babak
+                {wch: 12}, // Kategori
+                {wch: 50}, // Soal
+                {wch: 25}, // Pilihan A
+                {wch: 25}, // Pilihan B
+                {wch: 25}, // Pilihan C
+                {wch: 25}, // Pilihan D
+                {wch: 15}, // Jawaban Benar
+                {wch: 8},  // Poin
+                {wch: 60}  // Penjelasan
+            ];
+
+            XLSX.writeFile(wb, "Template_Soal_Quiz_Battle.xlsx");
+            
+            // Show instructions
+            alert('📋 Template berhasil didownload!\n\n' +
+                  '📝 Petunjuk pengisian:\n\n' +
+                  '• Babak: penyisihan, semifinal, final, superFinal\n' +
+                  '• Kategori: category1, category2 (sesuai mata pelajaran)\n' +
+                  '• Soal: Tulis pertanyaan lengkap\n' +
+                  '• Pilihan A-D: Tulis semua pilihan jawaban\n' +
+                  '• Jawaban Benar: A, B, C, atau D\n' +
+                  '• Poin: 10-15 (penyisihan), 15-25 (semifinal), 25-50 (final), 50 (superFinal)\n' +
+                  '• Penjelasan: Jelaskan mengapa jawaban tersebut benar\n\n' +
+                  '💡 Tip: Isi minimal 10 soal per babak untuk hasil terbaik!');
+        }
+
+        function downloadSampleQuestions() {
+            // Create sample questions based on current default questions
+            const sampleData = [];
+            
+            // Add sample questions from each round
+            Object.keys(questionBankByRound).forEach(round => {
+                Object.keys(questionBankByRound[round]).forEach(category => {
+                    questionBankByRound[round][category].slice(0, 3).forEach(q => {
+                        const correctLetter = String.fromCharCode(65 + q.correct);
+                        sampleData.push({
+                            'Babak': round,
+                            'Kategori': category,
+                            'Soal': q.question,
+                            'Pilihan A': q.answers[0],
+                            'Pilihan B': q.answers[1],
+                            'Pilihan C': q.answers[2],
+                            'Pilihan D': q.answers[3],
+                            'Jawaban Benar': correctLetter,
+                            'Poin': q.points,
+                            'Penjelasan': q.explanation
+                        });
+                    });
+                });
+            });
+
+            const ws = XLSX.utils.json_to_sheet(sampleData);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Contoh Soal");
+            
+            // Set column widths
+            ws['!cols'] = [
+                {wch: 12}, {wch: 12}, {wch: 50}, {wch: 25}, {wch: 25}, 
+                {wch: 25}, {wch: 25}, {wch: 15}, {wch: 8}, {wch: 60}
+            ];
+
+            XLSX.writeFile(wb, "Contoh_Soal_Akidah_Akhlak.xlsx");
+            
+            alert('📖 Contoh soal berhasil didownload!\n\n' +
+                  'File ini berisi contoh soal Akidah Akhlak yang bisa Anda gunakan sebagai referensi untuk membuat soal mata pelajaran lain.');
+        }
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Validate file size (5MB max)
+            if (file.size > 5 * 1024 * 1024) {
+                showImportStatus('error', '❌ File terlalu besar! Maksimal 5MB.');
+                return;
+            }
+
+            // Validate file type
+            const validTypes = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel'];
+            if (!validTypes.includes(file.type)) {
+                showImportStatus('error', '❌ Format file tidak didukung! Gunakan file .xlsx atau .xls');
+                return;
+            }
+
+            showImportStatus('loading', '⏳ Membaca file...');
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, {type: 'array'});
+                    
+                    // Get first sheet
+                    const sheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[sheetName];
+                    
+                    // Convert to JSON
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet);
+                    
+                    if (jsonData.length === 0) {
+                        showImportStatus('error', '❌ File kosong atau format tidak sesuai!');
+                        return;
+                    }
+
+                    // Process and validate questions
+                    const processedQuestions = processImportedQuestions(jsonData);
+                    
+                    if (processedQuestions.error) {
+                        showImportStatus('error', '❌ ' + processedQuestions.error);
+                        return;
+                    }
+
+                    importedQuestions = processedQuestions.questions;
+                    hasImportedQuestions = true;
+                    
+                    showImportStatus('success', '✅ Berhasil import ' + processedQuestions.totalQuestions + ' soal!');
+                    showImportPreview(processedQuestions);
+                    
+                } catch (error) {
+                    console.error('Import error:', error);
+                    showImportStatus('error', '❌ Error membaca file: ' + error.message);
+                }
+            };
+            
+            reader.readAsArrayBuffer(file);
+        }
+
+        function processImportedQuestions(jsonData) {
+            const questions = {
+                penyisihan: { category1: [], category2: [] },
+                semifinal: { category1: [], category2: [] },
+                final: { category1: [], category2: [] },
+                superFinal: { category1: [], category2: [] }
+            };
+            
+            let totalQuestions = 0;
+            const errors = [];
+
+            jsonData.forEach((row, index) => {
+                try {
+                    // Validate required fields
+                    const requiredFields = ['Babak', 'Kategori', 'Soal', 'Pilihan A', 'Pilihan B', 'Pilihan C', 'Pilihan D', 'Jawaban Benar', 'Poin'];
+                    const missingFields = requiredFields.filter(field => !row[field] || row[field].toString().trim() === '');
+                    
+                    if (missingFields.length > 0) {
+                        errors.push(`Baris ${index + 2}: Field kosong - ${missingFields.join(', ')}`);
+                        return;
+                    }
+
+                    // Validate round
+                    const round = row['Babak'].toString().toLowerCase();
+                    if (!['penyisihan', 'semifinal', 'final', 'superfinal'].includes(round)) {
+                        errors.push(`Baris ${index + 2}: Babak tidak valid - ${row['Babak']}`);
+                        return;
+                    }
+
+                    // Validate category
+                    const category = row['Kategori'].toString().toLowerCase();
+                    if (!['category1', 'category2'].includes(category)) {
+                        errors.push(`Baris ${index + 2}: Kategori tidak valid - ${row['Kategori']}`);
+                        return;
+                    }
+
+                    // Validate correct answer
+                    const correctAnswer = row['Jawaban Benar'].toString().toUpperCase();
+                    if (!['A', 'B', 'C', 'D'].includes(correctAnswer)) {
+                        errors.push(`Baris ${index + 2}: Jawaban benar tidak valid - ${row['Jawaban Benar']}`);
+                        return;
+                    }
+
+                    // Validate points
+                    const points = parseInt(row['Poin']);
+                    if (isNaN(points) || points < 1 || points > 100) {
+                        errors.push(`Baris ${index + 2}: Poin tidak valid - ${row['Poin']}`);
+                        return;
+                    }
+
+                    // Create question object
+                    const question = {
+                        question: row['Soal'].toString().trim(),
+                        answers: [
+                            row['Pilihan A'].toString().trim(),
+                            row['Pilihan B'].toString().trim(),
+                            row['Pilihan C'].toString().trim(),
+                            row['Pilihan D'].toString().trim()
+                        ],
+                        correct: correctAnswer.charCodeAt(0) - 65, // A=0, B=1, C=2, D=3
+                        points: points,
+                        explanation: row['Penjelasan'] ? row['Penjelasan'].toString().trim() : 'Tidak ada penjelasan.'
+                    };
+
+                    questions[round][category].push(question);
+                    totalQuestions++;
+
+                } catch (error) {
+                    errors.push(`Baris ${index + 2}: Error - ${error.message}`);
+                }
+            });
+
+            if (errors.length > 0) {
+                return { error: 'Error pada beberapa baris:\n' + errors.slice(0, 5).join('\n') + (errors.length > 5 ? '\n... dan ' + (errors.length - 5) + ' error lainnya' : '') };
+            }
+
+            if (totalQuestions === 0) {
+                return { error: 'Tidak ada soal yang valid ditemukan!' };
+            }
+
+            return { questions, totalQuestions };
+        }
+
+        function showImportStatus(type, message) {
+            const statusDiv = document.getElementById('importStatus');
+            const messageDiv = document.getElementById('importMessage');
+            
+            statusDiv.classList.remove('hidden');
+            messageDiv.textContent = message;
+            
+            if (type === 'success') {
+                statusDiv.className = 'p-3 rounded-lg mb-3 bg-green-100 border border-green-300';
+                messageDiv.className = 'font-medium text-green-800';
+            } else if (type === 'error') {
+                statusDiv.className = 'p-3 rounded-lg mb-3 bg-red-100 border border-red-300';
+                messageDiv.className = 'font-medium text-red-800';
+            } else if (type === 'loading') {
+                statusDiv.className = 'p-3 rounded-lg mb-3 bg-blue-100 border border-blue-300';
+                messageDiv.className = 'font-medium text-blue-800';
+            }
+        }
+
+        function showImportPreview(processedQuestions) {
+            const previewDiv = document.getElementById('importPreview');
+            const summaryDiv = document.getElementById('importSummary');
+            const contentDiv = document.getElementById('previewContent');
+            
+            previewDiv.classList.remove('hidden');
+            
+            // Create summary
+            let summary = `Total: ${processedQuestions.totalQuestions} soal\n`;
+            Object.keys(processedQuestions.questions).forEach(round => {
+                const roundTotal = Object.values(processedQuestions.questions[round]).reduce((sum, cat) => sum + cat.length, 0);
+                if (roundTotal > 0) {
+                    summary += `${round.charAt(0).toUpperCase() + round.slice(1)}: ${roundTotal} soal\n`;
+                }
+            });
+            
+            summaryDiv.textContent = summary;
+            
+            // Create preview content
+            let previewContent = '';
+            Object.keys(processedQuestions.questions).forEach(round => {
+                Object.keys(processedQuestions.questions[round]).forEach(category => {
+                    const questions = processedQuestions.questions[round][category];
+                    if (questions.length > 0) {
+                        previewContent += `\n[${round.toUpperCase()} - ${category.toUpperCase()}]\n`;
+                        questions.slice(0, 2).forEach((q, i) => {
+                            previewContent += `${i + 1}. ${q.question} (${q.points} poin)\n`;
+                        });
+                        if (questions.length > 2) {
+                            previewContent += `... dan ${questions.length - 2} soal lainnya\n`;
+                        }
+                    }
+                });
+            });
+            
+            contentDiv.textContent = previewContent;
+        }
+
+        function resetGame() {
+            if (gameState.timer) {
+                clearInterval(gameState.timer);
+            }
+            
+            closeQuestionModal();
+            document.getElementById('roundTransitionModal').classList.add('hidden');
+            
+            // Reset game state
+            gameState = {
+                teams: [],
+                teamCount: 4,
+                currentTurn: 0,
+                questions: [],
+                selectedCategories: [],
+                timer: null,
+                timeLeft: 30,
+                questionAnswered: false,
+                answeredQuestions: [],
+                currentQuestionIndex: -1,
+                currentRound: 1,
+                maxRounds: 3,
+                roundNames: ['PENYISIHAN', 'SEMIFINAL', 'FINAL'],
+                roundDescriptions: [
+                    '20 Soal Mudah (10-15 Poin)',
+                    '15 Soal Sedang (15-25 Poin)', 
+                    '10 Soal Sulit (25-50 Poin)'
+                ],
+                questionsPerRound: [20, 15, 10],
+                superFinalNeeded: false,
+                eliminatedTeams: [],
+                roundScores: [],
+                totalQuestionsAnswered: 0,
+                tournamentStats: {
+                    totalQuestions: 0,
+                    correctAnswers: 0,
+                    eliminatedInRound: [0, 0, 0]
+                }
+            };
+
+            // Reset import state
+            importedQuestions = null;
+            hasImportedQuestions = false;
+            document.getElementById('questionsFile').value = '';
+            document.getElementById('importStatus').classList.add('hidden');
+            document.getElementById('importPreview').classList.add('hidden');
+
+            // Clear inputs
+            const teamInputs = document.querySelectorAll('[id^="team"][id$="Name"]');
+            teamInputs.forEach(input => input.value = '');
+
+            document.getElementById('teamCount').value = '4';
+            updateTeamInputs();
+
+            document.querySelector('input[value="tournament"]').checked = true;
+            toggleGameMode();
+
+            // Show setup screen
+            document.getElementById('gameHeader').classList.remove('hidden');
+            document.getElementById('resultsScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('setupScreen').classList.remove('hidden');
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'972902873695a027',t:'MTc1NTc2NzU1OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
