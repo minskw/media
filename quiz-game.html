@@ -8,7 +8,36 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
         body { font-family: 'Poppins', sans-serif; }
+        
+        /* Arabic text styling */
+        .arabic-text {
+            font-family: 'Amiri', serif;
+            font-size: 1.5em;
+            line-height: 1.8;
+            direction: rtl;
+            text-align: right;
+        }
+        
+        /* Larger Arabic text for questions */
+        .arabic-question {
+            font-family: 'Amiri', serif;
+            font-size: 1.8em;
+            line-height: 2;
+            direction: rtl;
+            text-align: center;
+            font-weight: 700;
+        }
+        
+        /* Medium Arabic text for answers */
+        .arabic-answer {
+            font-family: 'Amiri', serif;
+            font-size: 1.4em;
+            line-height: 1.6;
+            direction: rtl;
+            text-align: right;
+        }
         .team-card { transition: all 0.3s ease; }
         .team-card:hover { transform: translateY(-5px); }
         .question-card { animation: slideIn 0.5s ease-out; }
@@ -507,6 +536,25 @@
         let hasImportedQuestions = false;
         let importedCategoryMapping = new Map();
 
+        // Arabic text detection function
+        function containsArabic(text) {
+            const arabicRegex = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
+            return arabicRegex.test(text);
+        }
+
+        // Apply Arabic styling to text elements
+        function applyArabicStyling(element, text, type = 'text') {
+            if (containsArabic(text)) {
+                if (type === 'question') {
+                    element.classList.add('arabic-question');
+                } else if (type === 'answer') {
+                    element.classList.add('arabic-answer');
+                } else {
+                    element.classList.add('arabic-text');
+                }
+            }
+        }
+
         // Game State
         let gameState = {
             teams: [],
@@ -650,25 +698,25 @@
             penyisihan: {
                 'category1': [
                     {
-                        question: "Apa arti dari Asmaul Husna 'Al-Gaffar'?",
+                        question: "Apa arti dari Asmaul Husna 'الْغَفَّارُ' (Al-Gaffar)?",
                         answers: ["Maha Pengampun", "Maha Luas", "Maha Penyayang", "Maha Adil"],
                         correct: 0,
                         points: 10,
-                        explanation: "Al-Gaffar artinya Maha Pengampun. Allah SWT selalu siap mengampuni hamba-Nya yang bertaubat."
+                        explanation: "الْغَفَّارُ (Al-Gaffar) artinya Maha Pengampun. Allah SWT selalu siap mengampuni hamba-Nya yang bertaubat."
                     },
                     {
-                        question: "Apa arti dari Asmaul Husna 'Al-Wasi'?",
+                        question: "Apa arti dari Asmaul Husna 'الْوَاسِعُ' (Al-Wasi')?",
                         answers: ["Maha Pengampun", "Maha Luas", "Maha Mengetahui", "Maha Kuasa"],
                         correct: 1,
                         points: 10,
-                        explanation: "Al-Wasi' artinya Maha Luas. Allah memiliki sifat yang luas dalam segala hal."
+                        explanation: "الْوَاسِعُ (Al-Wasi') artinya Maha Luas. Allah memiliki sifat yang luas dalam segala hal."
                     },
                     {
-                        question: "Al-Gaffar termasuk dalam...",
-                        answers: ["Asmaul Husna", "Rukun Islam", "Rukun Iman", "Sifat Wajib"],
+                        question: "الْغَفَّارُ (Al-Gaffar) termasuk dalam...",
+                        answers: ["الأَسْمَاءُ الْحُسْنَى (Asmaul Husna)", "Rukun Islam", "Rukun Iman", "Sifat Wajib"],
                         correct: 0,
                         points: 10,
-                        explanation: "Al-Gaffar adalah salah satu dari 99 Asmaul Husna (nama-nama baik Allah)."
+                        explanation: "الْغَفَّارُ (Al-Gaffar) adalah salah satu dari 99 الأَسْمَاءُ الْحُسْنَى (Asmaul Husna) - nama-nama baik Allah."
                     },
                     {
                         question: "Al-Wasi' termasuk dalam...",
@@ -722,18 +770,18 @@
                 ],
                 'category2': [
                     {
-                        question: "Apa pengertian Qadha?",
+                        question: "Apa pengertian قَضَاءٌ (Qadha)?",
                         answers: ["Ketentuan Allah yang sudah terjadi", "Ketentuan Allah yang belum terjadi", "Doa kepada Allah", "Ibadah kepada Allah"],
                         correct: 0,
                         points: 10,
-                        explanation: "Qadha adalah ketentuan Allah SWT yang sudah terjadi dan tidak bisa diubah lagi."
+                        explanation: "قَضَاءٌ (Qadha) adalah ketentuan Allah SWT yang sudah terjadi dan tidak bisa diubah lagi."
                     },
                     {
-                        question: "Apa pengertian Qadar?",
+                        question: "Apa pengertian قَدَرٌ (Qadar)?",
                         answers: ["Ketentuan Allah yang sudah terjadi", "Ketentuan Allah sejak azali", "Rezeki dari Allah", "Ujian dari Allah"],
                         correct: 1,
                         points: 10,
-                        explanation: "Qadar adalah ketentuan Allah SWT sejak azali (dari dulu) tentang segala sesuatu."
+                        explanation: "قَدَرٌ (Qadar) adalah ketentuan Allah SWT sejak azali (dari dulu) tentang segala sesuatu."
                     },
                     {
                         question: "Beriman kepada Qadha dan Qadar termasuk rukun iman yang ke...",
@@ -1361,7 +1409,9 @@
             const question = gameState.questions[questionIndex];
             
             document.getElementById('questionModal').classList.remove('hidden');
-            document.getElementById('modalQuestionText').textContent = question.question;
+            const questionElement = document.getElementById('modalQuestionText');
+            questionElement.textContent = question.question;
+            applyArabicStyling(questionElement, question.question, 'question');
             
             // Determine category display
             let categoryText = '';
@@ -1409,6 +1459,11 @@
                 button.className = 'answer-btn p-6 bg-gray-100 hover:bg-gray-200 rounded-xl text-left font-medium transition-all border-2 border-transparent hover:border-gray-300 min-h-[120px] flex items-center';
                 
                 const optionLetter = String.fromCharCode(65 + index);
+                const answerDiv = document.createElement('div');
+                answerDiv.className = 'text-lg font-medium leading-relaxed';
+                answerDiv.textContent = answer;
+                applyArabicStyling(answerDiv, answer, 'answer');
+                
                 button.innerHTML = `
                     <div class="flex items-center w-full">
                         <div class="bg-blue-500 text-white w-10 h-10 rounded-lg flex items-center justify-center font-bold text-lg mr-4 flex-shrink-0">
@@ -1417,6 +1472,11 @@
                         <div class="text-lg font-medium leading-relaxed">${answer}</div>
                     </div>
                 `;
+                
+                // Apply Arabic styling to the answer text inside the button
+                const answerTextDiv = button.querySelector('div:last-child');
+                applyArabicStyling(answerTextDiv, answer, 'answer');
+                
                 button.onclick = () => selectAnswer(index, newCorrectIndex);
                 answersContainer.appendChild(button);
             });
@@ -1499,6 +1559,9 @@
                             <div class="text-lg font-medium leading-relaxed">${question.answers[question.correct]}</div>
                         </div>
                     `;
+                    // Apply Arabic styling to correct answer
+                    const correctAnswerDiv = btn.querySelector('div:last-child');
+                    applyArabicStyling(correctAnswerDiv, question.answers[question.correct], 'answer');
                 }
             });
             
@@ -1543,6 +1606,9 @@
                             <div class="text-lg font-medium leading-relaxed">${shuffledAnswers[index]}</div>
                         </div>
                     `;
+                    // Apply Arabic styling to correct answer
+                    const correctAnswerDiv = btn.querySelector('div:last-child');
+                    applyArabicStyling(correctAnswerDiv, shuffledAnswers[index], 'answer');
                 } else if (index === selectedIndex && selectedIndex !== correctIndex) {
                     btn.className = 'answer-btn p-6 bg-red-500 text-white rounded-xl text-left font-medium border-2 border-red-600 min-h-[120px] flex items-center';
                     const optionLetter = String.fromCharCode(65 + index);
@@ -1554,6 +1620,9 @@
                             <div class="text-lg font-medium leading-relaxed">${shuffledAnswers[index]}</div>
                         </div>
                     `;
+                    // Apply Arabic styling to wrong answer
+                    const wrongAnswerDiv = btn.querySelector('div:last-child');
+                    applyArabicStyling(wrongAnswerDiv, shuffledAnswers[index], 'answer');
                 }
             });
 
@@ -1987,26 +2056,26 @@
                 {
                     'Babak': 'mudah',
                     'Kategori': 'Surat Al-Ashr',
-                    'Soal': 'Berapa jumlah ayat dalam Surat Al-Ashr?',
+                    'Soal': 'Berapa jumlah ayat dalam سُورَةُ الْعَصْرِ (Surat Al-Ashr)?',
                     'Pilihan A': '3 ayat',
                     'Pilihan B': '4 ayat',
                     'Pilihan C': '5 ayat',
                     'Pilihan D': '6 ayat',
                     'Jawaban Benar': 'A',
                     'Poin': 10,
-                    'Penjelasan': 'Surat Al-Ashr terdiri dari 3 ayat'
+                    'Penjelasan': 'سُورَةُ الْعَصْرِ (Surat Al-Ashr) terdiri dari 3 ayat'
                 },
                 {
                     'Babak': '1',
                     'Kategori': 'Tajwid',
-                    'Soal': 'Apa hukum bacaan "الْحَمْدُ"?',
-                    'Pilihan A': 'Ikhfa',
-                    'Pilihan B': 'Idgham',
-                    'Pilihan C': 'Iqlab',
-                    'Pilihan D': 'Izhar',
+                    'Soal': 'Apa hukum bacaan "الْحَمْدُ" dalam ilmu tajwid?',
+                    'Pilihan A': 'إِخْفَاءٌ (Ikhfa)',
+                    'Pilihan B': 'إِدْغَامٌ (Idgham)',
+                    'Pilihan C': 'إِقْلَابٌ (Iqlab)',
+                    'Pilihan D': 'إِظْهَارٌ (Izhar)',
                     'Jawaban Benar': 'D',
                     'Poin': 10,
-                    'Penjelasan': 'Nun sukun bertemu huruf ha dibaca izhar'
+                    'Penjelasan': 'Nun sukun (نْ) bertemu huruf ha (ه) dibaca إِظْهَارٌ (izhar)'
                 },
                 {
                     'Babak': 'sedang',
@@ -2458,5 +2527,5 @@
             document.getElementById('setupScreen').classList.remove('hidden');
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97294cb0c26afd2f',t:'MTc1NTc3MDU5Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9729589c60845fc9',t:'MTc1NTc3MTA4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
