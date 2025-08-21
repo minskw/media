@@ -206,6 +206,11 @@
 <body class="bg-gradient-to-br from-blue-50 to-green-50 min-h-screen">
     <!-- Header -->
     <div id="gameHeader" class="bg-gradient-to-r from-purple-900 via-blue-900 to-indigo-900 text-white p-8 shadow-2xl relative overflow-hidden">
+        <!-- Storage Status Indicator -->
+        <div id="storageStatus" class="absolute top-4 right-4 z-20 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-semibold opacity-0 transition-all duration-300">
+            💾 Tersimpan
+        </div>
+        
         <!-- Background Pattern -->
         <div class="absolute inset-0 opacity-10">
             <div class="absolute top-4 left-4 text-6xl">⚔️</div>
@@ -363,9 +368,14 @@
                 </div>
             </div>
 
-            <button onclick="startGame()" class="w-full bg-gradient-to-r from-blue-600 to-green-600 text-white py-4 px-6 rounded-lg font-bold text-lg hover:from-blue-700 hover:to-green-700 transition-all">
-                🚀 Mulai Game!
-            </button>
+            <div class="flex gap-4">
+                <button onclick="startGame()" class="flex-1 bg-gradient-to-r from-blue-600 to-green-600 text-white py-4 px-6 rounded-lg font-bold text-lg hover:from-blue-700 hover:to-green-700 transition-all">
+                    🚀 Mulai Game!
+                </button>
+                <button onclick="clearAllData()" class="bg-red-500 hover:bg-red-600 text-white py-4 px-6 rounded-lg font-bold text-lg transition-all" title="Hapus semua data tersimpan">
+                    🗑️ Reset
+                </button>
+            </div>
         </div>
     </div>
 
@@ -604,9 +614,34 @@
             'text-yellow-800', 'text-indigo-800', 'text-pink-800', 'text-teal-800'
         ];
 
+        // Local Storage Keys
+        const STORAGE_KEYS = {
+            GAME_SETTINGS: 'quizBattle_gameSettings',
+            IMPORTED_QUESTIONS: 'quizBattle_importedQuestions',
+            CATEGORY_MAPPING: 'quizBattle_categoryMapping',
+            GAME_STATE: 'quizBattle_gameState'
+        };
+
         // Initialize team inputs on page load
         document.addEventListener('DOMContentLoaded', function() {
+            loadFromLocalStorage();
             updateTeamInputs();
+            
+            // Add auto-save event listeners to form elements
+            document.getElementById('subjectName').addEventListener('input', saveToLocalStorage);
+            document.getElementById('className').addEventListener('input', saveToLocalStorage);
+            document.getElementById('materialName').addEventListener('input', saveToLocalStorage);
+            document.getElementById('teamCount').addEventListener('change', saveToLocalStorage);
+            
+            // Add auto-save to game mode radio buttons
+            document.querySelectorAll('input[name="gameMode"]').forEach(radio => {
+                radio.addEventListener('change', saveToLocalStorage);
+            });
+            
+            // Add auto-save to category checkboxes
+            document.querySelectorAll('.category-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', saveToLocalStorage);
+            });
         });
 
         function updateGameTitle() {
@@ -628,6 +663,210 @@
             
             document.getElementById('gameSubtitle').textContent = subtitle;
             document.getElementById('gameDescription').textContent = description;
+            
+            // Auto-save settings when title is updated
+            saveToLocalStorage();
+        }
+
+        // Local Storage Functions
+        function showStorageStatus() {
+            const statusElement = document.getElementById('storageStatus');
+            if (statusElement) {
+                statusElement.style.opacity = '1';
+                setTimeout(() => {
+                    statusElement.style.opacity = '0';
+                }, 2000);
+            }
+        }
+
+        function saveToLocalStorage() {
+            try {
+                // Save game settings
+                const gameSettings = {
+                    subjectName: document.getElementById('subjectName').value,
+                    className: document.getElementById('className').value,
+                    materialName: document.getElementById('materialName').value,
+                    teamCount: document.getElementById('teamCount').value,
+                    gameMode: document.querySelector('input[name="gameMode"]:checked')?.value,
+                    selectedCategories: Array.from(document.querySelectorAll('.category-checkbox:checked')).map(cb => cb.value)
+                };
+                
+                // Save team names
+                for (let i = 1; i <= 8; i++) {
+                    const teamInput = document.getElementById(`team${i}Name`);
+                    if (teamInput) {
+                        gameSettings[`team${i}Name`] = teamInput.value;
+                    }
+                }
+                
+                localStorage.setItem(STORAGE_KEYS.GAME_SETTINGS, JSON.stringify(gameSettings));
+                
+                // Save imported questions if available
+                if (hasImportedQuestions && importedQuestions) {
+                    localStorage.setItem(STORAGE_KEYS.IMPORTED_QUESTIONS, JSON.stringify(importedQuestions));
+                    localStorage.setItem(STORAGE_KEYS.CATEGORY_MAPPING, JSON.stringify(Array.from(importedCategoryMapping.entries())));
+                }
+                
+                // Save current game state if game is active
+                if (document.getElementById('gameScreen').classList.contains('hidden') === false) {
+                    const gameStateToSave = {
+                        ...gameState,
+                        hasImportedQuestions,
+                        currentScreen: 'game'
+                    };
+                    localStorage.setItem(STORAGE_KEYS.GAME_STATE, JSON.stringify(gameStateToSave));
+                }
+                
+                console.log('✅ Data berhasil disimpan ke Local Storage');
+                showStorageStatus();
+            } catch (error) {
+                console.error('❌ Error menyimpan ke Local Storage:', error);
+            }
+        }
+
+        function loadFromLocalStorage() {
+            try {
+                // Load game settings
+                const savedSettings = localStorage.getItem(STORAGE_KEYS.GAME_SETTINGS);
+                if (savedSettings) {
+                    const settings = JSON.parse(savedSettings);
+                    
+                    // Restore form values
+                    if (settings.subjectName) document.getElementById('subjectName').value = settings.subjectName;
+                    if (settings.className) document.getElementById('className').value = settings.className;
+                    if (settings.materialName) document.getElementById('materialName').value = settings.materialName;
+                    if (settings.teamCount) document.getElementById('teamCount').value = settings.teamCount;
+                    
+                    // Restore game mode
+                    if (settings.gameMode) {
+                        const gameModeRadio = document.querySelector(`input[name="gameMode"][value="${settings.gameMode}"]`);
+                        if (gameModeRadio) {
+                            gameModeRadio.checked = true;
+                            toggleGameMode();
+                        }
+                    }
+                    
+                    // Update team inputs first
+                    updateTeamInputs();
+                    
+                    // Then restore team names
+                    setTimeout(() => {
+                        for (let i = 1; i <= 8; i++) {
+                            if (settings[`team${i}Name`]) {
+                                const teamInput = document.getElementById(`team${i}Name`);
+                                if (teamInput) {
+                                    teamInput.value = settings[`team${i}Name`];
+                                }
+                            }
+                        }
+                    }, 100);
+                    
+                    // Restore selected categories
+                    if (settings.selectedCategories) {
+                        document.querySelectorAll('.category-checkbox').forEach(cb => {
+                            cb.checked = settings.selectedCategories.includes(cb.value);
+                        });
+                    }
+                    
+                    // Update game title
+                    updateGameTitle();
+                    
+                    console.log('✅ Pengaturan berhasil dimuat dari Local Storage');
+                }
+                
+                // Load imported questions
+                const savedQuestions = localStorage.getItem(STORAGE_KEYS.IMPORTED_QUESTIONS);
+                const savedCategoryMapping = localStorage.getItem(STORAGE_KEYS.CATEGORY_MAPPING);
+                
+                if (savedQuestions && savedCategoryMapping) {
+                    importedQuestions = JSON.parse(savedQuestions);
+                    importedCategoryMapping = new Map(JSON.parse(savedCategoryMapping));
+                    hasImportedQuestions = true;
+                    
+                    // Show import success status
+                    const totalQuestions = Object.values(importedQuestions).reduce((total, round) => {
+                        return total + Object.values(round).reduce((roundTotal, category) => roundTotal + category.length, 0);
+                    }, 0);
+                    
+                    showImportStatus('success', `✅ Soal import tersimpan: ${totalQuestions} soal`);
+                    updateCategoryLabels();
+                    
+                    console.log('✅ Soal import berhasil dimuat dari Local Storage');
+                }
+                
+                // Load game state if exists
+                const savedGameState = localStorage.getItem(STORAGE_KEYS.GAME_STATE);
+                if (savedGameState) {
+                    const restoredState = JSON.parse(savedGameState);
+                    
+                    // Show restore option to user
+                    const shouldRestore = confirm('🔄 Ditemukan game yang sedang berlangsung!\n\nApakah Anda ingin melanjutkan game tersebut?\n\n✅ Ya - Lanjutkan game\n❌ Tidak - Mulai baru');
+                    
+                    if (shouldRestore) {
+                        restoreGameState(restoredState);
+                        return;
+                    } else {
+                        // Clear saved game state if user chooses not to restore
+                        localStorage.removeItem(STORAGE_KEYS.GAME_STATE);
+                    }
+                }
+                
+            } catch (error) {
+                console.error('❌ Error memuat dari Local Storage:', error);
+                // Clear corrupted data
+                Object.values(STORAGE_KEYS).forEach(key => {
+                    localStorage.removeItem(key);
+                });
+            }
+        }
+
+        function restoreGameState(savedState) {
+            try {
+                // Restore game state
+                Object.assign(gameState, savedState);
+                hasImportedQuestions = savedState.hasImportedQuestions || false;
+                
+                // Hide setup screen and show game screen
+                document.getElementById('gameHeader').classList.add('hidden');
+                document.getElementById('setupScreen').classList.add('hidden');
+                document.getElementById('gameScreen').classList.remove('hidden');
+                
+                // Recreate game UI
+                createScoreBoard();
+                createQuestionGrid();
+                updateRoundDisplay();
+                updateCurrentTurn();
+                
+                // Show tournament progress if in tournament mode
+                const gameMode = document.querySelector('input[name="gameMode"]:checked')?.value;
+                if (gameMode === 'tournament') {
+                    document.getElementById('tournamentProgress').classList.remove('hidden');
+                    updateTournamentProgress();
+                }
+                
+                console.log('✅ Game state berhasil dipulihkan');
+                
+                // Show notification
+                setTimeout(() => {
+                    alert('🎮 Game berhasil dipulihkan!\n\nAnda dapat melanjutkan dari posisi terakhir.');
+                }, 500);
+                
+            } catch (error) {
+                console.error('❌ Error memulihkan game state:', error);
+                alert('❌ Gagal memulihkan game. Silakan mulai game baru.');
+                localStorage.removeItem(STORAGE_KEYS.GAME_STATE);
+            }
+        }
+
+        function clearLocalStorage() {
+            try {
+                Object.values(STORAGE_KEYS).forEach(key => {
+                    localStorage.removeItem(key);
+                });
+                console.log('🗑️ Local Storage berhasil dibersihkan');
+            } catch (error) {
+                console.error('❌ Error membersihkan Local Storage:', error);
+            }
         }
 
         function updateCategoryLabels() {
@@ -675,6 +914,9 @@
                 tournamentLabel.className = 'flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50';
                 classicLabel.className = 'flex items-center p-4 border-2 border-blue-200 rounded-lg cursor-pointer hover:bg-gray-50 bg-gray-50';
             }
+            
+            // Auto-save when game mode changes
+            saveToLocalStorage();
         }
 
         function updateTeamInputs() {
@@ -688,8 +930,17 @@
                 input.id = `team${i}Name`;
                 input.placeholder = `Nama Tim ${i}`;
                 input.className = 'p-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 outline-none';
+                
+                // Add auto-save on input change
+                input.addEventListener('input', () => {
+                    saveToLocalStorage();
+                });
+                
                 container.appendChild(input);
             }
+            
+            // Auto-save when team count changes
+            saveToLocalStorage();
         }
 
         // Enhanced Question Bank - Template Structure
@@ -1699,6 +1950,9 @@
                 }
             }
             
+            // Auto-save game progress
+            saveToLocalStorage();
+            
             // Check if round is finished
             if (gameState.answeredQuestions.length >= gameState.questions.length) {
                 setTimeout(() => {
@@ -2254,6 +2508,9 @@
                     showImportPreview(processedQuestions);
                     updateCategoryLabels(); // Update category labels immediately
                     
+                    // Auto-save imported questions
+                    saveToLocalStorage();
+                    
                 } catch (error) {
                     console.error('Import error:', error);
                     showImportStatus('error', '❌ Error membaca file: ' + error.message);
@@ -2461,6 +2718,22 @@
             contentDiv.textContent = previewContent;
         }
 
+        function clearAllData() {
+            const confirmClear = confirm('🗑️ HAPUS SEMUA DATA?\n\n' +
+                                       'Ini akan menghapus:\n' +
+                                       '• Pengaturan game tersimpan\n' +
+                                       '• Soal import tersimpan\n' +
+                                       '• Game yang sedang berlangsung\n\n' +
+                                       '⚠️ Tindakan ini tidak dapat dibatalkan!\n\n' +
+                                       'Lanjutkan?');
+            
+            if (confirmClear) {
+                clearLocalStorage();
+                resetGame();
+                alert('✅ Semua data berhasil dihapus!\n\nAnda dapat memulai dengan pengaturan baru.');
+            }
+        }
+
         function resetGame() {
             if (gameState.timer) {
                 clearInterval(gameState.timer);
@@ -2525,7 +2798,10 @@
             document.getElementById('resultsScreen').classList.add('hidden');
             document.getElementById('gameScreen').classList.add('hidden');
             document.getElementById('setupScreen').classList.remove('hidden');
+            
+            // Clear saved game state when resetting
+            localStorage.removeItem(STORAGE_KEYS.GAME_STATE);
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9729589c60845fc9',t:'MTc1NTc3MTA4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97297ac0e534243f',t:'MTc1NTc3MjQ4My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
