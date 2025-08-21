@@ -222,7 +222,7 @@
         <!-- Main Title -->
         <div class="relative z-10 text-center">
             <h1 class="text-5xl md:text-6xl font-black mb-4 bg-gradient-to-r from-yellow-300 via-orange-300 to-red-300 bg-clip-text text-transparent drop-shadow-2xl" style="font-family: 'Impact', 'Arial Black', sans-serif; text-shadow: 3px 3px 0px rgba(0,0,0,0.3), 6px 6px 0px rgba(0,0,0,0.1);">
-                GAME ADU CERDAS!
+                QUIZ BATTLE
             </h1>
             <div class="text-2xl md:text-3xl font-bold mb-3 text-yellow-200 drop-shadow-lg" id="gameSubtitle">
                 🕌 Asmaul Husna & Qadha Qadar 🕌
@@ -546,15 +546,26 @@
         let hasImportedQuestions = false;
         let importedCategoryMapping = new Map();
 
-        // Arabic text detection function
+        // Arabic text detection function - more precise
         function containsArabic(text) {
             const arabicRegex = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
             return arabicRegex.test(text);
         }
 
-        // Apply Arabic styling to text elements
+        // Check if text is predominantly Arabic (more than 30% Arabic characters)
+        function isPredominantlyArabic(text) {
+            if (!text || text.length === 0) return false;
+            
+            const arabicChars = text.match(/[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/g);
+            const arabicCount = arabicChars ? arabicChars.length : 0;
+            const totalChars = text.replace(/\s/g, '').length; // Exclude spaces
+            
+            return totalChars > 0 && (arabicCount / totalChars) > 0.3;
+        }
+
+        // Apply Arabic styling to text elements - only if predominantly Arabic
         function applyArabicStyling(element, text, type = 'text') {
-            if (containsArabic(text)) {
+            if (isPredominantlyArabic(text)) {
                 if (type === 'question') {
                     element.classList.add('arabic-question');
                 } else if (type === 'answer') {
@@ -562,6 +573,9 @@
                 } else {
                     element.classList.add('arabic-text');
                 }
+            } else {
+                // Remove Arabic classes if text is not predominantly Arabic
+                element.classList.remove('arabic-question', 'arabic-answer', 'arabic-text');
             }
         }
 
@@ -2039,11 +2053,48 @@
             
             if (teamsToEliminateCount === 0) return;
             
-            // Sort teams by score (ascending - lowest first)
-            const sortedTeams = [...activeTeams].sort((a, b) => a.score - b.score);
+            // Sort teams by multiple criteria for fair elimination
+            const sortedTeams = [...activeTeams].sort((a, b) => {
+                // Primary: Score (ascending - lowest first)
+                if (a.score !== b.score) {
+                    return a.score - b.score;
+                }
+                
+                // Secondary: Total correct answers (ascending - fewer correct first)
+                if (a.totalCorrect !== b.totalCorrect) {
+                    return a.totalCorrect - b.totalCorrect;
+                }
+                
+                // Tertiary: Accuracy rate (ascending - lower accuracy first)
+                const aAccuracy = a.totalAnswered > 0 ? a.totalCorrect / a.totalAnswered : 0;
+                const bAccuracy = b.totalAnswered > 0 ? b.totalCorrect / b.totalAnswered : 0;
+                if (aAccuracy !== bAccuracy) {
+                    return aAccuracy - bAccuracy;
+                }
+                
+                // Final: Random (to ensure fairness if all stats are equal)
+                return Math.random() - 0.5;
+            });
             
-            // Eliminate the lowest scoring teams
-            const teamsToEliminate = sortedTeams.slice(0, teamsToEliminateCount);
+            // Find the elimination threshold score
+            const eliminationThresholdScore = sortedTeams[teamsToEliminateCount - 1].score;
+            
+            // Get all teams with scores at or below the threshold
+            const candidatesForElimination = sortedTeams.filter(team => team.score <= eliminationThresholdScore);
+            
+            // If we have more candidates than needed due to ties, use additional criteria
+            let teamsToEliminate;
+            if (candidatesForElimination.length > teamsToEliminateCount) {
+                // Use the sorted order (which includes tiebreakers) to select exactly the number needed
+                teamsToEliminate = sortedTeams.slice(0, teamsToEliminateCount);
+                
+                // Store tie information for display
+                gameState.lastEliminationHadTies = true;
+                gameState.lastEliminationTieInfo = `${candidatesForElimination.length} tim memiliki skor ${eliminationThresholdScore}. Eliminasi ditentukan berdasarkan: jumlah jawaban benar, tingkat akurasi, dan undian acak.`;
+            } else {
+                teamsToEliminate = candidatesForElimination;
+                gameState.lastEliminationHadTies = false;
+            }
             
             // Eliminate teams
             teamsToEliminate.forEach(team => {
@@ -2053,10 +2104,14 @@
             });
             
             // Store info for display
-            gameState.lastEliminationCount = teamsToEliminateCount;
+            gameState.lastEliminationCount = teamsToEliminate.length;
             gameState.lastEliminationPercentage = eliminationPercentage * 100;
             
-            console.log(`Round ${gameState.currentRound}: Eliminated ${teamsToEliminateCount} teams. Active teams remaining: ${activeTeams.length - teamsToEliminateCount}`);
+            console.log(`Round ${gameState.currentRound}: Eliminated ${teamsToEliminate.length} teams. Active teams remaining: ${activeTeams.length - teamsToEliminate.length}`);
+            
+            if (gameState.lastEliminationHadTies) {
+                console.log(`Tie-breaking applied: ${gameState.lastEliminationTieInfo}`);
+            }
         }
 
         function showRoundTransition() {
@@ -2125,11 +2180,21 @@
                 const roundNames = ['Penyisihan', 'Semifinal', 'Final', 'Super Final'];
                 const currentRoundName = roundNames[gameState.currentRound - 1];
                 
-                thresholdInfo.innerHTML = `
+                let thresholdHTML = `
                     Babak <strong>${currentRoundName}</strong>: 30% tim dengan skor terendah tereliminasi<br>
                     Jumlah tim yang tereliminasi: <strong>${gameState.lastEliminationCount}</strong> tim<br>
-                    <span class="text-sm">Sistem eliminasi yang adil dan kompetitif</span>
                 `;
+                
+                if (gameState.lastEliminationHadTies) {
+                    thresholdHTML += `<div class="text-sm text-yellow-700 mt-2 p-2 bg-yellow-50 rounded border">
+                        <strong>⚖️ Tie-Breaking:</strong><br>
+                        ${gameState.lastEliminationTieInfo}
+                    </div>`;
+                } else {
+                    thresholdHTML += `<span class="text-sm">Sistem eliminasi yang adil dan kompetitif</span>`;
+                }
+                
+                thresholdInfo.innerHTML = thresholdHTML;
             }
         }
 
@@ -2803,5 +2868,5 @@
             localStorage.removeItem(STORAGE_KEYS.GAME_STATE);
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97297ac0e534243f',t:'MTc1NTc3MjQ4My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9729a41b25adb486',t:'MTc1NTc3NDE3Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
