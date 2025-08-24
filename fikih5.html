@@ -6,8 +6,8 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#14b8a6">
-    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/128/15044/15044863.png">
-    <title>📚 FIKIH ITU MUDAH - Learning Fikih with Fun</title>
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/128/4336/4336744.png">
+    <title>Islam itu Mudan dan Indah</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -299,7 +299,7 @@
         <div class="bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 max-w-md w-full shadow-2xl max-h-screen overflow-y-auto">
             <div class="text-center mb-4 md:mb-6">
                 <div class="w-16 h-16 md:w-20 md:h-20 mx-auto mb-2 md:mb-4">
-                    <img src="https://cdn-icons-png.flaticon.com/128/15044/15044863.png" alt="Logo FIKIH ITU MUDAH" class="w-full h-full object-contain">
+                    <img src="https://cdn-icons-png.flaticon.com/128/4336/4336744.png" alt="Logo FIKIH ITU MUDAH" class="w-full h-full object-contain">
                 </div>
                 <h2 class="text-xl md:text-3xl font-bold text-gray-800 mb-1 md:mb-2">Selamat Datang!</h2>
                 <p class="text-sm md:text-base text-gray-600">Mari berkenalan sebelum memulai pembelajaran</p>
@@ -373,11 +373,12 @@
                 <div class="flex items-center">
                     <div class="mr-2 md:mr-4">
                         <div class="w-12 h-12 md:w-16 md:h-16">
-                            <img src="https://cdn-icons-png.flaticon.com/128/15044/15044863.png" alt="Logo FIKIH ITU MUDAH" class="w-full h-full object-contain" onerror="this.src=''; this.alt='Logo failed to load'; this.style.display='none';">
+                            <img src="https://cdn-icons-png.flaticon.com/128/4336/4336744.png" alt="Logo FIKIH ITU MUDAH" class="w-full h-full object-contain" onerror="this.src=''; this.alt='Logo failed to load'; this.style.display='none';">
                         </div>
                     </div>
                     <div>
-                        <h1 class="text-lg md:text-2xl lg:text-3xl font-bold leading-tight">BELAJAR ITU MENYENANGKAN!</h1>
+                        <h1 class="text-lg md:text-2xl lg:text-3xl font-bold leading-tight">Islam itu Mudah dan Indah!</h1>
+                        <p class="text-sm md:text-lg lg:text-xl opacity-90">Seri Media Pembelajaran Interaktif</p>
                         <p class="text-sm md:text-lg lg:text-xl font-semibold opacity-90">FIKIH KELAS 5 MI</p>
                     </div>
                 </div>
@@ -1183,21 +1184,74 @@
             loadUnlockStatus();
         });
         
+        // Get latest quiz score for a specific module
+        function getLatestQuizScore(topic, module) {
+            const moduleResults = quizResults[topic] && quizResults[topic][module];
+            if (!moduleResults || moduleResults.length === 0) return 0;
+            
+            // Return the latest score
+            const latestResult = moduleResults[moduleResults.length - 1];
+            return latestResult.score;
+        }
+        
+        // Calculate average quiz score for a topic (final score for that topic)
+        function calculateTopicFinalScore(topic) {
+            const topicResults = quizResults[topic];
+            if (!topicResults) return 0;
+            
+            let totalScore = 0;
+            let totalQuizzes = 0;
+            
+            // Get latest score from each module
+            Object.keys(topicResults).forEach(module => {
+                const moduleResults = topicResults[module];
+                if (moduleResults && moduleResults.length > 0) {
+                    // Get the latest (best) score for this module
+                    const latestResult = moduleResults[moduleResults.length - 1];
+                    totalScore += latestResult.score;
+                    totalQuizzes++;
+                    console.log(`Module ${module}: latest score = ${latestResult.score}`);
+                }
+            });
+            
+            const average = totalQuizzes > 0 ? totalScore / totalQuizzes : 0;
+            console.log(`Final score for ${topic}: ${average} (${totalScore}/${totalQuizzes})`);
+            return average;
+        }
+        
+        // Calculate overall progress (how many topics completed, not scores)
+        function calculateOverallProgress() {
+            const topics = ['zakatFitrah']; // Will expand when more topics added
+            let completedTopics = 0;
+            
+            topics.forEach(topic => {
+                const finalScore = calculateTopicFinalScore(topic);
+                if (finalScore >= 70) completedTopics++;
+            });
+            
+            return (completedTopics / topics.length) * 100;
+        }
+        
         // Load unlock status on page load
         function loadUnlockStatus() {
-            const zakatProgress = Object.values(learningProgress.zakatFitrah);
-            const avgZakatProgress = zakatProgress.reduce((a, b) => a + b, 0) / zakatProgress.length;
+            const zakatScore = calculateTopicFinalScore('zakatFitrah');
+            const infakScore = calculateTopicFinalScore('infak') || 0; // Will be 0 until implemented
+            const sedekahScore = calculateTopicFinalScore('sedekah') || 0; // Will be 0 until implemented
             
-            console.log('Loading unlock status, avgZakatProgress:', avgZakatProgress);
+            console.log('Loading unlock status - Zakat:', zakatScore, 'Infak:', infakScore, 'Sedekah:', sedekahScore);
             
-            // Check and apply unlock status without notifications
-            if (avgZakatProgress >= 70) {
+            // Sequential unlock: Zakat 70% → Infak unlocked
+            if (zakatScore >= 70) {
                 unlockMainMenuSilent('infak', 'Infak');
             }
-            if (avgZakatProgress >= 80) {
+            
+            // Sequential unlock: Infak 70% → Sedekah unlocked  
+            if (infakScore >= 70) {
                 unlockMainMenuSilent('sedekah', 'Sedekah');
             }
-            if (avgZakatProgress >= 90) {
+            
+            // Sequential unlock: Sedekah 70% → Qurban unlocked
+            if (sedekahScore >= 70) {
                 unlockMainMenuSilent('qurban', 'Qurban');
             }
         }
@@ -1265,7 +1319,13 @@
         
         // Render learning modules with lock system
         function renderLearningModules() {
-            console.log('Rendering modules, current progress:', learningProgress.zakatFitrah);
+            console.log('Rendering modules, current quiz results:', quizResults.zakatFitrah);
+            
+            // Get latest quiz scores for unlock logic
+            const pengertianScore = getLatestQuizScore('zakatFitrah', 'pengertian');
+            const ketentuanScore = getLatestQuizScore('zakatFitrah', 'ketentuan');
+            
+            console.log('Latest quiz scores - Pengertian:', pengertianScore, 'Ketentuan:', ketentuanScore);
             
             const modules = [
                 {
@@ -1282,7 +1342,7 @@
                     description: 'Syarat, rukun, dan ketentuan zakat fitrah',
                     icon: 'fas fa-balance-scale',
                     color: 'green',
-                    unlocked: (learningProgress.zakatFitrah.pengertian || 0) >= 70
+                    unlocked: pengertianScore >= 70
                 },
                 {
                     id: 'praktik',
@@ -1290,15 +1350,15 @@
                     description: 'Cara menghitung dan menyalurkan zakat fitrah',
                     icon: 'fas fa-hand-holding-heart',
                     color: 'purple',
-                    unlocked: (learningProgress.zakatFitrah.ketentuan || 0) >= 70
+                    unlocked: ketentuanScore >= 70
                 }
             ];
             
-            console.log('Module unlock status:', modules.map(m => ({id: m.id, unlocked: m.unlocked})));
+            console.log('Module unlock status:', modules.map(m => ({id: m.id, unlocked: m.unlocked, score: getLatestQuizScore('zakatFitrah', m.id)})));
             
             const container = document.getElementById('learningModules');
             container.innerHTML = modules.map(module => {
-                const progress = learningProgress.zakatFitrah[module.id] || 0;
+                const quizScore = getLatestQuizScore('zakatFitrah', module.id);
                 const isLocked = !module.unlocked;
                 
                 return `
@@ -1311,14 +1371,14 @@
                         <h3 class="text-lg md:text-xl font-bold text-${module.color}-800 mb-2">${module.title}</h3>
                         <p class="text-${module.color}-700 text-xs md:text-sm mb-3 md:mb-4">${module.description}</p>
                         
-                        ${progress > 0 ? `
+                        ${quizScore > 0 ? `
                             <div class="mb-3 md:mb-4">
                                 <div class="flex justify-between text-xs text-${module.color}-600 mb-1">
-                                    <span>Progress</span>
-                                    <span>${progress}%</span>
+                                    <span>Skor Kuis Terakhir</span>
+                                    <span>${quizScore}%</span>
                                 </div>
                                 <div class="w-full bg-white rounded-full h-2">
-                                    <div class="bg-gradient-to-r from-${module.color}-400 to-${module.color}-600 h-2 rounded-full transition-all duration-500" style="width: ${progress}%"></div>
+                                    <div class="bg-gradient-to-r from-${module.color}-400 to-${module.color}-600 h-2 rounded-full transition-all duration-500" style="width: ${quizScore}%"></div>
                                 </div>
                             </div>
                         ` : ''}
@@ -1328,7 +1388,7 @@
                             <div class="w-6 h-6 md:w-8 md:h-8 bg-${module.color}-500 rounded-full flex items-center justify-center">
                                 ${isLocked ? 
                                     '<i class="fas fa-lock text-white text-xs md:text-sm"></i>' : 
-                                    progress >= 70 ? '<i class="fas fa-check text-white text-xs md:text-sm"></i>' : '<i class="fas fa-play text-white text-xs md:text-sm"></i>'
+                                    quizScore >= 70 ? '<i class="fas fa-check text-white text-xs md:text-sm"></i>' : '<i class="fas fa-play text-white text-xs md:text-sm"></i>'
                                 }
                             </div>
                         </div>
@@ -1336,7 +1396,7 @@
                         ${isLocked ? `
                             <div class="mt-2 md:mt-3 text-xs text-gray-500 text-center">
                                 <i class="fas fa-info-circle mr-1"></i>
-                                Selesaikan ${module.id === 'ketentuan' ? 'Pengertian' : 'Ketentuan'} dulu (min. 70%)
+                                Selesaikan kuis ${module.id === 'ketentuan' ? 'Pengertian' : 'Ketentuan'} dulu (min. 70%)
                             </div>
                         ` : ''}
                     </div>
@@ -1347,10 +1407,14 @@
         // Show locked message
         function showLockedMessage(moduleId) {
             let requiredModule = '';
+            let currentScore = 0;
+            
             if (moduleId === 'ketentuan') {
                 requiredModule = 'Pengertian';
+                currentScore = getLatestQuizScore('zakatFitrah', 'pengertian');
             } else if (moduleId === 'praktik') {
                 requiredModule = 'Ketentuan';
+                currentScore = getLatestQuizScore('zakatFitrah', 'ketentuan');
             }
             
             Swal.fire({
@@ -1361,10 +1425,11 @@
                         <p class="mb-4">Untuk membuka modul ini, kamu harus:</p>
                         <div class="bg-yellow-50 p-4 rounded-xl border border-yellow-200">
                             <i class="fas fa-trophy text-yellow-500 text-2xl mb-2"></i>
-                            <p class="text-yellow-800 font-bold">Selesaikan modul "${requiredModule}"</p>
+                            <p class="text-yellow-800 font-bold">Selesaikan kuis "${requiredModule}"</p>
                             <p class="text-yellow-700 text-sm">dengan skor minimal 70%</p>
                         </div>
-                        <p class="text-sm text-gray-600 mt-4">Skor saat ini: ${learningProgress.zakatFitrah[moduleId === 'ketentuan' ? 'pengertian' : 'ketentuan'] || 0}%</p>
+                        <p class="text-sm text-gray-600 mt-4">Skor kuis terakhir: ${currentScore}%</p>
+                        ${currentScore === 0 ? '<p class="text-xs text-red-500 mt-2">Belum mengerjakan kuis</p>' : ''}
                     </div>
                 `,
                 confirmButtonText: 'Mengerti',
@@ -1520,11 +1585,10 @@
             updateUserProgress();
         }
         
-        // Update user progress in header
+        // Update user progress in header (based on overall completion, not scores)
         function updateUserProgress() {
-            const zakatProgress = Object.values(learningProgress.zakatFitrah);
-            const avgProgress = zakatProgress.reduce((a, b) => a + b, 0) / zakatProgress.length;
-            const roundedProgress = Math.round(avgProgress);
+            const overallProgress = calculateOverallProgress();
+            const roundedProgress = Math.round(overallProgress);
             
             // Update desktop progress
             document.getElementById('userProgressBar').style.width = roundedProgress + '%';
@@ -1538,27 +1602,26 @@
             updateMainMenuAccess();
         }
         
-        // Update main menu access based on progress
+        // Update main menu access based on sequential topic completion
         function updateMainMenuAccess() {
-            const zakatProgress = Object.values(learningProgress.zakatFitrah);
-            const avgZakatProgress = zakatProgress.reduce((a, b) => a + b, 0) / zakatProgress.length;
+            const zakatScore = calculateTopicFinalScore('zakatFitrah');
+            const infakScore = calculateTopicFinalScore('infak') || 0; // Will be 0 until implemented
+            const sedekahScore = calculateTopicFinalScore('sedekah') || 0; // Will be 0 until implemented
             
-            console.log('Updating main menu access, avgZakatProgress:', avgZakatProgress);
+            console.log('Updating main menu access - Zakat:', zakatScore, 'Infak:', infakScore, 'Sedekah:', sedekahScore);
             
-            // Unlock Infak when Zakat Fitrah completed (70%+)
-            if (avgZakatProgress >= 70) {
+            // Sequential unlock: Zakat 70% → Infak unlocked
+            if (zakatScore >= 70) {
                 unlockMainMenu('infak', 'Infak');
             }
             
-            // Unlock Sedekah when Infak completed (placeholder - would need infak progress)
-            // For demo, unlock when Zakat reaches 80%
-            if (avgZakatProgress >= 80) {
+            // Sequential unlock: Infak 70% → Sedekah unlocked  
+            if (infakScore >= 70) {
                 unlockMainMenu('sedekah', 'Sedekah');
             }
             
-            // Unlock Qurban when Sedekah completed (placeholder - would need sedekah progress)
-            // For demo, unlock when Zakat reaches 90%
-            if (avgZakatProgress >= 90) {
+            // Sequential unlock: Sedekah 70% → Qurban unlocked
+            if (sedekahScore >= 70) {
                 unlockMainMenu('qurban', 'Qurban');
             }
         }
@@ -1671,32 +1734,34 @@
         
         // Check menu access when clicked
         function checkMenuAccess(menuType) {
-            const zakatProgress = Object.values(learningProgress.zakatFitrah);
-            const avgZakatProgress = zakatProgress.reduce((a, b) => a + b, 0) / zakatProgress.length;
+            const zakatScore = calculateTopicFinalScore('zakatFitrah');
+            const infakScore = calculateTopicFinalScore('infak') || 0;
+            const sedekahScore = calculateTopicFinalScore('sedekah') || 0;
             
-            let requiredProgress = 0;
+            let requiredScore = 70;
             let requiredMenu = '';
             let menuTitle = '';
+            let currentScore = 0;
             
             switch(menuType) {
                 case 'infak':
-                    requiredProgress = 70;
                     requiredMenu = 'Zakat Fitrah';
                     menuTitle = 'Infak';
+                    currentScore = zakatScore;
                     break;
                 case 'sedekah':
-                    requiredProgress = 80;
-                    requiredMenu = 'Zakat Fitrah';
+                    requiredMenu = 'Infak';
                     menuTitle = 'Sedekah';
+                    currentScore = infakScore;
                     break;
                 case 'qurban':
-                    requiredProgress = 90;
-                    requiredMenu = 'Zakat Fitrah';
+                    requiredMenu = 'Sedekah';
                     menuTitle = 'Qurban';
+                    currentScore = sedekahScore;
                     break;
             }
             
-            if (avgZakatProgress < requiredProgress) {
+            if (currentScore < requiredScore) {
                 Swal.fire({
                     icon: 'warning',
                     title: `Menu ${menuTitle} Terkunci 🔒`,
@@ -1705,13 +1770,17 @@
                             <p class="mb-4">Untuk membuka menu <strong>${menuTitle}</strong>, kamu harus:</p>
                             <div class="bg-yellow-50 p-4 rounded-xl border border-yellow-200">
                                 <i class="fas fa-trophy text-yellow-500 text-2xl mb-2"></i>
-                                <p class="text-yellow-800 font-bold">Selesaikan "${requiredMenu}"</p>
-                                <p class="text-yellow-700 text-sm">dengan skor minimal ${requiredProgress}%</p>
+                                <p class="text-yellow-800 font-bold">Selesaikan pembelajaran "${requiredMenu}"</p>
+                                <p class="text-yellow-700 text-sm">dengan nilai akhir minimal ${requiredScore}%</p>
                             </div>
-                            <p class="text-sm text-gray-600 mt-4">Progress saat ini: ${Math.round(avgZakatProgress)}%</p>
+                            <p class="text-sm text-gray-600 mt-4">Nilai akhir ${requiredMenu}: ${Math.round(currentScore)}%</p>
                             <div class="w-full bg-gray-200 rounded-full h-3 mt-2">
-                                <div class="bg-gradient-to-r from-yellow-400 to-yellow-600 h-3 rounded-full transition-all duration-500" style="width: ${avgZakatProgress}%"></div>
+                                <div class="bg-gradient-to-r from-yellow-400 to-yellow-600 h-3 rounded-full transition-all duration-500" style="width: ${currentScore}%"></div>
                             </div>
+                            <p class="text-xs text-gray-500 mt-3">
+                                <i class="fas fa-info-circle mr-1"></i>
+                                Selesaikan semua kuis di materi ${requiredMenu} untuk membuka menu ini
+                            </p>
                         </div>
                     `,
                     confirmButtonText: 'Mengerti',
@@ -1748,29 +1817,57 @@
         // Start Learning with material system
         function startLearning(topic) {
             console.log('Starting learning for topic:', topic);
-            console.log('Current progress:', learningProgress.zakatFitrah);
+            console.log('Current quiz results:', quizResults.zakatFitrah);
             
-            // Check if module is unlocked
-            if (topic === 'ketentuan' && (learningProgress.zakatFitrah.pengertian || 0) < 70) {
-                console.log('Ketentuan locked, pengertian progress:', learningProgress.zakatFitrah.pengertian);
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Modul Terkunci',
-                    text: 'Selesaikan modul Pengertian dengan skor minimal 70% terlebih dahulu!',
-                    confirmButtonColor: '#f59e0b'
-                });
-                return;
+            // Check if module is unlocked based on quiz scores
+            if (topic === 'ketentuan') {
+                const pengertianScore = getLatestQuizScore('zakatFitrah', 'pengertian');
+                console.log('Ketentuan check - pengertian quiz score:', pengertianScore);
+                if (pengertianScore < 70) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Modul Terkunci 🔒',
+                        html: `
+                            <div class="text-center">
+                                <p class="mb-4">Untuk membuka modul <strong>Ketentuan</strong>, kamu harus:</p>
+                                <div class="bg-yellow-50 p-4 rounded-xl border border-yellow-200">
+                                    <i class="fas fa-trophy text-yellow-500 text-2xl mb-2"></i>
+                                    <p class="text-yellow-800 font-bold">Selesaikan kuis "Pengertian"</p>
+                                    <p class="text-yellow-700 text-sm">dengan skor minimal 70%</p>
+                                </div>
+                                <p class="text-sm text-gray-600 mt-4">Skor kuis terakhir: ${pengertianScore}%</p>
+                            </div>
+                        `,
+                        confirmButtonText: 'Mengerti',
+                        confirmButtonColor: '#f59e0b'
+                    });
+                    return;
+                }
             }
             
-            if (topic === 'praktik' && (learningProgress.zakatFitrah.ketentuan || 0) < 70) {
-                console.log('Praktik locked, ketentuan progress:', learningProgress.zakatFitrah.ketentuan);
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Modul Terkunci',
-                    text: 'Selesaikan modul Ketentuan dengan skor minimal 70% terlebih dahulu!',
-                    confirmButtonColor: '#f59e0b'
-                });
-                return;
+            if (topic === 'praktik') {
+                const ketentuanScore = getLatestQuizScore('zakatFitrah', 'ketentuan');
+                console.log('Praktik check - ketentuan quiz score:', ketentuanScore);
+                if (ketentuanScore < 70) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Modul Terkunci 🔒',
+                        html: `
+                            <div class="text-center">
+                                <p class="mb-4">Untuk membuka modul <strong>Praktik</strong>, kamu harus:</p>
+                                <div class="bg-yellow-50 p-4 rounded-xl border border-yellow-200">
+                                    <i class="fas fa-trophy text-yellow-500 text-2xl mb-2"></i>
+                                    <p class="text-yellow-800 font-bold">Selesaikan kuis "Ketentuan"</p>
+                                    <p class="text-yellow-700 text-sm">dengan skor minimal 70%</p>
+                                </div>
+                                <p class="text-sm text-gray-600 mt-4">Skor kuis terakhir: ${ketentuanScore}%</p>
+                            </div>
+                        `,
+                        confirmButtonText: 'Mengerti',
+                        confirmButtonColor: '#f59e0b'
+                    });
+                    return;
+                }
             }
             
             const content = learningContent[topic];
@@ -2399,19 +2496,21 @@
         }
 
         function updateProgress() {
-            console.log('Updating progress, current state:', learningProgress.zakatFitrah);
+            console.log('Updating progress, current quiz results:', quizResults.zakatFitrah);
             
-            const zakatProgress = Object.values(learningProgress.zakatFitrah);
-            const avgProgress = zakatProgress.reduce((a, b) => a + b, 0) / zakatProgress.length;
+            const avgQuizScore = calculateAverageQuizScore('zakatFitrah');
             
-            console.log('Average progress:', avgProgress);
+            console.log('Average quiz score:', avgQuizScore);
             
-            document.getElementById('zakatProgress').textContent = Math.round(avgProgress) + '%';
-            document.getElementById('zakatProgressBar').style.width = Math.round(avgProgress) + '%';
+            const zakatFinalScore = calculateTopicFinalScore('zakatFitrah');
+            const overallProgress = calculateOverallProgress();
             
-            // Update overall progress
-            document.getElementById('overallProgress').style.width = Math.round(avgProgress) + '%';
-            document.getElementById('overallProgressText').textContent = Math.round(avgProgress) + '%';
+            document.getElementById('zakatProgress').textContent = Math.round(zakatFinalScore) + '%';
+            document.getElementById('zakatProgressBar').style.width = Math.round(zakatFinalScore) + '%';
+            
+            // Update overall progress (completion, not scores)
+            document.getElementById('overallProgress').style.width = Math.round(overallProgress) + '%';
+            document.getElementById('overallProgressText').textContent = Math.round(overallProgress) + '%';
             
             // Update user progress in header
             updateUserProgress();
@@ -2419,15 +2518,17 @@
             // Re-render modules to update lock status
             renderLearningModules();
             
-            // Update completed modules count
-            const completedModules = Object.values(learningProgress.zakatFitrah).filter(score => score >= 70).length;
+            // Update completed modules count based on quiz scores
+            const completedModules = ['pengertian', 'ketentuan', 'praktik'].filter(module => 
+                getLatestQuizScore('zakatFitrah', module) >= 70
+            ).length;
             document.getElementById('completedModules').textContent = `${completedModules}/3`;
             
             // Update badges
-            updateBadges(avgProgress);
+            updateBadges();
             
             // Check if certificate should be available
-            if (avgProgress >= 80) {
+            if (zakatFinalScore >= 70) {
                 showCertificate();
             }
             
@@ -2435,70 +2536,73 @@
             updateMainMenuAccess();
         }
         
-        // Update badges based on progress
-        function updateBadges(avgProgress) {
+        // Update badges based on final scores
+        function updateBadges() {
             let badgeCount = 0;
             
-            // Badge for completing each module
-            Object.entries(learningProgress.zakatFitrah).forEach(([module, score]) => {
-                if (score >= 70) badgeCount++;
+            // Badge for completing each module quiz
+            ['pengertian', 'ketentuan', 'praktik'].forEach(module => {
+                const score = getLatestQuizScore('zakatFitrah', module);
+                if (score >= 70) badgeCount++; // Completion badge
                 if (score >= 80) badgeCount++; // Excellence badge
                 if (score === 100) badgeCount++; // Perfect score badge
             });
             
-            // Overall completion badge
-            if (avgProgress >= 80) badgeCount++;
+            // Overall topic completion badge
+            const zakatFinalScore = calculateTopicFinalScore('zakatFitrah');
+            if (zakatFinalScore >= 70) badgeCount++; // Topic completion badge
+            if (zakatFinalScore >= 80) badgeCount++; // Topic excellence badge
             
             document.getElementById('totalBadges').textContent = badgeCount;
         }
 
         // Certificate Functions
         function showCertificate() {
-            const avgProgress = Math.round(Object.values(learningProgress.zakatFitrah).reduce((a, b) => a + b, 0) / 3);
+            const zakatFinalScore = Math.round(calculateTopicFinalScore('zakatFitrah'));
             
             document.getElementById('certificateContent').innerHTML = `
-                <div id="certificateToDownload" class="certificate max-w-4xl mx-auto p-8 md:p-12 rounded-3xl text-white text-center relative bg-gradient-to-br from-purple-600 to-blue-700 border-8 border-yellow-400">
+                <div id="certificateToDownload" class="certificate w-full max-w-6xl mx-auto p-6 md:p-12 rounded-3xl text-white text-center relative bg-gradient-to-br from-purple-600 to-blue-700 border-8 border-yellow-400" style="aspect-ratio: 1.414/1; min-height: 600px;">
                     <!-- Decorative elements -->
                     <div class="absolute top-4 md:top-8 left-4 md:left-8">
-                        <i class="fas fa-star text-yellow-300 text-2xl md:text-3xl"></i>
+                        <i class="fas fa-star text-yellow-300 text-2xl md:text-4xl"></i>
                     </div>
                     <div class="absolute top-4 md:top-8 right-4 md:right-8">
-                        <i class="fas fa-star text-yellow-300 text-2xl md:text-3xl"></i>
+                        <i class="fas fa-star text-yellow-300 text-2xl md:text-4xl"></i>
                     </div>
                     <div class="absolute bottom-4 md:bottom-8 left-4 md:left-8">
-                        <i class="fas fa-medal text-yellow-300 text-2xl md:text-3xl"></i>
+                        <i class="fas fa-medal text-yellow-300 text-2xl md:text-4xl"></i>
                     </div>
                     <div class="absolute bottom-4 md:bottom-8 right-4 md:right-8">
-                        <i class="fas fa-trophy text-yellow-300 text-2xl md:text-3xl"></i>
+                        <i class="fas fa-trophy text-yellow-300 text-2xl md:text-4xl"></i>
                     </div>
                     
                     <!-- Certificate border -->
-                    <div class="absolute inset-4 md:inset-6 border-2 border-yellow-300 rounded-2xl pointer-events-none"></div>
+                    <div class="absolute inset-4 md:inset-8 border-4 border-yellow-300 rounded-2xl pointer-events-none"></div>
                     
                     <!-- Header -->
-                    <div class="mb-6 md:mb-8 relative z-10">
-                        <div class="text-yellow-300 text-4xl md:text-6xl mb-2 md:mb-4">🎓</div>
-                        <h2 class="text-2xl md:text-4xl font-bold mb-2 md:mb-4">SERTIFIKAT PEMBELAJARAN</h2>
-                        <div class="text-sm md:text-xl opacity-90">Media Pembelajaran Islam Interaktif</div>
-                        <div class="text-xs md:text-base opacity-75 mt-1">MIN SINGKAWANG</div>
+                    <div class="mb-4 md:mb-8 relative z-10">
+                        <div class="text-yellow-300 text-4xl md:text-8xl mb-2 md:mb-4">🎓</div>
+                        <h2 class="text-2xl md:text-5xl font-bold mb-2 md:mb-4">SERTIFIKAT PEMBELAJARAN</h2>
+                        <div class="text-sm md:text-2xl opacity-90">Media Pembelajaran Islam Interaktif</div>
+                        <div class="text-xs md:text-lg opacity-75 mt-1">MIN SINGKAWANG</div>
                     </div>
                     
                     <!-- Student Info -->
-                    <div class="mb-6 md:mb-8 relative z-10">
-                        <div class="text-sm md:text-lg mb-2">Diberikan kepada:</div>
-                        <div class="text-3xl md:text-5xl font-bold mb-2 md:mb-4 text-yellow-200">${userProfile.name}</div>
-                        <div class="text-lg md:text-xl">Kelas ${userProfile.class}</div>
+                    <div class="mb-4 md:mb-8 relative z-10">
+                        <div class="text-sm md:text-xl mb-2">Diberikan kepada:</div>
+                        <div class="text-2xl md:text-6xl font-bold mb-2 md:mb-4 text-yellow-200">${userProfile.name}</div>
+                        <div class="text-lg md:text-2xl">Kelas ${userProfile.class}</div>
                     </div>
                     
                     <!-- Achievement -->
-                    <div class="mb-6 md:mb-8 relative z-10">
-                        <div class="text-sm md:text-lg mb-2 md:mb-4">Telah menyelesaikan pembelajaran</div>
-                        <div class="text-2xl md:text-3xl font-bold text-yellow-300 mb-2">ZAKAT FITRAH</div>
-                        <div class="text-sm md:text-lg mt-2">dengan nilai kelulusan yang memuaskan</div>
+                    <div class="mb-4 md:mb-8 relative z-10">
+                        <div class="text-sm md:text-xl mb-2 md:mb-4">Telah menyelesaikan pembelajaran</div>
+                        <div class="text-xl md:text-4xl font-bold text-yellow-300 mb-2">ZAKAT FITRAH</div>
+                        <div class="text-sm md:text-xl mt-2">dengan nilai akhir yang memuaskan</div>
                     </div>
                     
                     <!-- Footer Info -->
-                    <div class="flex justify-between items-end text-xs md:text-sm relative z-10">
+                    <div class="flex justify-between items-end text-xs md:text-base relative z-10">
                         <div class="text-left">
                             <div class="opacity-75 mb-1">Tanggal:</div>
                             <div class="font-bold">${new Date().toLocaleDateString('id-ID', { 
@@ -2508,14 +2612,14 @@
                             })}</div>
                         </div>
                         <div class="text-center">
-                            <div class="w-12 h-12 md:w-16 md:h-16 bg-white bg-opacity-20 rounded-full overflow-hidden mx-auto mb-2 border-2 border-yellow-300">
+                            <div class="w-12 h-12 md:w-20 md:h-20 bg-white bg-opacity-20 rounded-full overflow-hidden mx-auto mb-2 border-2 border-yellow-300">
                                 ${userProfile.avatarSvg}
                             </div>
-                            <div class="text-xs opacity-75">Foto Siswa</div>
+                            <div class="text-xs md:text-sm opacity-75">Foto Siswa</div>
                         </div>
                         <div class="text-right">
-                            <div class="opacity-75 mb-1">Skor Akhir:</div>
-                            <div class="font-bold text-xl md:text-2xl text-yellow-300">${avgProgress}%</div>
+                            <div class="opacity-75 mb-1">Nilai Akhir:</div>
+                            <div class="font-bold text-xl md:text-3xl text-yellow-300">${zakatFinalScore}%</div>
                         </div>
                     </div>
                 </div>
@@ -2525,7 +2629,7 @@
                     <button onclick="downloadCertificate()" class="bg-gradient-to-r from-purple-500 to-blue-600 text-white px-6 md:px-8 py-3 md:py-4 rounded-xl font-bold hover:from-purple-600 hover:to-blue-700 transition-all hover:scale-105 text-sm md:text-base">
                         <i class="fas fa-download mr-2"></i>Download Sertifikat
                     </button>
-                    <p class="text-xs md:text-sm text-gray-500 mt-2">Tersedia dalam format PNG dan PDF</p>
+                    <p class="text-xs md:text-sm text-gray-500 mt-2">Format Landscape - Tersedia dalam PNG dan PDF</p>
                 </div>
             `;
         }
@@ -2831,5 +2935,5 @@
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'973f95cd622bfde4',t:'MTc1NjAwNDI3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'973fb152c1e581f2',t:'MTc1NjAwNTQwNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
