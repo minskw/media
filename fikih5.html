@@ -6,8 +6,8 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#14b8a6">
-    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/128/7300/7300981.png">
-    <title>Learning with Fun</title>
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/128/15044/15044863.png">
+    <title>📚 FIKIH ITU MUDAH - Learning Fikih with Fun</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -184,6 +184,9 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: 8px solid #ffd700;
             position: relative;
+            width: 1000px !important;
+            height: 707px !important;
+            aspect-ratio: 1.414/1 !important;
         }
         
         .certificate::before {
@@ -195,6 +198,16 @@
             bottom: 20px;
             border: 2px solid #ffd700;
             pointer-events: none;
+        }
+        
+        /* Certificate mobile adjustments */
+        @media (max-width: 768px) {
+            .certificate {
+                width: 100% !important;
+                height: auto !important;
+                min-height: 500px;
+                aspect-ratio: 1.414/1 !important;
+            }
         }
         
         /* Animation for explanation */
@@ -245,23 +258,7 @@
                 max-height: calc(100vh - 2rem);
             }
             
-            /* Certificate mobile adjustments */
-            .certificate {
-                padding: 2rem 1rem;
-                font-size: 0.875rem;
-            }
-            
-            .certificate h2 {
-                font-size: 1.5rem;
-            }
-            
-            .certificate .text-5xl {
-                font-size: 2rem;
-            }
-            
-            .certificate .text-3xl {
-                font-size: 1.5rem;
-            }
+            /* Certificate mobile adjustments moved to main certificate section */
         }
         
         @media (max-width: 480px) {
@@ -299,7 +296,7 @@
         <div class="bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 max-w-md w-full shadow-2xl max-h-screen overflow-y-auto">
             <div class="text-center mb-4 md:mb-6">
                 <div class="w-16 h-16 md:w-20 md:h-20 mx-auto mb-2 md:mb-4">
-                    <img src="https://cdn-icons-png.flaticon.com/128/7300/7300981.png" alt="Logo FIKIH ITU MUDAH" class="w-full h-full object-contain">
+                    <img src="https://cdn-icons-png.flaticon.com/128/15044/15044863.png" alt="Logo FIKIH ITU MUDAH" class="w-full h-full object-contain">
                 </div>
                 <h2 class="text-xl md:text-3xl font-bold text-gray-800 mb-1 md:mb-2">Selamat Datang!</h2>
                 <p class="text-sm md:text-base text-gray-600">Mari berkenalan sebelum memulai pembelajaran</p>
@@ -373,12 +370,11 @@
                 <div class="flex items-center">
                     <div class="mr-2 md:mr-4">
                         <div class="w-12 h-12 md:w-16 md:h-16">
-                            <img src="https://cdn-icons-png.flaticon.com/128/7300/7300981.png" alt="Logo FIKIH ITU MUDAH" class="w-full h-full object-contain" onerror="this.src=''; this.alt='Logo failed to load'; this.style.display='none';">
+                            <img src="https://cdn-icons-png.flaticon.com/128/15044/15044863.png" alt="Logo FIKIH ITU MUDAH" class="w-full h-full object-contain" onerror="this.src=''; this.alt='Logo failed to load'; this.style.display='none';">
                         </div>
                     </div>
                     <div>
-                        <h1 class="text-lg md:text-2xl lg:text-3xl font-bold leading-tight">Islam itu Mudah dan Indah</h1>
-                        <p class="text-sm md:text-lg lg:text-xl opacity-90">Media Pembelajaran Interaktif</p>
+                        <h1 class="text-lg md:text-2xl lg:text-3xl font-bold leading-tight">BELAJAR ITU MENYENANGKAN!</h1>
                         <p class="text-sm md:text-lg lg:text-xl font-semibold opacity-90">FIKIH KELAS 5 MI</p>
                     </div>
                 </div>
@@ -719,6 +715,72 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Infak Page -->
+        <div id="infak" class="page">
+            <div class="bg-white rounded-2xl md:rounded-3xl shadow-xl p-4 md:p-8">
+                <div class="flex items-center mb-4 md:mb-6">
+                    <i class="fas fa-hand-holding-heart text-2xl md:text-3xl text-green-500 mr-2 md:mr-4"></i>
+                    <h2 class="text-xl md:text-3xl font-bold text-gray-800">Pembelajaran Infak</h2>
+                </div>
+                
+                <div class="text-center py-8 md:py-12">
+                    <div class="text-6xl md:text-8xl mb-4 md:mb-6">🚧</div>
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-600 mb-2 md:mb-4">Materi Sedang Dikembangkan</h3>
+                    <p class="text-gray-500 mb-6 md:mb-8 text-sm md:text-base">Materi pembelajaran Infak akan segera tersedia!</p>
+                    
+                    <div class="bg-green-50 p-4 md:p-6 rounded-2xl border border-green-200 max-w-md mx-auto">
+                        <i class="fas fa-info-circle text-green-500 text-2xl md:text-3xl mb-2 md:mb-3"></i>
+                        <p class="text-green-700 font-bold text-sm md:text-base">Selamat! Menu ini sudah terbuka</p>
+                        <p class="text-green-600 text-xs md:text-sm">Kamu berhasil menyelesaikan Zakat Fitrah dengan baik</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sedekah Page -->
+        <div id="sedekah" class="page">
+            <div class="bg-white rounded-2xl md:rounded-3xl shadow-xl p-4 md:p-8">
+                <div class="flex items-center mb-4 md:mb-6">
+                    <i class="fas fa-heart text-2xl md:text-3xl text-pink-500 mr-2 md:mr-4"></i>
+                    <h2 class="text-xl md:text-3xl font-bold text-gray-800">Pembelajaran Sedekah</h2>
+                </div>
+                
+                <div class="text-center py-8 md:py-12">
+                    <div class="text-6xl md:text-8xl mb-4 md:mb-6">🚧</div>
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-600 mb-2 md:mb-4">Materi Sedang Dikembangkan</h3>
+                    <p class="text-gray-500 mb-6 md:mb-8 text-sm md:text-base">Materi pembelajaran Sedekah akan segera tersedia!</p>
+                    
+                    <div class="bg-pink-50 p-4 md:p-6 rounded-2xl border border-pink-200 max-w-md mx-auto">
+                        <i class="fas fa-info-circle text-pink-500 text-2xl md:text-3xl mb-2 md:mb-3"></i>
+                        <p class="text-pink-700 font-bold text-sm md:text-base">Selamat! Menu ini sudah terbuka</p>
+                        <p class="text-pink-600 text-xs md:text-sm">Kamu berhasil menyelesaikan Infak dengan baik</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Qurban Page -->
+        <div id="qurban" class="page">
+            <div class="bg-white rounded-2xl md:rounded-3xl shadow-xl p-4 md:p-8">
+                <div class="flex items-center mb-4 md:mb-6">
+                    <i class="fas fa-cow text-2xl md:text-3xl text-purple-500 mr-2 md:mr-4"></i>
+                    <h2 class="text-xl md:text-3xl font-bold text-gray-800">Pembelajaran Qurban</h2>
+                </div>
+                
+                <div class="text-center py-8 md:py-12">
+                    <div class="text-6xl md:text-8xl mb-4 md:mb-6">🚧</div>
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-600 mb-2 md:mb-4">Materi Sedang Dikembangkan</h3>
+                    <p class="text-gray-500 mb-6 md:mb-8 text-sm md:text-base">Materi pembelajaran Qurban akan segera tersedia!</p>
+                    
+                    <div class="bg-purple-50 p-4 md:p-6 rounded-2xl border border-purple-200 max-w-md mx-auto">
+                        <i class="fas fa-info-circle text-purple-500 text-2xl md:text-3xl mb-2 md:mb-3"></i>
+                        <p class="text-purple-700 font-bold text-sm md:text-base">Selamat! Menu ini sudah terbuka</p>
+                        <p class="text-purple-600 text-xs md:text-sm">Kamu berhasil menyelesaikan Sedekah dengan baik</p>
                     </div>
                 </div>
             </div>
@@ -1310,8 +1372,8 @@
                         menuElement.innerHTML = '<i class="fas fa-cow mr-1 md:mr-2"></i>Qurban';
                     }
                     
-                    // Change onclick behavior
-                    menuElement.setAttribute('onclick', `showComingSoon('${menuName}')`);
+                    // Change onclick behavior to show the actual page
+                    menuElement.setAttribute('onclick', `showPage('${menuId}')`);
                     console.log('Menu unlocked:', menuId);
                 }
             }
@@ -1680,8 +1742,8 @@
                         menuElement.innerHTML = '<i class="fas fa-cow mr-1 md:mr-2"></i>Qurban';
                     }
                     
-                    // Change onclick behavior
-                    menuElement.setAttribute('onclick', `showComingSoon('${menuName}')`);
+                    // Change onclick behavior to show the actual page
+                    menuElement.setAttribute('onclick', `showPage('${menuId}')`);
                     console.log('Menu navigation unlocked:', menuId);
                 }
             }
@@ -1741,27 +1803,7 @@
             }
         }
         
-        // Show coming soon message for unlocked but not implemented menus
-        function showComingSoon(menuName) {
-            Swal.fire({
-                icon: 'success',
-                title: `Selamat! Menu ${menuName} Terbuka! 🎉`,
-                html: `
-                    <div class="text-center">
-                        <i class="fas fa-unlock text-green-500 text-4xl mb-4"></i>
-                        <p class="mb-4">Kamu berhasil membuka menu <strong>${menuName}</strong>!</p>
-                        <div class="bg-green-50 p-4 rounded-xl border border-green-200">
-                            <i class="fas fa-graduation-cap text-green-500 text-2xl mb-2"></i>
-                            <p class="text-green-700 font-bold">Materi ${menuName} Siap Dipelajari!</p>
-                            <p class="text-green-600 text-sm">Klik menu ${menuName} untuk mulai belajar materi baru</p>
-                        </div>
-                        <p class="text-sm text-gray-600 mt-4">Lanjutkan perjalanan belajar Fikih-mu! 📚✨</p>
-                    </div>
-                `,
-                confirmButtonText: 'Siap Belajar!',
-                confirmButtonColor: '#10b981'
-            });
-        }
+        // Function removed - menus now directly show their pages
         
         // Check menu access when clicked
         function checkMenuAccess(menuType) {
@@ -1836,13 +1878,24 @@
             });
             
             // Show selected page
-            document.getElementById(pageId).classList.add('active');
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
             
-            // Update navigation
+            // Update navigation - find the clicked nav item
             document.querySelectorAll('.nav-item').forEach(nav => {
                 nav.classList.remove('active');
             });
-            event.target.classList.add('active');
+            
+            // Add active class to the correct nav item
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(nav => {
+                const onclick = nav.getAttribute('onclick');
+                if (onclick && onclick.includes(`'${pageId}'`)) {
+                    nav.classList.add('active');
+                }
+            });
         }
 
         // Start Learning with material system
@@ -2599,7 +2652,7 @@
             const zakatFinalScore = Math.round(calculateTopicFinalScore('zakatFitrah'));
             
             document.getElementById('certificateContent').innerHTML = `
-                <div id="certificateToDownload" class="certificate w-full max-w-6xl mx-auto p-6 md:p-12 rounded-3xl text-white text-center relative bg-gradient-to-br from-purple-600 to-blue-700 border-8 border-yellow-400" style="aspect-ratio: 1.414/1; min-height: 600px;">
+                <div id="certificateToDownload" class="certificate w-full mx-auto p-6 md:p-12 rounded-3xl text-white text-center relative bg-gradient-to-br from-purple-600 to-blue-700 border-8 border-yellow-400" style="width: 1000px; height: 707px; max-width: 100%; aspect-ratio: 1.414/1;">
                     <!-- Decorative elements -->
                     <div class="absolute top-4 md:top-8 left-4 md:left-8">
                         <i class="fas fa-star text-yellow-300 text-2xl md:text-4xl"></i>
@@ -2873,12 +2926,28 @@
                                 });
                                 
                                 const imgData = canvas.toDataURL('image/png', 1.0);
-                                const imgWidth = 280; // A4 landscape width in mm with margins
-                                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                                
+                                // A4 landscape dimensions: 297mm x 210mm
+                                const pageWidth = 297;
+                                const pageHeight = 210;
+                                const margin = 10;
+                                
+                                // Calculate image dimensions to fit page with margins
+                                const maxWidth = pageWidth - (margin * 2);
+                                const maxHeight = pageHeight - (margin * 2);
+                                
+                                let imgWidth = maxWidth;
+                                let imgHeight = (canvas.height * imgWidth) / canvas.width;
+                                
+                                // If height exceeds page, scale by height instead
+                                if (imgHeight > maxHeight) {
+                                    imgHeight = maxHeight;
+                                    imgWidth = (canvas.width * imgHeight) / canvas.height;
+                                }
                                 
                                 // Center the image on the page
-                                const x = (297 - imgWidth) / 2; // A4 landscape width is 297mm
-                                const y = (210 - imgHeight) / 2; // A4 landscape height is 210mm
+                                const x = (pageWidth - imgWidth) / 2;
+                                const y = (pageHeight - imgHeight) / 2;
                                 
                                 pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
                                 
@@ -2973,5 +3042,5 @@
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'973fbbed0308f908',t:'MTc1NjAwNTgzOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'973fd023f21b3f73',t:'MTc1NjAwNjY2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
