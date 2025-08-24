@@ -1188,6 +1188,8 @@
             const zakatProgress = Object.values(learningProgress.zakatFitrah);
             const avgZakatProgress = zakatProgress.reduce((a, b) => a + b, 0) / zakatProgress.length;
             
+            console.log('Loading unlock status, avgZakatProgress:', avgZakatProgress);
+            
             // Check and apply unlock status without notifications
             if (avgZakatProgress >= 70) {
                 unlockMainMenuSilent('infak', 'Infak');
@@ -1202,23 +1204,19 @@
         
         // Unlock menu without notification (for page load)
         function unlockMainMenuSilent(menuId, menuName) {
+            console.log('Unlocking menu silently:', menuId);
             const menuElement = document.getElementById(menuId + 'Menu');
             const dashboardElement = document.getElementById(menuId + 'Dashboard');
             
             // Unlock navigation menu
-            if (menuElement && menuElement.classList.contains('opacity-50')) {
-                menuElement.classList.remove('opacity-50', 'cursor-not-allowed');
-                menuElement.classList.add('cursor-pointer', 'hover:bg-white', 'hover:bg-opacity-20');
+            if (menuElement) {
+                console.log('Menu element found, current classes:', menuElement.className);
                 
-                // Remove lock icon from menu and update onclick
-                const lockIcon = menuElement.querySelector('.fa-lock');
-                if (lockIcon) {
-                    lockIcon.remove();
-                }
-                
-                // Update menu text to remove lock icon
-                const menuText = menuElement.innerHTML;
-                if (menuText.includes('🔒') || menuText.includes('fa-lock')) {
+                if (menuElement.classList.contains('opacity-50')) {
+                    menuElement.classList.remove('opacity-50', 'cursor-not-allowed');
+                    menuElement.classList.add('cursor-pointer');
+                    
+                    // Remove lock icon and update content
                     if (menuId === 'infak') {
                         menuElement.innerHTML = '<i class="fas fa-hand-holding-heart mr-1 md:mr-2"></i>Infak';
                     } else if (menuId === 'sedekah') {
@@ -1226,41 +1224,49 @@
                     } else if (menuId === 'qurban') {
                         menuElement.innerHTML = '<i class="fas fa-cow mr-1 md:mr-2"></i>Qurban';
                     }
+                    
+                    // Change onclick behavior
+                    menuElement.setAttribute('onclick', `showComingSoon('${menuName}')`);
+                    console.log('Menu unlocked:', menuId);
                 }
-                
-                // Change onclick behavior
-                menuElement.setAttribute('onclick', `showComingSoon('${menuName}')`);
             }
             
             // Unlock dashboard card
-            if (dashboardElement && dashboardElement.classList.contains('opacity-50')) {
-                dashboardElement.classList.remove('opacity-50');
-                dashboardElement.classList.add('cursor-pointer', 'hover:scale-105');
+            if (dashboardElement) {
+                console.log('Dashboard element found, current classes:', dashboardElement.className);
                 
-                // Remove lock icon from dashboard
-                const dashboardLockIcon = dashboardElement.querySelector('.fa-lock');
-                if (dashboardLockIcon) {
-                    dashboardLockIcon.remove();
-                }
-                
-                // Update progress text
-                const progressText = dashboardElement.querySelector('.text-gray-500');
-                if (progressText) {
-                    progressText.innerHTML = `<i class="fas fa-play mr-1"></i>Siap untuk dipelajari!`;
-                    progressText.classList.remove('text-gray-500');
-                    progressText.classList.add('text-green-600', 'font-medium');
-                }
-                
-                // Update progress indicator
-                const progressSpan = dashboardElement.querySelector('.font-bold');
-                if (progressSpan && progressSpan.textContent === '🔒') {
-                    progressSpan.textContent = '✅';
+                if (dashboardElement.classList.contains('opacity-50')) {
+                    dashboardElement.classList.remove('opacity-50');
+                    dashboardElement.classList.add('cursor-pointer');
+                    
+                    // Remove lock icon from dashboard
+                    const dashboardLockIcon = dashboardElement.querySelector('.fa-lock');
+                    if (dashboardLockIcon) {
+                        dashboardLockIcon.remove();
+                    }
+                    
+                    // Update progress text
+                    const progressText = dashboardElement.querySelector('div:last-child');
+                    if (progressText) {
+                        progressText.innerHTML = `<i class="fas fa-play mr-1"></i>Siap untuk dipelajari!`;
+                        progressText.className = 'mt-2 md:mt-4 text-xs text-green-600 font-medium';
+                    }
+                    
+                    // Update progress indicator
+                    const progressSpan = dashboardElement.querySelector('.font-bold');
+                    if (progressSpan && progressSpan.textContent === '🔒') {
+                        progressSpan.textContent = '✅';
+                    }
+                    
+                    console.log('Dashboard unlocked:', menuId);
                 }
             }
         }
         
         // Render learning modules with lock system
         function renderLearningModules() {
+            console.log('Rendering modules, current progress:', learningProgress.zakatFitrah);
+            
             const modules = [
                 {
                     id: 'pengertian',
@@ -1276,7 +1282,7 @@
                     description: 'Syarat, rukun, dan ketentuan zakat fitrah',
                     icon: 'fas fa-balance-scale',
                     color: 'green',
-                    unlocked: learningProgress.zakatFitrah.pengertian >= 70
+                    unlocked: (learningProgress.zakatFitrah.pengertian || 0) >= 70
                 },
                 {
                     id: 'praktik',
@@ -1284,9 +1290,11 @@
                     description: 'Cara menghitung dan menyalurkan zakat fitrah',
                     icon: 'fas fa-hand-holding-heart',
                     color: 'purple',
-                    unlocked: learningProgress.zakatFitrah.ketentuan >= 70
+                    unlocked: (learningProgress.zakatFitrah.ketentuan || 0) >= 70
                 }
             ];
+            
+            console.log('Module unlock status:', modules.map(m => ({id: m.id, unlocked: m.unlocked})));
             
             const container = document.getElementById('learningModules');
             container.innerHTML = modules.map(module => {
@@ -1535,6 +1543,8 @@
             const zakatProgress = Object.values(learningProgress.zakatFitrah);
             const avgZakatProgress = zakatProgress.reduce((a, b) => a + b, 0) / zakatProgress.length;
             
+            console.log('Updating main menu access, avgZakatProgress:', avgZakatProgress);
+            
             // Unlock Infak when Zakat Fitrah completed (70%+)
             if (avgZakatProgress >= 70) {
                 unlockMainMenu('infak', 'Infak');
@@ -1555,23 +1565,19 @@
         
         // Unlock specific main menu
         function unlockMainMenu(menuId, menuName) {
+            console.log('Attempting to unlock main menu:', menuId);
             const menuElement = document.getElementById(menuId + 'Menu');
             const dashboardElement = document.getElementById(menuId + 'Dashboard');
             
             // Unlock navigation menu
-            if (menuElement && menuElement.classList.contains('opacity-50')) {
-                menuElement.classList.remove('opacity-50', 'cursor-not-allowed');
-                menuElement.classList.add('cursor-pointer', 'hover:bg-white', 'hover:bg-opacity-20');
+            if (menuElement) {
+                console.log('Menu element found, checking if locked:', menuElement.classList.contains('opacity-50'));
                 
-                // Remove lock icon from menu and update onclick
-                const lockIcon = menuElement.querySelector('.fa-lock');
-                if (lockIcon) {
-                    lockIcon.remove();
-                }
-                
-                // Update menu text to remove lock icon
-                const menuText = menuElement.innerHTML;
-                if (menuText.includes('🔒') || menuText.includes('fa-lock')) {
+                if (menuElement.classList.contains('opacity-50')) {
+                    menuElement.classList.remove('opacity-50', 'cursor-not-allowed');
+                    menuElement.classList.add('cursor-pointer');
+                    
+                    // Update menu content
                     if (menuId === 'infak') {
                         menuElement.innerHTML = '<i class="fas fa-hand-holding-heart mr-1 md:mr-2"></i>Infak';
                     } else if (menuId === 'sedekah') {
@@ -1579,58 +1585,64 @@
                     } else if (menuId === 'qurban') {
                         menuElement.innerHTML = '<i class="fas fa-cow mr-1 md:mr-2"></i>Qurban';
                     }
+                    
+                    // Change onclick behavior
+                    menuElement.setAttribute('onclick', `showComingSoon('${menuName}')`);
+                    console.log('Menu navigation unlocked:', menuId);
                 }
-                
-                // Change onclick behavior
-                menuElement.setAttribute('onclick', `showComingSoon('${menuName}')`);
             }
             
             // Unlock dashboard card
-            if (dashboardElement && dashboardElement.classList.contains('opacity-50')) {
-                dashboardElement.classList.remove('opacity-50');
-                dashboardElement.classList.add('cursor-pointer', 'hover:scale-105');
+            if (dashboardElement) {
+                console.log('Dashboard element found, checking if locked:', dashboardElement.classList.contains('opacity-50'));
                 
-                // Remove lock icon from dashboard
-                const dashboardLockIcon = dashboardElement.querySelector('.fa-lock');
-                if (dashboardLockIcon) {
-                    dashboardLockIcon.remove();
-                }
-                
-                // Update progress text
-                const progressText = dashboardElement.querySelector('.text-gray-500');
-                if (progressText) {
-                    progressText.innerHTML = `<i class="fas fa-play mr-1"></i>Siap untuk dipelajari!`;
-                    progressText.classList.remove('text-gray-500');
-                    progressText.classList.add('text-green-600', 'font-medium');
-                }
-                
-                // Update progress indicator
-                const progressSpan = dashboardElement.querySelector('.font-bold');
-                if (progressSpan && progressSpan.textContent === '🔒') {
-                    progressSpan.textContent = '✅';
-                }
-                
-                // Add unlock notification (only once)
-                if (!localStorage.getItem(`${menuId}Unlocked`)) {
-                    localStorage.setItem(`${menuId}Unlocked`, 'true');
+                if (dashboardElement.classList.contains('opacity-50')) {
+                    dashboardElement.classList.remove('opacity-50');
+                    dashboardElement.classList.add('cursor-pointer');
                     
-                    Swal.fire({
-                        icon: 'success',
-                        title: `Menu ${menuName} Terbuka! 🎉`,
-                        html: `
-                            <div class="text-center">
-                                <i class="fas fa-unlock text-green-500 text-4xl mb-4"></i>
-                                <p class="mb-4">Selamat! Kamu telah membuka menu <strong>${menuName}</strong></p>
-                                <div class="bg-green-50 p-4 rounded-xl border border-green-200">
-                                    <p class="text-green-700 font-bold">Menu baru tersedia untuk dipelajari!</p>
-                                    <p class="text-green-600 text-sm">Lanjutkan perjalanan belajar Fikih-mu</p>
+                    // Remove lock icon from dashboard
+                    const dashboardLockIcon = dashboardElement.querySelector('.fa-lock');
+                    if (dashboardLockIcon) {
+                        dashboardLockIcon.remove();
+                    }
+                    
+                    // Update progress text - find the last div which contains the lock message
+                    const progressText = dashboardElement.querySelector('div:last-child');
+                    if (progressText) {
+                        progressText.innerHTML = `<i class="fas fa-play mr-1"></i>Siap untuk dipelajari!`;
+                        progressText.className = 'mt-2 md:mt-4 text-xs text-green-600 font-medium';
+                    }
+                    
+                    // Update progress indicator
+                    const progressSpan = dashboardElement.querySelector('.font-bold');
+                    if (progressSpan && progressSpan.textContent === '🔒') {
+                        progressSpan.textContent = '✅';
+                    }
+                    
+                    console.log('Dashboard card unlocked:', menuId);
+                    
+                    // Add unlock notification (only once)
+                    if (!localStorage.getItem(`${menuId}Unlocked`)) {
+                        localStorage.setItem(`${menuId}Unlocked`, 'true');
+                        
+                        Swal.fire({
+                            icon: 'success',
+                            title: `Menu ${menuName} Terbuka! 🎉`,
+                            html: `
+                                <div class="text-center">
+                                    <i class="fas fa-unlock text-green-500 text-4xl mb-4"></i>
+                                    <p class="mb-4">Selamat! Kamu telah membuka menu <strong>${menuName}</strong></p>
+                                    <div class="bg-green-50 p-4 rounded-xl border border-green-200">
+                                        <p class="text-green-700 font-bold">Menu baru tersedia untuk dipelajari!</p>
+                                        <p class="text-green-600 text-sm">Lanjutkan perjalanan belajar Fikih-mu</p>
+                                    </div>
                                 </div>
-                            </div>
-                        `,
-                        confirmButtonText: 'Siap!',
-                        confirmButtonColor: '#10b981',
-                        timer: 5000
-                    });
+                            `,
+                            confirmButtonText: 'Siap!',
+                            confirmButtonColor: '#10b981',
+                            timer: 5000
+                        });
+                    }
                 }
             }
         }
@@ -1735,8 +1747,12 @@
 
         // Start Learning with material system
         function startLearning(topic) {
+            console.log('Starting learning for topic:', topic);
+            console.log('Current progress:', learningProgress.zakatFitrah);
+            
             // Check if module is unlocked
-            if (topic === 'ketentuan' && learningProgress.zakatFitrah.pengertian < 70) {
+            if (topic === 'ketentuan' && (learningProgress.zakatFitrah.pengertian || 0) < 70) {
+                console.log('Ketentuan locked, pengertian progress:', learningProgress.zakatFitrah.pengertian);
                 Swal.fire({
                     icon: 'warning',
                     title: 'Modul Terkunci',
@@ -1746,7 +1762,8 @@
                 return;
             }
             
-            if (topic === 'praktik' && learningProgress.zakatFitrah.ketentuan < 70) {
+            if (topic === 'praktik' && (learningProgress.zakatFitrah.ketentuan || 0) < 70) {
+                console.log('Praktik locked, ketentuan progress:', learningProgress.zakatFitrah.ketentuan);
                 Swal.fire({
                     icon: 'warning',
                     title: 'Modul Terkunci',
@@ -1825,10 +1842,13 @@
         
         // Check if material is unlocked
         function checkMaterialUnlock(topic, material) {
+            console.log('Checking material unlock:', topic, material.id, 'unlocked:', material.unlocked);
+            
             if (material.unlocked) return true;
             
             if (material.requiredMaterial && material.requiredScore) {
                 const requiredProgress = materialProgress.zakatFitrah[topic][material.requiredMaterial] || 0;
+                console.log('Required material progress:', material.requiredMaterial, requiredProgress, 'needed:', material.requiredScore);
                 return requiredProgress >= material.requiredScore;
             }
             
@@ -2379,8 +2399,12 @@
         }
 
         function updateProgress() {
+            console.log('Updating progress, current state:', learningProgress.zakatFitrah);
+            
             const zakatProgress = Object.values(learningProgress.zakatFitrah);
             const avgProgress = zakatProgress.reduce((a, b) => a + b, 0) / zakatProgress.length;
+            
+            console.log('Average progress:', avgProgress);
             
             document.getElementById('zakatProgress').textContent = Math.round(avgProgress) + '%';
             document.getElementById('zakatProgressBar').style.width = Math.round(avgProgress) + '%';
@@ -2406,6 +2430,9 @@
             if (avgProgress >= 80) {
                 showCertificate();
             }
+            
+            // Force update main menu unlock status
+            updateMainMenuAccess();
         }
         
         // Update badges based on progress
@@ -2804,5 +2831,5 @@
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'973f8e86219bfde4',t:'MTc1NjAwMzk3OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'973f95cd622bfde4',t:'MTc1NjAwNDI3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
