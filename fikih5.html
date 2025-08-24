@@ -6,8 +6,8 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#14b8a6">
-    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/128/4336/4336744.png">
-    <title>Islam itu Mudan dan Indah</title>
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/128/7300/7300981.png">
+    <title>Learning with Fun</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -299,7 +299,7 @@
         <div class="bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 max-w-md w-full shadow-2xl max-h-screen overflow-y-auto">
             <div class="text-center mb-4 md:mb-6">
                 <div class="w-16 h-16 md:w-20 md:h-20 mx-auto mb-2 md:mb-4">
-                    <img src="https://cdn-icons-png.flaticon.com/128/4336/4336744.png" alt="Logo FIKIH ITU MUDAH" class="w-full h-full object-contain">
+                    <img src="https://cdn-icons-png.flaticon.com/128/7300/7300981.png" alt="Logo FIKIH ITU MUDAH" class="w-full h-full object-contain">
                 </div>
                 <h2 class="text-xl md:text-3xl font-bold text-gray-800 mb-1 md:mb-2">Selamat Datang!</h2>
                 <p class="text-sm md:text-base text-gray-600">Mari berkenalan sebelum memulai pembelajaran</p>
@@ -373,12 +373,12 @@
                 <div class="flex items-center">
                     <div class="mr-2 md:mr-4">
                         <div class="w-12 h-12 md:w-16 md:h-16">
-                            <img src="https://cdn-icons-png.flaticon.com/128/4336/4336744.png" alt="Logo FIKIH ITU MUDAH" class="w-full h-full object-contain" onerror="this.src=''; this.alt='Logo failed to load'; this.style.display='none';">
+                            <img src="https://cdn-icons-png.flaticon.com/128/7300/7300981.png" alt="Logo FIKIH ITU MUDAH" class="w-full h-full object-contain" onerror="this.src=''; this.alt='Logo failed to load'; this.style.display='none';">
                         </div>
                     </div>
                     <div>
-                        <h1 class="text-lg md:text-2xl lg:text-3xl font-bold leading-tight">Islam itu Mudah dan Indah!</h1>
-                        <p class="text-sm md:text-lg lg:text-xl opacity-90">Seri Media Pembelajaran Interaktif</p>
+                        <h1 class="text-lg md:text-2xl lg:text-3xl font-bold leading-tight">Islam itu Mudah dan Indah</h1>
+                        <p class="text-sm md:text-lg lg:text-xl opacity-90">Media Pembelajaran Interaktif</p>
                         <p class="text-sm md:text-lg lg:text-xl font-semibold opacity-90">FIKIH KELAS 5 MI</p>
                     </div>
                 </div>
@@ -584,27 +584,58 @@
                     <h2 class="text-xl md:text-3xl font-bold text-gray-800">Pembelajaran Zakat Fitrah</h2>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6" id="learningModules">
-                    <!-- Modules will be dynamically generated -->
+                <!-- Learning Progress Overview -->
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-4 md:p-6 rounded-2xl mb-6 md:mb-8">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg md:text-xl font-bold text-blue-800">
+                            <i class="fas fa-chart-line mr-2"></i>Progress Pembelajaran
+                        </h3>
+                        <div class="text-right">
+                            <div class="text-2xl md:text-3xl font-bold text-blue-600" id="zakatOverallScore">0%</div>
+                            <div class="text-xs md:text-sm text-blue-700">Nilai Akhir</div>
+                        </div>
+                    </div>
+                    <div class="w-full bg-white rounded-full h-3 md:h-4">
+                        <div class="bg-gradient-to-r from-blue-500 to-blue-600 h-3 md:h-4 rounded-full transition-all duration-500" id="zakatOverallProgress" style="width: 0%"></div>
+                    </div>
+                    <p class="text-xs md:text-sm text-blue-600 mt-2">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        Selesaikan semua modul untuk membuka materi selanjutnya
+                    </p>
+                </div>
+                
+                <!-- Learning Modules -->
+                <div class="mb-6 md:mb-8">
+                    <h3 class="text-lg md:text-xl font-bold text-gray-800 mb-4 md:mb-6">
+                        <i class="fas fa-book-open mr-2"></i>Modul Pembelajaran
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6" id="learningModules">
+                        <!-- Modules will be dynamically generated -->
+                    </div>
                 </div>
                 
                 <!-- Quick Actions -->
-                <div class="mt-6 md:mt-8 grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-                    <button class="flex items-center justify-center px-4 md:px-6 py-3 md:py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all hover:scale-105" onclick="showPage('calculator')">
-                        <i class="fas fa-calculator mr-2 md:mr-3 text-lg md:text-xl"></i>
-                        <div class="text-left">
-                            <div class="font-bold text-sm md:text-base">Kalkulator Zakat</div>
-                            <div class="text-xs md:text-sm opacity-90">Hitung jumlah zakat fitrah</div>
-                        </div>
-                    </button>
-                    
-                    <button class="flex items-center justify-center px-4 md:px-6 py-3 md:py-4 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl hover:from-green-600 hover:to-green-700 transition-all hover:scale-105" onclick="showPaymentSimulation()">
-                        <i class="fas fa-credit-card mr-2 md:mr-3 text-lg md:text-xl"></i>
-                        <div class="text-left">
-                            <div class="font-bold text-sm md:text-base">Simulasi Pembayaran</div>
-                            <div class="text-xs md:text-sm opacity-90">Praktik bayar zakat fitrah</div>
-                        </div>
-                    </button>
+                <div class="border-t pt-6 md:pt-8">
+                    <h3 class="text-lg md:text-xl font-bold text-gray-800 mb-4 md:mb-6">
+                        <i class="fas fa-tools mr-2"></i>Alat Bantu Pembelajaran
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                        <button class="flex items-center justify-center px-4 md:px-6 py-3 md:py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all hover:scale-105" onclick="showPage('calculator')">
+                            <i class="fas fa-calculator mr-2 md:mr-3 text-lg md:text-xl"></i>
+                            <div class="text-left">
+                                <div class="font-bold text-sm md:text-base">Kalkulator Zakat</div>
+                                <div class="text-xs md:text-sm opacity-90">Hitung jumlah zakat fitrah</div>
+                            </div>
+                        </button>
+                        
+                        <button class="flex items-center justify-center px-4 md:px-6 py-3 md:py-4 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl hover:from-green-600 hover:to-green-700 transition-all hover:scale-105" onclick="showPaymentSimulation()">
+                            <i class="fas fa-credit-card mr-2 md:mr-3 text-lg md:text-xl"></i>
+                            <div class="text-left">
+                                <div class="font-bold text-sm md:text-base">Simulasi Pembayaran</div>
+                                <div class="text-xs md:text-sm opacity-90">Praktik bayar zakat fitrah</div>
+                            </div>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2498,15 +2529,22 @@
         function updateProgress() {
             console.log('Updating progress, current quiz results:', quizResults.zakatFitrah);
             
-            const avgQuizScore = calculateAverageQuizScore('zakatFitrah');
-            
-            console.log('Average quiz score:', avgQuizScore);
-            
             const zakatFinalScore = calculateTopicFinalScore('zakatFitrah');
             const overallProgress = calculateOverallProgress();
             
+            // Update dashboard progress
             document.getElementById('zakatProgress').textContent = Math.round(zakatFinalScore) + '%';
             document.getElementById('zakatProgressBar').style.width = Math.round(zakatFinalScore) + '%';
+            
+            // Update zakat page progress
+            const zakatOverallScore = document.getElementById('zakatOverallScore');
+            const zakatOverallProgressBar = document.getElementById('zakatOverallProgress');
+            if (zakatOverallScore) {
+                zakatOverallScore.textContent = Math.round(zakatFinalScore) + '%';
+            }
+            if (zakatOverallProgressBar) {
+                zakatOverallProgressBar.style.width = Math.round(zakatFinalScore) + '%';
+            }
             
             // Update overall progress (completion, not scores)
             document.getElementById('overallProgress').style.width = Math.round(overallProgress) + '%';
@@ -2935,5 +2973,5 @@
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'973fb152c1e581f2',t:'MTc1NjAwNTQwNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'973fbbed0308f908',t:'MTc1NjAwNTgzOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
