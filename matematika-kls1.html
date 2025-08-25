@@ -155,6 +155,17 @@
             object-fit: contain;
             filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.2));
         }
+        
+        .drag-hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        
+        .drop-zone-active {
+            border-color: #10b981 !important;
+            background-color: #d1fae5 !important;
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-blue-500 via-purple-600 to-pink-500 min-h-screen">
@@ -189,90 +200,127 @@
             <p class="text-base sm:text-xl lg:text-2xl text-white/90 mb-3 sm:mb-8 drop-shadow font-semibold px-4">Ayo belajar matematika dengan cara yang seru!</p>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-                <button onclick="startGame('counting')" class="bg-white p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-purple-500 hover:border-purple-600">
-                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-purple-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-paw text-purple-600 text-2xl sm:text-3xl lg:text-4xl"></i>
+                <button onclick="startGame('counting')" class="bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-purple-300 hover:border-white">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <i class="fas fa-paw text-white text-2xl sm:text-3xl lg:text-4xl drop-shadow-lg"></i>
                     </div>
-                    <h3 class="text-lg sm:text-2xl font-bold text-purple-700 mb-1 sm:mb-2">Menghitung</h3>
-                    <p class="text-xs sm:text-lg text-gray-800 font-semibold">Hitung binatang lucu!</p>
-                    <div class="text-xs sm:text-sm text-purple-600 mt-1 sm:mt-2 font-bold bg-purple-100 px-2 py-1 rounded-full"><i class="fas fa-star"></i> Level: Mudah</div>
+                    <h3 class="text-lg sm:text-2xl font-bold text-white mb-1 sm:mb-2 drop-shadow-lg">Menghitung</h3>
+                    <p class="text-xs sm:text-lg text-purple-100 font-semibold">Hitung binatang lucu!</p>
+                    <div class="text-xs sm:text-sm text-purple-800 mt-1 sm:mt-2 font-bold bg-white/30 px-2 py-1 rounded-full backdrop-blur-sm"><i class="fas fa-star text-yellow-300"></i> Level: Mudah</div>
                 </button>
                 
-                <button onclick="startGame('addition')" class="bg-white p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-green-500 hover:border-green-600">
-                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-green-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-plus text-green-600 text-2xl sm:text-3xl lg:text-4xl"></i>
+                <button onclick="startGame('addition')" class="bg-gradient-to-br from-green-400 via-green-500 to-emerald-600 p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-green-300 hover:border-white">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <i class="fas fa-plus text-white text-2xl sm:text-3xl lg:text-4xl drop-shadow-lg"></i>
                     </div>
-                    <h3 class="text-lg sm:text-2xl font-bold text-green-700 mb-1 sm:mb-2">Penjumlahan</h3>
-                    <p class="text-xs sm:text-lg text-gray-800 font-semibold">Tambah buah-buahan!</p>
-                    <div class="text-xs sm:text-sm text-green-600 mt-1 sm:mt-2 font-bold bg-green-100 px-2 py-1 rounded-full"><i class="fas fa-star"></i> Level: Mudah</div>
+                    <h3 class="text-lg sm:text-2xl font-bold text-white mb-1 sm:mb-2 drop-shadow-lg">Penjumlahan</h3>
+                    <p class="text-xs sm:text-lg text-green-100 font-semibold">Tambah buah-buahan!</p>
+                    <div class="text-xs sm:text-sm text-green-800 mt-1 sm:mt-2 font-bold bg-white/30 px-2 py-1 rounded-full backdrop-blur-sm"><i class="fas fa-star text-yellow-300"></i> Level: Mudah</div>
                 </button>
                 
-                <button onclick="startGame('subtraction')" class="bg-white p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-orange-500 hover:border-orange-600">
-                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-orange-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-minus text-orange-600 text-2xl sm:text-3xl lg:text-4xl"></i>
+                <button onclick="startGame('subtraction')" class="bg-gradient-to-br from-orange-400 via-orange-500 to-red-500 p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-orange-300 hover:border-white">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <i class="fas fa-minus text-white text-2xl sm:text-3xl lg:text-4xl drop-shadow-lg"></i>
                     </div>
-                    <h3 class="text-lg sm:text-2xl font-bold text-orange-700 mb-1 sm:mb-2">Pengurangan</h3>
-                    <p class="text-xs sm:text-lg text-gray-800 font-semibold">Kurangi bintang!</p>
-                    <div class="text-xs sm:text-sm text-orange-600 mt-1 sm:mt-2 font-bold bg-orange-100 px-2 py-1 rounded-full"><i class="fas fa-star"></i> Level: Mudah</div>
+                    <h3 class="text-lg sm:text-2xl font-bold text-white mb-1 sm:mb-2 drop-shadow-lg">Pengurangan</h3>
+                    <p class="text-xs sm:text-lg text-orange-100 font-semibold">Kurangi bintang!</p>
+                    <div class="text-xs sm:text-sm text-orange-800 mt-1 sm:mt-2 font-bold bg-white/30 px-2 py-1 rounded-full backdrop-blur-sm"><i class="fas fa-star text-yellow-300"></i> Level: Mudah</div>
                 </button>
                 
-                <button onclick="startGame('comparison')" class="bg-white p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-blue-500 hover:border-blue-600">
-                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-blue-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-balance-scale text-blue-600 text-xl sm:text-2xl lg:text-3xl"></i>
+                <button onclick="startGame('comparison')" class="bg-gradient-to-br from-blue-400 via-blue-500 to-cyan-600 p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-blue-300 hover:border-white">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <i class="fas fa-balance-scale text-white text-xl sm:text-2xl lg:text-3xl drop-shadow-lg"></i>
                     </div>
-                    <h3 class="text-lg sm:text-2xl font-bold text-blue-700 mb-1 sm:mb-2">Perbandingan</h3>
-                    <p class="text-xs sm:text-lg text-gray-800 font-semibold">Mana yang lebih banyak?</p>
-                    <div class="text-xs sm:text-sm text-blue-600 mt-1 sm:mt-2 font-bold bg-blue-100 px-2 py-1 rounded-full"><i class="fas fa-star"></i> Level: Mudah</div>
+                    <h3 class="text-lg sm:text-2xl font-bold text-white mb-1 sm:mb-2 drop-shadow-lg">Perbandingan</h3>
+                    <p class="text-xs sm:text-lg text-blue-100 font-semibold">Mana yang lebih banyak?</p>
+                    <div class="text-xs sm:text-sm text-blue-800 mt-1 sm:mt-2 font-bold bg-white/30 px-2 py-1 rounded-full backdrop-blur-sm"><i class="fas fa-star text-yellow-300"></i> Level: Mudah</div>
                 </button>
                 
-                <button onclick="startGame('patterns')" class="bg-white p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-pink-500 hover:border-pink-600">
-                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-pink-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-sync-alt text-pink-600 text-2xl sm:text-3xl lg:text-4xl"></i>
+                <button onclick="startGame('patterns')" class="bg-gradient-to-br from-pink-400 via-pink-500 to-rose-600 p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-pink-300 hover:border-white">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <i class="fas fa-sync-alt text-white text-2xl sm:text-3xl lg:text-4xl drop-shadow-lg"></i>
                     </div>
-                    <h3 class="text-lg sm:text-2xl font-bold text-pink-700 mb-1 sm:mb-2">Pola Angka</h3>
-                    <p class="text-xs sm:text-lg text-gray-800 font-semibold">Lanjutkan pola!</p>
-                    <div class="text-xs sm:text-sm text-pink-600 mt-1 sm:mt-2 font-bold bg-pink-100 px-2 py-1 rounded-full"><i class="fas fa-star"></i> Level: Sedang</div>
+                    <h3 class="text-lg sm:text-2xl font-bold text-white mb-1 sm:mb-2 drop-shadow-lg">Pola Angka</h3>
+                    <p class="text-xs sm:text-lg text-pink-100 font-semibold">Lanjutkan pola!</p>
+                    <div class="text-xs sm:text-sm text-pink-800 mt-1 sm:mt-2 font-bold bg-white/30 px-2 py-1 rounded-full backdrop-blur-sm"><i class="fas fa-star text-yellow-300"></i> Level: Sedang</div>
                 </button>
                 
-                <button onclick="startGame('shapes')" class="bg-white p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-indigo-500 hover:border-indigo-600">
-                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-indigo-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-shapes text-indigo-600 text-2xl sm:text-3xl lg:text-4xl"></i>
+                <button onclick="startGame('shapes')" class="bg-gradient-to-br from-indigo-400 via-indigo-500 to-purple-600 p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-indigo-300 hover:border-white">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <i class="fas fa-shapes text-white text-2xl sm:text-3xl lg:text-4xl drop-shadow-lg"></i>
                     </div>
-                    <h3 class="text-lg sm:text-2xl font-bold text-indigo-700 mb-1 sm:mb-2">Bentuk</h3>
-                    <p class="text-xs sm:text-lg text-gray-800 font-semibold">Hitung bentuk geometri!</p>
-                    <div class="text-xs sm:text-sm text-indigo-600 mt-1 sm:mt-2 font-bold bg-indigo-100 px-2 py-1 rounded-full"><i class="fas fa-star"></i> Level: Mudah</div>
+                    <h3 class="text-lg sm:text-2xl font-bold text-white mb-1 sm:mb-2 drop-shadow-lg">Bentuk</h3>
+                    <p class="text-xs sm:text-lg text-indigo-100 font-semibold">Hitung bentuk geometri!</p>
+                    <div class="text-xs sm:text-sm text-indigo-800 mt-1 sm:mt-2 font-bold bg-white/30 px-2 py-1 rounded-full backdrop-blur-sm"><i class="fas fa-star text-yellow-300"></i> Level: Mudah</div>
                 </button>
                 
-                <button onclick="startGame('sorting')" class="bg-white p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-teal-500 hover:border-teal-600">
-                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-teal-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-sort-numeric-up text-teal-600 text-2xl sm:text-3xl lg:text-4xl"></i>
+                <button onclick="startGame('sorting')" class="bg-gradient-to-br from-teal-400 via-teal-500 to-cyan-600 p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-teal-300 hover:border-white">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <i class="fas fa-sort-numeric-up text-white text-2xl sm:text-3xl lg:text-4xl drop-shadow-lg"></i>
                     </div>
-                    <h3 class="text-lg sm:text-2xl font-bold text-teal-700 mb-1 sm:mb-2">Urutkan</h3>
-                    <p class="text-xs sm:text-lg text-gray-800 font-semibold">Urutkan dari kecil ke besar!</p>
-                    <div class="text-xs sm:text-sm text-teal-600 mt-1 sm:mt-2 font-bold bg-teal-100 px-2 py-1 rounded-full"><i class="fas fa-star"></i> Level: Sedang</div>
+                    <h3 class="text-lg sm:text-2xl font-bold text-white mb-1 sm:mb-2 drop-shadow-lg">Urutkan</h3>
+                    <p class="text-xs sm:text-lg text-teal-100 font-semibold">Seret angka untuk mengurutkan!</p>
+                    <div class="text-xs sm:text-sm text-teal-800 mt-1 sm:mt-2 font-bold bg-white/30 px-2 py-1 rounded-full backdrop-blur-sm"><i class="fas fa-star text-yellow-300"></i> Level: Sedang</div>
                 </button>
                 
-                <button onclick="startGame('missing')" class="bg-white p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-red-500 hover:border-red-600">
-                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-red-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-question text-red-600 text-2xl sm:text-3xl lg:text-4xl"></i>
+                <button onclick="startGame('missing')" class="bg-gradient-to-br from-red-400 via-red-500 to-pink-600 p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-red-300 hover:border-white">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <i class="fas fa-question text-white text-2xl sm:text-3xl lg:text-4xl drop-shadow-lg"></i>
                     </div>
-                    <h3 class="text-lg sm:text-2xl font-bold text-red-700 mb-1 sm:mb-2">Angka Hilang</h3>
-                    <p class="text-xs sm:text-lg text-gray-800 font-semibold">Cari angka yang hilang!</p>
-                    <div class="text-xs sm:text-sm text-red-600 mt-1 sm:mt-2 font-bold bg-red-100 px-2 py-1 rounded-full"><i class="fas fa-star"></i> Level: Sedang</div>
+                    <h3 class="text-lg sm:text-2xl font-bold text-white mb-1 sm:mb-2 drop-shadow-lg">Angka Hilang</h3>
+                    <p class="text-xs sm:text-lg text-red-100 font-semibold">Cari angka yang hilang!</p>
+                    <div class="text-xs sm:text-sm text-red-800 mt-1 sm:mt-2 font-bold bg-white/30 px-2 py-1 rounded-full backdrop-blur-sm"><i class="fas fa-star text-yellow-300"></i> Level: Sedang</div>
                 </button>
             </div>
             
             <!-- Instructions Panel -->
-            <div class="mt-4 sm:mt-8 bg-white rounded-3xl p-3 sm:p-6 shadow-xl mx-4 sm:mx-0 border-4 border-yellow-400">
-                <h3 class="text-lg sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-4"><i class="fas fa-clipboard-list"></i> Cara Bermain:</h3>
-                <div class="grid grid-cols-2 gap-3 sm:gap-4 text-center">
-                    <div class="bg-blue-50 p-3 sm:p-4 rounded-2xl">
-                        <i class="fas fa-target text-blue-600 text-2xl mb-2"></i>
-                        <p class="text-gray-700 text-sm sm:text-base font-semibold">Jawab 5 soal untuk naik level!</p>
+            <div class="mt-4 sm:mt-8 bg-gradient-to-br from-indigo-400 via-purple-500 to-pink-500 rounded-3xl p-3 sm:p-6 shadow-xl mx-4 sm:mx-0 border-4 border-white relative overflow-hidden">
+                <!-- Decorative elements -->
+                <div class="absolute top-2 left-2 text-yellow-300 text-2xl animate-pulse"><i class="fas fa-star"></i></div>
+                <div class="absolute top-2 right-2 text-pink-300 text-2xl animate-bounce"><i class="fas fa-heart"></i></div>
+                <div class="absolute bottom-2 left-2 text-cyan-300 text-2xl wiggle"><i class="fas fa-gem"></i></div>
+                <div class="absolute bottom-2 right-2 text-yellow-400 text-2xl float"><i class="fas fa-crown"></i></div>
+                
+                <h3 class="text-lg sm:text-2xl font-bold text-white mb-2 sm:mb-4 text-center drop-shadow-lg relative z-10">
+                    <i class="fas fa-clipboard-list text-yellow-300"></i> Cara Bermain Matematika Seru! <i class="fas fa-magic text-pink-300"></i>
+                </h3>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 text-center relative z-10">
+                    <div class="bg-gradient-to-br from-blue-400 to-cyan-500 backdrop-blur-sm p-3 sm:p-4 rounded-2xl border-3 border-white shadow-lg hover:scale-105 transition-transform duration-300">
+                        <div class="w-12 h-12 mx-auto mb-2 bg-white/20 rounded-full flex items-center justify-center">
+                            <i class="fas fa-target text-white text-2xl drop-shadow-lg"></i>
+                        </div>
+                        <p class="text-white text-sm sm:text-base font-bold drop-shadow">Jawab 5 soal untuk naik level!</p>
                     </div>
-                    <div class="bg-green-50 p-3 sm:p-4 rounded-2xl">
-                        <i class="fas fa-trophy text-green-600 text-2xl mb-2"></i>
-                        <p class="text-gray-700 text-sm sm:text-base font-semibold">10 poin setiap jawaban benar!</p>
+                    
+                    <div class="bg-gradient-to-br from-green-400 to-emerald-500 backdrop-blur-sm p-3 sm:p-4 rounded-2xl border-3 border-white shadow-lg hover:scale-105 transition-transform duration-300">
+                        <div class="w-12 h-12 mx-auto mb-2 bg-white/20 rounded-full flex items-center justify-center">
+                            <i class="fas fa-trophy text-yellow-300 text-2xl drop-shadow-lg"></i>
+                        </div>
+                        <p class="text-white text-sm sm:text-base font-bold drop-shadow">10 poin setiap jawaban benar!</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-orange-400 to-red-500 backdrop-blur-sm p-3 sm:p-4 rounded-2xl border-3 border-white shadow-lg hover:scale-105 transition-transform duration-300">
+                        <div class="w-12 h-12 mx-auto mb-2 bg-white/20 rounded-full flex items-center justify-center">
+                            <i class="fas fa-mouse-pointer text-white text-2xl drop-shadow-lg"></i>
+                        </div>
+                        <p class="text-white text-sm sm:text-base font-bold drop-shadow">Klik dan seret untuk bermain!</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-purple-400 to-pink-500 backdrop-blur-sm p-3 sm:p-4 rounded-2xl border-3 border-white shadow-lg hover:scale-105 transition-transform duration-300">
+                        <div class="w-12 h-12 mx-auto mb-2 bg-white/20 rounded-full flex items-center justify-center">
+                            <i class="fas fa-brain text-white text-2xl drop-shadow-lg"></i>
+                        </div>
+                        <p class="text-white text-sm sm:text-base font-bold drop-shadow">Belajar sambil bersenang-senang!</p>
+                    </div>
+                </div>
+                
+                <!-- Fun fact section -->
+                <div class="mt-4 bg-white/20 backdrop-blur-sm rounded-2xl p-3 border-2 border-white/50 relative z-10">
+                    <div class="flex items-center justify-center gap-2 text-white">
+                        <i class="fas fa-lightbulb text-yellow-300 text-xl animate-pulse"></i>
+                        <span class="font-bold text-sm sm:text-base">Tips: Klik setiap objek untuk menghitung dengan mudah!</span>
+                        <i class="fas fa-rocket text-cyan-300 text-xl wiggle"></i>
                     </div>
                 </div>
             </div>
@@ -328,6 +376,7 @@
         let score = 0;
         let correctAnswer = 0;
         let questionsAnswered = 0;
+        let draggedElement = null;
         
         const animals = [
             { icon: 'fas fa-cat', name: 'kucing', color: 'from-orange-400 to-red-500' },
@@ -338,7 +387,7 @@
             { icon: 'fas fa-spider', name: 'laba-laba', color: 'from-gray-600 to-black' },
             { icon: 'fas fa-horse', name: 'kuda', color: 'from-amber-600 to-brown-700' },
             { icon: 'fas fa-hippo', name: 'kuda nil', color: 'from-gray-500 to-gray-700' },
-            { icon: 'fas fa-otter', name: 'berang-berang', color: 'from-brown-500 to-amber-700' },
+            { icon: 'fas fa-otter', name: 'berang-berang', color: 'from-amber-800 to-brown-900' },
             { icon: 'fas fa-dragon', name: 'naga', color: 'from-purple-500 to-pink-600' }
         ];
         const fruits = [
@@ -387,7 +436,7 @@
                 'comparison': '⚖️ Perbandingan Jumlah!',
                 'patterns': '🔄 Pola Angka Seru!',
                 'shapes': '🔺 Menghitung Bentuk!',
-                'sorting': '📊 Urutkan Angka!',
+                'sorting': '🎯 Seret dan Urutkan Angka!',
                 'missing': '❓ Cari Angka Hilang!'
             };
             
@@ -436,17 +485,64 @@
             
             correctAnswer = count;
             
-            document.getElementById('question').textContent = `Berapa banyak ${animal.name} yang kamu lihat?`;
+            document.getElementById('question').textContent = `Klik setiap ${animal.name} untuk menghitung, lalu pilih jawabanmu!`;
             
             const visualArea = document.getElementById('visualArea');
+            
+            // Add counter display
+            const counterDisplay = document.createElement('div');
+            counterDisplay.className = 'w-full text-center mb-6';
+            counterDisplay.innerHTML = `
+                <div class="bg-white rounded-2xl p-4 shadow-lg border-4 border-purple-300 inline-block">
+                    <div class="text-lg font-bold text-gray-700 mb-2">Hitungan Kamu:</div>
+                    <div id="clickCounter" class="text-4xl font-bold text-purple-600">0</div>
+                    <div class="text-sm text-purple-600 mt-1">👆 Klik setiap binatang!</div>
+                </div>
+            `;
+            visualArea.appendChild(counterDisplay);
+            
+            let clickedCount = 0;
+            const clickedAnimals = new Set();
+            
             for (let i = 0; i < count; i++) {
                 const animalEl = document.createElement('div');
                 animalEl.className = `w-16 h-16 bg-gradient-to-br ${animal.color} rounded-full flex items-center justify-center text-white text-2xl shadow-lg bounce-in hover:scale-110 transition-transform cursor-pointer wiggle border-4 border-white`;
                 animalEl.style.animationDelay = `${i * 0.1}s`;
                 animalEl.innerHTML = `<i class="${animal.icon}"></i>`;
+                animalEl.dataset.animalId = i;
+                
                 animalEl.addEventListener('click', () => {
-                    animalEl.classList.add('star-burst');
-                    setTimeout(() => animalEl.classList.remove('star-burst'), 800);
+                    if (!clickedAnimals.has(i)) {
+                        clickedAnimals.add(i);
+                        clickedCount++;
+                        
+                        // Visual feedback
+                        animalEl.classList.add('star-burst');
+                        animalEl.style.transform = 'scale(1.2)';
+                        animalEl.style.border = '4px solid #10b981';
+                        
+                        // Add checkmark
+                        const checkmark = document.createElement('div');
+                        checkmark.className = 'absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-sm';
+                        checkmark.innerHTML = '<i class="fas fa-check"></i>';
+                        animalEl.style.position = 'relative';
+                        animalEl.appendChild(checkmark);
+                        
+                        // Update counter with animation
+                        const counter = document.getElementById('clickCounter');
+                        counter.textContent = clickedCount;
+                        counter.classList.add('bounce-in');
+                        setTimeout(() => counter.classList.remove('bounce-in'), 600);
+                        
+                        // Sound effect simulation with visual
+                        const soundEffect = document.createElement('div');
+                        soundEffect.className = 'absolute -top-8 left-1/2 transform -translate-x-1/2 text-green-500 font-bold animate-bounce';
+                        soundEffect.textContent = '+1';
+                        animalEl.appendChild(soundEffect);
+                        setTimeout(() => soundEffect.remove(), 1000);
+                        
+                        setTimeout(() => animalEl.classList.remove('star-burst'), 800);
+                    }
                 });
                 visualArea.appendChild(animalEl);
             }
@@ -462,13 +558,23 @@
             
             correctAnswer = num1 + num2;
             
-            document.getElementById('question').textContent = `${num1} + ${num2} = ?`;
+            document.getElementById('question').textContent = `Klik tombol "Gabungkan" untuk melihat hasil penjumlahan!`;
             
             const visualArea = document.getElementById('visualArea');
             
+            // Add instruction
+            const instruction = document.createElement('div');
+            instruction.className = 'w-full text-center text-lg font-bold text-gray-700 mb-4 bg-green-100 p-3 rounded-xl';
+            instruction.textContent = `${num1} + ${num2} = ?`;
+            visualArea.appendChild(instruction);
+            
+            const mainContainer = document.createElement('div');
+            mainContainer.className = 'flex flex-col items-center gap-6';
+            
             // First group
             const group1 = document.createElement('div');
-            group1.className = 'flex flex-wrap gap-3 p-6 bg-yellow-100 rounded-2xl border-4 border-yellow-300';
+            group1.className = 'flex flex-wrap gap-3 p-6 bg-yellow-100 rounded-2xl border-4 border-yellow-300 transition-all duration-500';
+            group1.id = 'group1';
             const label1 = document.createElement('div');
             label1.className = 'w-full text-center text-lg font-bold text-yellow-700 mb-2';
             label1.textContent = `Kelompok 1: ${num1} ${fruit.name}`;
@@ -476,20 +582,36 @@
             
             for (let i = 0; i < num1; i++) {
                 const fruitEl = document.createElement('div');
-                fruitEl.className = `w-14 h-14 bg-gradient-to-br ${fruit.color} rounded-full flex items-center justify-center text-white text-xl shadow-lg bounce-in hover:scale-110 transition-transform border-3 border-white`;
+                fruitEl.className = `w-14 h-14 bg-gradient-to-br ${fruit.color} rounded-full flex items-center justify-center text-white text-xl shadow-lg bounce-in hover:scale-110 transition-all duration-300 cursor-pointer border-3 border-white`;
                 fruitEl.style.animationDelay = `${i * 0.1}s`;
                 fruitEl.innerHTML = `<i class="${fruit.icon}"></i>`;
+                fruitEl.dataset.group = '1';
+                fruitEl.dataset.index = i;
+                
+                fruitEl.addEventListener('click', () => {
+                    fruitEl.classList.add('wiggle');
+                    setTimeout(() => fruitEl.classList.remove('wiggle'), 500);
+                });
+                
                 group1.appendChild(fruitEl);
             }
             
-            // Plus sign
+            // Plus sign with animation
+            const plusContainer = document.createElement('div');
+            plusContainer.className = 'flex items-center gap-4';
+            
             const plusEl = document.createElement('div');
-            plusEl.className = 'text-6xl font-bold text-green-600 flex items-center animate-pulse';
+            plusEl.className = 'text-6xl font-bold text-green-600 flex items-center animate-pulse cursor-pointer hover:scale-110 transition-transform';
             plusEl.textContent = '+';
+            plusEl.addEventListener('click', () => {
+                plusEl.classList.add('star-burst');
+                setTimeout(() => plusEl.classList.remove('star-burst'), 800);
+            });
             
             // Second group
             const group2 = document.createElement('div');
-            group2.className = 'flex flex-wrap gap-3 p-6 bg-pink-100 rounded-2xl border-4 border-pink-300';
+            group2.className = 'flex flex-wrap gap-3 p-6 bg-pink-100 rounded-2xl border-4 border-pink-300 transition-all duration-500';
+            group2.id = 'group2';
             const label2 = document.createElement('div');
             label2.className = 'w-full text-center text-lg font-bold text-pink-700 mb-2';
             label2.textContent = `Kelompok 2: ${num2} ${fruit.name}`;
@@ -497,17 +619,73 @@
             
             for (let i = 0; i < num2; i++) {
                 const fruitEl = document.createElement('div');
-                fruitEl.className = `w-14 h-14 bg-gradient-to-br ${fruit.color} rounded-full flex items-center justify-center text-white text-xl shadow-lg bounce-in hover:scale-110 transition-transform border-3 border-white`;
+                fruitEl.className = `w-14 h-14 bg-gradient-to-br ${fruit.color} rounded-full flex items-center justify-center text-white text-xl shadow-lg bounce-in hover:scale-110 transition-all duration-300 cursor-pointer border-3 border-white`;
                 fruitEl.style.animationDelay = `${(num1 + i) * 0.1}s`;
                 fruitEl.innerHTML = `<i class="${fruit.icon}"></i>`;
+                fruitEl.dataset.group = '2';
+                fruitEl.dataset.index = i;
+                
+                fruitEl.addEventListener('click', () => {
+                    fruitEl.classList.add('wiggle');
+                    setTimeout(() => fruitEl.classList.remove('wiggle'), 500);
+                });
+                
                 group2.appendChild(fruitEl);
             }
             
-            visualArea.appendChild(group1);
-            visualArea.appendChild(plusEl);
-            visualArea.appendChild(group2);
+            // Combine button
+            const combineButton = document.createElement('button');
+            combineButton.className = 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white text-xl font-bold py-4 px-8 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 animate-pulse';
+            combineButton.innerHTML = '<i class="fas fa-magic"></i> Gabungkan!';
+            combineButton.onclick = () => combineGroups(num1, num2, fruit);
+            
+            mainContainer.appendChild(group1);
+            mainContainer.appendChild(plusEl);
+            mainContainer.appendChild(group2);
+            mainContainer.appendChild(combineButton);
+            
+            visualArea.appendChild(mainContainer);
             
             generateAnswerOptions(correctAnswer, 10);
+        }
+        
+        function combineGroups(num1, num2, fruit) {
+            const group1 = document.getElementById('group1');
+            const group2 = document.getElementById('group2');
+            
+            // Create combined group
+            const combinedGroup = document.createElement('div');
+            combinedGroup.className = 'flex flex-wrap gap-3 p-6 bg-green-100 rounded-2xl border-4 border-green-300 mt-6';
+            const combinedLabel = document.createElement('div');
+            combinedLabel.className = 'w-full text-center text-lg font-bold text-green-700 mb-2';
+            combinedLabel.textContent = `Hasil: ${num1 + num2} ${fruit.name}`;
+            combinedGroup.appendChild(combinedLabel);
+            
+            // Animate fruits moving to combined group
+            const allFruits = [...group1.querySelectorAll('[data-group]'), ...group2.querySelectorAll('[data-group]')];
+            
+            allFruits.forEach((fruitEl, index) => {
+                setTimeout(() => {
+                    const newFruit = fruitEl.cloneNode(true);
+                    newFruit.className = `w-14 h-14 bg-gradient-to-br ${fruit.color} rounded-full flex items-center justify-center text-white text-xl shadow-lg bounce-in border-3 border-white`;
+                    combinedGroup.appendChild(newFruit);
+                    
+                    // Fade out original
+                    fruitEl.style.opacity = '0.3';
+                    fruitEl.style.transform = 'scale(0.8)';
+                }, index * 200);
+            });
+            
+            // Add combined group to visual area
+            setTimeout(() => {
+                document.querySelector('#visualArea .flex.flex-col').appendChild(combinedGroup);
+                
+                // Hide combine button
+                const combineButton = document.querySelector('button[onclick*="combineGroups"]');
+                if (combineButton) {
+                    combineButton.style.display = 'none';
+                }
+            }, 1000);
         }
         
         function generateSubtractionQuestion() {
@@ -573,50 +751,147 @@
             
             correctAnswer = num1 > num2 ? 1 : 2;
             
-            document.getElementById('question').textContent = `Kelompok mana yang jumlah ${vehicle.name}nya LEBIH BANYAK?`;
+            document.getElementById('question').textContent = `Klik setiap ${vehicle.name} untuk menghitung, lalu pilih kelompok yang LEBIH BANYAK!`;
             
             const visualArea = document.getElementById('visualArea');
             
+            // Add counters for both groups
+            const countersContainer = document.createElement('div');
+            countersContainer.className = 'flex justify-center gap-8 mb-6';
+            
+            const counter1 = document.createElement('div');
+            counter1.className = 'bg-blue-200 rounded-2xl p-4 shadow-lg border-4 border-blue-400';
+            counter1.innerHTML = `
+                <div class="text-lg font-bold text-blue-700 mb-2">Kelompok A:</div>
+                <div id="groupACounter" class="text-3xl font-bold text-blue-600">0</div>
+                <div class="text-sm text-blue-600 mt-1">👆 Klik untuk hitung!</div>
+            `;
+            
+            const counter2 = document.createElement('div');
+            counter2.className = 'bg-green-200 rounded-2xl p-4 shadow-lg border-4 border-green-400';
+            counter2.innerHTML = `
+                <div class="text-lg font-bold text-green-700 mb-2">Kelompok B:</div>
+                <div id="groupBCounter" class="text-3xl font-bold text-green-600">0</div>
+                <div class="text-sm text-green-600 mt-1">👆 Klik untuk hitung!</div>
+            `;
+            
+            countersContainer.appendChild(counter1);
+            countersContainer.appendChild(counter2);
+            visualArea.appendChild(countersContainer);
+            
+            const groupsContainer = document.createElement('div');
+            groupsContainer.className = 'flex flex-wrap justify-center gap-8';
+            
+            let groupAClicked = 0;
+            let groupBClicked = 0;
+            const clickedItemsA = new Set();
+            const clickedItemsB = new Set();
+            
             // Group 1
             const group1 = document.createElement('div');
-            group1.className = 'flex flex-col items-center p-6 bg-blue-100 rounded-2xl border-4 border-blue-300 m-4';
+            group1.className = 'flex flex-col items-center p-6 bg-blue-100 rounded-2xl border-4 border-blue-300 hover:border-blue-500 transition-all duration-300 cursor-pointer';
+            group1.id = 'groupA';
             const label1 = document.createElement('div');
             label1.className = 'text-xl font-bold text-blue-700 mb-4';
-            label1.textContent = `Kelompok A: ${num1} ${vehicle.name}`;
+            label1.textContent = `Kelompok A`;
             group1.appendChild(label1);
             
             const items1 = document.createElement('div');
             items1.className = 'flex flex-wrap gap-2 justify-center';
             for (let i = 0; i < num1; i++) {
                 const itemEl = document.createElement('div');
-                itemEl.className = `w-12 h-12 bg-gradient-to-br ${vehicle.color} rounded-full flex items-center justify-center text-white text-lg shadow-lg bounce-in border-2 border-white`;
+                itemEl.className = `w-12 h-12 bg-gradient-to-br ${vehicle.color} rounded-full flex items-center justify-center text-white text-lg shadow-lg bounce-in hover:scale-110 transition-all duration-300 cursor-pointer border-2 border-white`;
                 itemEl.style.animationDelay = `${i * 0.1}s`;
                 itemEl.innerHTML = `<i class="${vehicle.icon}"></i>`;
+                itemEl.dataset.group = 'A';
+                itemEl.dataset.itemId = i;
+                
+                itemEl.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (!clickedItemsA.has(i)) {
+                        clickedItemsA.add(i);
+                        groupAClicked++;
+                        
+                        // Visual feedback
+                        itemEl.classList.add('star-burst');
+                        itemEl.style.border = '4px solid #10b981';
+                        itemEl.style.transform = 'scale(1.2)';
+                        
+                        // Add checkmark
+                        const checkmark = document.createElement('div');
+                        checkmark.className = 'absolute -top-2 -right-2 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center text-white text-xs';
+                        checkmark.innerHTML = '<i class="fas fa-check"></i>';
+                        itemEl.style.position = 'relative';
+                        itemEl.appendChild(checkmark);
+                        
+                        // Update counter
+                        const counter = document.getElementById('groupACounter');
+                        counter.textContent = groupAClicked;
+                        counter.classList.add('bounce-in');
+                        setTimeout(() => counter.classList.remove('bounce-in'), 600);
+                        
+                        setTimeout(() => itemEl.classList.remove('star-burst'), 800);
+                    }
+                });
+                
                 items1.appendChild(itemEl);
             }
             group1.appendChild(items1);
             
             // Group 2
             const group2 = document.createElement('div');
-            group2.className = 'flex flex-col items-center p-6 bg-green-100 rounded-2xl border-4 border-green-300 m-4';
+            group2.className = 'flex flex-col items-center p-6 bg-green-100 rounded-2xl border-4 border-green-300 hover:border-green-500 transition-all duration-300 cursor-pointer';
+            group2.id = 'groupB';
             const label2 = document.createElement('div');
             label2.className = 'text-xl font-bold text-green-700 mb-4';
-            label2.textContent = `Kelompok B: ${num2} ${vehicle.name}`;
+            label2.textContent = `Kelompok B`;
             group2.appendChild(label2);
             
             const items2 = document.createElement('div');
             items2.className = 'flex flex-wrap gap-2 justify-center';
             for (let i = 0; i < num2; i++) {
                 const itemEl = document.createElement('div');
-                itemEl.className = `w-12 h-12 bg-gradient-to-br ${vehicle.color} rounded-full flex items-center justify-center text-white text-lg shadow-lg bounce-in border-2 border-white`;
+                itemEl.className = `w-12 h-12 bg-gradient-to-br ${vehicle.color} rounded-full flex items-center justify-center text-white text-lg shadow-lg bounce-in hover:scale-110 transition-all duration-300 cursor-pointer border-2 border-white`;
                 itemEl.style.animationDelay = `${(num1 + i) * 0.1}s`;
                 itemEl.innerHTML = `<i class="${vehicle.icon}"></i>`;
+                itemEl.dataset.group = 'B';
+                itemEl.dataset.itemId = i;
+                
+                itemEl.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (!clickedItemsB.has(i)) {
+                        clickedItemsB.add(i);
+                        groupBClicked++;
+                        
+                        // Visual feedback
+                        itemEl.classList.add('star-burst');
+                        itemEl.style.border = '4px solid #10b981';
+                        itemEl.style.transform = 'scale(1.2)';
+                        
+                        // Add checkmark
+                        const checkmark = document.createElement('div');
+                        checkmark.className = 'absolute -top-2 -right-2 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center text-white text-xs';
+                        checkmark.innerHTML = '<i class="fas fa-check"></i>';
+                        itemEl.style.position = 'relative';
+                        itemEl.appendChild(checkmark);
+                        
+                        // Update counter
+                        const counter = document.getElementById('groupBCounter');
+                        counter.textContent = groupBClicked;
+                        counter.classList.add('bounce-in');
+                        setTimeout(() => counter.classList.remove('bounce-in'), 600);
+                        
+                        setTimeout(() => itemEl.classList.remove('star-burst'), 800);
+                    }
+                });
+                
                 items2.appendChild(itemEl);
             }
             group2.appendChild(items2);
             
-            visualArea.appendChild(group1);
-            visualArea.appendChild(group2);
+            groupsContainer.appendChild(group1);
+            groupsContainer.appendChild(group2);
+            visualArea.appendChild(groupsContainer);
             
             // Generate comparison options
             const answerOptions = document.getElementById('answerOptions');
@@ -691,28 +966,80 @@
             
             correctAnswer = count;
             
-            document.getElementById('question').textContent = `Berapa banyak ${targetShape.name} yang kamu lihat?`;
+            document.getElementById('question').textContent = `Klik semua ${targetShape.name} yang kamu temukan!`;
             
             const visualArea = document.getElementById('visualArea');
             
             const instruction = document.createElement('div');
             instruction.className = 'w-full text-center text-lg font-bold text-gray-700 mb-4 bg-indigo-100 p-3 rounded-xl flex items-center justify-center gap-3';
-            instruction.innerHTML = `Cari dan hitung bentuk seperti ini:`;
+            instruction.innerHTML = `Cari dan klik bentuk seperti ini:`;
             const exampleShape = document.createElement('div');
-            exampleShape.className = `w-16 h-16 bg-gradient-to-br ${targetShape.color} rounded-lg flex items-center justify-center text-white text-2xl shadow-lg border-3 border-white`;
+            exampleShape.className = `w-16 h-16 bg-gradient-to-br ${targetShape.color} rounded-lg flex items-center justify-center text-white text-2xl shadow-lg border-3 border-white wiggle`;
             exampleShape.innerHTML = `<i class="${targetShape.icon}"></i>`;
             instruction.appendChild(exampleShape);
             visualArea.appendChild(instruction);
             
+            // Add counter display
+            const counterDisplay = document.createElement('div');
+            counterDisplay.className = 'w-full text-center mb-6';
+            counterDisplay.innerHTML = `
+                <div class="bg-white rounded-2xl p-4 shadow-lg border-4 border-indigo-300 inline-block">
+                    <div class="text-lg font-bold text-gray-700 mb-2">Bentuk Ditemukan:</div>
+                    <div id="shapeCounter" class="text-4xl font-bold text-indigo-600">0</div>
+                    <div class="text-sm text-indigo-600 mt-1">👆 Klik bentuk yang sama!</div>
+                </div>
+            `;
+            visualArea.appendChild(counterDisplay);
+            
             const shapesContainer = document.createElement('div');
             shapesContainer.className = 'flex flex-wrap gap-3 justify-center';
+            
+            let foundCount = 0;
+            const foundShapes = new Set();
             
             // Add target shapes
             for (let i = 0; i < count; i++) {
                 const shapeEl = document.createElement('div');
-                shapeEl.className = `w-14 h-14 bg-gradient-to-br ${targetShape.color} rounded-lg flex items-center justify-center text-white text-xl shadow-lg bounce-in hover:scale-110 transition-transform cursor-pointer border-2 border-white`;
+                shapeEl.className = `w-14 h-14 bg-gradient-to-br ${targetShape.color} rounded-lg flex items-center justify-center text-white text-xl shadow-lg bounce-in hover:scale-110 transition-all duration-300 cursor-pointer border-2 border-white`;
                 shapeEl.style.animationDelay = `${Math.random() * 2}s`;
                 shapeEl.innerHTML = `<i class="${targetShape.icon}"></i>`;
+                shapeEl.dataset.isTarget = 'true';
+                shapeEl.dataset.shapeId = `target-${i}`;
+                
+                shapeEl.addEventListener('click', () => {
+                    if (!foundShapes.has(`target-${i}`)) {
+                        foundShapes.add(`target-${i}`);
+                        foundCount++;
+                        
+                        // Success animation
+                        shapeEl.classList.add('star-burst');
+                        shapeEl.style.border = '4px solid #10b981';
+                        shapeEl.style.transform = 'scale(1.2)';
+                        
+                        // Add checkmark
+                        const checkmark = document.createElement('div');
+                        checkmark.className = 'absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-sm';
+                        checkmark.innerHTML = '<i class="fas fa-check"></i>';
+                        shapeEl.style.position = 'relative';
+                        shapeEl.appendChild(checkmark);
+                        
+                        // Update counter
+                        const counter = document.getElementById('shapeCounter');
+                        counter.textContent = foundCount;
+                        counter.classList.add('bounce-in');
+                        setTimeout(() => counter.classList.remove('bounce-in'), 600);
+                        
+                        // Success effect
+                        const successEffect = document.createElement('div');
+                        successEffect.className = 'absolute -top-8 left-1/2 transform -translate-x-1/2 text-green-500 font-bold animate-bounce';
+                        successEffect.textContent = '✓ Benar!';
+                        shapeEl.appendChild(successEffect);
+                        setTimeout(() => successEffect.remove(), 1500);
+                        
+                        setTimeout(() => shapeEl.classList.remove('star-burst'), 800);
+                    }
+                });
+                
                 shapesContainer.appendChild(shapeEl);
             }
             
@@ -724,9 +1051,30 @@
                 } while (otherShape === targetShape);
                 
                 const shapeEl = document.createElement('div');
-                shapeEl.className = `w-14 h-14 bg-gradient-to-br ${otherShape.color} rounded-lg flex items-center justify-center text-white text-xl shadow-lg bounce-in hover:scale-110 transition-transform cursor-pointer border-2 border-white`;
+                shapeEl.className = `w-14 h-14 bg-gradient-to-br ${otherShape.color} rounded-lg flex items-center justify-center text-white text-xl shadow-lg bounce-in hover:scale-110 transition-all duration-300 cursor-pointer border-2 border-white`;
                 shapeEl.style.animationDelay = `${Math.random() * 2}s`;
                 shapeEl.innerHTML = `<i class="${otherShape.icon}"></i>`;
+                shapeEl.dataset.isTarget = 'false';
+                
+                shapeEl.addEventListener('click', () => {
+                    // Wrong shape animation
+                    shapeEl.classList.add('shake');
+                    shapeEl.style.border = '4px solid #ef4444';
+                    
+                    // Wrong effect
+                    const wrongEffect = document.createElement('div');
+                    wrongEffect.className = 'absolute -top-8 left-1/2 transform -translate-x-1/2 text-red-500 font-bold animate-bounce';
+                    wrongEffect.textContent = '✗ Bukan!';
+                    shapeEl.style.position = 'relative';
+                    shapeEl.appendChild(wrongEffect);
+                    
+                    setTimeout(() => {
+                        shapeEl.classList.remove('shake');
+                        shapeEl.style.border = '2px solid white';
+                        wrongEffect.remove();
+                    }, 1000);
+                });
+                
                 shapesContainer.appendChild(shapeEl);
             }
             
@@ -756,69 +1104,241 @@
             const sorted = [...numbers].sort((a, b) => a - b);
             correctAnswer = sorted.join('');
             
-            document.getElementById('question').textContent = 'Urutkan angka-angka ini dari KECIL ke BESAR!';
+            document.getElementById('question').textContent = 'Seret angka-angka ke kotak urutan dari KECIL ke BESAR!';
             
             const visualArea = document.getElementById('visualArea');
             
             const instruction = document.createElement('div');
             instruction.className = 'w-full text-center text-lg font-bold text-gray-700 mb-6 bg-teal-100 p-4 rounded-xl';
-            instruction.textContent = 'Angka yang harus diurutkan:';
+            instruction.textContent = '🖱️ Seret angka dari sini:';
             visualArea.appendChild(instruction);
             
+            // Container for draggable numbers
             const numbersContainer = document.createElement('div');
-            numbersContainer.className = 'flex gap-4 justify-center flex-wrap mb-6';
+            numbersContainer.className = 'flex gap-4 justify-center flex-wrap mb-6 p-4 bg-blue-50 rounded-2xl border-4 border-blue-200 min-h-24';
+            numbersContainer.id = 'draggableNumbers';
             
             shuffled.forEach((num, index) => {
                 const numEl = document.createElement('div');
-                numEl.className = 'bg-gradient-to-br from-teal-400 to-blue-500 text-white text-4xl font-bold w-20 h-20 rounded-2xl flex items-center justify-center bounce-in shadow-lg';
+                numEl.className = 'bg-gradient-to-br from-teal-400 to-blue-500 text-white text-4xl font-bold w-20 h-20 rounded-2xl flex items-center justify-center bounce-in shadow-lg cursor-move hover:scale-110 transition-all duration-200 border-4 border-white';
                 numEl.style.animationDelay = `${index * 0.1}s`;
                 numEl.textContent = num;
+                numEl.draggable = true;
+                numEl.dataset.number = num;
+                numEl.id = `draggable-${num}`;
+                
+                // Add drag event listeners
+                numEl.addEventListener('dragstart', handleDragStart);
+                numEl.addEventListener('dragend', handleDragEnd);
+                
                 numbersContainer.appendChild(numEl);
             });
             
             visualArea.appendChild(numbersContainer);
             
-            // Generate sorting options
-            const answerOptions = document.getElementById('answerOptions');
-            const options = [sorted.join(''), ...generateWrongSortingOptions(sorted)];
+            // Drop zone instruction
+            const dropInstruction = document.createElement('div');
+            dropInstruction.className = 'w-full text-center text-lg font-bold text-gray-700 mb-4 bg-green-100 p-4 rounded-xl';
+            dropInstruction.textContent = '📍 Letakkan di sini sesuai urutan:';
+            visualArea.appendChild(dropInstruction);
             
-            // Shuffle options
-            for (let i = options.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [options[i], options[j]] = [options[j], options[i]];
+            // Container for drop zones
+            const dropContainer = document.createElement('div');
+            dropContainer.className = 'flex gap-4 justify-center flex-wrap mb-6';
+            dropContainer.id = 'dropZones';
+            
+            for (let i = 0; i < count; i++) {
+                const dropZone = document.createElement('div');
+                dropZone.className = 'w-20 h-20 border-4 border-dashed border-gray-400 rounded-2xl flex items-center justify-center text-gray-400 text-2xl font-bold bg-gray-100 hover:bg-gray-200 transition-all duration-200';
+                dropZone.textContent = i + 1;
+                dropZone.dataset.position = i;
+                dropZone.id = `dropzone-${i}`;
+                
+                // Add drop event listeners
+                dropZone.addEventListener('dragover', handleDragOver);
+                dropZone.addEventListener('drop', handleDrop);
+                dropZone.addEventListener('dragenter', handleDragEnter);
+                dropZone.addEventListener('dragleave', handleDragLeave);
+                
+                dropContainer.appendChild(dropZone);
             }
             
-            options.forEach(option => {
-                const button = document.createElement('button');
-                button.className = 'bg-teal-500 hover:bg-teal-600 text-white text-2xl font-bold py-4 px-6 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-200';
-                button.textContent = option.split('').join(' - ');
-                button.onclick = () => checkAnswer(option, button);
-                answerOptions.appendChild(button);
-            });
+            visualArea.appendChild(dropContainer);
+            
+            // Check button
+            const checkButton = document.createElement('button');
+            checkButton.className = 'bg-green-500 hover:bg-green-600 text-white text-xl font-bold py-4 px-8 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-200 mt-4 disabled:opacity-50 disabled:cursor-not-allowed';
+            checkButton.textContent = '✓ Periksa Urutan';
+            checkButton.onclick = checkSortingAnswer;
+            checkButton.id = 'checkSortingButton';
+            visualArea.appendChild(checkButton);
+            
+            // Hide answer options for drag and drop
+            document.getElementById('answerOptions').innerHTML = '';
             
             return; // Skip the normal generateAnswerOptions call
         }
         
-        function generateWrongSortingOptions(correct) {
-            const wrong = [];
-            const nums = correct.slice();
+        // Drag and Drop Functions
+        function handleDragStart(e) {
+            draggedElement = e.target;
+            e.target.style.opacity = '0.5';
+            e.target.classList.add('wiggle');
+        }
+        
+        function handleDragEnd(e) {
+            e.target.style.opacity = '1';
+            e.target.classList.remove('wiggle');
+            draggedElement = null;
+        }
+        
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+        
+        function handleDragEnter(e) {
+            e.preventDefault();
+            if (e.target.classList.contains('border-dashed')) {
+                e.target.classList.add('drop-zone-active');
+            }
+        }
+        
+        function handleDragLeave(e) {
+            if (e.target.classList.contains('border-dashed')) {
+                e.target.classList.remove('drop-zone-active');
+            }
+        }
+        
+        function handleDrop(e) {
+            e.preventDefault();
             
-            // Reverse order
-            wrong.push([...nums].reverse().join(''));
-            
-            // Random shuffle
-            const shuffled = [...nums].sort(() => Math.random() - 0.5);
-            if (shuffled.join('') !== correct.join('') && !wrong.includes(shuffled.join(''))) {
-                wrong.push(shuffled.join(''));
+            if (draggedElement && e.target.classList.contains('border-dashed')) {
+                // Check if drop zone is empty
+                if (!e.target.querySelector('.dropped-number')) {
+                    // Remove from original position if it was in a drop zone
+                    const allDropZones = document.querySelectorAll('#dropZones > div');
+                    allDropZones.forEach(zone => {
+                        const existingNumber = zone.querySelector('.dropped-number');
+                        if (existingNumber && existingNumber.textContent === draggedElement.dataset.number) {
+                            zone.innerHTML = '';
+                            zone.textContent = parseInt(zone.dataset.position) + 1;
+                            zone.classList.remove('border-teal-400', 'bg-teal-100');
+                            zone.classList.add('border-gray-400', 'bg-gray-100');
+                        }
+                    });
+                    
+                    // Create a copy for the drop zone
+                    const droppedNumber = draggedElement.cloneNode(true);
+                    droppedNumber.className = 'bg-gradient-to-br from-teal-400 to-blue-500 text-white text-4xl font-bold w-20 h-20 rounded-2xl flex items-center justify-center shadow-lg border-4 border-white dropped-number';
+                    droppedNumber.draggable = false;
+                    
+                    // Clear drop zone and add number
+                    e.target.innerHTML = '';
+                    e.target.appendChild(droppedNumber);
+                    e.target.classList.remove('drop-zone-active', 'border-gray-400', 'bg-gray-100');
+                    e.target.classList.add('border-teal-400', 'bg-teal-100');
+                    
+                    // Remove original from draggable container
+                    draggedElement.remove();
+                    
+                    // Add bounce animation
+                    droppedNumber.classList.add('bounce-in');
+                }
             }
             
-            // Another random shuffle
-            const shuffled2 = [...nums].sort(() => Math.random() - 0.5);
-            if (shuffled2.join('') !== correct.join('') && !wrong.includes(shuffled2.join(''))) {
-                wrong.push(shuffled2.join(''));
+            // Remove active state from all drop zones
+            document.querySelectorAll('.drop-zone-active').forEach(zone => {
+                zone.classList.remove('drop-zone-active');
+            });
+        }
+        
+        function checkSortingAnswer() {
+            const dropZones = document.querySelectorAll('#dropZones > div');
+            const userAnswer = [];
+            
+            dropZones.forEach(zone => {
+                const numberEl = zone.querySelector('.dropped-number');
+                if (numberEl) {
+                    userAnswer.push(numberEl.textContent);
+                }
+            });
+            
+            if (userAnswer.length !== dropZones.length) {
+                // Show message to complete all positions
+                const feedback = document.getElementById('feedback');
+                feedback.innerHTML = '<div class="text-orange-500 font-bold">Lengkapi semua posisi dulu ya! 🤗</div>';
+                return;
             }
             
-            return wrong.slice(0, 3);
+            const isCorrect = userAnswer.join('') === correctAnswer;
+            
+            // Disable check button
+            document.getElementById('checkSortingButton').disabled = true;
+            
+            if (isCorrect) {
+                // Success animation
+                dropZones.forEach((zone, index) => {
+                    setTimeout(() => {
+                        zone.classList.add('pulse-correct');
+                        const numberEl = zone.querySelector('.dropped-number');
+                        if (numberEl) {
+                            numberEl.classList.add('star-burst');
+                        }
+                    }, index * 200);
+                });
+                
+                score += 10;
+                document.getElementById('score').textContent = score;
+                createSuccessAnimation();
+                
+                setTimeout(() => {
+                    questionsAnswered++;
+                    updateProgress();
+                    if (questionsAnswered >= 5) {
+                        levelUp();
+                    } else {
+                        generateQuestion();
+                    }
+                }, 2000);
+                
+            } else {
+                // Wrong answer animation
+                dropZones.forEach(zone => {
+                    zone.classList.add('shake');
+                    const numberEl = zone.querySelector('.dropped-number');
+                    if (numberEl) {
+                        numberEl.style.backgroundColor = '#ef4444';
+                    }
+                });
+                
+                createWrongAnimation(correctAnswer);
+                
+                // Show correct answer after delay
+                setTimeout(() => {
+                    const correctArray = correctAnswer.split('');
+                    dropZones.forEach((zone, index) => {
+                        if (correctArray[index]) {
+                            zone.innerHTML = '';
+                            const correctEl = document.createElement('div');
+                            correctEl.className = 'bg-gradient-to-br from-green-400 to-emerald-500 text-white text-4xl font-bold w-20 h-20 rounded-2xl flex items-center justify-center shadow-lg border-4 border-white bounce-in';
+                            correctEl.textContent = correctArray[index];
+                            zone.appendChild(correctEl);
+                            zone.classList.remove('border-gray-400', 'bg-gray-100');
+                            zone.classList.add('border-green-400', 'bg-green-100');
+                        }
+                    });
+                }, 1000);
+                
+                setTimeout(() => {
+                    questionsAnswered++;
+                    updateProgress();
+                    if (questionsAnswered >= 5) {
+                        levelUp();
+                    } else {
+                        generateQuestion();
+                    }
+                }, 3000);
+            }
         }
         
         function generateMissingQuestion() {
@@ -846,6 +1366,7 @@
                     const questionEl = document.createElement('div');
                     questionEl.className = 'bg-gradient-to-br from-red-400 to-pink-500 text-white text-4xl font-bold w-20 h-20 rounded-2xl flex items-center justify-center animate-pulse shadow-lg border-4 border-red-300';
                     questionEl.textContent = '?';
+                    questionEl.id = 'missingNumberBox';
                     sequenceContainer.appendChild(questionEl);
                 } else {
                     const numEl = document.createElement('div');
@@ -923,6 +1444,18 @@
                 score += 10;
                 document.getElementById('score').textContent = score;
                 
+                // Special handling for missing number game - show the answer in the question mark
+                if (currentGame === 'missing') {
+                    const questionMark = document.getElementById('missingNumberBox');
+                    if (questionMark && questionMark.textContent === '?') {
+                        setTimeout(() => {
+                            questionMark.textContent = correctAnswer;
+                            questionMark.classList.remove('from-red-400', 'to-pink-500', 'animate-pulse');
+                            questionMark.classList.add('from-green-400', 'to-emerald-500', 'star-burst');
+                        }, 500);
+                    }
+                }
+                
                 // Create spectacular success animation
                 createSuccessAnimation();
                 
@@ -945,6 +1478,18 @@
                 }, 2000);
             } else {
                 buttonEl.classList.add('shake');
+                
+                // Special handling for missing number game - show the answer in the question mark
+                if (currentGame === 'missing') {
+                    const questionMark = document.getElementById('missingNumberBox');
+                    if (questionMark && questionMark.textContent === '?') {
+                        setTimeout(() => {
+                            questionMark.textContent = correctAnswer;
+                            questionMark.classList.remove('from-red-400', 'to-pink-500', 'animate-pulse');
+                            questionMark.classList.add('from-orange-400', 'to-yellow-500', 'bounce-in');
+                        }, 1000);
+                    }
+                }
                 
                 // Create wrong answer animation
                 createWrongAnimation(correctAnswer);
@@ -1100,8 +1645,6 @@
             updateProgress();
             generateQuestion();
         }
-        
-
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'974abcd3416e89aa',t:'MTc1NjEyMTIxOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'974af740a2c17a47',t:'MTc1NjEyMzYxMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
