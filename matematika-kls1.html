@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Belajar Matematika Seru - Kelas 1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Comic Neue', cursive;
+        }
+        
+        .bounce-in {
+            animation: bounceIn 0.6s ease-out;
+        }
+        
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .pulse-correct {
+            animation: pulseCorrect 0.6s ease-in-out;
+        }
+        
+        @keyframes pulseCorrect {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); background-color: #10b981; }
+            100% { transform: scale(1); }
+        }
+        
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f39c12;
+            animation: confetti-fall 3s linear infinite;
+        }
+        
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        .star-burst {
+            animation: starBurst 0.8s ease-out;
+        }
+        
+        @keyframes starBurst {
+            0% { transform: scale(0) rotate(0deg); opacity: 0; }
+            50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
+            100% { transform: scale(1) rotate(360deg); opacity: 1; }
+        }
+        
+        .rainbow-text {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7, #dda0dd);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbow 2s ease-in-out infinite;
+        }
+        
+        @keyframes rainbow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .wiggle {
+            animation: wiggle 0.5s ease-in-out infinite;
+        }
+        
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-3deg); }
+            75% { transform: rotate(3deg); }
+        }
+        
+        @keyframes fireworkExplode {
+            0% { 
+                transform: scale(0) rotate(0deg); 
+                opacity: 1; 
+            }
+            50% { 
+                transform: scale(1.5) rotate(180deg); 
+                opacity: 1; 
+            }
+            100% { 
+                transform: scale(0.5) rotate(360deg); 
+                opacity: 0; 
+            }
+        }
+        
+        @keyframes flyAcross {
+            0% { 
+                transform: translateX(-100px) scale(0.5) rotate(0deg); 
+                opacity: 0; 
+            }
+            50% { 
+                transform: translateX(50vw) scale(1.2) rotate(180deg); 
+                opacity: 1; 
+            }
+            100% { 
+                transform: translateX(100vw) scale(0.8) rotate(360deg); 
+                opacity: 0; 
+            }
+        }
+        
+        @keyframes fallDown {
+            0% { 
+                transform: translateY(-50px) rotate(0deg); 
+                opacity: 1; 
+            }
+            100% { 
+                transform: translateY(200px) rotate(360deg); 
+                opacity: 0; 
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-500 via-purple-600 to-pink-500 min-h-screen">
+    <!-- Header -->
+    <div class="bg-white shadow-xl p-4 border-b-4 border-yellow-400">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3 sm:gap-4">
+                <img src="https://cdn-icons-png.flaticon.com/256/11159/11159505.png" alt="Logo" class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bounce-in float" onerror="this.src=''; this.alt='Logo failed to load'; this.style.display='none';">
+                <div>
+                    <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-purple-700 text-center sm:text-left">Matematika itu Mudah!</h1>
+                    <p class="text-sm sm:text-base lg:text-lg text-purple-600 font-semibold">Media belajar Kelas 1 SD/MI</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 sm:gap-4">
+                <div class="bg-yellow-500 px-3 py-2 sm:px-6 sm:py-3 rounded-full shadow-lg border-3 border-yellow-600">
+                    <span class="text-sm sm:text-xl font-bold text-white">⭐ <span id="score">0</span></span>
+                </div>
+                <div class="bg-green-600 px-3 py-2 sm:px-6 sm:py-3 rounded-full shadow-lg border-3 border-green-700">
+                    <span class="text-sm sm:text-xl font-bold text-white">🏆 <span id="level">1</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Container -->
+    <div class="max-w-7xl mx-auto p-6">
+        <!-- Game Selection -->
+        <div id="gameMenu" class="text-center">
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 drop-shadow-lg float">🎮 Pilih Permainan! 🎮</h2>
+            <p class="text-lg sm:text-xl lg:text-2xl text-white/90 mb-6 sm:mb-8 drop-shadow font-semibold px-4">Ayo belajar matematika dengan cara yang seru!</p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+                <button onclick="startGame('counting')" class="bg-white p-4 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-purple-500 hover:border-purple-600">
+                    <div class="text-5xl sm:text-6xl lg:text-7xl mb-2 sm:mb-3">🐰</div>
+                    <h3 class="text-xl sm:text-2xl font-bold text-purple-700 mb-1 sm:mb-2">Menghitung</h3>
+                    <p class="text-sm sm:text-lg text-gray-800 font-semibold">Hitung binatang lucu!</p>
+                    <div class="text-xs sm:text-sm text-purple-600 mt-1 sm:mt-2 font-bold bg-purple-100 px-2 py-1 rounded-full">⭐ Level: Mudah</div>
+                </button>
+                
+                <button onclick="startGame('addition')" class="bg-white p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-green-500 hover:border-green-600">
+                    <div class="text-7xl mb-3">🍎</div>
+                    <h3 class="text-2xl font-bold text-green-700 mb-2">Penjumlahan</h3>
+                    <p class="text-lg text-gray-800 font-semibold">Tambah buah-buahan!</p>
+                    <div class="text-sm text-green-600 mt-2 font-bold bg-green-100 px-2 py-1 rounded-full">⭐ Level: Mudah</div>
+                </button>
+                
+                <button onclick="startGame('subtraction')" class="bg-white p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-orange-500 hover:border-orange-600">
+                    <div class="text-7xl mb-3">🌟</div>
+                    <h3 class="text-2xl font-bold text-orange-700 mb-2">Pengurangan</h3>
+                    <p class="text-lg text-gray-800 font-semibold">Kurangi bintang!</p>
+                    <div class="text-sm text-orange-600 mt-2 font-bold bg-orange-100 px-2 py-1 rounded-full">⭐ Level: Mudah</div>
+                </button>
+                
+                <button onclick="startGame('comparison')" class="bg-white p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-blue-500 hover:border-blue-600">
+                    <div class="text-7xl mb-3">⚖️</div>
+                    <h3 class="text-2xl font-bold text-blue-700 mb-2">Perbandingan</h3>
+                    <p class="text-lg text-gray-800 font-semibold">Mana yang lebih banyak?</p>
+                    <div class="text-sm text-blue-600 mt-2 font-bold bg-blue-100 px-2 py-1 rounded-full">⭐ Level: Mudah</div>
+                </button>
+                
+                <button onclick="startGame('patterns')" class="bg-white p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-pink-500 hover:border-pink-600">
+                    <div class="text-7xl mb-3">🔄</div>
+                    <h3 class="text-2xl font-bold text-pink-700 mb-2">Pola Angka</h3>
+                    <p class="text-lg text-gray-800 font-semibold">Lanjutkan pola!</p>
+                    <div class="text-sm text-pink-600 mt-2 font-bold bg-pink-100 px-2 py-1 rounded-full">⭐ Level: Sedang</div>
+                </button>
+                
+                <button onclick="startGame('shapes')" class="bg-white p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-indigo-500 hover:border-indigo-600">
+                    <div class="text-7xl mb-3">🔺</div>
+                    <h3 class="text-2xl font-bold text-indigo-700 mb-2">Bentuk</h3>
+                    <p class="text-lg text-gray-800 font-semibold">Hitung bentuk geometri!</p>
+                    <div class="text-sm text-indigo-600 mt-2 font-bold bg-indigo-100 px-2 py-1 rounded-full">⭐ Level: Mudah</div>
+                </button>
+                
+                <button onclick="startGame('sorting')" class="bg-white p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-teal-500 hover:border-teal-600">
+                    <div class="text-7xl mb-3">📊</div>
+                    <h3 class="text-2xl font-bold text-teal-700 mb-2">Urutkan</h3>
+                    <p class="text-lg text-gray-800 font-semibold">Urutkan dari kecil ke besar!</p>
+                    <div class="text-sm text-teal-600 mt-2 font-bold bg-teal-100 px-2 py-1 rounded-full">⭐ Level: Sedang</div>
+                </button>
+                
+                <button onclick="startGame('missing')" class="bg-white p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-red-500 hover:border-red-600">
+                    <div class="text-7xl mb-3">❓</div>
+                    <h3 class="text-2xl font-bold text-red-700 mb-2">Angka Hilang</h3>
+                    <p class="text-lg text-gray-800 font-semibold">Cari angka yang hilang!</p>
+                    <div class="text-sm text-red-600 mt-2 font-bold bg-red-100 px-2 py-1 rounded-full">⭐ Level: Sedang</div>
+                </button>
+            </div>
+            
+            <!-- Instructions Panel -->
+            <div class="mt-6 sm:mt-8 bg-white rounded-3xl p-4 sm:p-6 shadow-xl mx-4 sm:mx-0 border-4 border-yellow-400">
+                <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">📋 Cara Bermain:</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-left">
+                    <div class="bg-blue-50 p-3 sm:p-4 rounded-2xl">
+                        <h4 class="font-bold text-blue-600 mb-1 sm:mb-2 text-sm sm:text-base">🎯 Tujuan:</h4>
+                        <p class="text-gray-700 text-sm sm:text-base">Jawab 5 soal untuk naik level!</p>
+                    </div>
+                    <div class="bg-green-50 p-3 sm:p-4 rounded-2xl">
+                        <h4 class="font-bold text-green-600 mb-1 sm:mb-2 text-sm sm:text-base">🏆 Skor:</h4>
+                        <p class="text-gray-700 text-sm sm:text-base">10 poin setiap jawaban benar!</p>
+                    </div>
+                    <div class="bg-purple-50 p-3 sm:p-4 rounded-2xl">
+                        <h4 class="font-bold text-purple-600 mb-1 sm:mb-2 text-sm sm:text-base">👀 Perhatikan:</h4>
+                        <p class="text-gray-700 text-sm sm:text-base">Lihat gambar dengan teliti!</p>
+                    </div>
+                    <div class="bg-orange-50 p-3 sm:p-4 rounded-2xl">
+                        <h4 class="font-bold text-orange-600 mb-1 sm:mb-2 text-sm sm:text-base">💡 Tips:</h4>
+                        <p class="text-gray-700 text-sm sm:text-base">Jangan terburu-buru ya!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Area -->
+        <div id="gameArea" class="hidden px-4 sm:px-0">
+            <div class="bg-white rounded-3xl shadow-2xl p-4 sm:p-6 lg:p-8 border-4 border-purple-400">
+                <div class="text-center mb-4 sm:mb-6">
+                    <button onclick="backToMenu()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full mb-3 sm:mb-4 transition-colors text-sm sm:text-lg font-bold shadow-lg">
+                        ← Kembali
+                    </button>
+                    <h3 id="gameTitle" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-purple-600 mb-3 sm:mb-4 rainbow-text"></h3>
+                    <div id="gameInstructions" class="text-sm sm:text-lg lg:text-xl font-semibold text-gray-600 mb-3 sm:mb-4 bg-yellow-50 p-3 sm:p-4 rounded-2xl border-2 border-yellow-200"></div>
+                    <div id="question" class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-700 mb-4 sm:mb-6"></div>
+                </div>
+                
+                <!-- Visual Area -->
+                <div id="visualArea" class="min-h-32 sm:min-h-40 flex flex-wrap justify-center items-center gap-2 sm:gap-4 mb-6 sm:mb-8 p-4 sm:p-6 bg-gradient-to-br from-blue-100 to-purple-100 rounded-3xl border-4 border-blue-400"></div>
+                
+                <!-- Answer Options -->
+                <div id="answerOptions" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6"></div>
+                
+                <!-- Feedback -->
+                <div id="feedback" class="text-center text-lg sm:text-xl lg:text-2xl font-bold min-h-12 sm:min-h-16 p-3 sm:p-4 rounded-2xl"></div>
+                
+                <!-- Progress Bar -->
+                <div class="bg-gray-200 rounded-full h-3 sm:h-4 mb-3 sm:mb-4">
+                    <div id="progressBar" class="bg-gradient-to-r from-green-400 to-blue-500 h-3 sm:h-4 rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+                <p class="text-center text-gray-600 font-semibold text-sm sm:text-base">Soal <span id="currentQuestion">1</span> dari 5</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Celebration Modal -->
+    <div id="celebrationModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 text-center max-w-sm sm:max-w-md mx-auto bounce-in border-4 border-yellow-300 relative overflow-hidden">
+            <div id="confettiContainer" class="absolute inset-0 pointer-events-none"></div>
+            <div class="text-6xl sm:text-8xl mb-3 sm:mb-4 star-burst">🎉</div>
+            <h3 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-green-600 mb-3 sm:mb-4 rainbow-text">Hebat Sekali!</h3>
+            <p class="text-lg sm:text-xl text-gray-600 mb-4 sm:mb-6">Kamu naik ke level <span id="newLevel" class="text-2xl font-bold text-purple-600"></span>!</p>
+            <button onclick="closeCelebration()" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full text-lg sm:text-xl font-bold transition-colors shadow-lg wiggle">
+                Lanjut Bermain! 🚀
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentGame = '';
+        let currentLevel = 1;
+        let score = 0;
+        let correctAnswer = 0;
+        let questionsAnswered = 0;
+        
+        const animals = ['🐰', '🐱', '🐶', '🐸', '🐧', '🦆', '🐝', '🐛', '🦋', '🐢', '🐵', '🐻', '🦊', '🐷'];
+        const fruits = ['🍎', '🍊', '🍌', '🍇', '🍓', '🥝', '🍑', '🍒', '🥭', '🍍', '🥥', '🍈', '🍉', '🍋'];
+        const stars = ['⭐', '🌟', '✨', '💫'];
+        const shapes = ['🔺', '🔴', '🟡', '🟢', '🔵', '🟣', '⬜', '⬛', '🔶', '🔷'];
+        const vehicles = ['🚗', '🚕', '🚙', '🚌', '🚎', '🏎️', '🚓', '🚑', '🚒', '🚐'];
+        
+        function startGame(gameType) {
+            currentGame = gameType;
+            questionsAnswered = 0;
+            document.getElementById('gameMenu').classList.add('hidden');
+            document.getElementById('gameArea').classList.remove('hidden');
+            
+            const titles = {
+                'counting': '🐰 Ayo Menghitung Binatang!',
+                'addition': '🍎 Penjumlahan Buah-buahan!',
+                'subtraction': '⭐ Pengurangan Bintang!',
+                'comparison': '⚖️ Perbandingan Jumlah!',
+                'patterns': '🔄 Pola Angka Seru!',
+                'shapes': '🔺 Menghitung Bentuk!',
+                'sorting': '📊 Urutkan Angka!',
+                'missing': '❓ Cari Angka Hilang!'
+            };
+            
+            const instructions = {
+                'counting': '👀 Lihat gambar dengan teliti, lalu hitung berapa banyak binatang yang ada!',
+                'addition': '➕ Jumlahkan buah-buahan dari kedua kelompok untuk mendapatkan jawaban!',
+                'subtraction': '➖ Kurangi jumlah bintang sesuai dengan soal yang diberikan!',
+                'comparison': '👁️ Bandingkan kedua kelompok, mana yang jumlahnya lebih banyak?',
+                'patterns': '🔍 Perhatikan pola angka, lalu tentukan angka selanjutnya!',
+                'shapes': '📐 Hitung berapa banyak bentuk geometri yang sama!',
+                'sorting': '🔢 Susun angka-angka dari yang terkecil ke yang terbesar!',
+                'missing': '🕵️ Cari angka yang hilang dalam urutan!'
+            };
+            
+            document.getElementById('gameTitle').textContent = titles[gameType];
+            document.getElementById('gameInstructions').textContent = instructions[gameType];
+            updateProgress();
+            generateQuestion();
+        }
+        
+        function backToMenu() {
+            document.getElementById('gameArea').classList.add('hidden');
+            document.getElementById('gameMenu').classList.remove('hidden');
+            document.getElementById('feedback').textContent = '';
+        }
+        
+        function updateProgress() {
+            const progress = (questionsAnswered / 5) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('currentQuestion').textContent = questionsAnswered + 1;
+        }
+        
+        function generateQuestion() {
+            const visualArea = document.getElementById('visualArea');
+            const questionEl = document.getElementById('question');
+            const answerOptions = document.getElementById('answerOptions');
+            
+            visualArea.innerHTML = '';
+            answerOptions.innerHTML = '';
+            document.getElementById('feedback').textContent = '';
+            
+            switch(currentGame) {
+                case 'counting': generateCountingQuestion(); break;
+                case 'addition': generateAdditionQuestion(); break;
+                case 'subtraction': generateSubtractionQuestion(); break;
+                case 'comparison': generateComparisonQuestion(); break;
+                case 'patterns': generatePatternsQuestion(); break;
+                case 'shapes': generateShapesQuestion(); break;
+                case 'sorting': generateSortingQuestion(); break;
+                case 'missing': generateMissingQuestion(); break;
+            }
+        }
+        
+        function generateCountingQuestion() {
+            const maxCount = Math.min(3 + currentLevel, 10);
+            const count = Math.floor(Math.random() * maxCount) + 1;
+            const animal = animals[Math.floor(Math.random() * animals.length)];
+            
+            correctAnswer = count;
+            
+            document.getElementById('question').textContent = `Berapa banyak ${getAnimalName(animal)} yang kamu lihat?`;
+            
+            const visualArea = document.getElementById('visualArea');
+            for (let i = 0; i < count; i++) {
+                const animalEl = document.createElement('div');
+                animalEl.className = 'text-3xl sm:text-4xl lg:text-5xl bounce-in hover:scale-110 transition-transform cursor-pointer wiggle';
+                animalEl.style.animationDelay = `${i * 0.1}s`;
+                animalEl.textContent = animal;
+                animalEl.addEventListener('click', () => {
+                    animalEl.classList.add('star-burst');
+                    setTimeout(() => animalEl.classList.remove('star-burst'), 800);
+                });
+                visualArea.appendChild(animalEl);
+            }
+            
+            generateAnswerOptions(count, 10);
+        }
+        
+        function generateAdditionQuestion() {
+            const maxNum = Math.min(2 + currentLevel, 5);
+            const num1 = Math.floor(Math.random() * maxNum) + 1;
+            const num2 = Math.floor(Math.random() * maxNum) + 1;
+            const fruit = fruits[Math.floor(Math.random() * fruits.length)];
+            
+            correctAnswer = num1 + num2;
+            
+            document.getElementById('question').textContent = `${num1} + ${num2} = ?`;
+            
+            const visualArea = document.getElementById('visualArea');
+            
+            // First group
+            const group1 = document.createElement('div');
+            group1.className = 'flex flex-wrap gap-3 p-6 bg-yellow-100 rounded-2xl border-4 border-yellow-300';
+            const label1 = document.createElement('div');
+            label1.className = 'w-full text-center text-lg font-bold text-yellow-700 mb-2';
+            label1.textContent = `Kelompok 1: ${num1} buah`;
+            group1.appendChild(label1);
+            
+            for (let i = 0; i < num1; i++) {
+                const fruitEl = document.createElement('div');
+                fruitEl.className = 'text-4xl bounce-in hover:scale-110 transition-transform';
+                fruitEl.style.animationDelay = `${i * 0.1}s`;
+                fruitEl.textContent = fruit;
+                group1.appendChild(fruitEl);
+            }
+            
+            // Plus sign
+            const plusEl = document.createElement('div');
+            plusEl.className = 'text-6xl font-bold text-green-600 flex items-center animate-pulse';
+            plusEl.textContent = '+';
+            
+            // Second group
+            const group2 = document.createElement('div');
+            group2.className = 'flex flex-wrap gap-3 p-6 bg-pink-100 rounded-2xl border-4 border-pink-300';
+            const label2 = document.createElement('div');
+            label2.className = 'w-full text-center text-lg font-bold text-pink-700 mb-2';
+            label2.textContent = `Kelompok 2: ${num2} buah`;
+            group2.appendChild(label2);
+            
+            for (let i = 0; i < num2; i++) {
+                const fruitEl = document.createElement('div');
+                fruitEl.className = 'text-4xl bounce-in hover:scale-110 transition-transform';
+                fruitEl.style.animationDelay = `${(num1 + i) * 0.1}s`;
+                fruitEl.textContent = fruit;
+                group2.appendChild(fruitEl);
+            }
+            
+            visualArea.appendChild(group1);
+            visualArea.appendChild(plusEl);
+            visualArea.appendChild(group2);
+            
+            generateAnswerOptions(correctAnswer, 10);
+        }
+        
+        function generateSubtractionQuestion() {
+            const maxNum = Math.min(3 + currentLevel, 8);
+            const num1 = Math.floor(Math.random() * maxNum) + 2;
+            const num2 = Math.floor(Math.random() * (num1 - 1)) + 1;
+            const star = stars[Math.floor(Math.random() * stars.length)];
+            
+            correctAnswer = num1 - num2;
+            
+            document.getElementById('question').textContent = `${num1} - ${num2} = ?`;
+            
+            const visualArea = document.getElementById('visualArea');
+            
+            const instruction = document.createElement('div');
+            instruction.className = 'w-full text-center text-lg font-bold text-gray-700 mb-4 bg-blue-100 p-3 rounded-xl';
+            instruction.textContent = `Mulai dengan ${num1} bintang, lalu ${num2} bintang akan dicoret`;
+            visualArea.appendChild(instruction);
+            
+            // All stars
+            const allStars = document.createElement('div');
+            allStars.className = 'flex flex-wrap gap-3 justify-center';
+            for (let i = 0; i < num1; i++) {
+                const starEl = document.createElement('div');
+                starEl.className = 'text-4xl bounce-in hover:scale-110 transition-all';
+                starEl.style.animationDelay = `${i * 0.1}s`;
+                starEl.textContent = star;
+                starEl.id = `star-${i}`;
+                allStars.appendChild(starEl);
+            }
+            
+            visualArea.appendChild(allStars);
+            
+            // Animate removal after a delay
+            setTimeout(() => {
+                for (let i = num1 - num2; i < num1; i++) {
+                    const starEl = document.getElementById(`star-${i}`);
+                    if (starEl) {
+                        starEl.style.opacity = '0.3';
+                        starEl.style.textDecoration = 'line-through';
+                        starEl.style.transform = 'scale(0.8)';
+                        starEl.style.filter = 'grayscale(100%)';
+                    }
+                }
+            }, 1500);
+            
+            generateAnswerOptions(correctAnswer, 10);
+        }
+        
+        function generateComparisonQuestion() {
+            const maxNum = Math.min(3 + currentLevel, 8);
+            const num1 = Math.floor(Math.random() * maxNum) + 1;
+            let num2 = Math.floor(Math.random() * maxNum) + 1;
+            while (num2 === num1) num2 = Math.floor(Math.random() * maxNum) + 1;
+            
+            const item = vehicles[Math.floor(Math.random() * vehicles.length)];
+            
+            correctAnswer = num1 > num2 ? 1 : 2;
+            
+            document.getElementById('question').textContent = 'Kelompok mana yang jumlahnya LEBIH BANYAK?';
+            
+            const visualArea = document.getElementById('visualArea');
+            
+            // Group 1
+            const group1 = document.createElement('div');
+            group1.className = 'flex flex-col items-center p-6 bg-blue-100 rounded-2xl border-4 border-blue-300 m-4';
+            const label1 = document.createElement('div');
+            label1.className = 'text-xl font-bold text-blue-700 mb-4';
+            label1.textContent = `Kelompok A: ${num1}`;
+            group1.appendChild(label1);
+            
+            const items1 = document.createElement('div');
+            items1.className = 'flex flex-wrap gap-2 justify-center';
+            for (let i = 0; i < num1; i++) {
+                const itemEl = document.createElement('div');
+                itemEl.className = 'text-3xl bounce-in';
+                itemEl.style.animationDelay = `${i * 0.1}s`;
+                itemEl.textContent = item;
+                items1.appendChild(itemEl);
+            }
+            group1.appendChild(items1);
+            
+            // Group 2
+            const group2 = document.createElement('div');
+            group2.className = 'flex flex-col items-center p-6 bg-green-100 rounded-2xl border-4 border-green-300 m-4';
+            const label2 = document.createElement('div');
+            label2.className = 'text-xl font-bold text-green-700 mb-4';
+            label2.textContent = `Kelompok B: ${num2}`;
+            group2.appendChild(label2);
+            
+            const items2 = document.createElement('div');
+            items2.className = 'flex flex-wrap gap-2 justify-center';
+            for (let i = 0; i < num2; i++) {
+                const itemEl = document.createElement('div');
+                itemEl.className = 'text-3xl bounce-in';
+                itemEl.style.animationDelay = `${(num1 + i) * 0.1}s`;
+                itemEl.textContent = item;
+                items2.appendChild(itemEl);
+            }
+            group2.appendChild(items2);
+            
+            visualArea.appendChild(group1);
+            visualArea.appendChild(group2);
+            
+            // Generate comparison options
+            const answerOptions = document.getElementById('answerOptions');
+            const options = ['Kelompok A', 'Kelompok B'];
+            
+            options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'bg-gradient-to-br from-purple-400 to-pink-500 hover:from-purple-500 hover:to-pink-600 text-white text-xl font-bold py-6 px-8 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-200';
+                button.textContent = option;
+                button.onclick = () => checkAnswer(index + 1, button);
+                answerOptions.appendChild(button);
+            });
+            
+            return; // Skip the normal generateAnswerOptions call
+        }
+        
+        function generatePatternsQuestion() {
+            const patterns = [
+                [1, 2, 3, 4], [2, 4, 6, 8], [1, 3, 5, 7], [5, 4, 3, 2]
+            ];
+            const pattern = patterns[Math.floor(Math.random() * patterns.length)];
+            const nextNum = pattern[pattern.length - 1] + (pattern[1] - pattern[0]);
+            
+            correctAnswer = nextNum;
+            
+            document.getElementById('question').textContent = 'Angka apa yang selanjutnya dalam pola ini?';
+            
+            const visualArea = document.getElementById('visualArea');
+            
+            const instruction = document.createElement('div');
+            instruction.className = 'w-full text-center text-lg font-bold text-gray-700 mb-6 bg-purple-100 p-4 rounded-xl';
+            instruction.textContent = 'Perhatikan pola angka di bawah ini:';
+            visualArea.appendChild(instruction);
+            
+            const patternContainer = document.createElement('div');
+            patternContainer.className = 'flex items-center justify-center gap-4 flex-wrap';
+            
+            pattern.forEach((num, index) => {
+                const numEl = document.createElement('div');
+                numEl.className = 'bg-gradient-to-br from-blue-400 to-purple-500 text-white text-4xl font-bold w-16 h-16 rounded-full flex items-center justify-center bounce-in shadow-lg';
+                numEl.style.animationDelay = `${index * 0.2}s`;
+                numEl.textContent = num;
+                patternContainer.appendChild(numEl);
+                
+                if (index < pattern.length - 1) {
+                    const arrow = document.createElement('div');
+                    arrow.className = 'text-3xl text-gray-600';
+                    arrow.textContent = '→';
+                    patternContainer.appendChild(arrow);
+                }
+            });
+            
+            const arrow = document.createElement('div');
+            arrow.className = 'text-3xl text-gray-600';
+            arrow.textContent = '→';
+            patternContainer.appendChild(arrow);
+            
+            const questionMark = document.createElement('div');
+            questionMark.className = 'bg-gradient-to-br from-red-400 to-orange-500 text-white text-4xl font-bold w-16 h-16 rounded-full flex items-center justify-center animate-pulse shadow-lg';
+            questionMark.textContent = '?';
+            patternContainer.appendChild(questionMark);
+            
+            visualArea.appendChild(patternContainer);
+            
+            generateAnswerOptions(correctAnswer, Math.max(correctAnswer + 3, 10));
+        }
+        
+        function generateShapesQuestion() {
+            const targetShape = shapes[Math.floor(Math.random() * shapes.length)];
+            const count = Math.floor(Math.random() * 6) + 2;
+            const totalShapes = count + Math.floor(Math.random() * 5) + 3;
+            
+            correctAnswer = count;
+            
+            document.getElementById('question').textContent = `Berapa banyak ${targetShape} yang kamu lihat?`;
+            
+            const visualArea = document.getElementById('visualArea');
+            
+            const instruction = document.createElement('div');
+            instruction.className = 'w-full text-center text-lg font-bold text-gray-700 mb-4 bg-indigo-100 p-3 rounded-xl';
+            instruction.innerHTML = `Cari dan hitung bentuk: <span class="text-3xl">${targetShape}</span>`;
+            visualArea.appendChild(instruction);
+            
+            const shapesContainer = document.createElement('div');
+            shapesContainer.className = 'flex flex-wrap gap-3 justify-center';
+            
+            // Add target shapes
+            for (let i = 0; i < count; i++) {
+                const shapeEl = document.createElement('div');
+                shapeEl.className = 'text-4xl bounce-in hover:scale-110 transition-transform cursor-pointer';
+                shapeEl.style.animationDelay = `${Math.random() * 2}s`;
+                shapeEl.textContent = targetShape;
+                shapesContainer.appendChild(shapeEl);
+            }
+            
+            // Add other shapes
+            for (let i = 0; i < totalShapes - count; i++) {
+                let otherShape;
+                do {
+                    otherShape = shapes[Math.floor(Math.random() * shapes.length)];
+                } while (otherShape === targetShape);
+                
+                const shapeEl = document.createElement('div');
+                shapeEl.className = 'text-4xl bounce-in hover:scale-110 transition-transform cursor-pointer';
+                shapeEl.style.animationDelay = `${Math.random() * 2}s`;
+                shapeEl.textContent = otherShape;
+                shapesContainer.appendChild(shapeEl);
+            }
+            
+            // Shuffle the shapes
+            const shapeElements = Array.from(shapesContainer.children);
+            shapeElements.sort(() => Math.random() - 0.5);
+            shapesContainer.innerHTML = '';
+            shapeElements.forEach(el => shapesContainer.appendChild(el));
+            
+            visualArea.appendChild(shapesContainer);
+            
+            generateAnswerOptions(correctAnswer, 8);
+        }
+        
+        function generateSortingQuestion() {
+            const numbers = [];
+            const count = 4;
+            
+            while (numbers.length < count) {
+                const num = Math.floor(Math.random() * 9) + 1;
+                if (!numbers.includes(num)) {
+                    numbers.push(num);
+                }
+            }
+            
+            const shuffled = [...numbers].sort(() => Math.random() - 0.5);
+            const sorted = [...numbers].sort((a, b) => a - b);
+            correctAnswer = sorted.join('');
+            
+            document.getElementById('question').textContent = 'Urutkan angka-angka ini dari KECIL ke BESAR!';
+            
+            const visualArea = document.getElementById('visualArea');
+            
+            const instruction = document.createElement('div');
+            instruction.className = 'w-full text-center text-lg font-bold text-gray-700 mb-6 bg-teal-100 p-4 rounded-xl';
+            instruction.textContent = 'Angka yang harus diurutkan:';
+            visualArea.appendChild(instruction);
+            
+            const numbersContainer = document.createElement('div');
+            numbersContainer.className = 'flex gap-4 justify-center flex-wrap mb-6';
+            
+            shuffled.forEach((num, index) => {
+                const numEl = document.createElement('div');
+                numEl.className = 'bg-gradient-to-br from-teal-400 to-blue-500 text-white text-4xl font-bold w-20 h-20 rounded-2xl flex items-center justify-center bounce-in shadow-lg';
+                numEl.style.animationDelay = `${index * 0.1}s`;
+                numEl.textContent = num;
+                numbersContainer.appendChild(numEl);
+            });
+            
+            visualArea.appendChild(numbersContainer);
+            
+            // Generate sorting options
+            const answerOptions = document.getElementById('answerOptions');
+            const options = [sorted.join(''), ...generateWrongSortingOptions(sorted)];
+            
+            // Shuffle options
+            for (let i = options.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [options[i], options[j]] = [options[j], options[i]];
+            }
+            
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'bg-gradient-to-br from-teal-400 to-blue-500 hover:from-teal-500 hover:to-blue-600 text-white text-2xl font-bold py-4 px-6 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-200';
+                button.textContent = option.split('').join(' - ');
+                button.onclick = () => checkAnswer(option, button);
+                answerOptions.appendChild(button);
+            });
+            
+            return; // Skip the normal generateAnswerOptions call
+        }
+        
+        function generateWrongSortingOptions(correct) {
+            const wrong = [];
+            const nums = correct.slice();
+            
+            // Reverse order
+            wrong.push([...nums].reverse().join(''));
+            
+            // Random shuffle
+            const shuffled = [...nums].sort(() => Math.random() - 0.5);
+            if (shuffled.join('') !== correct.join('') && !wrong.includes(shuffled.join(''))) {
+                wrong.push(shuffled.join(''));
+            }
+            
+            // Another random shuffle
+            const shuffled2 = [...nums].sort(() => Math.random() - 0.5);
+            if (shuffled2.join('') !== correct.join('') && !wrong.includes(shuffled2.join(''))) {
+                wrong.push(shuffled2.join(''));
+            }
+            
+            return wrong.slice(0, 3);
+        }
+        
+        function generateMissingQuestion() {
+            const start = Math.floor(Math.random() * 5) + 1;
+            const sequence = [start, start + 1, start + 2, start + 3, start + 4];
+            const missingIndex = Math.floor(Math.random() * sequence.length);
+            const missing = sequence[missingIndex];
+            
+            correctAnswer = missing;
+            
+            document.getElementById('question').textContent = 'Angka apa yang hilang dalam urutan ini?';
+            
+            const visualArea = document.getElementById('visualArea');
+            
+            const instruction = document.createElement('div');
+            instruction.className = 'w-full text-center text-lg font-bold text-gray-700 mb-6 bg-red-100 p-4 rounded-xl';
+            instruction.textContent = 'Perhatikan urutan angka berikut:';
+            visualArea.appendChild(instruction);
+            
+            const sequenceContainer = document.createElement('div');
+            sequenceContainer.className = 'flex gap-4 justify-center items-center flex-wrap';
+            
+            sequence.forEach((num, index) => {
+                if (index === missingIndex) {
+                    const questionEl = document.createElement('div');
+                    questionEl.className = 'bg-gradient-to-br from-red-400 to-pink-500 text-white text-4xl font-bold w-20 h-20 rounded-2xl flex items-center justify-center animate-pulse shadow-lg border-4 border-red-300';
+                    questionEl.textContent = '?';
+                    sequenceContainer.appendChild(questionEl);
+                } else {
+                    const numEl = document.createElement('div');
+                    numEl.className = 'bg-gradient-to-br from-gray-400 to-gray-600 text-white text-4xl font-bold w-20 h-20 rounded-2xl flex items-center justify-center bounce-in shadow-lg';
+                    numEl.style.animationDelay = `${index * 0.1}s`;
+                    numEl.textContent = num;
+                    sequenceContainer.appendChild(numEl);
+                }
+                
+                if (index < sequence.length - 1) {
+                    const arrow = document.createElement('div');
+                    arrow.className = 'text-2xl text-gray-600';
+                    arrow.textContent = '→';
+                    sequenceContainer.appendChild(arrow);
+                }
+            });
+            
+            visualArea.appendChild(sequenceContainer);
+            
+            generateAnswerOptions(correctAnswer, Math.max(correctAnswer + 3, 10));
+        }
+        
+        function generateAnswerOptions(correct, max) {
+            const options = [correct];
+            
+            while (options.length < 4) {
+                const option = Math.floor(Math.random() * max) + 1;
+                if (!options.includes(option)) {
+                    options.push(option);
+                }
+            }
+            
+            // Shuffle options
+            for (let i = options.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [options[i], options[j]] = [options[j], options[i]];
+            }
+            
+            const answerOptions = document.getElementById('answerOptions');
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'bg-gradient-to-br from-blue-400 to-purple-500 hover:from-blue-500 hover:to-purple-600 text-white text-xl sm:text-2xl lg:text-3xl font-bold py-4 px-4 sm:py-6 sm:px-8 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-200 border-2 border-white/30 min-h-16 sm:min-h-20';
+                button.textContent = option;
+                button.onclick = () => checkAnswer(option, button);
+                answerOptions.appendChild(button);
+            });
+        }
+        
+        function checkAnswer(selected, buttonEl) {
+            const feedback = document.getElementById('feedback');
+            const buttons = document.querySelectorAll('#answerOptions button');
+            
+            buttons.forEach(btn => btn.disabled = true);
+            
+            if (selected === correctAnswer) {
+                buttonEl.classList.add('pulse-correct');
+                score += 10;
+                document.getElementById('score').textContent = score;
+                
+                // Create spectacular success animation
+                createSuccessAnimation();
+                
+                // Add celebration animation to visual elements
+                const visualElements = document.querySelectorAll('#visualArea > *');
+                visualElements.forEach((el, index) => {
+                    setTimeout(() => {
+                        el.classList.add('bounce-in');
+                    }, index * 100);
+                });
+                
+                setTimeout(() => {
+                    questionsAnswered++;
+                    updateProgress();
+                    if (questionsAnswered >= 5) {
+                        levelUp();
+                    } else {
+                        generateQuestion();
+                    }
+                }, 2000);
+            } else {
+                buttonEl.classList.add('shake');
+                
+                // Create wrong answer animation
+                createWrongAnimation(correctAnswer);
+                
+                // Show correct answer
+                buttons.forEach(btn => {
+                    const btnText = btn.textContent.replace(/\s-\s/g, '');
+                    if (btnText == correctAnswer || parseInt(btnText) === correctAnswer) {
+                        btn.classList.add('pulse-correct');
+                    }
+                });
+                
+                setTimeout(() => {
+                    questionsAnswered++;
+                    updateProgress();
+                    if (questionsAnswered >= 5) {
+                        levelUp();
+                    } else {
+                        generateQuestion();
+                    }
+                }, 3000);
+            }
+        }
+        
+        function createSuccessAnimation() {
+            const feedback = document.getElementById('feedback');
+            feedback.innerHTML = '';
+            
+            // Create fireworks effect
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const firework = document.createElement('div');
+                    firework.style.position = 'absolute';
+                    firework.style.left = Math.random() * 100 + '%';
+                    firework.style.top = Math.random() * 100 + '%';
+                    firework.style.fontSize = '3rem';
+                    firework.style.zIndex = '1000';
+                    firework.textContent = ['🎉', '⭐', '✨', '🌟', '💫', '🎊'][Math.floor(Math.random() * 6)];
+                    firework.style.animation = 'fireworkExplode 1.5s ease-out forwards';
+                    feedback.appendChild(firework);
+                    
+                    setTimeout(() => {
+                        if (firework.parentNode) firework.remove();
+                    }, 1500);
+                }, i * 100);
+            }
+            
+            // Flying success emojis
+            const successEmojis = ['🎉', '👏', '🥳', '🌟', '⭐'];
+            successEmojis.forEach((emoji, index) => {
+                setTimeout(() => {
+                    const flyingEmoji = document.createElement('div');
+                    flyingEmoji.style.position = 'fixed';
+                    flyingEmoji.style.left = '10%';
+                    flyingEmoji.style.top = '50%';
+                    flyingEmoji.style.fontSize = '4rem';
+                    flyingEmoji.style.zIndex = '1000';
+                    flyingEmoji.textContent = emoji;
+                    flyingEmoji.style.animation = 'flyAcross 2s ease-out forwards';
+                    document.body.appendChild(flyingEmoji);
+                    
+                    setTimeout(() => {
+                        if (flyingEmoji.parentNode) flyingEmoji.remove();
+                    }, 2000);
+                }, index * 200);
+            });
+            
+            // Big celebration text that appears and bounces
+            setTimeout(() => {
+                const bigText = document.createElement('div');
+                bigText.className = 'fixed inset-0 flex items-center justify-center z-50 pointer-events-none';
+                bigText.innerHTML = '<div class="text-6xl font-bold text-green-500 animate-bounce bg-white/90 px-8 py-4 rounded-full shadow-2xl border-4 border-green-400">HEBAT! 🎉</div>';
+                document.body.appendChild(bigText);
+                
+                setTimeout(() => {
+                    if (bigText.parentNode) bigText.remove();
+                }, 1500);
+            }, 500);
+        }
+        
+        function createWrongAnimation(correctAnswer) {
+            const feedback = document.getElementById('feedback');
+            feedback.innerHTML = '';
+            
+            // Sad emojis falling
+            const sadEmojis = ['😅', '🤔', '💭', '🎯'];
+            sadEmojis.forEach((emoji, index) => {
+                setTimeout(() => {
+                    const fallingEmoji = document.createElement('div');
+                    fallingEmoji.style.position = 'absolute';
+                    fallingEmoji.style.left = Math.random() * 100 + '%';
+                    fallingEmoji.style.top = '0%';
+                    fallingEmoji.style.fontSize = '2.5rem';
+                    fallingEmoji.style.zIndex = '1000';
+                    fallingEmoji.textContent = emoji;
+                    fallingEmoji.style.animation = 'fallDown 2s ease-in forwards';
+                    feedback.appendChild(fallingEmoji);
+                    
+                    setTimeout(() => {
+                        if (fallingEmoji.parentNode) fallingEmoji.remove();
+                    }, 2000);
+                }, index * 300);
+            });
+            
+            // Show correct answer with animation
+            setTimeout(() => {
+                const answerReveal = document.createElement('div');
+                answerReveal.className = 'fixed inset-0 flex items-center justify-center z-50 pointer-events-none';
+                answerReveal.innerHTML = `<div class="text-4xl font-bold text-orange-500 animate-pulse bg-white/95 px-6 py-4 rounded-full shadow-2xl border-4 border-orange-400">Jawabannya: ${correctAnswer} 🎯</div>`;
+                document.body.appendChild(answerReveal);
+                
+                setTimeout(() => {
+                    if (answerReveal.parentNode) answerReveal.remove();
+                }, 2000);
+            }, 1000);
+        }
+        
+        function levelUp() {
+            currentLevel++;
+            document.getElementById('level').textContent = currentLevel;
+            document.getElementById('newLevel').textContent = currentLevel;
+            questionsAnswered = 0;
+            document.getElementById('celebrationModal').classList.remove('hidden');
+            createConfetti();
+        }
+        
+        function createConfetti() {
+            const container = document.getElementById('confettiContainer');
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7', '#dda0dd', '#ff9ff3', '#54a0ff'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                container.appendChild(confetti);
+                
+                setTimeout(() => {
+                    if (confetti.parentNode) {
+                        confetti.parentNode.removeChild(confetti);
+                    }
+                }, 5000);
+            }
+        }
+        
+        function closeCelebration() {
+            document.getElementById('celebrationModal').classList.add('hidden');
+            updateProgress();
+            generateQuestion();
+        }
+        
+        function getAnimalName(emoji) {
+            const names = {
+                '🐰': 'kelinci', '🐱': 'kucing', '🐶': 'anjing', '🐸': 'katak',
+                '🐧': 'penguin', '🦆': 'bebek', '🐝': 'lebah', '🐛': 'ulat',
+                '🦋': 'kupu-kupu', '🐢': 'kura-kura', '🐵': 'monyet', '🐻': 'beruang',
+                '🦊': 'rubah', '🐷': 'babi'
+            };
+            return names[emoji] || 'binatang';
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'974a710836888f82',t:'MTc1NjExODExNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
