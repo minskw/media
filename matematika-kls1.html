@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Belajar Matematika Seru - Kelas 1</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
         
@@ -81,18 +82,7 @@
             100% { transform: scale(1) rotate(360deg); opacity: 1; }
         }
         
-        .rainbow-text {
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7, #dda0dd);
-            background-size: 400% 400%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: rainbow 2s ease-in-out infinite;
-        }
-        
-        @keyframes rainbow {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
+
         
         .wiggle {
             animation: wiggle 0.5s ease-in-out infinite;
@@ -172,7 +162,9 @@
     <div class="bg-white shadow-xl p-2 sm:p-4 border-b-4 border-yellow-400">
         <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-4">
             <div class="flex items-center gap-2 sm:gap-4">
-                <img src="https://cdn-icons-png.flaticon.com/256/11159/11159505.png" alt="Logo" class="w-8 h-8 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bounce-in float" onerror="this.src=''; this.alt='Logo failed to load'; this.style.display='none';">
+                <div class="w-8 h-8 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center bounce-in float">
+                    <i class="fas fa-calculator text-white text-lg sm:text-3xl lg:text-4xl"></i>
+                </div>
                 <div>
                     <h1 class="text-lg sm:text-2xl lg:text-3xl font-bold text-purple-700 text-center sm:text-left">Matematika itu Mudah!</h1>
                     <p class="text-xs sm:text-base lg:text-lg text-purple-600 font-semibold">Media belajar Kelas 1 SD/MI</p>
@@ -180,10 +172,10 @@
             </div>
             <div class="flex items-center gap-2 sm:gap-4">
                 <div class="bg-yellow-500 px-2 py-1 sm:px-6 sm:py-3 rounded-full shadow-lg border-3 border-yellow-600">
-                    <span class="text-xs sm:text-xl font-bold text-white">⭐ <span id="score">0</span></span>
+                    <span class="text-xs sm:text-xl font-bold text-white"><i class="fas fa-star"></i> <span id="score">0</span></span>
                 </div>
                 <div class="bg-green-600 px-2 py-1 sm:px-6 sm:py-3 rounded-full shadow-lg border-3 border-green-700">
-                    <span class="text-xs sm:text-xl font-bold text-white">🏆 <span id="level">1</span></span>
+                    <span class="text-xs sm:text-xl font-bold text-white"><i class="fas fa-trophy"></i> <span id="level">1</span></span>
                 </div>
             </div>
         </div>
@@ -193,86 +185,94 @@
     <div class="max-w-7xl mx-auto p-3 sm:p-6">
         <!-- Game Selection -->
         <div id="gameMenu" class="text-center">
-            <h2 class="text-2xl sm:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-4 drop-shadow-lg float">🎮 Pilih Permainan! 🎮</h2>
+            <h2 class="text-2xl sm:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-4 drop-shadow-lg float"><i class="fas fa-gamepad"></i> Pilih Permainan! <i class="fas fa-gamepad"></i></h2>
             <p class="text-base sm:text-xl lg:text-2xl text-white/90 mb-3 sm:mb-8 drop-shadow font-semibold px-4">Ayo belajar matematika dengan cara yang seru!</p>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                 <button onclick="startGame('counting')" class="bg-white p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-purple-500 hover:border-purple-600">
-                    <img src="https://cdn-icons-png.flaticon.com/256/616/616408.png" alt="Rabbit" class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3" onerror="this.src=''; this.alt='🐰'; this.style.display='none';">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-purple-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-paw text-purple-600 text-2xl sm:text-3xl lg:text-4xl"></i>
+                    </div>
                     <h3 class="text-lg sm:text-2xl font-bold text-purple-700 mb-1 sm:mb-2">Menghitung</h3>
                     <p class="text-xs sm:text-lg text-gray-800 font-semibold">Hitung binatang lucu!</p>
-                    <div class="text-xs sm:text-sm text-purple-600 mt-1 sm:mt-2 font-bold bg-purple-100 px-2 py-1 rounded-full">⭐ Level: Mudah</div>
+                    <div class="text-xs sm:text-sm text-purple-600 mt-1 sm:mt-2 font-bold bg-purple-100 px-2 py-1 rounded-full"><i class="fas fa-star"></i> Level: Mudah</div>
                 </button>
                 
                 <button onclick="startGame('addition')" class="bg-white p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-green-500 hover:border-green-600">
-                    <img src="https://cdn-icons-png.flaticon.com/256/415/415733.png" alt="Apple" class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3" onerror="this.src=''; this.alt='🍎'; this.style.display='none';">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-green-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-plus text-green-600 text-2xl sm:text-3xl lg:text-4xl"></i>
+                    </div>
                     <h3 class="text-lg sm:text-2xl font-bold text-green-700 mb-1 sm:mb-2">Penjumlahan</h3>
                     <p class="text-xs sm:text-lg text-gray-800 font-semibold">Tambah buah-buahan!</p>
-                    <div class="text-xs sm:text-sm text-green-600 mt-1 sm:mt-2 font-bold bg-green-100 px-2 py-1 rounded-full">⭐ Level: Mudah</div>
+                    <div class="text-xs sm:text-sm text-green-600 mt-1 sm:mt-2 font-bold bg-green-100 px-2 py-1 rounded-full"><i class="fas fa-star"></i> Level: Mudah</div>
                 </button>
                 
                 <button onclick="startGame('subtraction')" class="bg-white p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-orange-500 hover:border-orange-600">
-                    <img src="https://cdn-icons-png.flaticon.com/256/1828/1828884.png" alt="Star" class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3" onerror="this.src=''; this.alt='🌟'; this.style.display='none';">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-orange-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-minus text-orange-600 text-2xl sm:text-3xl lg:text-4xl"></i>
+                    </div>
                     <h3 class="text-lg sm:text-2xl font-bold text-orange-700 mb-1 sm:mb-2">Pengurangan</h3>
                     <p class="text-xs sm:text-lg text-gray-800 font-semibold">Kurangi bintang!</p>
-                    <div class="text-xs sm:text-sm text-orange-600 mt-1 sm:mt-2 font-bold bg-orange-100 px-2 py-1 rounded-full">⭐ Level: Mudah</div>
+                    <div class="text-xs sm:text-sm text-orange-600 mt-1 sm:mt-2 font-bold bg-orange-100 px-2 py-1 rounded-full"><i class="fas fa-star"></i> Level: Mudah</div>
                 </button>
                 
                 <button onclick="startGame('comparison')" class="bg-white p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-blue-500 hover:border-blue-600">
-                    <div class="text-4xl sm:text-6xl lg:text-7xl mb-1 sm:mb-3">⚖️</div>
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-blue-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-balance-scale text-blue-600 text-xl sm:text-2xl lg:text-3xl"></i>
+                    </div>
                     <h3 class="text-lg sm:text-2xl font-bold text-blue-700 mb-1 sm:mb-2">Perbandingan</h3>
                     <p class="text-xs sm:text-lg text-gray-800 font-semibold">Mana yang lebih banyak?</p>
-                    <div class="text-xs sm:text-sm text-blue-600 mt-1 sm:mt-2 font-bold bg-blue-100 px-2 py-1 rounded-full">⭐ Level: Mudah</div>
+                    <div class="text-xs sm:text-sm text-blue-600 mt-1 sm:mt-2 font-bold bg-blue-100 px-2 py-1 rounded-full"><i class="fas fa-star"></i> Level: Mudah</div>
                 </button>
                 
                 <button onclick="startGame('patterns')" class="bg-white p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-pink-500 hover:border-pink-600">
-                    <div class="text-4xl sm:text-6xl lg:text-7xl mb-1 sm:mb-3">🔄</div>
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-pink-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-sync-alt text-pink-600 text-2xl sm:text-3xl lg:text-4xl"></i>
+                    </div>
                     <h3 class="text-lg sm:text-2xl font-bold text-pink-700 mb-1 sm:mb-2">Pola Angka</h3>
                     <p class="text-xs sm:text-lg text-gray-800 font-semibold">Lanjutkan pola!</p>
-                    <div class="text-xs sm:text-sm text-pink-600 mt-1 sm:mt-2 font-bold bg-pink-100 px-2 py-1 rounded-full">⭐ Level: Sedang</div>
+                    <div class="text-xs sm:text-sm text-pink-600 mt-1 sm:mt-2 font-bold bg-pink-100 px-2 py-1 rounded-full"><i class="fas fa-star"></i> Level: Sedang</div>
                 </button>
                 
                 <button onclick="startGame('shapes')" class="bg-white p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-indigo-500 hover:border-indigo-600">
-                    <img src="https://cdn-icons-png.flaticon.com/256/2985/2985150.png" alt="Triangle" class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3" onerror="this.src=''; this.alt='🔺'; this.style.display='none';">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-indigo-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-shapes text-indigo-600 text-2xl sm:text-3xl lg:text-4xl"></i>
+                    </div>
                     <h3 class="text-lg sm:text-2xl font-bold text-indigo-700 mb-1 sm:mb-2">Bentuk</h3>
                     <p class="text-xs sm:text-lg text-gray-800 font-semibold">Hitung bentuk geometri!</p>
-                    <div class="text-xs sm:text-sm text-indigo-600 mt-1 sm:mt-2 font-bold bg-indigo-100 px-2 py-1 rounded-full">⭐ Level: Mudah</div>
+                    <div class="text-xs sm:text-sm text-indigo-600 mt-1 sm:mt-2 font-bold bg-indigo-100 px-2 py-1 rounded-full"><i class="fas fa-star"></i> Level: Mudah</div>
                 </button>
                 
                 <button onclick="startGame('sorting')" class="bg-white p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-teal-500 hover:border-teal-600">
-                    <div class="text-4xl sm:text-6xl lg:text-7xl mb-1 sm:mb-3">📊</div>
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-teal-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-sort-numeric-up text-teal-600 text-2xl sm:text-3xl lg:text-4xl"></i>
+                    </div>
                     <h3 class="text-lg sm:text-2xl font-bold text-teal-700 mb-1 sm:mb-2">Urutkan</h3>
                     <p class="text-xs sm:text-lg text-gray-800 font-semibold">Urutkan dari kecil ke besar!</p>
-                    <div class="text-xs sm:text-sm text-teal-600 mt-1 sm:mt-2 font-bold bg-teal-100 px-2 py-1 rounded-full">⭐ Level: Sedang</div>
+                    <div class="text-xs sm:text-sm text-teal-600 mt-1 sm:mt-2 font-bold bg-teal-100 px-2 py-1 rounded-full"><i class="fas fa-star"></i> Level: Sedang</div>
                 </button>
                 
                 <button onclick="startGame('missing')" class="bg-white p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-red-500 hover:border-red-600">
-                    <div class="text-4xl sm:text-6xl lg:text-7xl mb-1 sm:mb-3">❓</div>
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-red-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-question text-red-600 text-2xl sm:text-3xl lg:text-4xl"></i>
+                    </div>
                     <h3 class="text-lg sm:text-2xl font-bold text-red-700 mb-1 sm:mb-2">Angka Hilang</h3>
                     <p class="text-xs sm:text-lg text-gray-800 font-semibold">Cari angka yang hilang!</p>
-                    <div class="text-xs sm:text-sm text-red-600 mt-1 sm:mt-2 font-bold bg-red-100 px-2 py-1 rounded-full">⭐ Level: Sedang</div>
+                    <div class="text-xs sm:text-sm text-red-600 mt-1 sm:mt-2 font-bold bg-red-100 px-2 py-1 rounded-full"><i class="fas fa-star"></i> Level: Sedang</div>
                 </button>
             </div>
             
             <!-- Instructions Panel -->
             <div class="mt-4 sm:mt-8 bg-white rounded-3xl p-3 sm:p-6 shadow-xl mx-4 sm:mx-0 border-4 border-yellow-400">
-                <h3 class="text-lg sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-4">📋 Cara Bermain:</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-left">
+                <h3 class="text-lg sm:text-2xl font-bold text-gray-800 mb-2 sm:mb-4"><i class="fas fa-clipboard-list"></i> Cara Bermain:</h3>
+                <div class="grid grid-cols-2 gap-3 sm:gap-4 text-center">
                     <div class="bg-blue-50 p-3 sm:p-4 rounded-2xl">
-                        <h4 class="font-bold text-blue-600 mb-1 sm:mb-2 text-sm sm:text-base">🎯 Tujuan:</h4>
-                        <p class="text-gray-700 text-sm sm:text-base">Jawab 5 soal untuk naik level!</p>
+                        <i class="fas fa-target text-blue-600 text-2xl mb-2"></i>
+                        <p class="text-gray-700 text-sm sm:text-base font-semibold">Jawab 5 soal untuk naik level!</p>
                     </div>
                     <div class="bg-green-50 p-3 sm:p-4 rounded-2xl">
-                        <h4 class="font-bold text-green-600 mb-1 sm:mb-2 text-sm sm:text-base">🏆 Skor:</h4>
-                        <p class="text-gray-700 text-sm sm:text-base">10 poin setiap jawaban benar!</p>
-                    </div>
-                    <div class="bg-purple-50 p-3 sm:p-4 rounded-2xl">
-                        <h4 class="font-bold text-purple-600 mb-1 sm:mb-2 text-sm sm:text-base">👀 Perhatikan:</h4>
-                        <p class="text-gray-700 text-sm sm:text-base">Lihat gambar dengan teliti!</p>
-                    </div>
-                    <div class="bg-orange-50 p-3 sm:p-4 rounded-2xl">
-                        <h4 class="font-bold text-orange-600 mb-1 sm:mb-2 text-sm sm:text-base">💡 Tips:</h4>
-                        <p class="text-gray-700 text-sm sm:text-base">Jangan terburu-buru ya!</p>
+                        <i class="fas fa-trophy text-green-600 text-2xl mb-2"></i>
+                        <p class="text-gray-700 text-sm sm:text-base font-semibold">10 poin setiap jawaban benar!</p>
                     </div>
                 </div>
             </div>
@@ -285,8 +285,7 @@
                     <button onclick="backToMenu()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full mb-3 sm:mb-4 transition-colors text-sm sm:text-lg font-bold shadow-lg">
                         ← Kembali
                     </button>
-                    <h3 id="gameTitle" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-purple-600 mb-3 sm:mb-4 rainbow-text"></h3>
-                    <div id="gameInstructions" class="text-sm sm:text-lg lg:text-xl font-semibold text-gray-600 mb-3 sm:mb-4 bg-yellow-50 p-3 sm:p-4 rounded-2xl border-2 border-yellow-200"></div>
+                    <h3 id="gameTitle" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-purple-600 mb-3 sm:mb-4"></h3>
                     <div id="question" class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-700 mb-4 sm:mb-6"></div>
                 </div>
                 
@@ -312,11 +311,13 @@
     <div id="celebrationModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
         <div class="bg-white rounded-3xl p-6 sm:p-8 text-center max-w-sm sm:max-w-md mx-auto bounce-in border-4 border-yellow-300 relative overflow-hidden">
             <div id="confettiContainer" class="absolute inset-0 pointer-events-none"></div>
-            <div class="text-6xl sm:text-8xl mb-3 sm:mb-4 star-burst">🎉</div>
-            <h3 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-green-600 mb-3 sm:mb-4 rainbow-text">Hebat Sekali!</h3>
+            <div class="text-6xl sm:text-8xl mb-3 sm:mb-4 star-burst text-yellow-500">
+                <i class="fas fa-trophy"></i>
+            </div>
+            <h3 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-green-600 mb-3 sm:mb-4">Hebat Sekali!</h3>
             <p class="text-lg sm:text-xl text-gray-600 mb-4 sm:mb-6">Kamu naik ke level <span id="newLevel" class="text-2xl font-bold text-purple-600"></span>!</p>
             <button onclick="closeCelebration()" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full text-lg sm:text-xl font-bold transition-colors shadow-lg wiggle">
-                Lanjut Bermain! 🚀
+                <i class="fas fa-rocket"></i> Lanjut Bermain!
             </button>
         </div>
     </div>
@@ -329,48 +330,48 @@
         let questionsAnswered = 0;
         
         const animals = [
-            'https://cdn-icons-png.flaticon.com/256/616/616408.png', // rabbit
-            'https://cdn-icons-png.flaticon.com/256/616/616430.png', // cat
-            'https://cdn-icons-png.flaticon.com/256/616/616554.png', // dog
-            'https://cdn-icons-png.flaticon.com/256/616/616409.png', // frog
-            'https://cdn-icons-png.flaticon.com/256/616/616555.png', // penguin
-            'https://cdn-icons-png.flaticon.com/256/616/616431.png', // duck
-            'https://cdn-icons-png.flaticon.com/256/616/616410.png', // bee
-            'https://cdn-icons-png.flaticon.com/256/616/616556.png', // butterfly
-            'https://cdn-icons-png.flaticon.com/256/616/616432.png', // turtle
-            'https://cdn-icons-png.flaticon.com/256/616/616411.png'  // monkey
+            { icon: 'fas fa-cat', name: 'kucing', color: 'from-orange-400 to-red-500' },
+            { icon: 'fas fa-dog', name: 'anjing', color: 'from-brown-400 to-yellow-600' },
+            { icon: 'fas fa-fish', name: 'ikan', color: 'from-blue-400 to-cyan-500' },
+            { icon: 'fas fa-dove', name: 'burung', color: 'from-gray-300 to-blue-400' },
+            { icon: 'fas fa-frog', name: 'katak', color: 'from-green-400 to-emerald-500' },
+            { icon: 'fas fa-spider', name: 'laba-laba', color: 'from-gray-600 to-black' },
+            { icon: 'fas fa-horse', name: 'kuda', color: 'from-amber-600 to-brown-700' },
+            { icon: 'fas fa-hippo', name: 'kuda nil', color: 'from-gray-500 to-gray-700' },
+            { icon: 'fas fa-otter', name: 'berang-berang', color: 'from-brown-500 to-amber-700' },
+            { icon: 'fas fa-dragon', name: 'naga', color: 'from-purple-500 to-pink-600' }
         ];
         const fruits = [
-            'https://cdn-icons-png.flaticon.com/256/415/415733.png', // apple
-            'https://cdn-icons-png.flaticon.com/256/415/415682.png', // orange
-            'https://cdn-icons-png.flaticon.com/256/415/415734.png', // banana
-            'https://cdn-icons-png.flaticon.com/256/415/415683.png', // grapes
-            'https://cdn-icons-png.flaticon.com/256/415/415735.png', // strawberry
-            'https://cdn-icons-png.flaticon.com/256/415/415684.png', // cherry
-            'https://cdn-icons-png.flaticon.com/256/415/415736.png', // pineapple
-            'https://cdn-icons-png.flaticon.com/256/415/415685.png'  // watermelon
+            { icon: 'fas fa-apple-alt', name: 'apel', color: 'from-red-400 to-red-600' },
+            { icon: 'fas fa-lemon', name: 'jeruk', color: 'from-orange-400 to-yellow-500' },
+            { icon: 'fas fa-seedling', name: 'pisang', color: 'from-yellow-400 to-yellow-600' },
+            { icon: 'fas fa-grape-alt', name: 'anggur', color: 'from-purple-400 to-purple-600' },
+            { icon: 'fas fa-heart', name: 'stroberi', color: 'from-pink-400 to-red-500' },
+            { icon: 'fas fa-cherry', name: 'ceri', color: 'from-red-500 to-red-700' },
+            { icon: 'fas fa-crown', name: 'nanas', color: 'from-yellow-500 to-orange-500' },
+            { icon: 'fas fa-circle', name: 'semangka', color: 'from-green-500 to-red-400' }
         ];
         const stars = [
-            'https://cdn-icons-png.flaticon.com/256/1828/1828884.png', // star
-            'https://cdn-icons-png.flaticon.com/256/1828/1828970.png', // star2
-            'https://cdn-icons-png.flaticon.com/256/1828/1828885.png', // star3
-            'https://cdn-icons-png.flaticon.com/256/1828/1828971.png'  // star4
+            { icon: 'fas fa-star', name: 'bintang', color: 'from-yellow-400 to-yellow-600' },
+            { icon: 'fas fa-star', name: 'bintang', color: 'from-orange-400 to-red-500' },
+            { icon: 'fas fa-star', name: 'bintang', color: 'from-purple-400 to-pink-500' },
+            { icon: 'fas fa-star', name: 'bintang', color: 'from-blue-400 to-cyan-500' }
         ];
         const shapes = [
-            'https://cdn-icons-png.flaticon.com/256/2985/2985150.png', // triangle
-            'https://cdn-icons-png.flaticon.com/256/2985/2985962.png', // circle
-            'https://cdn-icons-png.flaticon.com/256/2985/2985151.png', // square
-            'https://cdn-icons-png.flaticon.com/256/2985/2985963.png', // rectangle
-            'https://cdn-icons-png.flaticon.com/256/2985/2985152.png', // diamond
-            'https://cdn-icons-png.flaticon.com/256/2985/2985964.png'  // hexagon
+            { icon: 'fas fa-play', name: 'segitiga', color: 'from-green-400 to-emerald-500' },
+            { icon: 'fas fa-circle', name: 'lingkaran', color: 'from-blue-400 to-cyan-500' },
+            { icon: 'fas fa-square', name: 'persegi', color: 'from-red-400 to-pink-500' },
+            { icon: 'fas fa-rectangle-wide', name: 'persegi panjang', color: 'from-purple-400 to-indigo-500' },
+            { icon: 'fas fa-gem', name: 'berlian', color: 'from-yellow-400 to-orange-500' },
+            { icon: 'fas fa-hexagon', name: 'segi enam', color: 'from-teal-400 to-green-500' }
         ];
         const vehicles = [
-            'https://cdn-icons-png.flaticon.com/256/3774/3774278.png', // car
-            'https://cdn-icons-png.flaticon.com/256/3774/3774299.png', // taxi
-            'https://cdn-icons-png.flaticon.com/256/3774/3774300.png', // bus
-            'https://cdn-icons-png.flaticon.com/256/3774/3774301.png', // truck
-            'https://cdn-icons-png.flaticon.com/256/3774/3774302.png', // police car
-            'https://cdn-icons-png.flaticon.com/256/3774/3774303.png'  // ambulance
+            { icon: 'fas fa-car', name: 'mobil', color: 'from-blue-400 to-blue-600' },
+            { icon: 'fas fa-taxi', name: 'taksi', color: 'from-yellow-400 to-orange-500' },
+            { icon: 'fas fa-bus', name: 'bus', color: 'from-green-400 to-emerald-500' },
+            { icon: 'fas fa-truck', name: 'truk', color: 'from-red-400 to-red-600' },
+            { icon: 'fas fa-motorcycle', name: 'motor', color: 'from-purple-400 to-indigo-500' },
+            { icon: 'fas fa-plane', name: 'pesawat', color: 'from-cyan-400 to-blue-500' }
         ];
         
         function startGame(gameType) {
@@ -390,19 +391,7 @@
                 'missing': '❓ Cari Angka Hilang!'
             };
             
-            const instructions = {
-                'counting': '👀 Lihat gambar dengan teliti, lalu hitung berapa banyak binatang yang ada!',
-                'addition': '➕ Jumlahkan buah-buahan dari kedua kelompok untuk mendapatkan jawaban!',
-                'subtraction': '➖ Kurangi jumlah bintang sesuai dengan soal yang diberikan!',
-                'comparison': '👁️ Bandingkan kedua kelompok, mana yang jumlahnya lebih banyak?',
-                'patterns': '🔍 Perhatikan pola angka, lalu tentukan angka selanjutnya!',
-                'shapes': '📐 Hitung berapa banyak bentuk geometri yang sama!',
-                'sorting': '🔢 Susun angka-angka dari yang terkecil ke yang terbesar!',
-                'missing': '🕵️ Cari angka yang hilang dalam urutan!'
-            };
-            
             document.getElementById('gameTitle').textContent = titles[gameType];
-            document.getElementById('gameInstructions').textContent = instructions[gameType];
             updateProgress();
             generateQuestion();
         }
@@ -443,20 +432,18 @@
         function generateCountingQuestion() {
             const maxCount = Math.min(3 + currentLevel, 10);
             const count = Math.floor(Math.random() * maxCount) + 1;
-            const animalUrl = animals[Math.floor(Math.random() * animals.length)];
+            const animal = animals[Math.floor(Math.random() * animals.length)];
             
             correctAnswer = count;
             
-            document.getElementById('question').textContent = `Berapa banyak binatang yang kamu lihat?`;
+            document.getElementById('question').textContent = `Berapa banyak ${animal.name} yang kamu lihat?`;
             
             const visualArea = document.getElementById('visualArea');
             for (let i = 0; i < count; i++) {
-                const animalEl = document.createElement('img');
-                animalEl.className = 'game-image bounce-in hover:scale-110 transition-transform cursor-pointer wiggle';
+                const animalEl = document.createElement('div');
+                animalEl.className = `w-16 h-16 bg-gradient-to-br ${animal.color} rounded-full flex items-center justify-center text-white text-2xl shadow-lg bounce-in hover:scale-110 transition-transform cursor-pointer wiggle border-4 border-white`;
                 animalEl.style.animationDelay = `${i * 0.1}s`;
-                animalEl.src = animalUrl;
-                animalEl.alt = 'Animal';
-                animalEl.onerror = function() { this.style.display = 'none'; };
+                animalEl.innerHTML = `<i class="${animal.icon}"></i>`;
                 animalEl.addEventListener('click', () => {
                     animalEl.classList.add('star-burst');
                     setTimeout(() => animalEl.classList.remove('star-burst'), 800);
@@ -471,7 +458,7 @@
             const maxNum = Math.min(2 + currentLevel, 5);
             const num1 = Math.floor(Math.random() * maxNum) + 1;
             const num2 = Math.floor(Math.random() * maxNum) + 1;
-            const fruitUrl = fruits[Math.floor(Math.random() * fruits.length)];
+            const fruit = fruits[Math.floor(Math.random() * fruits.length)];
             
             correctAnswer = num1 + num2;
             
@@ -484,16 +471,14 @@
             group1.className = 'flex flex-wrap gap-3 p-6 bg-yellow-100 rounded-2xl border-4 border-yellow-300';
             const label1 = document.createElement('div');
             label1.className = 'w-full text-center text-lg font-bold text-yellow-700 mb-2';
-            label1.textContent = `Kelompok 1: ${num1} buah`;
+            label1.textContent = `Kelompok 1: ${num1} ${fruit.name}`;
             group1.appendChild(label1);
             
             for (let i = 0; i < num1; i++) {
-                const fruitEl = document.createElement('img');
-                fruitEl.className = 'game-image bounce-in hover:scale-110 transition-transform';
+                const fruitEl = document.createElement('div');
+                fruitEl.className = `w-14 h-14 bg-gradient-to-br ${fruit.color} rounded-full flex items-center justify-center text-white text-xl shadow-lg bounce-in hover:scale-110 transition-transform border-3 border-white`;
                 fruitEl.style.animationDelay = `${i * 0.1}s`;
-                fruitEl.src = fruitUrl;
-                fruitEl.alt = 'Fruit';
-                fruitEl.onerror = function() { this.style.display = 'none'; };
+                fruitEl.innerHTML = `<i class="${fruit.icon}"></i>`;
                 group1.appendChild(fruitEl);
             }
             
@@ -507,16 +492,14 @@
             group2.className = 'flex flex-wrap gap-3 p-6 bg-pink-100 rounded-2xl border-4 border-pink-300';
             const label2 = document.createElement('div');
             label2.className = 'w-full text-center text-lg font-bold text-pink-700 mb-2';
-            label2.textContent = `Kelompok 2: ${num2} buah`;
+            label2.textContent = `Kelompok 2: ${num2} ${fruit.name}`;
             group2.appendChild(label2);
             
             for (let i = 0; i < num2; i++) {
-                const fruitEl = document.createElement('img');
-                fruitEl.className = 'game-image bounce-in hover:scale-110 transition-transform';
+                const fruitEl = document.createElement('div');
+                fruitEl.className = `w-14 h-14 bg-gradient-to-br ${fruit.color} rounded-full flex items-center justify-center text-white text-xl shadow-lg bounce-in hover:scale-110 transition-transform border-3 border-white`;
                 fruitEl.style.animationDelay = `${(num1 + i) * 0.1}s`;
-                fruitEl.src = fruitUrl;
-                fruitEl.alt = 'Fruit';
-                fruitEl.onerror = function() { this.style.display = 'none'; };
+                fruitEl.innerHTML = `<i class="${fruit.icon}"></i>`;
                 group2.appendChild(fruitEl);
             }
             
@@ -531,7 +514,7 @@
             const maxNum = Math.min(3 + currentLevel, 8);
             const num1 = Math.floor(Math.random() * maxNum) + 2;
             const num2 = Math.floor(Math.random() * (num1 - 1)) + 1;
-            const starUrl = stars[Math.floor(Math.random() * stars.length)];
+            const star = stars[Math.floor(Math.random() * stars.length)];
             
             correctAnswer = num1 - num2;
             
@@ -541,20 +524,18 @@
             
             const instruction = document.createElement('div');
             instruction.className = 'w-full text-center text-lg font-bold text-gray-700 mb-4 bg-blue-100 p-3 rounded-xl';
-            instruction.textContent = `Mulai dengan ${num1} bintang, lalu ${num2} bintang akan dicoret`;
+            instruction.textContent = `Mulai dengan ${num1} ${star.name}, lalu ${num2} ${star.name} akan dicoret`;
             visualArea.appendChild(instruction);
             
             // All stars
             const allStars = document.createElement('div');
             allStars.className = 'flex flex-wrap gap-3 justify-center';
             for (let i = 0; i < num1; i++) {
-                const starEl = document.createElement('img');
-                starEl.className = 'game-image bounce-in hover:scale-110 transition-all';
+                const starEl = document.createElement('div');
+                starEl.className = `w-14 h-14 bg-gradient-to-br ${star.color} rounded-full flex items-center justify-center text-white text-xl shadow-lg bounce-in hover:scale-110 transition-all border-3 border-white`;
                 starEl.style.animationDelay = `${i * 0.1}s`;
-                starEl.src = starUrl;
-                starEl.alt = 'Star';
+                starEl.innerHTML = `<i class="${star.icon}"></i>`;
                 starEl.id = `star-${i}`;
-                starEl.onerror = function() { this.style.display = 'none'; };
                 allStars.appendChild(starEl);
             }
             
@@ -566,9 +547,15 @@
                     const starEl = document.getElementById(`star-${i}`);
                     if (starEl) {
                         starEl.style.opacity = '0.3';
-                        starEl.style.textDecoration = 'line-through';
                         starEl.style.transform = 'scale(0.8)';
                         starEl.style.filter = 'grayscale(100%)';
+                        starEl.classList.add('line-through');
+                        // Add strikethrough effect
+                        starEl.style.position = 'relative';
+                        const line = document.createElement('div');
+                        line.className = 'absolute inset-0 flex items-center justify-center';
+                        line.innerHTML = '<div class="w-full h-1 bg-red-600 transform rotate-45"></div>';
+                        starEl.appendChild(line);
                     }
                 }
             }, 1500);
@@ -582,11 +569,11 @@
             let num2 = Math.floor(Math.random() * maxNum) + 1;
             while (num2 === num1) num2 = Math.floor(Math.random() * maxNum) + 1;
             
-            const vehicleUrl = vehicles[Math.floor(Math.random() * vehicles.length)];
+            const vehicle = vehicles[Math.floor(Math.random() * vehicles.length)];
             
             correctAnswer = num1 > num2 ? 1 : 2;
             
-            document.getElementById('question').textContent = 'Kelompok mana yang jumlahnya LEBIH BANYAK?';
+            document.getElementById('question').textContent = `Kelompok mana yang jumlah ${vehicle.name}nya LEBIH BANYAK?`;
             
             const visualArea = document.getElementById('visualArea');
             
@@ -595,18 +582,16 @@
             group1.className = 'flex flex-col items-center p-6 bg-blue-100 rounded-2xl border-4 border-blue-300 m-4';
             const label1 = document.createElement('div');
             label1.className = 'text-xl font-bold text-blue-700 mb-4';
-            label1.textContent = `Kelompok A: ${num1}`;
+            label1.textContent = `Kelompok A: ${num1} ${vehicle.name}`;
             group1.appendChild(label1);
             
             const items1 = document.createElement('div');
             items1.className = 'flex flex-wrap gap-2 justify-center';
             for (let i = 0; i < num1; i++) {
-                const itemEl = document.createElement('img');
-                itemEl.className = 'game-image-small bounce-in';
+                const itemEl = document.createElement('div');
+                itemEl.className = `w-12 h-12 bg-gradient-to-br ${vehicle.color} rounded-full flex items-center justify-center text-white text-lg shadow-lg bounce-in border-2 border-white`;
                 itemEl.style.animationDelay = `${i * 0.1}s`;
-                itemEl.src = vehicleUrl;
-                itemEl.alt = 'Vehicle';
-                itemEl.onerror = function() { this.style.display = 'none'; };
+                itemEl.innerHTML = `<i class="${vehicle.icon}"></i>`;
                 items1.appendChild(itemEl);
             }
             group1.appendChild(items1);
@@ -616,18 +601,16 @@
             group2.className = 'flex flex-col items-center p-6 bg-green-100 rounded-2xl border-4 border-green-300 m-4';
             const label2 = document.createElement('div');
             label2.className = 'text-xl font-bold text-green-700 mb-4';
-            label2.textContent = `Kelompok B: ${num2}`;
+            label2.textContent = `Kelompok B: ${num2} ${vehicle.name}`;
             group2.appendChild(label2);
             
             const items2 = document.createElement('div');
             items2.className = 'flex flex-wrap gap-2 justify-center';
             for (let i = 0; i < num2; i++) {
-                const itemEl = document.createElement('img');
-                itemEl.className = 'game-image-small bounce-in';
+                const itemEl = document.createElement('div');
+                itemEl.className = `w-12 h-12 bg-gradient-to-br ${vehicle.color} rounded-full flex items-center justify-center text-white text-lg shadow-lg bounce-in border-2 border-white`;
                 itemEl.style.animationDelay = `${(num1 + i) * 0.1}s`;
-                itemEl.src = vehicleUrl;
-                itemEl.alt = 'Vehicle';
-                itemEl.onerror = function() { this.style.display = 'none'; };
+                itemEl.innerHTML = `<i class="${vehicle.icon}"></i>`;
                 items2.appendChild(itemEl);
             }
             group2.appendChild(items2);
@@ -641,7 +624,7 @@
             
             options.forEach((option, index) => {
                 const button = document.createElement('button');
-                button.className = 'bg-gradient-to-br from-purple-400 to-pink-500 hover:from-purple-500 hover:to-pink-600 text-white text-xl font-bold py-6 px-8 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-200';
+                button.className = 'bg-purple-500 hover:bg-purple-600 text-white text-xl font-bold py-6 px-8 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-200 border-3 border-white';
                 button.textContent = option;
                 button.onclick = () => checkAnswer(index + 1, button);
                 answerOptions.appendChild(button);
@@ -673,7 +656,7 @@
             
             pattern.forEach((num, index) => {
                 const numEl = document.createElement('div');
-                numEl.className = 'bg-gradient-to-br from-blue-400 to-purple-500 text-white text-4xl font-bold w-16 h-16 rounded-full flex items-center justify-center bounce-in shadow-lg';
+                numEl.className = 'bg-blue-500 text-white text-4xl font-bold w-16 h-16 rounded-full flex items-center justify-center bounce-in shadow-lg';
                 numEl.style.animationDelay = `${index * 0.2}s`;
                 numEl.textContent = num;
                 patternContainer.appendChild(numEl);
@@ -692,7 +675,7 @@
             patternContainer.appendChild(arrow);
             
             const questionMark = document.createElement('div');
-            questionMark.className = 'bg-gradient-to-br from-red-400 to-orange-500 text-white text-4xl font-bold w-16 h-16 rounded-full flex items-center justify-center animate-pulse shadow-lg';
+            questionMark.className = 'bg-red-500 text-white text-4xl font-bold w-16 h-16 rounded-full flex items-center justify-center animate-pulse shadow-lg';
             questionMark.textContent = '?';
             patternContainer.appendChild(questionMark);
             
@@ -702,24 +685,22 @@
         }
         
         function generateShapesQuestion() {
-            const targetShapeUrl = shapes[Math.floor(Math.random() * shapes.length)];
+            const targetShape = shapes[Math.floor(Math.random() * shapes.length)];
             const count = Math.floor(Math.random() * 6) + 2;
             const totalShapes = count + Math.floor(Math.random() * 5) + 3;
             
             correctAnswer = count;
             
-            document.getElementById('question').textContent = `Berapa banyak bentuk yang sama dengan contoh?`;
+            document.getElementById('question').textContent = `Berapa banyak ${targetShape.name} yang kamu lihat?`;
             
             const visualArea = document.getElementById('visualArea');
             
             const instruction = document.createElement('div');
             instruction.className = 'w-full text-center text-lg font-bold text-gray-700 mb-4 bg-indigo-100 p-3 rounded-xl flex items-center justify-center gap-3';
             instruction.innerHTML = `Cari dan hitung bentuk seperti ini:`;
-            const exampleShape = document.createElement('img');
-            exampleShape.className = 'game-image-large';
-            exampleShape.src = targetShapeUrl;
-            exampleShape.alt = 'Target Shape';
-            exampleShape.onerror = function() { this.style.display = 'none'; };
+            const exampleShape = document.createElement('div');
+            exampleShape.className = `w-16 h-16 bg-gradient-to-br ${targetShape.color} rounded-lg flex items-center justify-center text-white text-2xl shadow-lg border-3 border-white`;
+            exampleShape.innerHTML = `<i class="${targetShape.icon}"></i>`;
             instruction.appendChild(exampleShape);
             visualArea.appendChild(instruction);
             
@@ -728,28 +709,24 @@
             
             // Add target shapes
             for (let i = 0; i < count; i++) {
-                const shapeEl = document.createElement('img');
-                shapeEl.className = 'game-image bounce-in hover:scale-110 transition-transform cursor-pointer';
+                const shapeEl = document.createElement('div');
+                shapeEl.className = `w-14 h-14 bg-gradient-to-br ${targetShape.color} rounded-lg flex items-center justify-center text-white text-xl shadow-lg bounce-in hover:scale-110 transition-transform cursor-pointer border-2 border-white`;
                 shapeEl.style.animationDelay = `${Math.random() * 2}s`;
-                shapeEl.src = targetShapeUrl;
-                shapeEl.alt = 'Shape';
-                shapeEl.onerror = function() { this.style.display = 'none'; };
+                shapeEl.innerHTML = `<i class="${targetShape.icon}"></i>`;
                 shapesContainer.appendChild(shapeEl);
             }
             
             // Add other shapes
             for (let i = 0; i < totalShapes - count; i++) {
-                let otherShapeUrl;
+                let otherShape;
                 do {
-                    otherShapeUrl = shapes[Math.floor(Math.random() * shapes.length)];
-                } while (otherShapeUrl === targetShapeUrl);
+                    otherShape = shapes[Math.floor(Math.random() * shapes.length)];
+                } while (otherShape === targetShape);
                 
-                const shapeEl = document.createElement('img');
-                shapeEl.className = 'game-image bounce-in hover:scale-110 transition-transform cursor-pointer';
+                const shapeEl = document.createElement('div');
+                shapeEl.className = `w-14 h-14 bg-gradient-to-br ${otherShape.color} rounded-lg flex items-center justify-center text-white text-xl shadow-lg bounce-in hover:scale-110 transition-transform cursor-pointer border-2 border-white`;
                 shapeEl.style.animationDelay = `${Math.random() * 2}s`;
-                shapeEl.src = otherShapeUrl;
-                shapeEl.alt = 'Shape';
-                shapeEl.onerror = function() { this.style.display = 'none'; };
+                shapeEl.innerHTML = `<i class="${otherShape.icon}"></i>`;
                 shapesContainer.appendChild(shapeEl);
             }
             
@@ -813,7 +790,7 @@
             
             options.forEach(option => {
                 const button = document.createElement('button');
-                button.className = 'bg-gradient-to-br from-teal-400 to-blue-500 hover:from-teal-500 hover:to-blue-600 text-white text-2xl font-bold py-4 px-6 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-200';
+                button.className = 'bg-teal-500 hover:bg-teal-600 text-white text-2xl font-bold py-4 px-6 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-200';
                 button.textContent = option.split('').join(' - ');
                 button.onclick = () => checkAnswer(option, button);
                 answerOptions.appendChild(button);
@@ -872,7 +849,7 @@
                     sequenceContainer.appendChild(questionEl);
                 } else {
                     const numEl = document.createElement('div');
-                    numEl.className = 'bg-gradient-to-br from-gray-400 to-gray-600 text-white text-4xl font-bold w-20 h-20 rounded-2xl flex items-center justify-center bounce-in shadow-lg';
+                    numEl.className = 'bg-blue-600 text-white text-4xl font-bold w-20 h-20 rounded-2xl flex items-center justify-center bounce-in shadow-lg border-3 border-white';
                     numEl.style.animationDelay = `${index * 0.1}s`;
                     numEl.textContent = num;
                     sequenceContainer.appendChild(numEl);
@@ -908,10 +885,28 @@
             }
             
             const answerOptions = document.getElementById('answerOptions');
-            options.forEach(option => {
+            const buttonColors = [
+                'bg-red-500 hover:bg-red-600',
+                'bg-blue-500 hover:bg-blue-600',
+                'bg-green-500 hover:bg-green-600',
+                'bg-purple-500 hover:bg-purple-600'
+            ];
+            
+            options.forEach((option, index) => {
                 const button = document.createElement('button');
-                button.className = 'bg-gradient-to-br from-blue-400 to-purple-500 hover:from-blue-500 hover:to-purple-600 text-white text-xl sm:text-2xl lg:text-3xl font-bold py-4 px-4 sm:py-6 sm:px-8 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-200 border-2 border-white/30 min-h-16 sm:min-h-20';
-                button.textContent = option;
+                button.className = `${buttonColors[index]} text-white text-2xl sm:text-3xl lg:text-4xl font-black py-6 px-6 sm:py-8 sm:px-10 rounded-3xl shadow-2xl transform hover:scale-110 transition-all duration-300 border-4 border-white min-h-20 sm:min-h-24 relative overflow-hidden`;
+                
+                // Add sparkle effect
+                const sparkle = document.createElement('div');
+                sparkle.className = 'absolute top-2 right-2 text-yellow-300 text-lg animate-pulse';
+                sparkle.innerHTML = '<i class="fas fa-star"></i>';
+                button.appendChild(sparkle);
+                
+                const numberText = document.createElement('div');
+                numberText.className = 'relative z-10';
+                numberText.textContent = option;
+                button.appendChild(numberText);
+                
                 button.onclick = () => checkAnswer(option, button);
                 answerOptions.appendChild(button);
             });
@@ -987,7 +982,8 @@
                     firework.style.top = Math.random() * 100 + '%';
                     firework.style.fontSize = '3rem';
                     firework.style.zIndex = '1000';
-                    firework.textContent = ['🎉', '⭐', '✨', '🌟', '💫', '🎊'][Math.floor(Math.random() * 6)];
+                    const celebrationIcons = ['<i class="fas fa-star text-yellow-400"></i>', '<i class="fas fa-heart text-red-400"></i>', '<i class="fas fa-gem text-purple-400"></i>', '<i class="fas fa-crown text-yellow-500"></i>', '<i class="fas fa-trophy text-gold-400"></i>', '<i class="fas fa-medal text-orange-400"></i>'];
+                    firework.innerHTML = celebrationIcons[Math.floor(Math.random() * celebrationIcons.length)];
                     firework.style.animation = 'fireworkExplode 1.5s ease-out forwards';
                     feedback.appendChild(firework);
                     
@@ -997,22 +993,23 @@
                 }, i * 100);
             }
             
-            // Flying success emojis
-            const successEmojis = ['🎉', '👏', '🥳', '🌟', '⭐'];
-            successEmojis.forEach((emoji, index) => {
+            // Flying success icons
+            const successIcons = ['fas fa-trophy', 'fas fa-star', 'fas fa-heart', 'fas fa-crown', 'fas fa-medal'];
+            const successColors = ['text-yellow-500', 'text-blue-500', 'text-red-500', 'text-purple-500', 'text-green-500'];
+            successIcons.forEach((icon, index) => {
                 setTimeout(() => {
-                    const flyingEmoji = document.createElement('div');
-                    flyingEmoji.style.position = 'fixed';
-                    flyingEmoji.style.left = '10%';
-                    flyingEmoji.style.top = '50%';
-                    flyingEmoji.style.fontSize = '4rem';
-                    flyingEmoji.style.zIndex = '1000';
-                    flyingEmoji.textContent = emoji;
-                    flyingEmoji.style.animation = 'flyAcross 2s ease-out forwards';
-                    document.body.appendChild(flyingEmoji);
+                    const flyingIcon = document.createElement('div');
+                    flyingIcon.style.position = 'fixed';
+                    flyingIcon.style.left = '10%';
+                    flyingIcon.style.top = '50%';
+                    flyingIcon.style.fontSize = '4rem';
+                    flyingIcon.style.zIndex = '1000';
+                    flyingIcon.innerHTML = `<i class="${icon} ${successColors[index]}"></i>`;
+                    flyingIcon.style.animation = 'flyAcross 2s ease-out forwards';
+                    document.body.appendChild(flyingIcon);
                     
                     setTimeout(() => {
-                        if (flyingEmoji.parentNode) flyingEmoji.remove();
+                        if (flyingIcon.parentNode) flyingIcon.remove();
                     }, 2000);
                 }, index * 200);
             });
@@ -1021,7 +1018,7 @@
             setTimeout(() => {
                 const bigText = document.createElement('div');
                 bigText.className = 'fixed inset-0 flex items-center justify-center z-50 pointer-events-none';
-                bigText.innerHTML = '<div class="text-6xl font-bold text-green-500 animate-bounce bg-white/90 px-8 py-4 rounded-full shadow-2xl border-4 border-green-400">HEBAT! 🎉</div>';
+                bigText.innerHTML = '<div class="text-6xl font-bold text-green-500 animate-bounce bg-white/90 px-8 py-4 rounded-full shadow-2xl border-4 border-green-400">HEBAT! <i class="fas fa-trophy text-yellow-500"></i></div>';
                 document.body.appendChild(bigText);
                 
                 setTimeout(() => {
@@ -1034,22 +1031,23 @@
             const feedback = document.getElementById('feedback');
             feedback.innerHTML = '';
             
-            // Sad emojis falling
-            const sadEmojis = ['😅', '🤔', '💭', '🎯'];
-            sadEmojis.forEach((emoji, index) => {
+            // Thinking icons falling
+            const thinkingIcons = ['fas fa-question', 'fas fa-lightbulb', 'fas fa-brain', 'fas fa-search'];
+            const thinkingColors = ['text-orange-500', 'text-yellow-500', 'text-pink-500', 'text-blue-500'];
+            thinkingIcons.forEach((icon, index) => {
                 setTimeout(() => {
-                    const fallingEmoji = document.createElement('div');
-                    fallingEmoji.style.position = 'absolute';
-                    fallingEmoji.style.left = Math.random() * 100 + '%';
-                    fallingEmoji.style.top = '0%';
-                    fallingEmoji.style.fontSize = '2.5rem';
-                    fallingEmoji.style.zIndex = '1000';
-                    fallingEmoji.textContent = emoji;
-                    fallingEmoji.style.animation = 'fallDown 2s ease-in forwards';
-                    feedback.appendChild(fallingEmoji);
+                    const fallingIcon = document.createElement('div');
+                    fallingIcon.style.position = 'absolute';
+                    fallingIcon.style.left = Math.random() * 100 + '%';
+                    fallingIcon.style.top = '0%';
+                    fallingIcon.style.fontSize = '2.5rem';
+                    fallingIcon.style.zIndex = '1000';
+                    fallingIcon.innerHTML = `<i class="${icon} ${thinkingColors[index]}"></i>`;
+                    fallingIcon.style.animation = 'fallDown 2s ease-in forwards';
+                    feedback.appendChild(fallingIcon);
                     
                     setTimeout(() => {
-                        if (fallingEmoji.parentNode) fallingEmoji.remove();
+                        if (fallingIcon.parentNode) fallingIcon.remove();
                     }, 2000);
                 }, index * 300);
             });
@@ -1058,7 +1056,7 @@
             setTimeout(() => {
                 const answerReveal = document.createElement('div');
                 answerReveal.className = 'fixed inset-0 flex items-center justify-center z-50 pointer-events-none';
-                answerReveal.innerHTML = `<div class="text-4xl font-bold text-orange-500 animate-pulse bg-white/95 px-6 py-4 rounded-full shadow-2xl border-4 border-orange-400">Jawabannya: ${correctAnswer} 🎯</div>`;
+                answerReveal.innerHTML = `<div class="text-4xl font-bold text-orange-500 animate-pulse bg-white/95 px-6 py-4 rounded-full shadow-2xl border-4 border-orange-400">Jawabannya: ${correctAnswer} <i class="fas fa-bullseye text-red-500"></i></div>`;
                 document.body.appendChild(answerReveal);
                 
                 setTimeout(() => {
@@ -1105,5 +1103,5 @@
         
 
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'974a9d8b81c53d81',t:'MTc1NjExOTkzOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'974abcd3416e89aa',t:'MTc1NjEyMTIxOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
