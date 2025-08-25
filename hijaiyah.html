@@ -1,0 +1,2151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Belajar Huruf Hijaiyah - Kelas 1 SD/MI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Amiri:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Comic Neue', cursive;
+        }
+        
+        .arabic-text {
+            font-family: 'Amiri', serif;
+            font-size: 1.5em;
+            direction: rtl;
+        }
+        
+        .bounce-in {
+            animation: bounceIn 0.6s ease-out;
+        }
+        
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .pulse-correct {
+            animation: pulseCorrect 0.6s ease-in-out;
+        }
+        
+        @keyframes pulseCorrect {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); background-color: #10b981; }
+            100% { transform: scale(1); }
+        }
+        
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .wiggle {
+            animation: wiggle 0.5s ease-in-out infinite;
+        }
+        
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-3deg); }
+            75% { transform: rotate(3deg); }
+        }
+        
+        .star-burst {
+            animation: starBurst 0.8s ease-out;
+        }
+        
+        @keyframes starBurst {
+            0% { transform: scale(0) rotate(0deg); opacity: 0; }
+            50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
+            100% { transform: scale(1) rotate(360deg); opacity: 1; }
+        }
+        
+        @keyframes fireworkExplode {
+            0% { 
+                transform: scale(0) rotate(0deg); 
+                opacity: 1; 
+            }
+            50% { 
+                transform: scale(1.5) rotate(180deg); 
+                opacity: 1; 
+            }
+            100% { 
+                transform: scale(0.5) rotate(360deg); 
+                opacity: 0; 
+            }
+        }
+        
+        @keyframes flyAcross {
+            0% { 
+                transform: translateX(-100px) scale(0.5) rotate(0deg); 
+                opacity: 0; 
+            }
+            50% { 
+                transform: translateX(50vw) scale(1.2) rotate(180deg); 
+                opacity: 1; 
+            }
+            100% { 
+                transform: translateX(100vw) scale(0.8) rotate(360deg); 
+                opacity: 0; 
+            }
+        }
+        
+        .hijaiyah-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .hijaiyah-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .drag-hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        
+        .drop-zone-active {
+            border-color: #10b981 !important;
+            background-color: #d1fae5 !important;
+            transform: scale(1.05);
+        }
+        
+        .islamic-pattern {
+            background-image: 
+                radial-gradient(circle at 25% 25%, #fbbf24 2px, transparent 2px),
+                radial-gradient(circle at 75% 75%, #34d399 2px, transparent 2px);
+            background-size: 50px 50px;
+        }
+        
+        /* Makharijul Huruf Animations */
+        .mouth-diagram {
+            position: relative;
+            width: 300px;
+            height: 400px;
+            margin: 0 auto;
+        }
+        
+        .cavity-breath {
+            animation: cavityBreathe 2s ease-in-out infinite;
+        }
+        
+        @keyframes cavityBreathe {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+        
+        .throat-vibrate {
+            animation: throatVibrate 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes throatVibrate {
+            0%, 100% { transform: translateY(0px); }
+            25% { transform: translateY(-2px); }
+            75% { transform: translateY(2px); }
+        }
+        
+        .tongue-move {
+            animation: tongueMove 2s ease-in-out infinite;
+        }
+        
+        @keyframes tongueMove {
+            0%, 100% { transform: translateX(0px) rotate(0deg); }
+            33% { transform: translateX(-3px) rotate(-2deg); }
+            66% { transform: translateX(3px) rotate(2deg); }
+        }
+        
+        .lips-move {
+            animation: lipsMove 1.8s ease-in-out infinite;
+        }
+        
+        @keyframes lipsMove {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(0.8); }
+        }
+        
+        .makharij-point {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 3px solid white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+        
+        .makharij-point:hover {
+            transform: scale(1.5);
+            box-shadow: 0 0 20px rgba(255,255,255,0.8);
+        }
+        
+        .makharij-point.active {
+            animation: activePoint 1s ease-in-out infinite;
+            box-shadow: 0 0 30px rgba(255,255,255,1);
+        }
+        
+        @keyframes activePoint {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+        
+        .letter-flow {
+            animation: letterFlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes letterFlow {
+            0% { transform: translateY(0px) scale(1); opacity: 0.7; }
+            50% { transform: translateY(-20px) scale(1.2); opacity: 1; }
+            100% { transform: translateY(0px) scale(1); opacity: 0.7; }
+        }
+        
+        .mouth-svg {
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+        
+        .breathing-effect {
+            animation: breathingEffect 3s ease-in-out infinite;
+        }
+        
+        @keyframes breathingEffect {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600 min-h-screen islamic-pattern">
+    <!-- Header -->
+    <div class="bg-white shadow-xl p-2 sm:p-4 border-b-4 border-emerald-400">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-4">
+            <div class="flex items-center gap-2 sm:gap-4">
+                <div class="w-8 h-8 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-full flex items-center justify-center bounce-in float">
+                    <i class="fas fa-mosque text-white text-lg sm:text-3xl lg:text-4xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg sm:text-2xl lg:text-3xl font-bold text-emerald-700 text-center sm:text-left">Belajar Huruf Hijaiyah</h1>
+                    <p class="text-xs sm:text-base lg:text-lg text-emerald-600 font-semibold">Media Edukasi Islami - Kelas 1 SD/MI</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 sm:gap-4">
+                <div class="bg-yellow-500 px-2 py-1 sm:px-6 sm:py-3 rounded-full shadow-lg border-3 border-yellow-600">
+                    <span class="text-xs sm:text-xl font-bold text-white"><i class="fas fa-star"></i> <span id="score">0</span></span>
+                </div>
+                <div class="bg-emerald-600 px-2 py-1 sm:px-6 sm:py-3 rounded-full shadow-lg border-3 border-emerald-700">
+                    <span class="text-xs sm:text-xl font-bold text-white"><i class="fas fa-trophy"></i> <span id="level">1</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Container -->
+    <div class="max-w-7xl mx-auto p-3 sm:p-6">
+        <!-- Game Selection -->
+        <div id="gameMenu" class="text-center">
+            <h2 class="text-2xl sm:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-4 drop-shadow-lg float">
+                <i class="fas fa-book-open text-yellow-300"></i> <span class="arabic-text">بِسْمِ اللَّهِ نَبْدَأُ</span> <i class="fas fa-heart text-pink-300"></i>
+            </h2>
+            <p class="text-base sm:text-xl lg:text-2xl text-white/90 mb-3 sm:mb-8 drop-shadow font-semibold px-4">Ayo belajar huruf Hijaiyah dengan cara yang menyenangkan!</p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+                <button onclick="startGame('recognition')" class="bg-gradient-to-br from-purple-400 via-purple-500 to-indigo-600 p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-purple-300 hover:border-white">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <div class="text-white text-2xl sm:text-3xl lg:text-4xl drop-shadow-lg arabic-text">أ</div>
+                    </div>
+                    <h3 class="text-lg sm:text-2xl font-bold text-white mb-1 sm:mb-2 drop-shadow-lg">Mengenal Huruf</h3>
+                    <p class="text-xs sm:text-lg text-purple-100 font-semibold">Belajar bentuk huruf Hijaiyah!</p>
+                    <div class="text-xs sm:text-sm text-purple-800 mt-1 sm:mt-2 font-bold bg-white/30 px-2 py-1 rounded-full backdrop-blur-sm"><i class="fas fa-star text-yellow-300"></i> Level: Mudah</div>
+                </button>
+                
+                <button onclick="startGame('sounds')" class="bg-gradient-to-br from-green-400 via-emerald-500 to-teal-600 p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-green-300 hover:border-white">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <i class="fas fa-volume-up text-white text-2xl sm:text-3xl lg:text-4xl drop-shadow-lg"></i>
+                    </div>
+                    <h3 class="text-lg sm:text-2xl font-bold text-white mb-1 sm:mb-2 drop-shadow-lg">Bunyi Huruf</h3>
+                    <p class="text-xs sm:text-lg text-green-100 font-semibold">Dengar dan pilih huruf yang tepat!</p>
+                    <div class="text-xs sm:text-sm text-green-800 mt-1 sm:mt-2 font-bold bg-white/30 px-2 py-1 rounded-full backdrop-blur-sm"><i class="fas fa-star text-yellow-300"></i> Level: Mudah</div>
+                </button>
+                
+                <button onclick="startGame('matching')" class="bg-gradient-to-br from-orange-400 via-red-500 to-pink-500 p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-orange-300 hover:border-white">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <i class="fas fa-puzzle-piece text-white text-2xl sm:text-3xl lg:text-4xl drop-shadow-lg"></i>
+                    </div>
+                    <h3 class="text-lg sm:text-2xl font-bold text-white mb-1 sm:mb-2 drop-shadow-lg">Mencocokkan</h3>
+                    <p class="text-xs sm:text-lg text-orange-100 font-semibold">Cocokkan huruf dengan namanya!</p>
+                    <div class="text-xs sm:text-sm text-orange-800 mt-1 sm:mt-2 font-bold bg-white/30 px-2 py-1 rounded-full backdrop-blur-sm"><i class="fas fa-star text-yellow-300"></i> Level: Sedang</div>
+                </button>
+                
+                <button onclick="startGame('sequence')" class="bg-gradient-to-br from-blue-400 via-cyan-500 to-teal-600 p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-blue-300 hover:border-white">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <i class="fas fa-sort-numeric-down text-white text-xl sm:text-2xl lg:text-3xl drop-shadow-lg"></i>
+                    </div>
+                    <h3 class="text-lg sm:text-2xl font-bold text-white mb-1 sm:mb-2 drop-shadow-lg">Urutan Huruf</h3>
+                    <p class="text-xs sm:text-lg text-blue-100 font-semibold">Susun huruf sesuai urutan!</p>
+                    <div class="text-xs sm:text-sm text-blue-800 mt-1 sm:mt-2 font-bold bg-white/30 px-2 py-1 rounded-full backdrop-blur-sm"><i class="fas fa-star text-yellow-300"></i> Level: Sedang</div>
+                </button>
+                
+                <button onclick="startGame('words')" class="bg-gradient-to-br from-pink-400 via-rose-500 to-red-600 p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-pink-300 hover:border-white">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <div class="text-white text-lg sm:text-xl lg:text-2xl drop-shadow-lg arabic-text">كَلِمَة</div>
+                    </div>
+                    <h3 class="text-lg sm:text-2xl font-bold text-white mb-1 sm:mb-2 drop-shadow-lg">Kata Sederhana</h3>
+                    <p class="text-xs sm:text-lg text-pink-100 font-semibold">Belajar kata-kata Islami!</p>
+                    <div class="text-xs sm:text-sm text-pink-800 mt-1 sm:mt-2 font-bold bg-white/30 px-2 py-1 rounded-full backdrop-blur-sm"><i class="fas fa-star text-yellow-300"></i> Level: Lanjut</div>
+                </button>
+                
+                <button onclick="startGame('writing')" class="bg-gradient-to-br from-indigo-400 via-purple-500 to-pink-600 p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-indigo-300 hover:border-white">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <i class="fas fa-pen text-white text-2xl sm:text-3xl lg:text-4xl drop-shadow-lg"></i>
+                    </div>
+                    <h3 class="text-lg sm:text-2xl font-bold text-white mb-1 sm:mb-2 drop-shadow-lg">Menulis Huruf</h3>
+                    <p class="text-xs sm:text-lg text-indigo-100 font-semibold">Latihan menulis huruf Hijaiyah!</p>
+                    <div class="text-xs sm:text-sm text-indigo-800 mt-1 sm:mt-2 font-bold bg-white/30 px-2 py-1 rounded-full backdrop-blur-sm"><i class="fas fa-star text-yellow-300"></i> Level: Lanjut</div>
+                </button>
+                
+                <button onclick="startGame('memory')" class="bg-gradient-to-br from-teal-400 via-cyan-500 to-blue-600 p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-teal-300 hover:border-white">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <i class="fas fa-brain text-white text-2xl sm:text-3xl lg:text-4xl drop-shadow-lg"></i>
+                    </div>
+                    <h3 class="text-lg sm:text-2xl font-bold text-white mb-1 sm:mb-2 drop-shadow-lg">Ingatan</h3>
+                    <p class="text-xs sm:text-lg text-teal-100 font-semibold">Uji daya ingat huruf Hijaiyah!</p>
+                    <div class="text-xs sm:text-sm text-teal-800 mt-1 sm:mt-2 font-bold bg-white/30 px-2 py-1 rounded-full backdrop-blur-sm"><i class="fas fa-star text-yellow-300"></i> Level: Lanjut</div>
+                </button>
+                
+                <button onclick="startGame('iqra')" class="bg-gradient-to-br from-emerald-400 via-green-500 to-teal-600 p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-emerald-300 hover:border-white">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <div class="text-white text-lg sm:text-xl lg:text-2xl drop-shadow-lg arabic-text">إِقْرَأْ</div>
+                    </div>
+                    <h3 class="text-lg sm:text-2xl font-bold text-white mb-1 sm:mb-2 drop-shadow-lg">Metode Iqra'</h3>
+                    <p class="text-xs sm:text-lg text-emerald-100 font-semibold">Latihan membaca bertahap!</p>
+                    <div class="text-xs sm:text-sm text-emerald-800 mt-1 sm:mt-2 font-bold bg-white/30 px-2 py-1 rounded-full backdrop-blur-sm"><i class="fas fa-star text-yellow-300"></i> Level: Membaca</div>
+                </button>
+                
+                <button onclick="startGame('makharij')" class="bg-gradient-to-br from-amber-400 via-yellow-500 to-orange-600 p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-amber-300 hover:border-white">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <i class="fas fa-mouth-open text-white text-2xl sm:text-3xl lg:text-4xl drop-shadow-lg"></i>
+                    </div>
+                    <h3 class="text-lg sm:text-2xl font-bold text-white mb-1 sm:mb-2 drop-shadow-lg">Makharijul Huruf</h3>
+                    <p class="text-xs sm:text-lg text-amber-100 font-semibold">Tempat keluarnya huruf!</p>
+                    <div class="text-xs sm:text-sm text-amber-800 mt-1 sm:mt-2 font-bold bg-white/30 px-2 py-1 rounded-full backdrop-blur-sm"><i class="fas fa-star text-yellow-300"></i> Level: Animasi</div>
+                </button>
+                
+                <button onclick="startGame('quiz')" class="bg-gradient-to-br from-yellow-400 via-orange-500 to-red-600 p-3 sm:p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-yellow-300 hover:border-white">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-1 sm:mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <i class="fas fa-question-circle text-white text-2xl sm:text-3xl lg:text-4xl drop-shadow-lg"></i>
+                    </div>
+                    <h3 class="text-lg sm:text-2xl font-bold text-white mb-1 sm:mb-2 drop-shadow-lg">Kuis Hijaiyah</h3>
+                    <p class="text-xs sm:text-lg text-yellow-100 font-semibold">Tantangan lengkap!</p>
+                    <div class="text-xs sm:text-sm text-yellow-800 mt-1 sm:mt-2 font-bold bg-white/30 px-2 py-1 rounded-full backdrop-blur-sm"><i class="fas fa-star text-yellow-300"></i> Level: Tantangan</div>
+                </button>
+            </div>
+            
+            <!-- Instructions Panel -->
+            <div class="mt-4 sm:mt-8 bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-500 rounded-3xl p-3 sm:p-6 shadow-xl mx-4 sm:mx-0 border-4 border-white relative overflow-hidden">
+                <!-- Decorative elements -->
+                <div class="absolute top-2 left-2 text-yellow-300 text-2xl animate-pulse"><i class="fas fa-star"></i></div>
+                <div class="absolute top-2 right-2 text-pink-300 text-2xl animate-bounce"><i class="fas fa-heart"></i></div>
+                <div class="absolute bottom-2 left-2 text-cyan-300 text-2xl wiggle"><i class="fas fa-mosque"></i></div>
+                <div class="absolute bottom-2 right-2 text-yellow-400 text-2xl float"><i class="fas fa-moon"></i></div>
+                
+                <h3 class="text-lg sm:text-2xl font-bold text-white mb-2 sm:mb-4 text-center drop-shadow-lg relative z-10">
+                    <i class="fas fa-book-quran text-yellow-300"></i> Panduan Belajar Hijaiyah <i class="fas fa-star-and-crescent text-pink-300"></i>
+                </h3>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 text-center relative z-10">
+                    <div class="bg-gradient-to-br from-blue-400 to-cyan-500 backdrop-blur-sm p-3 sm:p-4 rounded-2xl border-3 border-white shadow-lg hover:scale-105 transition-transform duration-300">
+                        <div class="w-12 h-12 mx-auto mb-2 bg-white/20 rounded-full flex items-center justify-center">
+                            <i class="fas fa-eye text-white text-2xl drop-shadow-lg"></i>
+                        </div>
+                        <p class="text-white text-sm sm:text-base font-bold drop-shadow">Lihat dan pelajari setiap huruf!</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-green-400 to-emerald-500 backdrop-blur-sm p-3 sm:p-4 rounded-2xl border-3 border-white shadow-lg hover:scale-105 transition-transform duration-300">
+                        <div class="w-12 h-12 mx-auto mb-2 bg-white/20 rounded-full flex items-center justify-center">
+                            <i class="fas fa-trophy text-yellow-300 text-2xl drop-shadow-lg"></i>
+                        </div>
+                        <p class="text-white text-sm sm:text-base font-bold drop-shadow">Kumpulkan poin dan naik level!</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-orange-400 to-red-500 backdrop-blur-sm p-3 sm:p-4 rounded-2xl border-3 border-white shadow-lg hover:scale-105 transition-transform duration-300">
+                        <div class="w-12 h-12 mx-auto mb-2 bg-white/20 rounded-full flex items-center justify-center">
+                            <i class="fas fa-hand-pointer text-white text-2xl drop-shadow-lg"></i>
+                        </div>
+                        <p class="text-white text-sm sm:text-base font-bold drop-shadow">Klik dan seret untuk bermain!</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-purple-400 to-pink-500 backdrop-blur-sm p-3 sm:p-4 rounded-2xl border-3 border-white shadow-lg hover:scale-105 transition-transform duration-300">
+                        <div class="w-12 h-12 mx-auto mb-2 bg-white/20 rounded-full flex items-center justify-center">
+                            <i class="fas fa-heart text-white text-2xl drop-shadow-lg"></i>
+                        </div>
+                        <p class="text-white text-sm sm:text-base font-bold drop-shadow">Belajar dengan penuh cinta!</p>
+                    </div>
+                </div>
+                
+                <!-- Islamic greeting -->
+                <div class="mt-4 bg-white/20 backdrop-blur-sm rounded-2xl p-3 border-2 border-white/50 relative z-10">
+                    <div class="flex items-center justify-center gap-2 text-white">
+                        <i class="fas fa-mosque text-yellow-300 text-xl animate-pulse"></i>
+                        <span class="font-bold text-sm sm:text-base arabic-text">بَارَكَ اللَّهُ فِيكُمْ</span>
+                        <span class="font-bold text-sm sm:text-base">(Semoga Allah memberkahi kalian)</span>
+                        <i class="fas fa-star-and-crescent text-cyan-300 text-xl wiggle"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Area -->
+        <div id="gameArea" class="hidden px-2 sm:px-0">
+            <div class="bg-white rounded-3xl shadow-2xl p-3 sm:p-6 lg:p-8 border-4 border-emerald-400">
+                <div class="text-center mb-4 sm:mb-6">
+                    <button onclick="backToMenu()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full mb-3 sm:mb-4 transition-colors text-sm sm:text-lg font-bold shadow-lg">
+                        ← Kembali
+                    </button>
+                    <h3 id="gameTitle" class="text-2xl sm:text-3xl lg:text-4xl font-bold text-emerald-600 mb-3 sm:mb-4"></h3>
+                    <div id="question" class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-700 mb-4 sm:mb-6"></div>
+                </div>
+                
+                <!-- Visual Area -->
+                <div id="visualArea" class="min-h-24 sm:min-h-40 flex flex-wrap justify-center items-center gap-2 sm:gap-4 mb-4 sm:mb-8 p-3 sm:p-6 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-3xl border-4 border-emerald-400"></div>
+                
+                <!-- Answer Options -->
+                <div id="answerOptions" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6"></div>
+                
+                <!-- Feedback -->
+                <div id="feedback" class="text-center text-lg sm:text-xl lg:text-2xl font-bold min-h-12 sm:min-h-16 p-3 sm:p-4 rounded-2xl"></div>
+                
+                <!-- Progress Bar -->
+                <div class="bg-gray-200 rounded-full h-3 sm:h-4 mb-3 sm:mb-4">
+                    <div id="progressBar" class="bg-gradient-to-r from-emerald-400 to-teal-500 h-3 sm:h-4 rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+                <p class="text-center text-gray-600 font-semibold text-sm sm:text-base">Soal <span id="currentQuestion">1</span> dari 5</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Celebration Modal -->
+    <div id="celebrationModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 text-center max-w-sm sm:max-w-md mx-auto bounce-in border-4 border-yellow-300 relative overflow-hidden">
+            <div id="confettiContainer" class="absolute inset-0 pointer-events-none"></div>
+            <div class="text-6xl sm:text-8xl mb-3 sm:mb-4 star-burst text-yellow-500">
+                <i class="fas fa-trophy"></i>
+            </div>
+            <h3 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-emerald-600 mb-3 sm:mb-4">ماشاء الله!</h3>
+            <p class="text-lg sm:text-xl text-gray-600 mb-4 sm:mb-6">Kamu naik ke level <span id="newLevel" class="text-2xl font-bold text-emerald-600"></span>!</p>
+            <button onclick="closeCelebration()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full text-lg sm:text-xl font-bold transition-colors shadow-lg wiggle">
+                <i class="fas fa-rocket"></i> Lanjut Belajar!
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentGame = '';
+        let currentLevel = 1;
+        let score = 0;
+        let correctAnswer = '';
+        let questionsAnswered = 0;
+        let draggedElement = null;
+        
+        // Huruf Hijaiyah dengan nama dan bunyi
+        const hijaiyahLetters = [
+            { arabic: 'أ', name: 'Alif', sound: 'a', order: 1 },
+            { arabic: 'ب', name: 'Ba', sound: 'ba', order: 2 },
+            { arabic: 'ت', name: 'Ta', sound: 'ta', order: 3 },
+            { arabic: 'ث', name: 'Tsa', sound: 'tsa', order: 4 },
+            { arabic: 'ج', name: 'Jim', sound: 'ja', order: 5 },
+            { arabic: 'ح', name: 'Ha', sound: 'ha', order: 6 },
+            { arabic: 'خ', name: 'Kha', sound: 'kha', order: 7 },
+            { arabic: 'د', name: 'Dal', sound: 'da', order: 8 },
+            { arabic: 'ذ', name: 'Dzal', sound: 'dza', order: 9 },
+            { arabic: 'ر', name: 'Ra', sound: 'ra', order: 10 },
+            { arabic: 'ز', name: 'Zai', sound: 'za', order: 11 },
+            { arabic: 'س', name: 'Sin', sound: 'sa', order: 12 },
+            { arabic: 'ش', name: 'Syin', sound: 'sya', order: 13 },
+            { arabic: 'ص', name: 'Shad', sound: 'sha', order: 14 },
+            { arabic: 'ض', name: 'Dhad', sound: 'dha', order: 15 },
+            { arabic: 'ط', name: 'Tha', sound: 'tha', order: 16 },
+            { arabic: 'ظ', name: 'Zha', sound: 'zha', order: 17 },
+            { arabic: 'ع', name: 'Ain', sound: 'a', order: 18 },
+            { arabic: 'غ', name: 'Ghain', sound: 'gha', order: 19 },
+            { arabic: 'ف', name: 'Fa', sound: 'fa', order: 20 },
+            { arabic: 'ق', name: 'Qaf', sound: 'qa', order: 21 },
+            { arabic: 'ك', name: 'Kaf', sound: 'ka', order: 22 },
+            { arabic: 'ل', name: 'Lam', sound: 'la', order: 23 },
+            { arabic: 'م', name: 'Mim', sound: 'ma', order: 24 },
+            { arabic: 'ن', name: 'Nun', sound: 'na', order: 25 },
+            { arabic: 'و', name: 'Waw', sound: 'wa', order: 26 },
+            { arabic: 'ه', name: 'Ha', sound: 'ha', order: 27 },
+            { arabic: 'ي', name: 'Ya', sound: 'ya', order: 28 }
+        ];
+        
+        // Kata-kata Islami sederhana
+        const islamicWords = [
+            { arabic: 'الله', meaning: 'Allah', pronunciation: 'Allah' },
+            { arabic: 'محمد', meaning: 'Muhammad', pronunciation: 'Muhammad' },
+            { arabic: 'سلام', meaning: 'Damai', pronunciation: 'Salam' },
+            { arabic: 'حب', meaning: 'Cinta', pronunciation: 'Hubb' },
+            { arabic: 'نور', meaning: 'Cahaya', pronunciation: 'Nur' },
+            { arabic: 'كتاب', meaning: 'Kitab', pronunciation: 'Kitab' },
+            { arabic: 'مسجد', meaning: 'Masjid', pronunciation: 'Masjid' },
+            { arabic: 'صلاة', meaning: 'Shalat', pronunciation: 'Shalah' }
+        ];
+        
+        // Data Makharijul Huruf - Tempat keluarnya huruf
+        const makharijData = [
+            {
+                name: 'Al-Jawf (Rongga Mulut)',
+                description: 'Huruf yang keluar dari rongga mulut',
+                letters: [
+                    { arabic: 'أ', name: 'Alif', sound: 'a', color: '#ef4444' },
+                    { arabic: 'و', name: 'Waw', sound: 'wa', color: '#ef4444' },
+                    { arabic: 'ي', name: 'Ya', sound: 'ya', color: '#ef4444' }
+                ],
+                position: { x: 50, y: 60 },
+                animation: 'cavity-breath'
+            },
+            {
+                name: 'Al-Halq (Tenggorokan)',
+                description: 'Huruf yang keluar dari tenggorokan',
+                letters: [
+                    { arabic: 'ه', name: 'Ha', sound: 'ha', color: '#f97316' },
+                    { arabic: 'ع', name: 'Ain', sound: 'a', color: '#f97316' },
+                    { arabic: 'ح', name: 'Ha', sound: 'ha', color: '#f97316' },
+                    { arabic: 'غ', name: 'Ghain', sound: 'gha', color: '#f97316' },
+                    { arabic: 'خ', name: 'Kha', sound: 'kha', color: '#f97316' }
+                ],
+                position: { x: 50, y: 80 },
+                animation: 'throat-vibrate'
+            },
+            {
+                name: 'Al-Lisan (Lidah)',
+                description: 'Huruf yang keluar dari lidah',
+                letters: [
+                    { arabic: 'ق', name: 'Qaf', sound: 'qa', color: '#eab308' },
+                    { arabic: 'ك', name: 'Kaf', sound: 'ka', color: '#eab308' },
+                    { arabic: 'ج', name: 'Jim', sound: 'ja', color: '#eab308' },
+                    { arabic: 'ش', name: 'Syin', sound: 'sya', color: '#eab308' },
+                    { arabic: 'ي', name: 'Ya', sound: 'ya', color: '#eab308' },
+                    { arabic: 'ض', name: 'Dhad', sound: 'dha', color: '#eab308' },
+                    { arabic: 'ل', name: 'Lam', sound: 'la', color: '#eab308' },
+                    { arabic: 'ن', name: 'Nun', sound: 'na', color: '#eab308' },
+                    { arabic: 'ر', name: 'Ra', sound: 'ra', color: '#eab308' },
+                    { arabic: 'ط', name: 'Tha', sound: 'tha', color: '#eab308' },
+                    { arabic: 'د', name: 'Dal', sound: 'da', color: '#eab308' },
+                    { arabic: 'ت', name: 'Ta', sound: 'ta', color: '#eab308' },
+                    { arabic: 'ص', name: 'Shad', sound: 'sha', color: '#eab308' },
+                    { arabic: 'ز', name: 'Zai', sound: 'za', color: '#eab308' },
+                    { arabic: 'س', name: 'Sin', sound: 'sa', color: '#eab308' },
+                    { arabic: 'ظ', name: 'Zha', sound: 'zha', color: '#eab308' },
+                    { arabic: 'ذ', name: 'Dzal', sound: 'dza', color: '#eab308' },
+                    { arabic: 'ث', name: 'Tsa', sound: 'tsa', color: '#eab308' }
+                ],
+                position: { x: 50, y: 45 },
+                animation: 'tongue-move'
+            },
+            {
+                name: 'Asy-Syafatain (Dua Bibir)',
+                description: 'Huruf yang keluar dari bibir',
+                letters: [
+                    { arabic: 'ب', name: 'Ba', sound: 'ba', color: '#22c55e' },
+                    { arabic: 'م', name: 'Mim', sound: 'ma', color: '#22c55e' },
+                    { arabic: 'و', name: 'Waw', sound: 'wa', color: '#22c55e' },
+                    { arabic: 'ف', name: 'Fa', sound: 'fa', color: '#22c55e' }
+                ],
+                position: { x: 50, y: 25 },
+                animation: 'lips-move'
+            }
+        ];
+        
+        // Data Iqra' - Latihan membaca bertahap seperti metode Iqra'
+        const iqraLessons = [
+            // Level 1: Huruf tunggal dengan fathah
+            {
+                level: 1,
+                title: 'Huruf Tunggal dengan Fathah',
+                description: 'Belajar membaca huruf dengan harakat fathah (َ)',
+                exercises: [
+                    { arabic: 'بَ', pronunciation: 'ba', meaning: 'Ba dengan fathah' },
+                    { arabic: 'تَ', pronunciation: 'ta', meaning: 'Ta dengan fathah' },
+                    { arabic: 'ثَ', pronunciation: 'tsa', meaning: 'Tsa dengan fathah' },
+                    { arabic: 'جَ', pronunciation: 'ja', meaning: 'Jim dengan fathah' },
+                    { arabic: 'حَ', pronunciation: 'ha', meaning: 'Ha dengan fathah' },
+                    { arabic: 'خَ', pronunciation: 'kha', meaning: 'Kha dengan fathah' },
+                    { arabic: 'دَ', pronunciation: 'da', meaning: 'Dal dengan fathah' },
+                    { arabic: 'ذَ', pronunciation: 'dza', meaning: 'Dzal dengan fathah' }
+                ]
+            },
+            // Level 2: Huruf tunggal dengan kasrah
+            {
+                level: 2,
+                title: 'Huruf Tunggal dengan Kasrah',
+                description: 'Belajar membaca huruf dengan harakat kasrah (ِ)',
+                exercises: [
+                    { arabic: 'بِ', pronunciation: 'bi', meaning: 'Ba dengan kasrah' },
+                    { arabic: 'تِ', pronunciation: 'ti', meaning: 'Ta dengan kasrah' },
+                    { arabic: 'ثِ', pronunciation: 'tsi', meaning: 'Tsa dengan kasrah' },
+                    { arabic: 'جِ', pronunciation: 'ji', meaning: 'Jim dengan kasrah' },
+                    { arabic: 'حِ', pronunciation: 'hi', meaning: 'Ha dengan kasrah' },
+                    { arabic: 'خِ', pronunciation: 'khi', meaning: 'Kha dengan kasrah' },
+                    { arabic: 'دِ', pronunciation: 'di', meaning: 'Dal dengan kasrah' },
+                    { arabic: 'ذِ', pronunciation: 'dzi', meaning: 'Dzal dengan kasrah' }
+                ]
+            },
+            // Level 3: Huruf tunggal dengan dhammah
+            {
+                level: 3,
+                title: 'Huruf Tunggal dengan Dhammah',
+                description: 'Belajar membaca huruf dengan harakat dhammah (ُ)',
+                exercises: [
+                    { arabic: 'بُ', pronunciation: 'bu', meaning: 'Ba dengan dhammah' },
+                    { arabic: 'تُ', pronunciation: 'tu', meaning: 'Ta dengan dhammah' },
+                    { arabic: 'ثُ', pronunciation: 'tsu', meaning: 'Tsa dengan dhammah' },
+                    { arabic: 'جُ', pronunciation: 'ju', meaning: 'Jim dengan dhammah' },
+                    { arabic: 'حُ', pronunciation: 'hu', meaning: 'Ha dengan dhammah' },
+                    { arabic: 'خُ', pronunciation: 'khu', meaning: 'Kha dengan dhammah' },
+                    { arabic: 'دُ', pronunciation: 'du', meaning: 'Dal dengan dhammah' },
+                    { arabic: 'ذُ', pronunciation: 'dzu', meaning: 'Dzal dengan dhammah' }
+                ]
+            },
+            // Level 4: Suku kata sederhana
+            {
+                level: 4,
+                title: 'Suku Kata Sederhana',
+                description: 'Belajar membaca gabungan dua huruf',
+                exercises: [
+                    { arabic: 'بَا', pronunciation: 'baa', meaning: 'Ba Alif' },
+                    { arabic: 'تَا', pronunciation: 'taa', meaning: 'Ta Alif' },
+                    { arabic: 'جَا', pronunciation: 'jaa', meaning: 'Jim Alif' },
+                    { arabic: 'دَا', pronunciation: 'daa', meaning: 'Dal Alif' },
+                    { arabic: 'بِي', pronunciation: 'bii', meaning: 'Ba Ya' },
+                    { arabic: 'تِي', pronunciation: 'tii', meaning: 'Ta Ya' },
+                    { arabic: 'جِي', pronunciation: 'jii', meaning: 'Jim Ya' },
+                    { arabic: 'دِي', pronunciation: 'dii', meaning: 'Dal Ya' }
+                ]
+            },
+            // Level 5: Kata sederhana
+            {
+                level: 5,
+                title: 'Kata Sederhana',
+                description: 'Belajar membaca kata-kata pendek',
+                exercises: [
+                    { arabic: 'بَابَ', pronunciation: 'baaba', meaning: 'Pintu' },
+                    { arabic: 'كِتَابَ', pronunciation: 'kitaaba', meaning: 'Kitab' },
+                    { arabic: 'بَيْتَ', pronunciation: 'baita', meaning: 'Rumah' },
+                    { arabic: 'مَاءَ', pronunciation: 'maa-a', meaning: 'Air' },
+                    { arabic: 'نُورَ', pronunciation: 'nuura', meaning: 'Cahaya' },
+                    { arabic: 'قَلَمَ', pronunciation: 'qalama', meaning: 'Pena' },
+                    { arabic: 'وَرَقَ', pronunciation: 'waraqa', meaning: 'Kertas' },
+                    { arabic: 'مَسْجِدَ', pronunciation: 'masjida', meaning: 'Masjid' }
+                ]
+            }
+        ];
+        
+        function startGame(gameType) {
+            currentGame = gameType;
+            questionsAnswered = 0;
+            document.getElementById('gameMenu').classList.add('hidden');
+            document.getElementById('gameArea').classList.remove('hidden');
+            
+            const titles = {
+                'recognition': '🕌 Mengenal Huruf Hijaiyah',
+                'sounds': '🔊 Bunyi Huruf Hijaiyah',
+                'matching': '🧩 Mencocokkan Huruf',
+                'sequence': '📝 Urutan Huruf Hijaiyah',
+                'words': '📖 Kata-kata Islami',
+                'writing': '✍️ Menulis Huruf Hijaiyah',
+                'memory': '🧠 Ingatan Huruf Hijaiyah',
+                'makharij': '👄 Makharijul Huruf - Tempat Keluarnya Huruf',
+                'iqra': '📚 Metode Iqra\' - Latihan Membaca',
+                'quiz': '❓ Kuis Lengkap Hijaiyah'
+            };
+            
+            document.getElementById('gameTitle').textContent = titles[gameType];
+            updateProgress();
+            generateQuestion();
+        }
+        
+        function backToMenu() {
+            document.getElementById('gameArea').classList.add('hidden');
+            document.getElementById('gameMenu').classList.remove('hidden');
+            document.getElementById('feedback').textContent = '';
+        }
+        
+        function updateProgress() {
+            const progress = (questionsAnswered / 5) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('currentQuestion').textContent = questionsAnswered + 1;
+        }
+        
+        function generateQuestion() {
+            const visualArea = document.getElementById('visualArea');
+            const questionEl = document.getElementById('question');
+            const answerOptions = document.getElementById('answerOptions');
+            
+            visualArea.innerHTML = '';
+            answerOptions.innerHTML = '';
+            document.getElementById('feedback').textContent = '';
+            
+            switch(currentGame) {
+                case 'recognition': generateRecognitionQuestion(); break;
+                case 'sounds': generateSoundsQuestion(); break;
+                case 'matching': generateMatchingQuestion(); break;
+                case 'sequence': generateSequenceQuestion(); break;
+                case 'words': generateWordsQuestion(); break;
+                case 'writing': generateWritingQuestion(); break;
+                case 'memory': generateMemoryQuestion(); break;
+                case 'makharij': generateMakharijQuestion(); break;
+                case 'iqra': generateIqraQuestion(); break;
+                case 'quiz': generateQuizQuestion(); break;
+            }
+        }
+        
+        function generateRecognitionQuestion() {
+            const maxLetters = Math.min(5 + currentLevel, 10);
+            const selectedLetters = hijaiyahLetters.slice(0, maxLetters);
+            const targetLetter = selectedLetters[Math.floor(Math.random() * selectedLetters.length)];
+            
+            correctAnswer = targetLetter.arabic;
+            
+            document.getElementById('question').textContent = `Klik huruf "${targetLetter.name}" (${targetLetter.sound})!`;
+            
+            const visualArea = document.getElementById('visualArea');
+            
+            // Add instruction
+            const instruction = document.createElement('div');
+            instruction.className = 'w-full text-center text-lg font-bold text-gray-700 mb-6 bg-emerald-100 p-4 rounded-xl';
+            instruction.innerHTML = `Cari dan klik huruf <span class="arabic-text text-3xl text-emerald-600">${targetLetter.arabic}</span> (${targetLetter.name})`;
+            visualArea.appendChild(instruction);
+            
+            // Add counter
+            const counterDisplay = document.createElement('div');
+            counterDisplay.className = 'w-full text-center mb-6';
+            counterDisplay.innerHTML = `
+                <div class="bg-white rounded-2xl p-4 shadow-lg border-4 border-emerald-300 inline-block">
+                    <div class="text-lg font-bold text-gray-700 mb-2">Target Huruf:</div>
+                    <div class="text-6xl font-bold text-emerald-600 arabic-text">${targetLetter.arabic}</div>
+                    <div class="text-lg text-emerald-600 mt-2 font-bold">${targetLetter.name} (${targetLetter.sound})</div>
+                </div>
+            `;
+            visualArea.appendChild(counterDisplay);
+            
+            // Create letter grid
+            const lettersContainer = document.createElement('div');
+            lettersContainer.className = 'grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-4 justify-center';
+            
+            // Add target letter and random letters
+            const allLetters = [...selectedLetters];
+            // Add some random letters to make it challenging
+            while (allLetters.length < 12) {
+                const randomLetter = hijaiyahLetters[Math.floor(Math.random() * hijaiyahLetters.length)];
+                if (!allLetters.find(l => l.arabic === randomLetter.arabic)) {
+                    allLetters.push(randomLetter);
+                }
+            }
+            
+            // Shuffle and take first 12
+            allLetters.sort(() => Math.random() - 0.5);
+            const displayLetters = allLetters.slice(0, 12);
+            
+            // Ensure target letter is included
+            if (!displayLetters.find(l => l.arabic === targetLetter.arabic)) {
+                displayLetters[0] = targetLetter;
+            }
+            
+            displayLetters.forEach((letter, index) => {
+                const letterEl = document.createElement('div');
+                letterEl.className = 'hijaiyah-card w-20 h-20 bg-gradient-to-br from-teal-400 to-emerald-500 rounded-2xl flex flex-col items-center justify-center text-white shadow-lg bounce-in border-4 border-white cursor-pointer';
+                letterEl.style.animationDelay = `${index * 0.1}s`;
+                
+                const arabicText = document.createElement('div');
+                arabicText.className = 'text-3xl font-bold arabic-text';
+                arabicText.textContent = letter.arabic;
+                
+                const nameText = document.createElement('div');
+                nameText.className = 'text-xs font-bold mt-1';
+                nameText.textContent = letter.name;
+                
+                // Add audio button
+                const audioBtn = document.createElement('button');
+                audioBtn.className = 'absolute -top-2 -right-2 w-6 h-6 bg-blue-500 hover:bg-blue-600 rounded-full flex items-center justify-center text-white text-xs transition-colors';
+                audioBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+                audioBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    playSound(letter.sound);
+                };
+                
+                letterEl.style.position = 'relative';
+                letterEl.appendChild(arabicText);
+                letterEl.appendChild(nameText);
+                letterEl.appendChild(audioBtn);
+                
+                letterEl.addEventListener('click', () => {
+                    if (letter.arabic === targetLetter.arabic) {
+                        // Correct answer
+                        letterEl.classList.add('star-burst');
+                        letterEl.style.border = '4px solid #10b981';
+                        letterEl.style.transform = 'scale(1.2)';
+                        
+                        // Add checkmark
+                        const checkmark = document.createElement('div');
+                        checkmark.className = 'absolute -top-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-lg';
+                        checkmark.innerHTML = '<i class="fas fa-check"></i>';
+                        letterEl.style.position = 'relative';
+                        letterEl.appendChild(checkmark);
+                        
+                        // Success effect
+                        const successEffect = document.createElement('div');
+                        successEffect.className = 'absolute -top-10 left-1/2 transform -translate-x-1/2 text-green-500 font-bold animate-bounce';
+                        successEffect.textContent = 'صحيح! (Benar!)';
+                        letterEl.appendChild(successEffect);
+                        
+                        setTimeout(() => {
+                            checkAnswer(targetLetter.arabic, letterEl);
+                        }, 1000);
+                        
+                    } else {
+                        // Wrong answer
+                        letterEl.classList.add('shake');
+                        letterEl.style.border = '4px solid #ef4444';
+                        
+                        const wrongEffect = document.createElement('div');
+                        wrongEffect.className = 'absolute -top-10 left-1/2 transform -translate-x-1/2 text-red-500 font-bold animate-bounce';
+                        wrongEffect.textContent = 'خطأ (Salah)';
+                        letterEl.style.position = 'relative';
+                        letterEl.appendChild(wrongEffect);
+                        
+                        setTimeout(() => {
+                            letterEl.classList.remove('shake');
+                            letterEl.style.border = '4px solid white';
+                            wrongEffect.remove();
+                        }, 1000);
+                    }
+                });
+                
+                lettersContainer.appendChild(letterEl);
+            });
+            
+            visualArea.appendChild(lettersContainer);
+            
+            // Skip normal answer options
+            return;
+        }
+        
+        function generateSoundsQuestion() {
+            const maxLetters = Math.min(4 + currentLevel, 8);
+            const selectedLetters = hijaiyahLetters.slice(0, maxLetters);
+            const targetLetter = selectedLetters[Math.floor(Math.random() * selectedLetters.length)];
+            
+            correctAnswer = targetLetter.arabic;
+            
+            document.getElementById('question').textContent = `Dengarkan bunyi huruf dan pilih huruf yang tepat!`;
+            
+            const visualArea = document.getElementById('visualArea');
+            
+            // Sound instruction
+            const soundInstruction = document.createElement('div');
+            soundInstruction.className = 'w-full text-center mb-6';
+            soundInstruction.innerHTML = `
+                <div class="bg-blue-100 rounded-2xl p-6 shadow-lg border-4 border-blue-300">
+                    <div class="text-2xl font-bold text-blue-700 mb-4">🔊 Dengarkan Bunyi Huruf</div>
+                    <button onclick="playSound('${targetLetter.sound}')" class="bg-blue-500 hover:bg-blue-600 text-white text-2xl font-bold py-4 px-8 rounded-full shadow-lg transform hover:scale-105 transition-all duration-200 animate-pulse">
+                        <i class="fas fa-volume-up"></i> Putar Bunyi "${targetLetter.sound}"
+                    </button>
+                    <div class="text-lg text-blue-600 mt-4 font-bold">Klik tombol untuk mendengar bunyi huruf!</div>
+                    <div class="text-sm text-blue-500 mt-2">Audio akan diputar otomatis dalam 2 detik...</div>
+                </div>
+            `;
+            visualArea.appendChild(soundInstruction);
+            
+            // Auto-play sound after 2 seconds
+            setTimeout(() => {
+                playSound(targetLetter.sound);
+            }, 2000);
+            
+            // Generate answer options with Arabic letters
+            const options = [targetLetter];
+            while (options.length < 4) {
+                const randomLetter = selectedLetters[Math.floor(Math.random() * selectedLetters.length)];
+                if (!options.find(l => l.arabic === randomLetter.arabic)) {
+                    options.push(randomLetter);
+                }
+            }
+            
+            // Shuffle options
+            options.sort(() => Math.random() - 0.5);
+            
+            const answerOptions = document.getElementById('answerOptions');
+            const buttonColors = [
+                'bg-red-500 hover:bg-red-600',
+                'bg-blue-500 hover:bg-blue-600',
+                'bg-green-500 hover:bg-green-600',
+                'bg-purple-500 hover:bg-purple-600'
+            ];
+            
+            options.forEach((letter, index) => {
+                const button = document.createElement('button');
+                button.className = `${buttonColors[index]} text-white font-black py-6 px-6 rounded-3xl shadow-2xl transform hover:scale-110 transition-all duration-300 border-4 border-white min-h-24 relative overflow-hidden flex flex-col items-center justify-center`;
+                
+                const arabicText = document.createElement('div');
+                arabicText.className = 'text-4xl font-bold arabic-text mb-2';
+                arabicText.textContent = letter.arabic;
+                
+                const nameText = document.createElement('div');
+                nameText.className = 'text-lg font-bold';
+                nameText.textContent = letter.name;
+                
+                button.appendChild(arabicText);
+                button.appendChild(nameText);
+                
+                button.onclick = () => checkAnswer(letter.arabic, button);
+                answerOptions.appendChild(button);
+            });
+            
+            return;
+        }
+        
+        function playArabicWord(arabicText, pronunciation) {
+            // Use Web Speech API for Arabic words
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+                
+                if (speechSynthesis.getVoices().length === 0) {
+                    speechSynthesis.addEventListener('voiceschanged', () => {
+                        playArabicWord(arabicText, pronunciation);
+                    }, { once: true });
+                    return;
+                }
+                
+                const utterance = new SpeechSynthesisUtterance();
+                const voices = speechSynthesis.getVoices();
+                
+                // Find Arabic voice
+                const arabicVoicePatterns = [
+                    'ar-SA', 'ar-EG', 'ar-AE', 'ar-JO', 'ar-LB', 'ar-MA', 'ar-TN', 'ar-DZ',
+                    'arabic', 'عربي', 'saudi', 'egyptian', 'gulf'
+                ];
+                
+                let selectedVoice = null;
+                for (const pattern of arabicVoicePatterns) {
+                    selectedVoice = voices.find(voice => 
+                        voice.lang.toLowerCase().includes(pattern.toLowerCase()) ||
+                        voice.name.toLowerCase().includes(pattern.toLowerCase())
+                    );
+                    if (selectedVoice) break;
+                }
+                
+                // Use Arabic text if Arabic voice available, otherwise use pronunciation
+                utterance.text = selectedVoice ? arabicText : pronunciation;
+                
+                if (selectedVoice) {
+                    utterance.voice = selectedVoice;
+                    utterance.lang = selectedVoice.lang;
+                    utterance.rate = 0.7;
+                    utterance.pitch = 1.0;
+                } else {
+                    utterance.lang = 'en-US';
+                    utterance.rate = 0.6;
+                    utterance.pitch = 0.9;
+                }
+                
+                utterance.volume = 1.0;
+                
+                const feedback = document.getElementById('feedback');
+                const voiceInfo = selectedVoice ? `(${selectedVoice.name})` : '(Suara Pengganti)';
+                feedback.innerHTML = `<div class="text-rose-500 font-bold text-2xl animate-pulse">🔊 Mendengarkan: "${pronunciation}" ${voiceInfo} 🔊</div>`;
+                
+                utterance.onend = () => {
+                    setTimeout(() => {
+                        if (feedback.innerHTML.includes('Mendengarkan')) {
+                            feedback.innerHTML = '';
+                        }
+                    }, 1000);
+                };
+                
+                utterance.onerror = (event) => {
+                    console.error('Speech synthesis error:', event.error);
+                    feedback.innerHTML = `<div class="text-orange-500 font-bold text-lg">🔊 Kata: "${pronunciation}" (Kesalahan audio: ${event.error})</div>`;
+                    setTimeout(() => {
+                        feedback.innerHTML = '';
+                    }, 3000);
+                };
+                
+                speechSynthesis.speak(utterance);
+            } else {
+                const feedback = document.getElementById('feedback');
+                feedback.innerHTML = `<div class="text-orange-500 font-bold text-2xl animate-pulse">🔊 Kata: "${pronunciation}" (Browser tidak mendukung audio) 🔊</div>`;
+                setTimeout(() => {
+                    feedback.innerHTML = '';
+                }, 2000);
+            }
+        }
+        
+        function playSound(sound) {
+            // Use Web Speech API with better Arabic pronunciation
+            if ('speechSynthesis' in window) {
+                // Stop any ongoing speech
+                speechSynthesis.cancel();
+                
+                // Wait for voices to load if not already loaded
+                if (speechSynthesis.getVoices().length === 0) {
+                    speechSynthesis.addEventListener('voiceschanged', () => {
+                        playSound(sound);
+                    }, { once: true });
+                    return;
+                }
+                
+                const utterance = new SpeechSynthesisUtterance();
+                
+                // Get available voices
+                const voices = speechSynthesis.getVoices();
+                
+                // Priority order for Arabic voices
+                const arabicVoicePatterns = [
+                    'ar-SA', 'ar-EG', 'ar-AE', 'ar-JO', 'ar-LB', 'ar-MA', 'ar-TN', 'ar-DZ',
+                    'arabic', 'عربي', 'saudi', 'egyptian', 'gulf'
+                ];
+                
+                let selectedVoice = null;
+                
+                // Try to find the best Arabic voice
+                for (const pattern of arabicVoicePatterns) {
+                    selectedVoice = voices.find(voice => 
+                        voice.lang.toLowerCase().includes(pattern.toLowerCase()) ||
+                        voice.name.toLowerCase().includes(pattern.toLowerCase())
+                    );
+                    if (selectedVoice) break;
+                }
+                
+                // Enhanced pronunciation mapping for better Arabic sounds
+                const arabicPronunciation = {
+                    'a': 'أَ',
+                    'ba': 'بَ',
+                    'ta': 'تَ',
+                    'tsa': 'ثَ',
+                    'ja': 'جَ',
+                    'ha': 'حَ',
+                    'kha': 'خَ',
+                    'da': 'دَ',
+                    'dza': 'ذَ',
+                    'ra': 'رَ',
+                    'za': 'زَ',
+                    'sa': 'سَ',
+                    'sya': 'شَ',
+                    'sha': 'صَ',
+                    'dha': 'ضَ',
+                    'tha': 'طَ',
+                    'zha': 'ظَ',
+                    'a': 'عَ',
+                    'gha': 'غَ',
+                    'fa': 'فَ',
+                    'qa': 'قَ',
+                    'ka': 'كَ',
+                    'la': 'لَ',
+                    'ma': 'مَ',
+                    'na': 'نَ',
+                    'wa': 'وَ',
+                    'ha': 'هَ',
+                    'ya': 'يَ'
+                };
+                
+                // Use Arabic text if available, otherwise use phonetic approximation
+                const textToSpeak = arabicPronunciation[sound] || sound;
+                utterance.text = textToSpeak;
+                
+                if (selectedVoice) {
+                    utterance.voice = selectedVoice;
+                    utterance.lang = selectedVoice.lang;
+                    utterance.rate = 0.6; // Slower for Arabic
+                    utterance.pitch = 1.0; // Natural pitch for Arabic
+                } else {
+                    // Fallback with phonetic approximation
+                    const phoneticMap = {
+                        'tsa': 'tha',
+                        'dza': 'tha',
+                        'kha': 'ha',
+                        'sha': 'sa',
+                        'dha': 'da',
+                        'tha': 'ta',
+                        'zha': 'za',
+                        'gha': 'ga',
+                        'qa': 'ka',
+                        'sya': 'sha'
+                    };
+                    
+                    utterance.text = phoneticMap[sound] || sound;
+                    utterance.lang = 'en-US';
+                    utterance.rate = 0.5; // Very slow for clarity
+                    utterance.pitch = 0.8; // Lower pitch to sound more Arabic-like
+                }
+                
+                utterance.volume = 1.0;
+                
+                // Visual feedback while playing
+                const feedback = document.getElementById('feedback');
+                const voiceInfo = selectedVoice ? `(${selectedVoice.name})` : '(Suara Pengganti)';
+                feedback.innerHTML = `<div class="text-blue-500 font-bold text-2xl animate-pulse">🔊 Mendengarkan: "${sound}" ${voiceInfo} 🔊</div>`;
+                
+                utterance.onstart = () => {
+                    console.log(`Playing sound: ${sound} with voice: ${selectedVoice ? selectedVoice.name : 'default'}`);
+                };
+                
+                utterance.onend = () => {
+                    setTimeout(() => {
+                        if (feedback.innerHTML.includes('Mendengarkan')) {
+                            feedback.innerHTML = '';
+                        }
+                    }, 1000);
+                };
+                
+                utterance.onerror = (event) => {
+                    console.error('Speech synthesis error:', event.error);
+                    feedback.innerHTML = `<div class="text-orange-500 font-bold text-lg">🔊 Bunyi: "${sound}" (Kesalahan audio: ${event.error})</div>`;
+                    setTimeout(() => {
+                        feedback.innerHTML = '';
+                    }, 3000);
+                };
+                
+                // Speak with retry mechanism
+                try {
+                    speechSynthesis.speak(utterance);
+                } catch (error) {
+                    console.error('Error speaking:', error);
+                    // Fallback display
+                    feedback.innerHTML = `<div class="text-orange-500 font-bold text-2xl animate-pulse">🔊 Bunyi: "${sound}" 🔊</div>`;
+                    setTimeout(() => {
+                        feedback.innerHTML = '';
+                    }, 2000);
+                }
+            } else {
+                // Fallback for browsers without speech synthesis
+                const feedback = document.getElementById('feedback');
+                feedback.innerHTML = `<div class="text-orange-500 font-bold text-2xl animate-pulse">🔊 Bunyi: "${sound}" (Browser tidak mendukung audio) 🔊</div>`;
+                
+                setTimeout(() => {
+                    feedback.innerHTML = '';
+                }, 2000);
+            }
+        }
+        
+        function generateMatchingQuestion() {
+            const selectedLetters = hijaiyahLetters.slice(0, Math.min(6 + currentLevel, 12));
+            const targetLetter = selectedLetters[Math.floor(Math.random() * selectedLetters.length)];
+            
+            correctAnswer = targetLetter.name;
+            
+            document.getElementById('question').textContent = `Cocokkan huruf dengan namanya!`;
+            
+            const visualArea = document.getElementById('visualArea');
+            
+            // Show the Arabic letter with audio
+            const letterDisplay = document.createElement('div');
+            letterDisplay.className = 'w-full text-center mb-6';
+            letterDisplay.innerHTML = `
+                <div class="bg-gradient-to-br from-purple-100 to-pink-100 rounded-2xl p-8 shadow-lg border-4 border-purple-300 inline-block">
+                    <div class="text-lg font-bold text-purple-700 mb-4">Huruf Hijaiyah:</div>
+                    <div class="text-8xl font-bold text-purple-600 arabic-text mb-4">${targetLetter.arabic}</div>
+                    <button onclick="playSound('${targetLetter.sound}')" class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-full mb-4 font-bold shadow-lg transform hover:scale-105 transition-all duration-200">
+                        <i class="fas fa-volume-up"></i> Dengar Bunyi "${targetLetter.sound}"
+                    </button>
+                    <div class="text-lg text-purple-600 font-bold">Nama huruf ini adalah?</div>
+                </div>
+            `;
+            visualArea.appendChild(letterDisplay);
+            
+            // Auto-play sound after 1 second
+            setTimeout(() => {
+                playSound(targetLetter.sound);
+            }, 1000);
+            
+            // Generate name options
+            const options = [targetLetter.name];
+            while (options.length < 4) {
+                const randomLetter = selectedLetters[Math.floor(Math.random() * selectedLetters.length)];
+                if (!options.includes(randomLetter.name)) {
+                    options.push(randomLetter.name);
+                }
+            }
+            
+            // Shuffle options
+            options.sort(() => Math.random() - 0.5);
+            
+            const answerOptions = document.getElementById('answerOptions');
+            const buttonColors = [
+                'bg-red-500 hover:bg-red-600',
+                'bg-blue-500 hover:bg-blue-600',
+                'bg-green-500 hover:bg-green-600',
+                'bg-purple-500 hover:bg-purple-600'
+            ];
+            
+            options.forEach((name, index) => {
+                const button = document.createElement('button');
+                button.className = `${buttonColors[index]} text-white text-2xl font-black py-6 px-8 rounded-3xl shadow-2xl transform hover:scale-110 transition-all duration-300 border-4 border-white min-h-20`;
+                button.textContent = name;
+                button.onclick = () => checkAnswer(name, button);
+                answerOptions.appendChild(button);
+            });
+            
+            return;
+        }
+        
+        function generateSequenceQuestion() {
+            const startIndex = Math.floor(Math.random() * (hijaiyahLetters.length - 5));
+            const sequence = hijaiyahLetters.slice(startIndex, startIndex + 4);
+            const missingIndex = Math.floor(Math.random() * sequence.length);
+            const missingLetter = sequence[missingIndex];
+            
+            correctAnswer = missingLetter.arabic;
+            
+            document.getElementById('question').textContent = 'Huruf apa yang hilang dalam urutan ini?';
+            
+            const visualArea = document.getElementById('visualArea');
+            
+            const instruction = document.createElement('div');
+            instruction.className = 'w-full text-center text-lg font-bold text-gray-700 mb-6 bg-cyan-100 p-4 rounded-xl';
+            instruction.textContent = 'Perhatikan urutan huruf Hijaiyah berikut:';
+            visualArea.appendChild(instruction);
+            
+            const sequenceContainer = document.createElement('div');
+            sequenceContainer.className = 'flex gap-4 justify-center items-center flex-wrap';
+            
+            sequence.forEach((letter, index) => {
+                if (index === missingIndex) {
+                    const questionEl = document.createElement('div');
+                    questionEl.className = 'bg-gradient-to-br from-red-400 to-pink-500 text-white text-6xl font-bold w-24 h-24 rounded-2xl flex items-center justify-center animate-pulse shadow-lg border-4 border-red-300';
+                    questionEl.textContent = '?';
+                    sequenceContainer.appendChild(questionEl);
+                } else {
+                    const letterEl = document.createElement('div');
+                    letterEl.className = 'bg-cyan-600 text-white w-24 h-24 rounded-2xl flex flex-col items-center justify-center bounce-in shadow-lg border-4 border-white';
+                    letterEl.style.animationDelay = `${index * 0.1}s`;
+                    
+                    const arabicText = document.createElement('div');
+                    arabicText.className = 'text-4xl font-bold arabic-text';
+                    arabicText.textContent = letter.arabic;
+                    
+                    const nameText = document.createElement('div');
+                    nameText.className = 'text-xs font-bold';
+                    nameText.textContent = letter.name;
+                    
+                    letterEl.appendChild(arabicText);
+                    letterEl.appendChild(nameText);
+                    sequenceContainer.appendChild(letterEl);
+                }
+                
+                if (index < sequence.length - 1) {
+                    const arrow = document.createElement('div');
+                    arrow.className = 'text-2xl text-gray-600';
+                    arrow.textContent = '→';
+                    sequenceContainer.appendChild(arrow);
+                }
+            });
+            
+            visualArea.appendChild(sequenceContainer);
+            
+            // Generate options
+            const options = [missingLetter];
+            while (options.length < 4) {
+                const randomLetter = hijaiyahLetters[Math.floor(Math.random() * hijaiyahLetters.length)];
+                if (!options.find(l => l.arabic === randomLetter.arabic)) {
+                    options.push(randomLetter);
+                }
+            }
+            
+            options.sort(() => Math.random() - 0.5);
+            
+            const answerOptions = document.getElementById('answerOptions');
+            const buttonColors = [
+                'bg-red-500 hover:bg-red-600',
+                'bg-blue-500 hover:bg-blue-600',
+                'bg-green-500 hover:bg-green-600',
+                'bg-purple-500 hover:bg-purple-600'
+            ];
+            
+            options.forEach((letter, index) => {
+                const button = document.createElement('button');
+                button.className = `${buttonColors[index]} text-white font-black py-6 px-6 rounded-3xl shadow-2xl transform hover:scale-110 transition-all duration-300 border-4 border-white min-h-24 flex flex-col items-center justify-center`;
+                
+                const arabicText = document.createElement('div');
+                arabicText.className = 'text-4xl font-bold arabic-text mb-2';
+                arabicText.textContent = letter.arabic;
+                
+                const nameText = document.createElement('div');
+                nameText.className = 'text-sm font-bold';
+                nameText.textContent = letter.name;
+                
+                button.appendChild(arabicText);
+                button.appendChild(nameText);
+                
+                button.onclick = () => checkAnswer(letter.arabic, button);
+                answerOptions.appendChild(button);
+            });
+            
+            return;
+        }
+        
+        function generateWordsQuestion() {
+            const targetWord = islamicWords[Math.floor(Math.random() * islamicWords.length)];
+            
+            correctAnswer = targetWord.meaning;
+            
+            document.getElementById('question').textContent = 'Apa arti kata ini dalam bahasa Indonesia?';
+            
+            const visualArea = document.getElementById('visualArea');
+            
+            // Show the Arabic word with audio
+            const wordDisplay = document.createElement('div');
+            wordDisplay.className = 'w-full text-center mb-6';
+            wordDisplay.innerHTML = `
+                <div class="bg-gradient-to-br from-rose-100 to-pink-100 rounded-2xl p-8 shadow-lg border-4 border-rose-300 inline-block">
+                    <div class="text-lg font-bold text-rose-700 mb-4">Kata dalam Bahasa Arab:</div>
+                    <div class="text-8xl font-bold text-rose-600 arabic-text mb-4">${targetWord.arabic}</div>
+                    <button onclick="playArabicWord('${targetWord.arabic}', '${targetWord.pronunciation}')" class="bg-rose-500 hover:bg-rose-600 text-white px-6 py-3 rounded-full mb-4 font-bold shadow-lg transform hover:scale-105 transition-all duration-200">
+                        <i class="fas fa-volume-up"></i> Dengar Kata "${targetWord.pronunciation}"
+                    </button>
+                    <div class="text-lg text-rose-600 font-bold">Dibaca: ${targetWord.pronunciation}</div>
+                </div>
+            `;
+            visualArea.appendChild(wordDisplay);
+            
+            // Auto-play word after 1 second
+            setTimeout(() => {
+                playArabicWord(targetWord.arabic, targetWord.pronunciation);
+            }, 1000);
+            
+            // Generate meaning options
+            const options = [targetWord.meaning];
+            const otherMeanings = islamicWords.filter(w => w.meaning !== targetWord.meaning);
+            while (options.length < 4 && otherMeanings.length > 0) {
+                const randomWord = otherMeanings[Math.floor(Math.random() * otherMeanings.length)];
+                if (!options.includes(randomWord.meaning)) {
+                    options.push(randomWord.meaning);
+                }
+            }
+            
+            // Add some general options if needed
+            const generalOptions = ['Rumah', 'Sekolah', 'Makanan', 'Minuman', 'Pakaian', 'Kendaraan'];
+            while (options.length < 4) {
+                const randomOption = generalOptions[Math.floor(Math.random() * generalOptions.length)];
+                if (!options.includes(randomOption)) {
+                    options.push(randomOption);
+                }
+            }
+            
+            options.sort(() => Math.random() - 0.5);
+            
+            const answerOptions = document.getElementById('answerOptions');
+            const buttonColors = [
+                'bg-red-500 hover:bg-red-600',
+                'bg-blue-500 hover:bg-blue-600',
+                'bg-green-500 hover:bg-green-600',
+                'bg-purple-500 hover:bg-purple-600'
+            ];
+            
+            options.forEach((meaning, index) => {
+                const button = document.createElement('button');
+                button.className = `${buttonColors[index]} text-white text-xl font-black py-6 px-8 rounded-3xl shadow-2xl transform hover:scale-110 transition-all duration-300 border-4 border-white min-h-20`;
+                button.textContent = meaning;
+                button.onclick = () => checkAnswer(meaning, button);
+                answerOptions.appendChild(button);
+            });
+            
+            return;
+        }
+        
+        function generateWritingQuestion() {
+            const selectedLetters = hijaiyahLetters.slice(0, Math.min(8 + currentLevel, 15));
+            const targetLetter = selectedLetters[Math.floor(Math.random() * selectedLetters.length)];
+            
+            correctAnswer = 'traced';
+            
+            document.getElementById('question').textContent = `Ikuti garis putus-putus untuk menulis huruf "${targetLetter.name}"!`;
+            
+            const visualArea = document.getElementById('visualArea');
+            
+            // Show letter info
+            const letterInfo = document.createElement('div');
+            letterInfo.className = 'w-full text-center mb-6';
+            letterInfo.innerHTML = `
+                <div class="bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl p-6 shadow-lg border-4 border-indigo-300 inline-block">
+                    <div class="text-lg font-bold text-indigo-700 mb-2">Mari menulis huruf:</div>
+                    <div class="text-4xl font-bold text-indigo-600 mb-2 arabic-text">${targetLetter.arabic}</div>
+                    <div class="text-xl font-bold text-indigo-600 mb-1">${targetLetter.name}</div>
+                    <div class="text-lg text-indigo-600">Bunyi: ${targetLetter.sound}</div>
+                </div>
+            `;
+            visualArea.appendChild(letterInfo);
+            
+            // Create tracing area
+            const tracingArea = document.createElement('div');
+            tracingArea.className = 'w-full max-w-md mx-auto mb-6';
+            tracingArea.innerHTML = `
+                <div class="bg-white rounded-2xl p-8 shadow-lg border-4 border-indigo-300 relative">
+                    <div class="text-center mb-4">
+                        <div class="text-lg font-bold text-indigo-700">Area Menulis</div>
+                        <div class="text-sm text-indigo-600">Ikuti garis putus-putus dengan jari atau mouse</div>
+                    </div>
+                    
+                    <!-- Tracing Canvas -->
+                    <div class="relative bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border-2 border-dashed border-indigo-300">
+                        <canvas id="tracingCanvas" width="300" height="200" class="w-full h-48 cursor-crosshair rounded-lg"></canvas>
+                        
+                        <!-- Guide letter (dotted) -->
+                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <div class="text-8xl font-bold text-indigo-300/50 arabic-text select-none" style="text-shadow: 2px 2px 0px #e0e7ff, -2px -2px 0px #e0e7ff, 2px -2px 0px #e0e7ff, -2px 2px 0px #e0e7ff;">${targetLetter.arabic}</div>
+                        </div>
+                        
+                        <!-- Progress indicator -->
+                        <div class="absolute top-2 right-2 bg-white/80 rounded-full px-3 py-1 text-sm font-bold text-indigo-600">
+                            <span id="tracingProgress">0%</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Control buttons -->
+                    <div class="flex justify-center gap-4 mt-4">
+                        <button onclick="clearTracing()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-full font-bold text-sm transition-colors">
+                            <i class="fas fa-eraser"></i> Hapus
+                        </button>
+                        <button onclick="showHint()" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-full font-bold text-sm transition-colors">
+                            <i class="fas fa-lightbulb"></i> Bantuan
+                        </button>
+                        <button id="checkTracingBtn" onclick="checkTracing()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full font-bold text-sm transition-colors opacity-50 cursor-not-allowed" disabled>
+                            <i class="fas fa-check"></i> Selesai
+                        </button>
+                    </div>
+                </div>
+            `;
+            visualArea.appendChild(tracingArea);
+            
+            // Initialize tracing canvas
+            initializeTracingCanvas(targetLetter);
+            
+            // Clear answer options for this game type
+            document.getElementById('answerOptions').innerHTML = '';
+            
+            return;
+        }
+        
+        let tracingCanvas, tracingCtx, isDrawing = false, tracingPoints = [], totalTracingArea = 0, tracedArea = 0;
+        
+        function initializeTracingCanvas(letter) {
+            tracingCanvas = document.getElementById('tracingCanvas');
+            tracingCtx = tracingCanvas.getContext('2d');
+            
+            // Set canvas size
+            const rect = tracingCanvas.getBoundingClientRect();
+            tracingCanvas.width = rect.width;
+            tracingCanvas.height = rect.height;
+            
+            // Initialize drawing
+            tracingCtx.lineWidth = 8;
+            tracingCtx.lineCap = 'round';
+            tracingCtx.strokeStyle = '#10b981';
+            
+            // Calculate total area needed for completion (approximate)
+            totalTracingArea = 100; // Base completion threshold
+            tracedArea = 0;
+            
+            // Mouse events
+            tracingCanvas.addEventListener('mousedown', startTracing);
+            tracingCanvas.addEventListener('mousemove', continueTracing);
+            tracingCanvas.addEventListener('mouseup', stopTracing);
+            tracingCanvas.addEventListener('mouseout', stopTracing);
+            
+            // Touch events for mobile
+            tracingCanvas.addEventListener('touchstart', handleTouch);
+            tracingCanvas.addEventListener('touchmove', handleTouch);
+            tracingCanvas.addEventListener('touchend', stopTracing);
+        }
+        
+        function startTracing(e) {
+            isDrawing = true;
+            const rect = tracingCanvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            tracingCtx.beginPath();
+            tracingCtx.moveTo(x, y);
+            tracingPoints.push({x, y});
+        }
+        
+        function continueTracing(e) {
+            if (!isDrawing) return;
+            
+            const rect = tracingCanvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            tracingCtx.lineTo(x, y);
+            tracingCtx.stroke();
+            
+            tracingPoints.push({x, y});
+            tracedArea++;
+            
+            updateTracingProgress();
+        }
+        
+        function stopTracing() {
+            isDrawing = false;
+        }
+        
+        function handleTouch(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const mouseEvent = new MouseEvent(e.type === 'touchstart' ? 'mousedown' : 
+                                            e.type === 'touchmove' ? 'mousemove' : 'mouseup', {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+            tracingCanvas.dispatchEvent(mouseEvent);
+        }
+        
+        function updateTracingProgress() {
+            const progress = Math.min(Math.round((tracedArea / totalTracingArea) * 100), 100);
+            document.getElementById('tracingProgress').textContent = progress + '%';
+            
+            // Enable check button when progress is sufficient
+            const checkBtn = document.getElementById('checkTracingBtn');
+            if (progress >= 60) {
+                checkBtn.disabled = false;
+                checkBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                checkBtn.classList.add('animate-pulse');
+            }
+        }
+        
+        function clearTracing() {
+            tracingCtx.clearRect(0, 0, tracingCanvas.width, tracingCanvas.height);
+            tracingPoints = [];
+            tracedArea = 0;
+            updateTracingProgress();
+            
+            const checkBtn = document.getElementById('checkTracingBtn');
+            checkBtn.disabled = true;
+            checkBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            checkBtn.classList.remove('animate-pulse');
+        }
+        
+        function showHint() {
+            // Flash the guide letter
+            const guideLetter = document.querySelector('.text-indigo-300\\/50');
+            if (guideLetter) {
+                guideLetter.classList.add('animate-pulse');
+                guideLetter.style.color = '#6366f1';
+                guideLetter.style.opacity = '0.8';
+                
+                setTimeout(() => {
+                    guideLetter.classList.remove('animate-pulse');
+                    guideLetter.style.color = '';
+                    guideLetter.style.opacity = '';
+                }, 2000);
+            }
+            
+            // Show hint message
+            const feedback = document.getElementById('feedback');
+            feedback.innerHTML = '<div class="text-blue-500 font-bold text-lg animate-bounce"><i class="fas fa-hand-pointer"></i> Ikuti bentuk huruf dengan garis putus-putus!</div>';
+            
+            setTimeout(() => {
+                feedback.innerHTML = '';
+            }, 3000);
+        }
+        
+        function checkTracing() {
+            const progress = Math.round((tracedArea / totalTracingArea) * 100);
+            
+            if (progress >= 60) {
+                // Success!
+                const feedback = document.getElementById('feedback');
+                feedback.innerHTML = '<div class="text-green-500 font-bold text-2xl animate-bounce"><i class="fas fa-star"></i> ماشاء الله! Tulisan yang bagus! <i class="fas fa-star"></i></div>';
+                
+                // Add success animation to canvas
+                tracingCtx.strokeStyle = '#10b981';
+                tracingCtx.lineWidth = 12;
+                tracingCtx.globalAlpha = 0.7;
+                
+                // Redraw with success color
+                if (tracingPoints.length > 0) {
+                    tracingCtx.beginPath();
+                    tracingCtx.moveTo(tracingPoints[0].x, tracingPoints[0].y);
+                    tracingPoints.forEach(point => {
+                        tracingCtx.lineTo(point.x, point.y);
+                    });
+                    tracingCtx.stroke();
+                }
+                
+                checkAnswer('traced', null);
+            } else {
+                // Need more tracing
+                const feedback = document.getElementById('feedback');
+                feedback.innerHTML = '<div class="text-orange-500 font-bold text-lg animate-bounce"><i class="fas fa-pencil-alt"></i> Teruskan menulis! Ikuti garis putus-putus dengan lebih lengkap.</div>';
+                
+                setTimeout(() => {
+                    feedback.innerHTML = '';
+                }, 3000);
+            }
+        }
+        
+        function generateMakharijQuestion() {
+            const targetMakharij = makharijData[Math.floor(Math.random() * makharijData.length)];
+            const targetLetter = targetMakharij.letters[Math.floor(Math.random() * targetMakharij.letters.length)];
+            
+            correctAnswer = targetMakharij.name;
+            
+            document.getElementById('question').textContent = `Dari mana huruf ini keluar?`;
+            
+            const visualArea = document.getElementById('visualArea');
+            
+            // Show the letter with animation
+            const letterDisplay = document.createElement('div');
+            letterDisplay.className = 'w-full text-center mb-6';
+            letterDisplay.innerHTML = `
+                <div class="bg-gradient-to-br from-amber-100 to-orange-100 rounded-2xl p-6 shadow-lg border-4 border-amber-300">
+                    <div class="text-lg font-bold text-amber-700 mb-4">Huruf Hijaiyah:</div>
+                    <div class="text-8xl font-bold text-amber-600 arabic-text mb-4 letter-flow">${targetLetter.arabic}</div>
+                    <div class="text-2xl font-bold text-amber-600 mb-2">${targetLetter.name}</div>
+                    <button onclick="playSound('${targetLetter.sound}')" class="bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-full mb-4 font-bold shadow-lg transform hover:scale-105 transition-all duration-200">
+                        <i class="fas fa-volume-up"></i> Dengar Bunyi "${targetLetter.sound}"
+                    </button>
+                    <div class="text-lg text-amber-600 font-bold">Dari bagian mana huruf ini keluar?</div>
+                </div>
+            `;
+            visualArea.appendChild(letterDisplay);
+            
+            // Create animated mouth diagram
+            const mouthDiagram = document.createElement('div');
+            mouthDiagram.className = 'w-full text-center mb-6';
+            mouthDiagram.innerHTML = `
+                <div class="bg-gradient-to-br from-blue-100 to-cyan-100 rounded-2xl p-8 shadow-lg border-4 border-blue-300">
+                    <div class="text-lg font-bold text-blue-700 mb-4">Diagram Makharijul Huruf</div>
+                    <div class="mouth-diagram mx-auto relative">
+                        <!-- SVG Mouth Diagram -->
+                        <svg class="mouth-svg w-full h-full" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Head outline -->
+                            <ellipse cx="150" cy="200" rx="120" ry="180" fill="#fef3c7" stroke="#d97706" stroke-width="3"/>
+                            
+                            <!-- Mouth cavity (Al-Jawf) -->
+                            <ellipse cx="150" cy="240" rx="80" ry="60" fill="#fecaca" class="${targetMakharij.name.includes('Al-Jawf') ? 'cavity-breath breathing-effect' : ''}" opacity="0.7"/>
+                            
+                            <!-- Throat (Al-Halq) -->
+                            <rect x="130" y="320" width="40" height="60" rx="20" fill="#fed7aa" class="${targetMakharij.name.includes('Al-Halq') ? 'throat-vibrate breathing-effect' : ''}" opacity="0.7"/>
+                            
+                            <!-- Tongue (Al-Lisan) -->
+                            <ellipse cx="150" cy="260" rx="60" ry="25" fill="#fbbf24" class="${targetMakharij.name.includes('Al-Lisan') ? 'tongue-move breathing-effect' : ''}" opacity="0.8"/>
+                            
+                            <!-- Lips (Asy-Syafatain) -->
+                            <ellipse cx="150" cy="180" rx="45" ry="15" fill="#f87171" class="${targetMakharij.name.includes('Asy-Syafatain') ? 'lips-move breathing-effect' : ''}" opacity="0.8"/>
+                            <ellipse cx="150" cy="200" rx="45" ry="15" fill="#f87171" class="${targetMakharij.name.includes('Asy-Syafatain') ? 'lips-move breathing-effect' : ''}" opacity="0.8"/>
+                            
+                            <!-- Nose -->
+                            <ellipse cx="150" cy="140" rx="15" ry="25" fill="#fbbf24" opacity="0.6"/>
+                            
+                            <!-- Eyes -->
+                            <circle cx="125" cy="120" r="8" fill="#374151"/>
+                            <circle cx="175" cy="120" r="8" fill="#374151"/>
+                            
+                            <!-- Makharij points -->
+                            ${makharijData.map((makharij, index) => `
+                                <circle cx="${makharij.position.x * 3}" cy="${makharij.position.y * 4}" r="8" 
+                                        fill="${makharij === targetMakharij ? '#ef4444' : '#6b7280'}" 
+                                        class="makharij-point ${makharij === targetMakharij ? 'active' : ''}" 
+                                        style="animation-delay: ${index * 0.5}s"
+                                        onclick="showMakharijInfo('${makharij.name}', '${makharij.description}')"/>
+                            `).join('')}
+                        </svg>
+                        
+                        <!-- Floating letters animation -->
+                        <div class="absolute inset-0 pointer-events-none">
+                            ${targetMakharij.letters.slice(0, 3).map((letter, index) => `
+                                <div class="absolute text-2xl font-bold arabic-text letter-flow" 
+                                     style="left: ${20 + index * 30}%; top: ${30 + index * 10}%; 
+                                            color: ${letter.color}; animation-delay: ${index * 0.8}s">
+                                    ${letter.arabic}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="text-sm text-blue-600 mt-4 font-bold">
+                        <i class="fas fa-info-circle"></i> Klik titik merah untuk melihat tempat keluarnya huruf!
+                    </div>
+                </div>
+            `;
+            visualArea.appendChild(mouthDiagram);
+            
+            // Auto-play sound after 2 seconds
+            setTimeout(() => {
+                playSound(targetLetter.sound);
+            }, 2000);
+            
+            // Generate answer options
+            const options = [targetMakharij.name];
+            const otherMakharij = makharijData.filter(m => m.name !== targetMakharij.name);
+            while (options.length < 4 && otherMakharij.length > 0) {
+                const randomMakharij = otherMakharij[Math.floor(Math.random() * otherMakharij.length)];
+                if (!options.includes(randomMakharij.name)) {
+                    options.push(randomMakharij.name);
+                }
+            }
+            
+            options.sort(() => Math.random() - 0.5);
+            
+            const answerOptions = document.getElementById('answerOptions');
+            const buttonColors = [
+                'bg-red-500 hover:bg-red-600',
+                'bg-blue-500 hover:bg-blue-600',
+                'bg-green-500 hover:bg-green-600',
+                'bg-purple-500 hover:bg-purple-600'
+            ];
+            
+            options.forEach((makharijName, index) => {
+                const button = document.createElement('button');
+                button.className = `${buttonColors[index]} text-white text-lg font-black py-4 px-6 rounded-3xl shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-white min-h-20`;
+                button.textContent = makharijName;
+                button.onclick = () => checkAnswer(makharijName, button);
+                answerOptions.appendChild(button);
+            });
+            
+            return;
+        }
+        
+        function showMakharijInfo(name, description) {
+            const feedback = document.getElementById('feedback');
+            feedback.innerHTML = `
+                <div class="text-center">
+                    <div class="text-xl font-bold text-amber-600 mb-2">${name}</div>
+                    <div class="text-lg text-amber-700">${description}</div>
+                </div>
+            `;
+            
+            setTimeout(() => {
+                feedback.innerHTML = '';
+            }, 4000);
+        }
+        
+        function generateMemoryQuestion() {
+            const selectedLetters = hijaiyahLetters.slice(0, Math.min(8 + currentLevel, 15));
+            
+            // Randomly select 3 different letters
+            const shuffledLetters = [...selectedLetters].sort(() => Math.random() - 0.5);
+            const targetLetters = shuffledLetters.slice(0, 3);
+            
+            correctAnswer = targetLetters.map(l => l.arabic).join('');
+            
+            document.getElementById('question').textContent = 'Ingat huruf-huruf ini, lalu pilih urutan yang benar!';
+            
+            const visualArea = document.getElementById('visualArea');
+            
+            // Show letters to memorize (RIGHT TO LEFT display)
+            const memoryDisplay = document.createElement('div');
+            memoryDisplay.className = 'w-full text-center mb-6';
+            memoryDisplay.innerHTML = `
+                <div class="bg-gradient-to-br from-teal-100 to-cyan-100 rounded-2xl p-6 shadow-lg border-4 border-teal-300">
+                    <div class="text-lg font-bold text-teal-700 mb-4">Ingat huruf-huruf ini (dari kanan ke kiri):</div>
+                    <div id="memoryLetters" class="flex justify-center gap-4 mb-4" dir="rtl">
+                        ${targetLetters.map((letter, index) => `
+                            <div class="bg-teal-500 text-white w-20 h-20 rounded-2xl flex flex-col items-center justify-center bounce-in shadow-lg border-4 border-white relative" style="animation-delay: ${index * 0.2}s">
+                                <div class="text-3xl font-bold arabic-text">${letter.arabic}</div>
+                                <div class="text-xs font-bold">${letter.name}</div>
+                                <button onclick="playSound('${letter.sound}')" class="absolute -top-2 -right-2 w-6 h-6 bg-blue-500 hover:bg-blue-600 rounded-full flex items-center justify-center text-white text-xs transition-colors">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="text-lg text-teal-600 font-bold">Perhatikan baik-baik urutan dari kanan ke kiri!</div>
+                </div>
+            `;
+            visualArea.appendChild(memoryDisplay);
+            
+            // Hide letters after 5 seconds
+            setTimeout(() => {
+                const memoryLettersEl = document.getElementById('memoryLetters');
+                memoryLettersEl.innerHTML = `
+                    <div class="text-4xl text-gray-400 font-bold">Huruf sudah disembunyikan!</div>
+                `;
+                
+                // Generate answer options
+                const options = [targetLetters.map(l => l.arabic).join('')];
+                
+                // Generate wrong options by shuffling or changing letters
+                for (let i = 0; i < 3; i++) {
+                    let wrongOption = [...targetLetters];
+                    // Shuffle or replace one letter
+                    if (Math.random() > 0.5) {
+                        wrongOption.sort(() => Math.random() - 0.5);
+                    } else {
+                        const randomIndex = Math.floor(Math.random() * wrongOption.length);
+                        const randomLetter = selectedLetters[Math.floor(Math.random() * selectedLetters.length)];
+                        wrongOption[randomIndex] = randomLetter;
+                    }
+                    const wrongOptionStr = wrongOption.map(l => l.arabic).join('');
+                    if (!options.includes(wrongOptionStr)) {
+                        options.push(wrongOptionStr);
+                    }
+                }
+                
+                options.sort(() => Math.random() - 0.5);
+                
+                const answerOptions = document.getElementById('answerOptions');
+                const buttonColors = [
+                    'bg-red-500 hover:bg-red-600',
+                    'bg-blue-500 hover:bg-blue-600',
+                    'bg-green-500 hover:bg-green-600',
+                    'bg-purple-500 hover:bg-purple-600'
+                ];
+                
+                options.forEach((option, index) => {
+                    const button = document.createElement('button');
+                    button.className = `${buttonColors[index]} text-white font-black py-6 px-6 rounded-3xl shadow-2xl transform hover:scale-110 transition-all duration-300 border-4 border-white min-h-24 flex items-center justify-center`;
+                    
+                    const arabicText = document.createElement('div');
+                    arabicText.className = 'text-4xl font-bold arabic-text';
+                    arabicText.textContent = option;
+                    arabicText.style.direction = 'rtl';
+                    
+                    button.appendChild(arabicText);
+                    button.onclick = () => checkAnswer(option, button);
+                    answerOptions.appendChild(button);
+                });
+            }, 5000);
+            
+            return;
+        }
+        
+        let currentIqraLevel = 1;
+        let currentIqraExercise = 0;
+        
+        function generateIqraQuestion() {
+            // Get current lesson based on level
+            const currentLesson = iqraLessons.find(lesson => lesson.level === currentIqraLevel) || iqraLessons[0];
+            const exercise = currentLesson.exercises[currentIqraExercise];
+            
+            correctAnswer = exercise.pronunciation;
+            
+            document.getElementById('question').innerHTML = `
+                <div class="text-center">
+                    <div class="text-lg font-bold text-emerald-600 mb-2">📚 ${currentLesson.title} - Level ${currentLesson.level}</div>
+                    <div class="text-base text-gray-600 mb-4">${currentLesson.description}</div>
+                    <div class="text-lg font-bold text-gray-700">Bacalah teks Arab berikut dengan benar!</div>
+                </div>
+            `;
+            
+            const visualArea = document.getElementById('visualArea');
+            
+            // Show the Arabic text to read
+            const readingDisplay = document.createElement('div');
+            readingDisplay.className = 'w-full text-center mb-6';
+            readingDisplay.innerHTML = `
+                <div class="bg-gradient-to-br from-emerald-100 to-green-100 rounded-2xl p-8 shadow-lg border-4 border-emerald-300 inline-block">
+                    <div class="text-lg font-bold text-emerald-700 mb-4">Bacalah:</div>
+                    <div class="text-9xl font-bold text-emerald-600 arabic-text mb-6 p-4 bg-white/50 rounded-xl border-2 border-emerald-200">${exercise.arabic}</div>
+                    
+                    <div class="flex justify-center gap-4 mb-4">
+                        <button onclick="playArabicWord('${exercise.arabic}', '${exercise.pronunciation}')" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-full font-bold shadow-lg transform hover:scale-105 transition-all duration-200">
+                            <i class="fas fa-volume-up"></i> Dengar Contoh
+                        </button>
+                        <button onclick="showIqraHint('${exercise.meaning}')" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-full font-bold shadow-lg transform hover:scale-105 transition-all duration-200">
+                            <i class="fas fa-lightbulb"></i> Bantuan
+                        </button>
+                    </div>
+                    
+                    <div class="text-lg text-emerald-600 font-bold">Bagaimana cara membacanya?</div>
+                </div>
+            `;
+            visualArea.appendChild(readingDisplay);
+            
+            // Progress indicator for Iqra
+            const progressIndicator = document.createElement('div');
+            progressIndicator.className = 'w-full text-center mb-6';
+            progressIndicator.innerHTML = `
+                <div class="bg-white rounded-2xl p-4 shadow-lg border-4 border-emerald-300">
+                    <div class="text-lg font-bold text-emerald-700 mb-2">Progress Iqra'</div>
+                    <div class="flex justify-center items-center gap-2 mb-2">
+                        <div class="text-sm font-bold text-emerald-600">Level ${currentIqraLevel}</div>
+                        <div class="w-32 bg-gray-200 rounded-full h-3">
+                            <div class="bg-emerald-500 h-3 rounded-full transition-all duration-500" style="width: ${((currentIqraExercise + 1) / currentLesson.exercises.length) * 100}%"></div>
+                        </div>
+                        <div class="text-sm font-bold text-emerald-600">${currentIqraExercise + 1}/${currentLesson.exercises.length}</div>
+                    </div>
+                    <div class="text-sm text-emerald-600">Latihan ${currentIqraExercise + 1} dari ${currentLesson.exercises.length}</div>
+                </div>
+            `;
+            visualArea.appendChild(progressIndicator);
+            
+            // Auto-play after 2 seconds
+            setTimeout(() => {
+                playArabicWord(exercise.arabic, exercise.pronunciation);
+            }, 2000);
+            
+            // Generate pronunciation options
+            const options = [exercise.pronunciation];
+            
+            // Add similar sounding options
+            const allExercises = iqraLessons.flatMap(lesson => lesson.exercises);
+            while (options.length < 4) {
+                const randomExercise = allExercises[Math.floor(Math.random() * allExercises.length)];
+                if (!options.includes(randomExercise.pronunciation)) {
+                    options.push(randomExercise.pronunciation);
+                }
+            }
+            
+            options.sort(() => Math.random() - 0.5);
+            
+            const answerOptions = document.getElementById('answerOptions');
+            const buttonColors = [
+                'bg-red-500 hover:bg-red-600',
+                'bg-blue-500 hover:bg-blue-600',
+                'bg-green-500 hover:bg-green-600',
+                'bg-purple-500 hover:bg-purple-600'
+            ];
+            
+            options.forEach((pronunciation, index) => {
+                const button = document.createElement('button');
+                button.className = `${buttonColors[index]} text-white text-xl font-black py-6 px-8 rounded-3xl shadow-2xl transform hover:scale-110 transition-all duration-300 border-4 border-white min-h-20`;
+                button.textContent = pronunciation;
+                button.onclick = () => {
+                    if (pronunciation === exercise.pronunciation) {
+                        // Correct - move to next exercise
+                        currentIqraExercise++;
+                        if (currentIqraExercise >= currentLesson.exercises.length) {
+                            // Level completed
+                            currentIqraLevel++;
+                            currentIqraExercise = 0;
+                            if (currentIqraLevel > iqraLessons.length) {
+                                // All levels completed
+                                showIqraCompletion();
+                                return;
+                            }
+                        }
+                        checkAnswer(pronunciation, button);
+                    } else {
+                        checkAnswer(pronunciation, button);
+                    }
+                };
+                answerOptions.appendChild(button);
+            });
+            
+            return;
+        }
+        
+        function showIqraHint(meaning) {
+            const feedback = document.getElementById('feedback');
+            feedback.innerHTML = `<div class="text-blue-500 font-bold text-lg animate-bounce"><i class="fas fa-info-circle"></i> Petunjuk: ${meaning}</div>`;
+            
+            setTimeout(() => {
+                feedback.innerHTML = '';
+            }, 4000);
+        }
+        
+        function showIqraCompletion() {
+            const feedback = document.getElementById('feedback');
+            feedback.innerHTML = `
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-emerald-500 mb-4 animate-bounce">🎉 ماشاء الله تبارك الله! 🎉</div>
+                    <div class="text-2xl font-bold text-emerald-600 mb-2">Selamat! Anda telah menyelesaikan semua level Iqra'!</div>
+                    <div class="text-lg text-emerald-600">Anda sudah bisa membaca huruf Hijaiyah dengan baik!</div>
+                    <button onclick="currentIqraLevel = 1; currentIqraExercise = 0; generateIqraQuestion();" class="bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-4 rounded-full font-bold text-xl mt-4 shadow-lg transform hover:scale-105 transition-all duration-200">
+                        <i class="fas fa-redo"></i> Ulangi dari Awal
+                    </button>
+                </div>
+            `;
+        }
+        
+        function generateQuizQuestion() {
+            // Random quiz type
+            const quizTypes = ['recognition', 'sounds', 'matching', 'sequence', 'words'];
+            const randomType = quizTypes[Math.floor(Math.random() * quizTypes.length)];
+            
+            switch(randomType) {
+                case 'recognition': generateRecognitionQuestion(); break;
+                case 'sounds': generateSoundsQuestion(); break;
+                case 'matching': generateMatchingQuestion(); break;
+                case 'sequence': generateSequenceQuestion(); break;
+                case 'words': generateWordsQuestion(); break;
+            }
+        }
+        
+        function checkAnswer(selected, buttonEl) {
+            const feedback = document.getElementById('feedback');
+            const buttons = document.querySelectorAll('#answerOptions button, .hijaiyah-card');
+            
+            buttons.forEach(btn => btn.style.pointerEvents = 'none');
+            
+            if (selected === correctAnswer) {
+                if (buttonEl) {
+                    buttonEl.classList.add('pulse-correct');
+                }
+                score += 10;
+                document.getElementById('score').textContent = score;
+                
+                createSuccessAnimation();
+                
+                setTimeout(() => {
+                    questionsAnswered++;
+                    updateProgress();
+                    if (questionsAnswered >= 5) {
+                        levelUp();
+                    } else {
+                        generateQuestion();
+                    }
+                }, 2000);
+            } else {
+                if (buttonEl) {
+                    buttonEl.classList.add('shake');
+                }
+                
+                createWrongAnimation(correctAnswer);
+                
+                // Show correct answer
+                buttons.forEach(btn => {
+                    const btnText = btn.textContent || btn.querySelector('.arabic-text')?.textContent;
+                    if (btnText && (btnText.includes(correctAnswer) || btnText === correctAnswer)) {
+                        btn.classList.add('pulse-correct');
+                    }
+                });
+                
+                setTimeout(() => {
+                    questionsAnswered++;
+                    updateProgress();
+                    if (questionsAnswered >= 5) {
+                        levelUp();
+                    } else {
+                        generateQuestion();
+                    }
+                }, 3000);
+            }
+        }
+        
+        function createSuccessAnimation() {
+            const feedback = document.getElementById('feedback');
+            feedback.innerHTML = '';
+            
+            // Islamic celebration
+            const celebrations = ['ماشاء الله!', 'بارك الله فيك!', 'أحسنت!', 'ممتاز!'];
+            const celebration = celebrations[Math.floor(Math.random() * celebrations.length)];
+            
+            // Create fireworks effect
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const firework = document.createElement('div');
+                    firework.style.position = 'absolute';
+                    firework.style.left = Math.random() * 100 + '%';
+                    firework.style.top = Math.random() * 100 + '%';
+                    firework.style.fontSize = '3rem';
+                    firework.style.zIndex = '1000';
+                    const celebrationIcons = ['<i class="fas fa-star text-yellow-400"></i>', '<i class="fas fa-mosque text-emerald-400"></i>', '<i class="fas fa-moon text-blue-400"></i>', '<i class="fas fa-star-and-crescent text-purple-400"></i>'];
+                    firework.innerHTML = celebrationIcons[Math.floor(Math.random() * celebrationIcons.length)];
+                    firework.style.animation = 'fireworkExplode 1.5s ease-out forwards';
+                    feedback.appendChild(firework);
+                    
+                    setTimeout(() => {
+                        if (firework.parentNode) firework.remove();
+                    }, 1500);
+                }, i * 100);
+            }
+            
+            // Big celebration text
+            setTimeout(() => {
+                const bigText = document.createElement('div');
+                bigText.className = 'fixed inset-0 flex items-center justify-center z-50 pointer-events-none';
+                bigText.innerHTML = `<div class="text-4xl font-bold text-emerald-500 animate-bounce bg-white/90 px-8 py-4 rounded-full shadow-2xl border-4 border-emerald-400 arabic-text">${celebration}</div>`;
+                document.body.appendChild(bigText);
+                
+                setTimeout(() => {
+                    if (bigText.parentNode) bigText.remove();
+                }, 1500);
+            }, 500);
+        }
+        
+        function createWrongAnimation(correctAnswer) {
+            const feedback = document.getElementById('feedback');
+            feedback.innerHTML = '';
+            
+            // Show correct answer with Islamic encouragement
+            setTimeout(() => {
+                const answerReveal = document.createElement('div');
+                answerReveal.className = 'fixed inset-0 flex items-center justify-center z-50 pointer-events-none';
+                answerReveal.innerHTML = `
+                    <div class="text-2xl font-bold text-orange-500 bg-white/95 px-6 py-4 rounded-full shadow-2xl border-4 border-orange-400 text-center">
+                        <div class="arabic-text mb-2">لا بأس</div>
+                        <div>Jawabannya: ${correctAnswer}</div>
+                        <div class="text-lg mt-2">Semangat belajar! 💪</div>
+                    </div>
+                `;
+                document.body.appendChild(answerReveal);
+                
+                setTimeout(() => {
+                    if (answerReveal.parentNode) answerReveal.remove();
+                }, 2500);
+            }, 1000);
+        }
+        
+        function levelUp() {
+            currentLevel++;
+            document.getElementById('level').textContent = currentLevel;
+            document.getElementById('newLevel').textContent = currentLevel;
+            questionsAnswered = 0;
+            document.getElementById('celebrationModal').classList.remove('hidden');
+            createConfetti();
+        }
+        
+        function createConfetti() {
+            const container = document.getElementById('confettiContainer');
+            const colors = ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444', '#06b6d4'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'absolute w-3 h-3 rounded-full';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animation = `confetti-fall ${Math.random() * 3 + 2}s linear infinite`;
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                container.appendChild(confetti);
+                
+                setTimeout(() => {
+                    if (confetti.parentNode) {
+                        confetti.parentNode.removeChild(confetti);
+                    }
+                }, 5000);
+            }
+        }
+        
+        function closeCelebration() {
+            document.getElementById('celebrationModal').classList.add('hidden');
+            updateProgress();
+            generateQuestion();
+        }
+        
+        // Add confetti animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes confetti-fall {
+                0% {
+                    transform: translateY(-100vh) rotate(0deg);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(100vh) rotate(720deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'974b3fc3f6e7896b',t:'MTc1NjEyNjU4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
