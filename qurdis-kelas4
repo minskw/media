@@ -1,0 +1,1967 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Edukasi Al-Quran Hadits - Kelas 4 SD/MI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Amiri:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Comic Neue', cursive;
+        }
+        
+        .arabic-text {
+            font-family: 'Amiri', serif;
+            font-size: 1.5em;
+            direction: rtl;
+            line-height: 1.8;
+        }
+        
+        .bounce-in {
+            animation: bounceIn 0.6s ease-out;
+        }
+        
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .wiggle {
+            animation: wiggle 0.5s ease-in-out infinite;
+        }
+        
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-3deg); }
+            75% { transform: rotate(3deg); }
+        }
+        
+        .pulse-correct {
+            animation: pulseCorrect 0.6s ease-in-out;
+        }
+        
+        @keyframes pulseCorrect {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); background-color: #10b981; }
+            100% { transform: scale(1); }
+        }
+        
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .star-burst {
+            animation: starBurst 0.8s ease-out;
+        }
+        
+        @keyframes starBurst {
+            0% { transform: scale(0) rotate(0deg); opacity: 0; }
+            50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
+            100% { transform: scale(1) rotate(360deg); opacity: 1; }
+        }
+        
+        .islamic-pattern {
+            background-image: 
+                radial-gradient(circle at 25% 25%, #fbbf24 2px, transparent 2px),
+                radial-gradient(circle at 75% 75%, #34d399 2px, transparent 2px);
+            background-size: 50px 50px;
+        }
+        
+        .tajwid-highlight {
+            background: linear-gradient(45deg, #fbbf24, #f59e0b);
+            padding: 2px 6px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            margin: 0 2px;
+        }
+        
+        .izhar-color { background: #ef4444; }
+        .ikhfa-color { background: #3b82f6; }
+        
+        .verse-container {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border: 3px solid #0ea5e9;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 10px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .verse-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .hadith-card {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 3px solid #d97706;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .hadith-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .drag-item {
+            cursor: grab;
+            transition: all 0.3s ease;
+        }
+        
+        .drag-item:active {
+            cursor: grabbing;
+            transform: scale(1.05);
+        }
+        
+        .drop-zone {
+            border: 3px dashed #d1d5db;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 10px;
+            min-height: 80px;
+            transition: all 0.3s ease;
+        }
+        
+        .drop-zone.drag-over {
+            border-color: #10b981;
+            background-color: #d1fae5;
+            transform: scale(1.02);
+        }
+        
+        .correct-drop {
+            border-color: #10b981;
+            background-color: #d1fae5;
+        }
+        
+        .wrong-drop {
+            border-color: #ef4444;
+            background-color: #fee2e2;
+        }
+        
+        .quran-decoration {
+            position: absolute;
+            opacity: 0.1;
+            font-size: 8rem;
+            color: #059669;
+            z-index: 0;
+        }
+        
+        .content-overlay {
+            position: relative;
+            z-index: 1;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.35s;
+            transform-origin: 50% 50%;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600 min-h-screen islamic-pattern">
+    <!-- Decorative Elements -->
+    <div class="quran-decoration top-10 left-10">
+        <i class="fas fa-mosque"></i>
+    </div>
+    <div class="quran-decoration top-20 right-20">
+        <i class="fas fa-star-and-crescent"></i>
+    </div>
+    <div class="quran-decoration bottom-20 left-20">
+        <i class="fas fa-book-quran"></i>
+    </div>
+
+    <!-- Header -->
+    <div class="bg-white shadow-xl p-4 border-b-4 border-emerald-400 content-overlay">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-4">
+                <div class="w-16 h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-full flex items-center justify-center bounce-in float">
+                    <i class="fas fa-book-quran text-white text-3xl lg:text-4xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl lg:text-3xl font-bold text-emerald-700">Al-Quran Hadits Pedoman Hidupku</h1>
+                    <p class="text-base lg:text-lg text-emerald-600 font-semibold">Kelas 4 SD/MI - Media Pembelajaran Islami</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="bg-yellow-500 px-6 py-3 rounded-full shadow-lg border-3 border-yellow-600">
+                    <span class="text-xl font-bold text-white"><i class="fas fa-star"></i> <span id="score">0</span></span>
+                </div>
+                <div class="bg-emerald-600 px-6 py-3 rounded-full shadow-lg border-3 border-emerald-700">
+                    <span class="text-xl font-bold text-white"><i class="fas fa-trophy"></i> Level <span id="level">1</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Menu -->
+    <div id="mainMenu" class="max-w-7xl mx-auto p-6 content-overlay">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4 drop-shadow-lg float">
+                <span class="arabic-text">رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي</span>
+            </h2>
+            <p class="text-xl lg:text-2xl text-white/90 mb-4 drop-shadow font-semibold">
+                "Ya Tuhanku, lapangkanlah dadaku dan mudahkanlah urusanku"
+            </p>
+            <p class="text-lg lg:text-xl text-white/80 mb-8 drop-shadow font-medium">
+                Mari belajar Al-Quran dan Hadits dengan cara yang menyenangkan!
+            </p>
+        </div>
+
+        <!-- Main Categories -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            <!-- Tajwid -->
+            <div class="bg-gradient-to-br from-purple-400 via-purple-500 to-indigo-600 p-8 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-purple-300 hover:border-white cursor-pointer" onclick="showSubMenu('tajwid')">
+                <div class="text-center">
+                    <div class="w-20 h-20 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <i class="fas fa-book-open text-white text-4xl drop-shadow-lg"></i>
+                    </div>
+                    <h3 class="text-3xl font-bold text-white mb-3 drop-shadow-lg">Tajwid</h3>
+                    <p class="text-lg text-purple-100 font-semibold mb-4">Belajar cara membaca Al-Quran dengan benar</p>
+                    <div class="bg-white/30 rounded-full px-4 py-2 backdrop-blur-sm">
+                        <span class="text-purple-800 font-bold">Izhar & Ikhfa'</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Surat Pendek -->
+            <div class="bg-gradient-to-br from-green-400 via-emerald-500 to-teal-600 p-8 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-green-300 hover:border-white cursor-pointer" onclick="showSubMenu('surat')">
+                <div class="text-center">
+                    <div class="w-20 h-20 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <div class="text-white text-2xl drop-shadow-lg arabic-text">سُورَة</div>
+                    </div>
+                    <h3 class="text-3xl font-bold text-white mb-3 drop-shadow-lg">Surat Pendek</h3>
+                    <p class="text-lg text-green-100 font-semibold mb-4">Hafalan surat-surat pendek Al-Quran</p>
+                    <div class="bg-white/30 rounded-full px-4 py-2 backdrop-blur-sm">
+                        <span class="text-green-800 font-bold">4 Surat Pilihan</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hadits -->
+            <div class="bg-gradient-to-br from-orange-400 via-red-500 to-pink-500 p-8 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-orange-300 hover:border-white cursor-pointer" onclick="showSubMenu('hadits')">
+                <div class="text-center">
+                    <div class="w-20 h-20 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <div class="text-white text-2xl drop-shadow-lg arabic-text">حَدِيث</div>
+                    </div>
+                    <h3 class="text-3xl font-bold text-white mb-3 drop-shadow-lg">Hadits</h3>
+                    <p class="text-lg text-orange-100 font-semibold mb-4">Pelajari hadits-hadits pilihan</p>
+                    <div class="bg-white/30 rounded-full px-4 py-2 backdrop-blur-sm">
+                        <span class="text-orange-800 font-bold">Takwa & Niat</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Islamic Greeting -->
+        <div class="bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-500 rounded-3xl p-6 shadow-xl border-4 border-white relative overflow-hidden">
+            <div class="absolute top-2 left-2 text-yellow-300 text-2xl animate-pulse"><i class="fas fa-star"></i></div>
+            <div class="absolute top-2 right-2 text-pink-300 text-2xl animate-bounce"><i class="fas fa-heart"></i></div>
+            <div class="absolute bottom-2 left-2 text-cyan-300 text-2xl wiggle"><i class="fas fa-mosque"></i></div>
+            <div class="absolute bottom-2 right-2 text-yellow-400 text-2xl float"><i class="fas fa-moon"></i></div>
+            
+            <div class="text-center relative z-10">
+                <h3 class="text-2xl font-bold text-white mb-4 drop-shadow-lg">
+                    <i class="fas fa-book-quran text-yellow-300"></i> Panduan Belajar <i class="fas fa-star-and-crescent text-pink-300"></i>
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div class="bg-white/20 backdrop-blur-sm p-4 rounded-2xl border-2 border-white/50">
+                        <i class="fas fa-eye text-white text-2xl mb-2"></i>
+                        <p class="text-white font-bold">Baca dan pelajari dengan seksama</p>
+                    </div>
+                    <div class="bg-white/20 backdrop-blur-sm p-4 rounded-2xl border-2 border-white/50">
+                        <i class="fas fa-volume-up text-white text-2xl mb-2"></i>
+                        <p class="text-white font-bold">Dengarkan audio dengan baik</p>
+                    </div>
+                    <div class="bg-white/20 backdrop-blur-sm p-4 rounded-2xl border-2 border-white/50">
+                        <i class="fas fa-gamepad text-white text-2xl mb-2"></i>
+                        <p class="text-white font-bold">Mainkan game dengan semangat</p>
+                    </div>
+                </div>
+                <div class="bg-white/20 backdrop-blur-sm rounded-2xl p-3 border-2 border-white/50">
+                    <div class="flex items-center justify-center gap-2 text-white">
+                        <i class="fas fa-mosque text-yellow-300 text-xl animate-pulse"></i>
+                        <span class="font-bold arabic-text">رَبَّنَا زِدْنَا عِلْمًا</span>
+                        <span class="font-bold">(Ya Allah, tambahkanlah ilmu kepada kami)</span>
+                        <i class="fas fa-star-and-crescent text-cyan-300 text-xl wiggle"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sub Menus -->
+    <div id="subMenus" class="hidden max-w-7xl mx-auto p-6 content-overlay">
+        <button onclick="backToMain()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-full mb-6 transition-colors text-lg font-bold shadow-lg">
+            ← Kembali ke Menu Utama
+        </button>
+
+        <!-- Tajwid Sub Menu -->
+        <div id="tajwidMenu" class="hidden">
+            <h2 class="text-4xl font-bold text-white text-center mb-8 drop-shadow-lg">
+                <i class="fas fa-book-open text-yellow-300"></i> Belajar Tajwid <i class="fas fa-book-open text-yellow-300"></i>
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gradient-to-br from-red-400 to-pink-500 p-8 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-red-300 hover:border-white cursor-pointer" onclick="startGame('izhar')">
+                    <div class="text-center">
+                        <div class="w-20 h-20 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                            <div class="text-white text-2xl drop-shadow-lg arabic-text">إِظْهَار</div>
+                        </div>
+                        <h3 class="text-3xl font-bold text-white mb-3 drop-shadow-lg">Hukum Izhar</h3>
+                        <p class="text-lg text-red-100 font-semibold mb-4">Belajar membaca nun sukun dan tanwin dengan jelas</p>
+                        <div class="bg-white/30 rounded-full px-4 py-2 backdrop-blur-sm">
+                            <span class="text-red-800 font-bold">6 Huruf Halqi</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-blue-400 to-indigo-500 p-8 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-blue-300 hover:border-white cursor-pointer" onclick="startGame('ikhfa')">
+                    <div class="text-center">
+                        <div class="w-20 h-20 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                            <div class="text-white text-2xl drop-shadow-lg arabic-text">إِخْفَاء</div>
+                        </div>
+                        <h3 class="text-3xl font-bold text-white mb-3 drop-shadow-lg">Hukum Ikhfa'</h3>
+                        <p class="text-lg text-blue-100 font-semibold mb-4">Belajar menyembunyikan bunyi nun sukun dan tanwin</p>
+                        <div class="bg-white/30 rounded-full px-4 py-2 backdrop-blur-sm">
+                            <span class="text-blue-800 font-bold">15 Huruf</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Surat Sub Menu -->
+        <div id="suratMenu" class="hidden">
+            <h2 class="text-4xl font-bold text-white text-center mb-8 drop-shadow-lg">
+                <i class="fas fa-book-quran text-yellow-300"></i> Surat-Surat Pendek <i class="fas fa-book-quran text-yellow-300"></i>
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-gradient-to-br from-emerald-400 to-teal-500 p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-emerald-300 hover:border-white cursor-pointer" onclick="startGame('al-ashr')">
+                    <div class="text-center">
+                        <div class="w-16 h-16 mx-auto mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                            <div class="text-white text-lg drop-shadow-lg arabic-text">العَصْر</div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2 drop-shadow-lg">Al-Ashr</h3>
+                        <p class="text-sm text-emerald-100 font-semibold mb-3">Surat tentang waktu</p>
+                        <div class="bg-white/30 rounded-full px-3 py-1 backdrop-blur-sm">
+                            <span class="text-emerald-800 font-bold text-sm">3 Ayat</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-purple-400 to-pink-500 p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-purple-300 hover:border-white cursor-pointer" onclick="startGame('quraisy')">
+                    <div class="text-center">
+                        <div class="w-16 h-16 mx-auto mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                            <div class="text-white text-lg drop-shadow-lg arabic-text">قُرَيْش</div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2 drop-shadow-lg">Quraisy</h3>
+                        <p class="text-sm text-purple-100 font-semibold mb-3">Surat tentang suku Quraisy</p>
+                        <div class="bg-white/30 rounded-full px-3 py-1 backdrop-blur-sm">
+                            <span class="text-purple-800 font-bold text-sm">4 Ayat</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-orange-400 to-red-500 p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-orange-300 hover:border-white cursor-pointer" onclick="startGame('al-maun')">
+                    <div class="text-center">
+                        <div class="w-16 h-16 mx-auto mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                            <div class="text-white text-lg drop-shadow-lg arabic-text">المَاعُون</div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2 drop-shadow-lg">Al-Ma'un</h3>
+                        <p class="text-sm text-orange-100 font-semibold mb-3">Surat tentang pertolongan</p>
+                        <div class="bg-white/30 rounded-full px-3 py-1 backdrop-blur-sm">
+                            <span class="text-orange-800 font-bold text-sm">7 Ayat</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-cyan-400 to-blue-500 p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-cyan-300 hover:border-white cursor-pointer" onclick="startGame('at-takatsur')">
+                    <div class="text-center">
+                        <div class="w-16 h-16 mx-auto mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                            <div class="text-white text-lg drop-shadow-lg arabic-text">التَّكَاثُر</div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2 drop-shadow-lg">At-Takatsur</h3>
+                        <p class="text-sm text-cyan-100 font-semibold mb-3">Surat tentang bermegah-megahan</p>
+                        <div class="bg-white/30 rounded-full px-3 py-1 backdrop-blur-sm">
+                            <span class="text-cyan-800 font-bold text-sm">8 Ayat</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hadits Sub Menu -->
+        <div id="haditsMenu" class="hidden">
+            <h2 class="text-4xl font-bold text-white text-center mb-8 drop-shadow-lg">
+                <i class="fas fa-scroll text-yellow-300"></i> Hadits Pilihan <i class="fas fa-scroll text-yellow-300"></i>
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gradient-to-br from-yellow-400 to-orange-500 p-8 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-yellow-300 hover:border-white cursor-pointer" onclick="startGame('hadits-takwa')">
+                    <div class="text-center">
+                        <div class="w-20 h-20 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                            <div class="text-white text-2xl drop-shadow-lg arabic-text">تَقْوَى</div>
+                        </div>
+                        <h3 class="text-3xl font-bold text-white mb-3 drop-shadow-lg">Hadits Takwa</h3>
+                        <p class="text-lg text-yellow-100 font-semibold mb-4">Belajar tentang ketakwaan kepada Allah</p>
+                        <div class="bg-white/30 rounded-full px-4 py-2 backdrop-blur-sm">
+                            <span class="text-yellow-800 font-bold">Riwayat At-Tirmidzi</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-indigo-400 to-purple-500 p-8 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-indigo-300 hover:border-white cursor-pointer" onclick="startGame('hadits-niat')">
+                    <div class="text-center">
+                        <div class="w-20 h-20 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                            <div class="text-white text-2xl drop-shadow-lg arabic-text">نِيَّة</div>
+                        </div>
+                        <h3 class="text-3xl font-bold text-white mb-3 drop-shadow-lg">Hadits Niat</h3>
+                        <p class="text-lg text-indigo-100 font-semibold mb-4">Belajar tentang pentingnya niat dalam beramal</p>
+                        <div class="bg-white/30 rounded-full px-4 py-2 backdrop-blur-sm">
+                            <span class="text-indigo-800 font-bold">Riwayat Bukhari</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Area -->
+    <div id="gameArea" class="hidden max-w-7xl mx-auto p-6 content-overlay">
+        <div class="bg-white rounded-3xl shadow-2xl p-6 lg:p-8 border-4 border-emerald-400">
+            <div class="text-center mb-6">
+                <button onclick="backToSubMenu()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-full mb-4 transition-colors text-lg font-bold shadow-lg">
+                    ← Kembali
+                </button>
+                <h3 id="gameTitle" class="text-3xl lg:text-4xl font-bold text-emerald-600 mb-4"></h3>
+                <div id="gameDescription" class="text-xl text-gray-700 mb-6"></div>
+            </div>
+            
+            <!-- Game Content -->
+            <div id="gameContent" class="min-h-96"></div>
+            
+            <!-- Progress Bar -->
+            <div class="bg-gray-200 rounded-full h-4 mb-4 mt-8">
+                <div id="progressBar" class="bg-gradient-to-r from-emerald-400 to-teal-500 h-4 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+            <p class="text-center text-gray-600 font-semibold">Soal <span id="currentQuestion">1</span> dari <span id="totalQuestions">5</span></p>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-3xl p-8 text-center max-w-md mx-auto bounce-in border-4 border-green-300 relative overflow-hidden">
+            <div class="text-8xl mb-4 star-burst text-green-500">
+                <i class="fas fa-trophy"></i>
+            </div>
+            <h3 class="text-3xl lg:text-4xl font-bold text-green-600 mb-4 arabic-text">ماشاء الله!</h3>
+            <p class="text-xl text-gray-600 mb-6">Alhamdulillah! Kamu berhasil menyelesaikan materi ini!</p>
+            <div class="text-lg text-green-600 font-bold mb-6">
+                Skor: <span id="finalScore" class="text-2xl">0</span> poin
+            </div>
+            <button onclick="closeSuccessModal()" class="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-full text-xl font-bold transition-colors shadow-lg wiggle">
+                <i class="fas fa-rocket"></i> Lanjut Belajar!
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6 mt-12 content-overlay">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="flex flex-col md:flex-row justify-center items-center gap-4">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-lightbulb text-yellow-400"></i>
+                    <span class="font-semibold">Ide Kreatif: Mahfud Sidik</span>
+                </div>
+                <div class="text-gray-400">|</div>
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-robot text-blue-400"></i>
+                    <span class="font-semibold">Dibuat dengan Canva AI</span>
+                </div>
+            </div>
+            <div class="mt-4 text-gray-400 text-sm">
+                &copy; 2025 Game Edukasi Al-Quran Hadits - Semua hak dilindungi
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentGame = '';
+        let currentSubMenu = '';
+        let score = 0;
+        let level = 1;
+        let currentQuestionIndex = 0;
+        let totalQuestions = 5;
+        let gameData = {};
+
+        // Data Tajwid
+        const tajwidData = {
+            izhar: {
+                title: "Hukum Izhar",
+                description: "Nun sukun (نْ) atau tanwin (ً ٍ ٌ) yang bertemu dengan huruf halqi dibaca jelas",
+                huruf: ['ء', 'ه', 'ع', 'ح', 'غ', 'خ'],
+                hurufNames: ['Hamzah', 'Ha', 'Ain', 'Ha', 'Ghain', 'Kha'],
+                examples: [
+                    { text: "مِنْ أَجْلِ", highlight: "مِنْ أَجْلِ", meaning: "karena" },
+                    { text: "مِنْ هَادٍ", highlight: "مِنْ هَادٍ", meaning: "dari pemberi petunjuk" },
+                    { text: "مِنْ عِلْمٍ", highlight: "مِنْ عِلْمٍ", meaning: "dari ilmu" },
+                    { text: "مِنْ حَكِيمٍ", highlight: "مِنْ حَكِيمٍ", meaning: "dari yang bijaksana" },
+                    { text: "مِنْ غَيْرِ", highlight: "مِنْ غَيْرِ", meaning: "selain" },
+                    { text: "مِنْ خَيْرٍ", highlight: "مِنْ خَيْرٍ", meaning: "dari kebaikan" }
+                ]
+            },
+            ikhfa: {
+                title: "Hukum Ikhfa'",
+                description: "Nun sukun (نْ) atau tanwin (ً ٍ ٌ) yang bertemu dengan 15 huruf dibaca samar",
+                huruf: ['ت', 'ث', 'ج', 'د', 'ذ', 'ز', 'س', 'ش', 'ص', 'ض', 'ط', 'ظ', 'ف', 'ق', 'ك'],
+                hurufNames: ['Ta', 'Tsa', 'Jim', 'Dal', 'Dzal', 'Zai', 'Sin', 'Syin', 'Shad', 'Dhad', 'Tha', 'Zha', 'Fa', 'Qaf', 'Kaf'],
+                examples: [
+                    { text: "مِنْ تَحْتِ", highlight: "مِنْ تَحْتِ", meaning: "dari bawah" },
+                    { text: "مِنْ ثَمَرَةٍ", highlight: "مِنْ ثَمَرَةٍ", meaning: "dari buah" },
+                    { text: "مِنْ جَنَّةٍ", highlight: "مِنْ جَنَّةٍ", meaning: "dari surga" },
+                    { text: "مِنْ دُونِ", highlight: "مِنْ دُونِ", meaning: "selain" },
+                    { text: "مِنْ ذَهَبٍ", highlight: "مِنْ ذَهَبٍ", meaning: "dari emas" },
+                    { text: "مِنْ زَكَاةٍ", highlight: "مِنْ زَكَاةٍ", meaning: "dari zakat" }
+                ]
+            }
+        };
+
+        // Data Surat Pendek dengan API mapping
+        const suratData = {
+            'al-ashr': {
+                title: "Surat Al-Ashr",
+                meaning: "Waktu",
+                surahNumber: 103,
+                ayat: [
+                    { arabic: "وَالْعَصْرِ", latin: "Wal 'ashri", meaning: "Demi masa" },
+                    { arabic: "إِنَّ الْإِنْسَانَ لَفِي خُسْرٍ", latin: "Innal insaana lafii khusr", meaning: "Sesungguhnya manusia itu benar-benar dalam kerugian" },
+                    { arabic: "إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَتَوَاصَوْا بِالْحَقِّ وَتَوَاصَوْا بِالصَّبْرِ", latin: "Illalladziina aamanuu wa 'amilus shaalihaati wa tawaashau bil haqqi wa tawaashau bish shabr", meaning: "Kecuali orang-orang yang beriman dan mengerjakan amal saleh dan nasehat menasehati supaya mentaati kebenaran dan nasehat menasehati supaya menetapi kesabaran" }
+                ]
+            },
+            'quraisy': {
+                title: "Surat Quraisy",
+                meaning: "Suku Quraisy",
+                surahNumber: 106,
+                ayat: [
+                    { arabic: "لِإِيلَافِ قُرَيْشٍ", latin: "Li iilaafi Quraisy", meaning: "Karena kebiasaan orang-orang Quraisy" },
+                    { arabic: "إِيلَافِهِمْ رِحْلَةَ الشِّتَاءِ وَالصَّيْفِ", latin: "Iilaafihim rihlataasy syitaa-i wash shaif", meaning: "Yaitu kebiasaan mereka bepergian pada musim dingin dan musim panas" },
+                    { arabic: "فَلْيَعْبُدُوا رَبَّ هَٰذَا الْبَيْتِ", latin: "Falyabuuduu rabba haadzal bait", meaning: "Maka hendaklah mereka menyembah Tuhan pemilik rumah ini (Ka'bah)" },
+                    { arabic: "الَّذِي أَطْعَمَهُمْ مِنْ جُوعٍ وَآمَنَهُمْ مِنْ خَوْفٍ", latin: "Alladzii ath'amahum min juu'iw wa aamanahum min khauf", meaning: "Yang telah memberi makanan kepada mereka untuk menghilangkan lapar dan mengamankan mereka dari ketakutan" }
+                ]
+            },
+            'al-maun': {
+                title: "Surat Al-Ma'un",
+                meaning: "Pertolongan",
+                surahNumber: 107,
+                ayat: [
+                    { arabic: "أَرَأَيْتَ الَّذِي يُكَذِّبُ بِالدِّينِ", latin: "Ara'aitallaadzii yukadzdzibu biddiin", meaning: "Tahukah kamu (orang) yang mendustakan agama?" },
+                    { arabic: "فَذَٰلِكَ الَّذِي يَدُعُّ الْيَتِيمَ", latin: "Fadzaalikal ladzii yadu'ul yatiim", meaning: "Itulah orang yang menghardik anak yatim" },
+                    { arabic: "وَلَا يَحُضُّ عَلَىٰ طَعَامِ الْمِسْكِينِ", latin: "Wa laa yahudhdhu 'alaa tha'aamil miskiin", meaning: "Dan tidak menganjurkan memberi makan orang miskin" },
+                    { arabic: "فَوَيْلٌ لِلْمُصَلِّينَ", latin: "Fa wailul lil mushalliin", meaning: "Maka kecelakaanlah bagi orang-orang yang shalat" },
+                    { arabic: "الَّذِينَ هُمْ عَنْ صَلَاتِهِمْ سَاهُونَ", latin: "Alladziina hum 'an shalaatihim saahuum", meaning: "Yaitu orang-orang yang lalai dari shalatnya" },
+                    { arabic: "الَّذِينَ هُمْ يُرَاءُونَ", latin: "Alladziina hum yuraa-uun", meaning: "Orang-orang yang berbuat riya" },
+                    { arabic: "وَيَمْنَعُونَ الْمَاعُونَ", latin: "Wa yamna'uunal maa'uun", meaning: "Dan enggan (menolong dengan) barang berguna" }
+                ]
+            },
+            'at-takatsur': {
+                title: "Surat At-Takatsur",
+                meaning: "Bermegah-megahan",
+                surahNumber: 102,
+                ayat: [
+                    { arabic: "أَلْهَاكُمُ التَّكَاثُرُ", latin: "Alhaakumut takaatsur", meaning: "Bermegah-megahan telah melalaikan kamu" },
+                    { arabic: "حَتَّىٰ زُرْتُمُ الْمَقَابِرَ", latin: "Hattaa zurtumul maqaabir", meaning: "Sampai kamu masuk ke dalam kubur" },
+                    { arabic: "كَلَّا سَوْفَ تَعْلَمُونَ", latin: "Kallaa saufa ta'lamuun", meaning: "Jangan begitu, kelak kamu akan mengetahui (akibat perbuatanmu)" },
+                    { arabic: "ثُمَّ كَلَّا سَوْفَ تَعْلَمُونَ", latin: "Tsumma kallaa saufa ta'lamuun", meaning: "Kemudian jangan begitu, kelak kamu akan mengetahui" },
+                    { arabic: "كَلَّا لَوْ تَعْلَمُونَ عِلْمَ الْيَقِينِ", latin: "Kallaa lau ta'lamuuna 'ilmal yaqiin", meaning: "Jangan begitu, jika kamu mengetahui dengan pengetahuan yang yakin" },
+                    { arabic: "لَتَرَوُنَّ الْجَحِيمَ", latin: "Latarawunnal jahiim", meaning: "Niscaya kamu benar-benar akan melihat neraka" },
+                    { arabic: "ثُمَّ لَتَرَوُنَّهَا عَيْنَ الْيَقِينِ", latin: "Tsumma latarawunnahaa 'ainal yaqiin", meaning: "Kemudian kamu benar-benar akan melihatnya dengan 'ainul yaqin" },
+                    { arabic: "ثُمَّ لَتُسْأَلُنَّ يَوْمَئِذٍ عَنِ النَّعِيمِ", latin: "Tsumma latus-alunna yaumaidzin 'anin na'iim", meaning: "Kemudian kamu akan ditanya pada hari itu tentang kenikmatan (yang kamu peroleh di dunia)" }
+                ]
+            }
+        };
+
+        // Audio API functions
+        async function playQuranAudio(surahNumber, ayahNumber) {
+            try {
+                // Try EveryAyah API first (more reliable)
+                const audioUrl = `https://everyayah.com/data/Alafasy_128kbps/${surahNumber.toString().padStart(3, '0')}${ayahNumber.toString().padStart(3, '0')}.mp3`;
+                
+                // Create audio element
+                const audio = new Audio(audioUrl);
+                audio.volume = 0.8;
+                
+                // Show loading indicator
+                showAudioLoading(true);
+                
+                // Handle audio events
+                audio.addEventListener('canplaythrough', () => {
+                    showAudioLoading(false);
+                    audio.play().catch(e => {
+                        console.log('Audio play failed:', e);
+                        fallbackToSpeechSynthesis(surahNumber, ayahNumber);
+                    });
+                });
+                
+                audio.addEventListener('error', () => {
+                    console.log('Audio loading failed, using fallback');
+                    showAudioLoading(false);
+                    fallbackToSpeechSynthesis(surahNumber, ayahNumber);
+                });
+                
+                // Set timeout for loading
+                setTimeout(() => {
+                    if (audio.readyState < 3) {
+                        showAudioLoading(false);
+                        fallbackToSpeechSynthesis(surahNumber, ayahNumber);
+                    }
+                }, 3000);
+                
+            } catch (error) {
+                console.log('API error:', error);
+                fallbackToSpeechSynthesis(surahNumber, ayahNumber);
+            }
+        }
+
+        function fallbackToSpeechSynthesis(surahNumber, ayahNumber) {
+            // Find the ayat text from our data
+            const currentSurat = Object.values(suratData).find(s => s.surahNumber === surahNumber);
+            if (currentSurat && currentSurat.ayat[ayahNumber - 1]) {
+                const ayatText = currentSurat.ayat[ayahNumber - 1].arabic;
+                playArabicSound(ayatText);
+            }
+        }
+
+        function showAudioLoading(show) {
+            const existingLoader = document.getElementById('audioLoader');
+            if (existingLoader) {
+                existingLoader.remove();
+            }
+            
+            if (show) {
+                const loader = document.createElement('div');
+                loader.id = 'audioLoader';
+                loader.className = 'fixed top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-full shadow-lg z-50 flex items-center gap-2';
+                loader.innerHTML = `
+                    <div class="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
+                    <span>Memuat audio...</span>
+                `;
+                document.body.appendChild(loader);
+            }
+        }
+
+        // Data Hadits
+        const haditsData = {
+            'hadits-takwa': {
+                title: "Hadits tentang Takwa",
+                hadits: {
+                    arabic: "اتَّقِ اللَّهَ حَيْثُمَا كُنْتَ وَأَتْبِعِ السَّيِّئَةَ الْحَسَنَةَ تَمْحُهَا وَخَالِقِ النَّاسَ بِخُلُقٍ حَسَنٍ",
+                    latin: "Ittaqillaha haitsuma kunta, wa atbi'is sayyi'atal hasanata tamhuha, wa khaliqin nasa bi khuluqin hasan",
+                    meaning: "Bertakwalah kepada Allah di mana pun kamu berada, ikutilah perbuatan buruk dengan perbuatan baik niscaya akan menghapusnya, dan pergaulilah manusia dengan akhlak yang baik",
+                    rawi: "HR. At-Tirmidzi"
+                },
+                lessons: [
+                    "Takwa adalah kesadaran akan kehadiran Allah",
+                    "Perbuatan baik dapat menghapus perbuatan buruk",
+                    "Berakhlak baik kepada sesama manusia",
+                    "Takwa harus dilakukan di mana pun kita berada"
+                ]
+            },
+            'hadits-niat': {
+                title: "Hadits tentang Niat",
+                hadits: {
+                    arabic: "إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى",
+                    latin: "Innama al-a'malu bin niyyati wa innama likulli imri'in ma nawa",
+                    meaning: "Sesungguhnya setiap perbuatan tergantung niatnya, dan sesungguhnya setiap orang (akan dibalas) berdasarkan apa yang diniatkannya",
+                    rawi: "HR. Bukhari dan Muslim"
+                },
+                lessons: [
+                    "Niat adalah dasar dari setiap perbuatan",
+                    "Pahala tergantung pada niat yang baik",
+                    "Niat harus ikhlas karena Allah",
+                    "Setiap orang akan dibalas sesuai niatnya"
+                ]
+            }
+        };
+
+        function showSubMenu(category) {
+            currentSubMenu = category;
+            document.getElementById('mainMenu').classList.add('hidden');
+            document.getElementById('subMenus').classList.remove('hidden');
+            
+            // Hide all sub menus first
+            document.getElementById('tajwidMenu').classList.add('hidden');
+            document.getElementById('suratMenu').classList.add('hidden');
+            document.getElementById('haditsMenu').classList.add('hidden');
+            
+            // Show selected sub menu
+            document.getElementById(category + 'Menu').classList.remove('hidden');
+        }
+
+        function backToMain() {
+            document.getElementById('subMenus').classList.add('hidden');
+            document.getElementById('mainMenu').classList.remove('hidden');
+        }
+
+        function backToSubMenu() {
+            document.getElementById('gameArea').classList.add('hidden');
+            document.getElementById('subMenus').classList.remove('hidden');
+        }
+
+        function startGame(gameType) {
+            currentGame = gameType;
+            currentQuestionIndex = 0;
+            
+            document.getElementById('subMenus').classList.add('hidden');
+            document.getElementById('gameArea').classList.remove('hidden');
+            
+            // Set game data based on type
+            if (gameType === 'izhar' || gameType === 'ikhfa') {
+                gameData = tajwidData[gameType];
+                totalQuestions = 6;
+                generateTajwidGame();
+            } else if (gameType.includes('al-') || gameType.includes('quraisy') || gameType.includes('at-')) {
+                gameData = suratData[gameType];
+                totalQuestions = gameData.ayat.length;
+                generateSuratGame();
+            } else if (gameType.includes('hadits-')) {
+                gameData = haditsData[gameType];
+                totalQuestions = 4;
+                generateHaditsGame();
+            }
+            
+            updateProgress();
+        }
+
+        function generateTajwidGame() {
+            document.getElementById('gameTitle').textContent = gameData.title;
+            document.getElementById('gameDescription').textContent = gameData.description;
+            
+            const gameContent = document.getElementById('gameContent');
+            
+            if (currentQuestionIndex === 0) {
+                // Introduction phase
+                gameContent.innerHTML = `
+                    <div class="text-center mb-8">
+                        <div class="bg-gradient-to-br from-blue-100 to-indigo-100 rounded-3xl p-8 shadow-lg border-4 border-blue-300 mb-8">
+                            <h4 class="text-2xl font-bold text-blue-700 mb-4">Huruf-huruf ${gameData.title}</h4>
+                            <div class="grid grid-cols-3 md:grid-cols-6 gap-4 mb-6">
+                                ${gameData.huruf.map((huruf, index) => `
+                                    <div class="bg-white rounded-2xl p-4 shadow-lg border-2 border-blue-200 hover:scale-105 transition-transform cursor-pointer" onclick="playArabicSound('${huruf}')">
+                                        <div class="text-4xl font-bold arabic-text text-blue-600 mb-2">${huruf}</div>
+                                        <div class="text-sm font-bold text-blue-700">${gameData.hurufNames[index]}</div>
+                                        <button class="mt-2 bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-xs hover:bg-blue-600">
+                                            <i class="fas fa-volume-up"></i>
+                                        </button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <p class="text-lg text-blue-600 font-semibold">${gameData.description}</p>
+                        </div>
+                        
+                        <button onclick="nextTajwidQuestion()" class="bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 rounded-full text-xl font-bold shadow-lg transform hover:scale-105 transition-all">
+                            <i class="fas fa-play"></i> Mulai Latihan
+                        </button>
+                    </div>
+                `;
+            } else {
+                // Question phase - Match example with correct huruf
+                const example = gameData.examples[currentQuestionIndex - 1];
+                
+                // Extract the correct huruf from the example
+                let correctHuruf = '';
+                for (let huruf of gameData.huruf) {
+                    if (example.text.includes(huruf)) {
+                        correctHuruf = huruf;
+                        break;
+                    }
+                }
+                
+                // Create wrong options from remaining huruf
+                const wrongOptions = gameData.huruf.filter(h => h !== correctHuruf).slice(0, 2);
+                const allOptions = [correctHuruf, ...wrongOptions].sort(() => Math.random() - 0.5);
+                
+                gameContent.innerHTML = `
+                    <div class="text-center mb-8">
+                        <div class="verse-container mb-8">
+                            <h4 class="text-xl font-bold text-blue-700 mb-4">Contoh Bacaan:</h4>
+                            <div class="text-4xl font-bold arabic-text text-blue-800 mb-4">${example.text}</div>
+                            <div class="text-lg text-blue-600 mb-2">${example.meaning}</div>
+                            <button onclick="playArabicWord('${example.text}', '${example.text}')" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-full font-bold shadow-lg">
+                                <i class="fas fa-volume-up"></i> Dengar Bacaan
+                            </button>
+                        </div>
+                        
+                        <div class="bg-white rounded-2xl p-6 shadow-lg border-4 border-blue-300 mb-8">
+                            <h4 class="text-xl font-bold text-gray-700 mb-4">Huruf apa yang menyebabkan hukum ${gameData.title}?</h4>
+                            <div class="grid grid-cols-3 gap-4">
+                                ${allOptions.map(huruf => `
+                                    <button onclick="checkTajwidAnswer('${huruf}', '${correctHuruf}', this)" class="bg-gradient-to-br from-blue-400 to-indigo-500 text-white text-3xl font-bold arabic-text py-6 px-8 rounded-2xl shadow-lg hover:scale-105 transition-all border-4 border-white">
+                                        ${huruf}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function nextTajwidQuestion() {
+            currentQuestionIndex++;
+            updateProgress();
+            if (currentQuestionIndex <= gameData.examples.length) {
+                generateTajwidGame();
+            } else {
+                showSuccess();
+            }
+        }
+
+        function checkTajwidAnswer(selected, correct, buttonEl) {
+            const buttons = document.querySelectorAll('#gameContent button[onclick*="checkTajwidAnswer"]');
+            buttons.forEach(btn => btn.style.pointerEvents = 'none');
+            
+            // Create feedback container
+            const feedbackContainer = document.createElement('div');
+            feedbackContainer.className = 'mt-6 p-6 rounded-2xl shadow-lg border-4 fade-in-up';
+            
+            if (selected === correct) {
+                buttonEl.classList.add('pulse-correct');
+                score += 20;
+                document.getElementById('score').textContent = score;
+                
+                feedbackContainer.className += ' bg-green-100 border-green-400';
+                feedbackContainer.innerHTML = `
+                    <div class="text-center">
+                        <div class="text-4xl mb-3">🎉</div>
+                        <h4 class="text-2xl font-bold text-green-700 mb-2">Benar! Alhamdulillah!</h4>
+                        <p class="text-lg text-green-600 font-semibold mb-3">
+                            Huruf <span class="arabic-text text-2xl">${correct}</span> memang menyebabkan hukum ${gameData.title}
+                        </p>
+                        <div class="bg-white/70 rounded-xl p-4 border-2 border-green-300">
+                            <p class="text-green-700 font-bold">
+                                <i class="fas fa-lightbulb text-yellow-500"></i> 
+                                ${gameData.title === 'Hukum Izhar' ? 
+                                    'Huruf ini adalah huruf halqi (tenggorokan) sehingga nun sukun/tanwin dibaca jelas' : 
+                                    'Huruf ini menyebabkan nun sukun/tanwin dibaca samar dengan dengung'}
+                            </p>
+                        </div>
+                    </div>
+                `;
+                
+                setTimeout(() => {
+                    nextTajwidQuestion();
+                }, 3000);
+            } else {
+                buttonEl.classList.add('shake');
+                // Highlight correct answer
+                buttons.forEach(btn => {
+                    if (btn.textContent.trim() === correct) {
+                        btn.classList.add('pulse-correct');
+                    }
+                });
+                
+                feedbackContainer.className += ' bg-red-100 border-red-400';
+                feedbackContainer.innerHTML = `
+                    <div class="text-center">
+                        <div class="text-4xl mb-3">😊</div>
+                        <h4 class="text-2xl font-bold text-red-700 mb-2">Belum tepat, tapi tetap semangat!</h4>
+                        <p class="text-lg text-red-600 font-semibold mb-3">
+                            Jawaban yang benar adalah huruf <span class="arabic-text text-2xl text-green-600">${correct}</span>
+                        </p>
+                        <div class="bg-white/70 rounded-xl p-4 border-2 border-red-300">
+                            <p class="text-red-700 font-bold mb-2">
+                                <i class="fas fa-book text-blue-500"></i> Mari belajar lagi:
+                            </p>
+                            <p class="text-red-600">
+                                ${gameData.title === 'Hukum Izhar' ? 
+                                    `Huruf ${correct} adalah huruf halqi (tenggorokan), jadi nun sukun/tanwin dibaca jelas` : 
+                                    `Huruf ${correct} menyebabkan nun sukun/tanwin dibaca samar dengan dengung`}
+                            </p>
+                        </div>
+                    </div>
+                `;
+                
+                setTimeout(() => {
+                    nextTajwidQuestion();
+                }, 4000);
+            }
+            
+            // Add feedback to game content
+            document.getElementById('gameContent').appendChild(feedbackContainer);
+        }
+
+        function generateSuratGame() {
+            document.getElementById('gameTitle').textContent = gameData.title;
+            document.getElementById('gameDescription').textContent = `Belajar ${gameData.title} - ${gameData.meaning}`;
+            
+            const gameContent = document.getElementById('gameContent');
+            
+            if (currentQuestionIndex === 0) {
+                // Full surat display with game options
+                gameContent.innerHTML = `
+                    <div class="text-center mb-8">
+                        <div class="verse-container mb-8">
+                            <h4 class="text-3xl font-bold text-emerald-700 mb-6">${gameData.title}</h4>
+                            <div class="text-2xl font-bold arabic-text text-emerald-800 mb-4">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
+                            <div class="space-y-6">
+                                ${gameData.ayat.map((ayat, index) => `
+                                    <div class="bg-white/50 rounded-2xl p-6 border-2 border-emerald-200">
+                                        <div class="text-3xl font-bold arabic-text text-emerald-800 mb-3">${ayat.arabic}</div>
+                                        <div class="text-lg text-emerald-600 mb-2 italic">${ayat.latin}</div>
+                                        <div class="text-base text-emerald-700 font-semibold">${ayat.meaning}</div>
+                                        <button onclick="playQuranAudio(${gameData.surahNumber}, ${index + 1})" class="mt-3 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg">
+                                            <i class="fas fa-volume-up"></i> Ayat ${index + 1}
+                                        </button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-emerald-100 to-teal-100 rounded-3xl p-6 shadow-lg border-4 border-emerald-300 mb-8">
+                            <h4 class="text-2xl font-bold text-emerald-700 mb-6">Pilih Jenis Permainan:</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <button onclick="startSuratQuiz()" class="bg-gradient-to-br from-blue-400 to-indigo-500 text-white px-6 py-4 rounded-2xl font-bold text-lg shadow-lg hover:scale-105 transition-all border-4 border-white">
+                                    <i class="fas fa-question-circle text-2xl mb-2"></i><br>
+                                    Kuis Tanya Jawab
+                                </button>
+                                <button onclick="startMemoryGame()" class="bg-gradient-to-br from-purple-400 to-pink-500 text-white px-6 py-4 rounded-2xl font-bold text-lg shadow-lg hover:scale-105 transition-all border-4 border-white">
+                                    <i class="fas fa-brain text-2xl mb-2"></i><br>
+                                    Game Hafalan
+                                </button>
+                                <button onclick="startMatchingGame()" class="bg-gradient-to-br from-orange-400 to-red-500 text-white px-6 py-4 rounded-2xl font-bold text-lg shadow-lg hover:scale-105 transition-all border-4 border-white">
+                                    <i class="fas fa-puzzle-piece text-2xl mb-2"></i><br>
+                                    Mencocokkan Ayat
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Game content will be generated by specific game functions
+            }
+        }
+
+        function startSuratQuiz() {
+            currentQuestionIndex = 1;
+            totalQuestions = gameData.ayat.length;
+            generateSuratQuizQuestion();
+        }
+
+        function generateSuratQuizQuestion() {
+            const gameContent = document.getElementById('gameContent');
+            const currentAyat = gameData.ayat[currentQuestionIndex - 1];
+            const gameType = Math.random() > 0.5 ? 'meaning' : 'latin';
+            
+            if (gameType === 'meaning') {
+                // Guess meaning
+                const correctMeaning = currentAyat.meaning;
+                const wrongMeanings = gameData.ayat.filter(a => a.meaning !== correctMeaning).map(a => a.meaning).slice(0, 2);
+                const allOptions = [correctMeaning, ...wrongMeanings].sort(() => Math.random() - 0.5);
+                
+                gameContent.innerHTML = `
+                    <div class="text-center mb-8">
+                        <div class="verse-container mb-8">
+                            <h4 class="text-xl font-bold text-emerald-700 mb-4">Apa arti ayat berikut?</h4>
+                            <div class="text-4xl font-bold arabic-text text-emerald-800 mb-4">${currentAyat.arabic}</div>
+                            <button onclick="playQuranAudio(${gameData.surahNumber}, ${currentQuestionIndex})" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-full font-bold shadow-lg">
+                                <i class="fas fa-volume-up"></i> Dengar Ayat
+                            </button>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            ${allOptions.map(option => `
+                                <button onclick="checkSuratAnswer('${option}', '${correctMeaning}', this)" class="w-full bg-gradient-to-br from-emerald-400 to-teal-500 text-white text-lg font-bold py-4 px-6 rounded-2xl shadow-lg hover:scale-105 transition-all border-4 border-white">
+                                    ${option}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Guess latin
+                const correctLatin = currentAyat.latin;
+                const wrongLatins = gameData.ayat.filter(a => a.latin !== correctLatin).map(a => a.latin).slice(0, 2);
+                const allOptions = [correctLatin, ...wrongLatins].sort(() => Math.random() - 0.5);
+                
+                gameContent.innerHTML = `
+                    <div class="text-center mb-8">
+                        <div class="verse-container mb-8">
+                            <h4 class="text-xl font-bold text-emerald-700 mb-4">Bagaimana cara membaca ayat berikut?</h4>
+                            <div class="text-4xl font-bold arabic-text text-emerald-800 mb-4">${currentAyat.arabic}</div>
+                            <div class="text-lg text-emerald-600 mb-4">${currentAyat.meaning}</div>
+                            <button onclick="playQuranAudio(${gameData.surahNumber}, ${currentQuestionIndex})" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-full font-bold shadow-lg">
+                                <i class="fas fa-volume-up"></i> Dengar Ayat
+                            </button>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            ${allOptions.map(option => `
+                                <button onclick="checkSuratAnswer('${option}', '${correctLatin}', this)" class="w-full bg-gradient-to-br from-emerald-400 to-teal-500 text-white text-lg font-bold py-4 px-6 rounded-2xl shadow-lg hover:scale-105 transition-all border-4 border-white italic">
+                                    ${option}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            updateProgress();
+        }
+
+        function startMemoryGame() {
+            currentQuestionIndex = 1;
+            totalQuestions = gameData.ayat.length;
+            generateMemoryGame();
+        }
+
+        function generateMemoryGame() {
+            const gameContent = document.getElementById('gameContent');
+            const currentAyat = gameData.ayat[currentQuestionIndex - 1];
+            
+            // Split Arabic text into words for fill-in-the-blank
+            const arabicWords = currentAyat.arabic.split(' ');
+            const blankIndex = Math.floor(Math.random() * arabicWords.length);
+            const correctWord = arabicWords[blankIndex];
+            
+            // Create sentence with blank
+            const sentenceWithBlank = arabicWords.map((word, index) => 
+                index === blankIndex ? '____' : word
+            ).join(' ');
+            
+            // Create wrong options
+            const allWords = gameData.ayat.flatMap(ayat => ayat.arabic.split(' '));
+            const wrongWords = allWords.filter(word => word !== correctWord && word.length > 2).slice(0, 2);
+            const options = [correctWord, ...wrongWords].sort(() => Math.random() - 0.5);
+            
+            gameContent.innerHTML = `
+                <div class="text-center mb-8">
+                    <div class="verse-container mb-8">
+                        <h4 class="text-xl font-bold text-purple-700 mb-4">Lengkapi ayat berikut!</h4>
+                        <div class="text-4xl font-bold arabic-text text-purple-800 mb-4">${sentenceWithBlank}</div>
+                        <div class="text-lg text-purple-600 mb-4">${currentAyat.meaning}</div>
+                        <button onclick="playQuranAudio(${gameData.surahNumber}, ${currentQuestionIndex})" class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-full font-bold shadow-lg">
+                            <i class="fas fa-volume-up"></i> Dengar Ayat Lengkap
+                        </button>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-6 shadow-lg border-4 border-purple-300 mb-8">
+                        <h4 class="text-xl font-bold text-gray-700 mb-4">Pilih kata yang tepat:</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            ${options.map(option => `
+                                <button onclick="checkMemoryAnswer('${option}', '${correctWord}', this)" class="bg-gradient-to-br from-purple-400 to-pink-500 text-white text-2xl font-bold arabic-text py-6 px-8 rounded-2xl shadow-lg hover:scale-105 transition-all border-4 border-white">
+                                    ${option}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            updateProgress();
+        }
+
+        function startMatchingGame() {
+            currentQuestionIndex = 1;
+            totalQuestions = Math.min(gameData.ayat.length, 4); // Max 4 pairs for matching
+            generateMatchingGame();
+        }
+
+        function generateMatchingGame() {
+            const gameContent = document.getElementById('gameContent');
+            
+            // Take first 4 ayat or all if less than 4
+            const ayatsToMatch = gameData.ayat.slice(0, totalQuestions);
+            
+            // Create pairs (Arabic and meaning)
+            const arabicCards = ayatsToMatch.map((ayat, index) => ({
+                id: `arabic-${index}`,
+                content: ayat.arabic,
+                type: 'arabic',
+                pair: `meaning-${index}`,
+                matched: false
+            }));
+            
+            const meaningCards = ayatsToMatch.map((ayat, index) => ({
+                id: `meaning-${index}`,
+                content: ayat.meaning,
+                type: 'meaning',
+                pair: `arabic-${index}`,
+                matched: false
+            }));
+            
+            // Shuffle all cards
+            const allCards = [...arabicCards, ...meaningCards].sort(() => Math.random() - 0.5);
+            
+            gameContent.innerHTML = `
+                <div class="text-center mb-8">
+                    <div class="bg-gradient-to-br from-orange-100 to-red-100 rounded-3xl p-6 shadow-lg border-4 border-orange-300 mb-8">
+                        <h4 class="text-2xl font-bold text-orange-700 mb-4">Cocokkan Ayat dengan Artinya!</h4>
+                        <p class="text-lg text-orange-600 font-semibold">Klik dua kartu untuk mencocokkannya</p>
+                        <div class="mt-4">
+                            <span class="bg-orange-500 text-white px-4 py-2 rounded-full font-bold">
+                                Pasangan ditemukan: <span id="matchedPairs">0</span>/${totalQuestions}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div id="matchingGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-6xl mx-auto">
+                        ${allCards.map(card => `
+                            <div class="matching-card bg-gradient-to-br from-orange-400 to-red-500 text-white p-4 rounded-2xl shadow-lg cursor-pointer hover:scale-105 transition-all border-4 border-white min-h-32 flex items-center justify-center" 
+                                 onclick="selectMatchingCard('${card.id}', this)" 
+                                 data-pair="${card.pair}" 
+                                 data-type="${card.type}">
+                                <div class="text-center ${card.type === 'arabic' ? 'arabic-text text-xl' : 'text-sm'} font-bold">
+                                    ${card.content}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="mt-8">
+                        <button onclick="resetMatchingGame()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-full font-bold shadow-lg">
+                            <i class="fas fa-redo"></i> Reset Game
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Initialize matching game variables
+            window.selectedCards = [];
+            window.matchedPairs = 0;
+            updateProgress();
+        }
+
+        let selectedCards = [];
+        let matchedPairs = 0;
+
+        function selectMatchingCard(cardId, cardElement) {
+            // Don't allow selecting already matched cards
+            if (cardElement.classList.contains('matched') || cardElement.classList.contains('selected')) {
+                return;
+            }
+            
+            // Don't allow more than 2 selections
+            if (selectedCards.length >= 2) {
+                return;
+            }
+            
+            // Add to selection
+            selectedCards.push({ id: cardId, element: cardElement });
+            cardElement.classList.add('selected', 'bg-yellow-400');
+            
+            // Check if we have 2 cards selected
+            if (selectedCards.length === 2) {
+                setTimeout(() => checkMatchingPair(), 500);
+            }
+        }
+
+        function checkMatchingPair() {
+            const [card1, card2] = selectedCards;
+            const pair1 = card1.element.dataset.pair;
+            const pair2 = card2.element.dataset.pair;
+            
+            if (card1.id === pair2 && card2.id === pair1) {
+                // Match found!
+                card1.element.classList.remove('selected', 'bg-yellow-400');
+                card2.element.classList.remove('selected', 'bg-yellow-400');
+                card1.element.classList.add('matched', 'bg-green-500', 'pulse-correct');
+                card2.element.classList.add('matched', 'bg-green-500', 'pulse-correct');
+                
+                matchedPairs++;
+                document.getElementById('matchedPairs').textContent = matchedPairs;
+                score += 30;
+                document.getElementById('score').textContent = score;
+                
+                // Check if all pairs matched
+                if (matchedPairs === totalQuestions) {
+                    setTimeout(() => {
+                        showSuccess();
+                    }, 1500);
+                }
+            } else {
+                // No match
+                card1.element.classList.add('shake');
+                card2.element.classList.add('shake');
+                
+                setTimeout(() => {
+                    card1.element.classList.remove('selected', 'bg-yellow-400', 'shake');
+                    card2.element.classList.remove('selected', 'bg-yellow-400', 'shake');
+                }, 1000);
+            }
+            
+            selectedCards = [];
+        }
+
+        function resetMatchingGame() {
+            selectedCards = [];
+            matchedPairs = 0;
+            document.getElementById('matchedPairs').textContent = '0';
+            
+            const cards = document.querySelectorAll('.matching-card');
+            cards.forEach(card => {
+                card.classList.remove('matched', 'selected', 'bg-green-500', 'bg-yellow-400', 'pulse-correct', 'shake');
+                card.classList.add('bg-gradient-to-br', 'from-orange-400', 'to-red-500');
+            });
+        }
+
+        function checkMemoryAnswer(selected, correct, buttonEl) {
+            const buttons = document.querySelectorAll('#gameContent button[onclick*="checkMemoryAnswer"]');
+            buttons.forEach(btn => btn.style.pointerEvents = 'none');
+            
+            if (selected === correct) {
+                buttonEl.classList.add('pulse-correct');
+                score += 25;
+                document.getElementById('score').textContent = score;
+                
+                setTimeout(() => {
+                    nextMemoryQuestion();
+                }, 2000);
+            } else {
+                buttonEl.classList.add('shake');
+                // Highlight correct answer
+                buttons.forEach(btn => {
+                    if (btn.textContent.trim() === correct) {
+                        btn.classList.add('pulse-correct');
+                    }
+                });
+                
+                setTimeout(() => {
+                    nextMemoryQuestion();
+                }, 3000);
+            }
+        }
+
+        function nextMemoryQuestion() {
+            currentQuestionIndex++;
+            updateProgress();
+            if (currentQuestionIndex <= gameData.ayat.length) {
+                generateMemoryGame();
+            } else {
+                showSuccess();
+            }
+        }
+
+        function nextSuratQuestion() {
+            currentQuestionIndex++;
+            updateProgress();
+            if (currentQuestionIndex <= gameData.ayat.length) {
+                generateSuratQuizQuestion();
+            } else {
+                showSuccess();
+            }
+        }
+
+        function checkSuratAnswer(selected, correct, buttonEl) {
+            const buttons = document.querySelectorAll('#gameContent button[onclick*="checkSuratAnswer"]');
+            buttons.forEach(btn => btn.style.pointerEvents = 'none');
+            
+            if (selected === correct) {
+                buttonEl.classList.add('pulse-correct');
+                score += 25;
+                document.getElementById('score').textContent = score;
+                
+                setTimeout(() => {
+                    nextSuratQuestion();
+                }, 2000);
+            } else {
+                buttonEl.classList.add('shake');
+                // Highlight correct answer
+                buttons.forEach(btn => {
+                    if (btn.textContent.trim() === correct) {
+                        btn.classList.add('pulse-correct');
+                    }
+                });
+                
+                setTimeout(() => {
+                    nextSuratQuestion();
+                }, 3000);
+            }
+        }
+
+        function generateHaditsGame() {
+            document.getElementById('gameTitle').textContent = gameData.title;
+            document.getElementById('gameDescription').textContent = "Belajar hadits dan maknanya";
+            
+            const gameContent = document.getElementById('gameContent');
+            
+            if (currentQuestionIndex === 0) {
+                // Full hadits display with game options
+                gameContent.innerHTML = `
+                    <div class="text-center mb-8">
+                        <div class="hadith-card mb-8">
+                            <h4 class="text-3xl font-bold text-orange-700 mb-6">${gameData.title}</h4>
+                            <div class="text-3xl font-bold arabic-text text-orange-800 mb-6 leading-relaxed">${gameData.hadits.arabic}</div>
+                            <div class="text-lg text-orange-600 mb-4 italic font-semibold">${gameData.hadits.latin}</div>
+                            <div class="text-base text-orange-700 font-semibold mb-4">${gameData.hadits.meaning}</div>
+                            <div class="text-sm text-orange-600 font-bold">${gameData.hadits.rawi}</div>
+                            <button onclick="playArabicWord('${gameData.hadits.arabic}', '${gameData.hadits.latin}')" class="mt-4 bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-full font-bold shadow-lg">
+                                <i class="fas fa-volume-up"></i> Dengar Hadits
+                            </button>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-yellow-100 to-orange-100 rounded-2xl p-6 shadow-lg border-4 border-yellow-300 mb-8">
+                            <h4 class="text-xl font-bold text-yellow-700 mb-4">Pelajaran dari Hadits:</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                ${gameData.lessons.map((lesson, index) => `
+                                    <div class="bg-white rounded-xl p-4 shadow-md border-2 border-yellow-200">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 bg-yellow-500 text-white rounded-full flex items-center justify-center font-bold">${index + 1}</div>
+                                            <div class="text-yellow-700 font-semibold">${lesson}</div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-orange-100 to-red-100 rounded-3xl p-6 shadow-lg border-4 border-orange-300 mb-8">
+                            <h4 class="text-2xl font-bold text-orange-700 mb-6">Pilih Jenis Permainan:</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <button onclick="startHaditsQuiz()" class="bg-gradient-to-br from-blue-400 to-indigo-500 text-white px-6 py-4 rounded-2xl font-bold text-lg shadow-lg hover:scale-105 transition-all border-4 border-white">
+                                    <i class="fas fa-question-circle text-2xl mb-2"></i><br>
+                                    Kuis Tanya Jawab
+                                </button>
+                                <button onclick="startHaditsMemory()" class="bg-gradient-to-br from-purple-400 to-pink-500 text-white px-6 py-4 rounded-2xl font-bold text-lg shadow-lg hover:scale-105 transition-all border-4 border-white">
+                                    <i class="fas fa-brain text-2xl mb-2"></i><br>
+                                    Game Hafalan
+                                </button>
+                                <button onclick="startHaditsMatching()" class="bg-gradient-to-br from-green-400 to-teal-500 text-white px-6 py-4 rounded-2xl font-bold text-lg shadow-lg hover:scale-105 transition-all border-4 border-white">
+                                    <i class="fas fa-puzzle-piece text-2xl mb-2"></i><br>
+                                    Mencocokkan Makna
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Game content will be generated by specific game functions
+            }
+        }
+
+        // Hadits Quiz Game
+        function startHaditsQuiz() {
+            currentQuestionIndex = 1;
+            totalQuestions = 4;
+            generateHaditsQuizQuestion();
+        }
+
+        function generateHaditsQuizQuestion() {
+            const gameContent = document.getElementById('gameContent');
+            const questionTypes = ['meaning', 'lesson', 'rawi', 'arabic'];
+            const questionType = questionTypes[currentQuestionIndex - 1];
+            
+            switch(questionType) {
+                case 'meaning':
+                    // Ask for meaning
+                    const wrongMeanings = [
+                        "Sesungguhnya Allah melihat segala perbuatan kalian",
+                        "Barangsiapa beriman kepada Allah dan hari akhir hendaklah berkata baik atau diam",
+                        "Sebaik-baik manusia adalah yang paling bermanfaat bagi manusia"
+                    ];
+                    const meaningOptions = [gameData.hadits.meaning, ...wrongMeanings.slice(0, 2)].sort(() => Math.random() - 0.5);
+                    
+                    gameContent.innerHTML = `
+                        <div class="text-center mb-8">
+                            <div class="hadith-card mb-8">
+                                <h4 class="text-xl font-bold text-orange-700 mb-4">Apa arti hadits berikut?</h4>
+                                <div class="text-2xl font-bold arabic-text text-orange-800 mb-4">${gameData.hadits.arabic}</div>
+                                <button onclick="playArabicWord('${gameData.hadits.arabic}', '${gameData.hadits.latin}')" class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-full font-bold shadow-lg">
+                                    <i class="fas fa-volume-up"></i> Dengar Hadits
+                                </button>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                ${meaningOptions.map(option => `
+                                    <button onclick="checkHaditsQuizAnswer('${option}', '${gameData.hadits.meaning}', this)" class="w-full bg-gradient-to-br from-orange-400 to-red-500 text-white text-lg font-bold py-4 px-6 rounded-2xl shadow-lg hover:scale-105 transition-all border-4 border-white text-left">
+                                        ${option}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'lesson':
+                    // Ask for lesson
+                    const correctLesson = gameData.lessons[Math.floor(Math.random() * gameData.lessons.length)];
+                    const wrongLessons = [
+                        "Shalat adalah tiang agama",
+                        "Kebersihan adalah sebagian dari iman",
+                        "Menuntut ilmu adalah kewajiban setiap muslim"
+                    ];
+                    const lessonOptions = [correctLesson, ...wrongLessons.slice(0, 2)].sort(() => Math.random() - 0.5);
+                    
+                    gameContent.innerHTML = `
+                        <div class="text-center mb-8">
+                            <div class="hadith-card mb-8">
+                                <h4 class="text-xl font-bold text-orange-700 mb-4">Apa pelajaran dari hadits ini?</h4>
+                                <div class="text-lg text-orange-600 mb-4 italic">${gameData.hadits.meaning}</div>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                ${lessonOptions.map(option => `
+                                    <button onclick="checkHaditsQuizAnswer('${option}', '${correctLesson}', this)" class="w-full bg-gradient-to-br from-orange-400 to-red-500 text-white text-lg font-bold py-4 px-6 rounded-2xl shadow-lg hover:scale-105 transition-all border-4 border-white text-left">
+                                        ${option}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'rawi':
+                    // Ask for rawi
+                    const wrongRawis = ["HR. Abu Dawud", "HR. An-Nasa'i", "HR. Ibnu Majah"];
+                    const rawiOptions = [gameData.hadits.rawi, ...wrongRawis.slice(0, 2)].sort(() => Math.random() - 0.5);
+                    
+                    gameContent.innerHTML = `
+                        <div class="text-center mb-8">
+                            <div class="hadith-card mb-8">
+                                <h4 class="text-xl font-bold text-orange-700 mb-4">Siapa perawi hadits ini?</h4>
+                                <div class="text-lg text-orange-600 mb-4">${gameData.hadits.meaning}</div>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                ${rawiOptions.map(option => `
+                                    <button onclick="checkHaditsQuizAnswer('${option}', '${gameData.hadits.rawi}', this)" class="w-full bg-gradient-to-br from-orange-400 to-red-500 text-white text-lg font-bold py-4 px-6 rounded-2xl shadow-lg hover:scale-105 transition-all border-4 border-white">
+                                        ${option}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'arabic':
+                    // Ask for Arabic text recognition
+                    const arabicWords = gameData.hadits.arabic.split(' ');
+                    const correctArabic = arabicWords.slice(0, 4).join(' '); // First 4 words
+                    const wrongArabics = [
+                        "إِنَّمَا الْمُؤْمِنُونَ إِخْوَةٌ",
+                        "وَمَنْ يَتَّقِ اللَّهَ يَجْعَلْ",
+                        "لَا إِلَهَ إِلَّا اللَّهُ"
+                    ];
+                    const arabicOptions = [correctArabic, ...wrongArabics.slice(0, 2)].sort(() => Math.random() - 0.5);
+                    
+                    gameContent.innerHTML = `
+                        <div class="text-center mb-8">
+                            <div class="hadith-card mb-8">
+                                <h4 class="text-xl font-bold text-orange-700 mb-4">Manakah awal dari hadits ini?</h4>
+                                <div class="text-lg text-orange-600 mb-4">${gameData.hadits.meaning}</div>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                ${arabicOptions.map(option => `
+                                    <button onclick="checkHaditsQuizAnswer('${option}', '${correctArabic}', this)" class="w-full bg-gradient-to-br from-orange-400 to-red-500 text-white text-xl font-bold arabic-text py-6 px-6 rounded-2xl shadow-lg hover:scale-105 transition-all border-4 border-white">
+                                        ${option}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+            updateProgress();
+        }
+
+        function checkHaditsQuizAnswer(selected, correct, buttonEl) {
+            const buttons = document.querySelectorAll('#gameContent button[onclick*="checkHaditsQuizAnswer"]');
+            buttons.forEach(btn => btn.style.pointerEvents = 'none');
+            
+            if (selected === correct) {
+                buttonEl.classList.add('pulse-correct');
+                score += 25;
+                document.getElementById('score').textContent = score;
+                
+                setTimeout(() => {
+                    nextHaditsQuizQuestion();
+                }, 2000);
+            } else {
+                buttonEl.classList.add('shake');
+                // Highlight correct answer
+                buttons.forEach(btn => {
+                    if (btn.textContent.trim() === correct) {
+                        btn.classList.add('pulse-correct');
+                    }
+                });
+                
+                setTimeout(() => {
+                    nextHaditsQuizQuestion();
+                }, 3000);
+            }
+        }
+
+        function nextHaditsQuizQuestion() {
+            currentQuestionIndex++;
+            updateProgress();
+            if (currentQuestionIndex <= 4) {
+                generateHaditsQuizQuestion();
+            } else {
+                showSuccess();
+            }
+        }
+
+        // Hadits Memory Game
+        function startHaditsMemory() {
+            currentQuestionIndex = 1;
+            totalQuestions = 4;
+            generateHaditsMemoryGame();
+        }
+
+        function generateHaditsMemoryGame() {
+            const gameContent = document.getElementById('gameContent');
+            
+            // Split hadits into parts for fill-in-the-blank
+            const arabicWords = gameData.hadits.arabic.split(' ');
+            const blankIndex = Math.floor(Math.random() * Math.min(arabicWords.length, 8)); // First 8 words only
+            const correctWord = arabicWords[blankIndex];
+            
+            // Create sentence with blank
+            const sentenceWithBlank = arabicWords.map((word, index) => 
+                index === blankIndex ? '____' : word
+            ).join(' ');
+            
+            // Create wrong options
+            const wrongWords = [
+                "اللَّهُ", "الرَّحْمَنِ", "الرَّحِيمِ", "الْحَمْدُ", "رَبِّ", "الْعَالَمِينَ"
+            ].filter(word => word !== correctWord);
+            const options = [correctWord, ...wrongWords.slice(0, 2)].sort(() => Math.random() - 0.5);
+            
+            gameContent.innerHTML = `
+                <div class="text-center mb-8">
+                    <div class="hadith-card mb-8">
+                        <h4 class="text-xl font-bold text-purple-700 mb-4">Lengkapi hadits berikut!</h4>
+                        <div class="text-3xl font-bold arabic-text text-purple-800 mb-4">${sentenceWithBlank}</div>
+                        <div class="text-lg text-purple-600 mb-4">${gameData.hadits.meaning}</div>
+                        <button onclick="playArabicWord('${gameData.hadits.arabic}', '${gameData.hadits.latin}')" class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-full font-bold shadow-lg">
+                            <i class="fas fa-volume-up"></i> Dengar Hadits Lengkap
+                        </button>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-6 shadow-lg border-4 border-purple-300 mb-8">
+                        <h4 class="text-xl font-bold text-gray-700 mb-4">Pilih kata yang tepat:</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            ${options.map(option => `
+                                <button onclick="checkHaditsMemoryAnswer('${option}', '${correctWord}', this)" class="bg-gradient-to-br from-purple-400 to-pink-500 text-white text-2xl font-bold arabic-text py-6 px-8 rounded-2xl shadow-lg hover:scale-105 transition-all border-4 border-white">
+                                    ${option}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            updateProgress();
+        }
+
+        function checkHaditsMemoryAnswer(selected, correct, buttonEl) {
+            const buttons = document.querySelectorAll('#gameContent button[onclick*="checkHaditsMemoryAnswer"]');
+            buttons.forEach(btn => btn.style.pointerEvents = 'none');
+            
+            if (selected === correct) {
+                buttonEl.classList.add('pulse-correct');
+                score += 25;
+                document.getElementById('score').textContent = score;
+                
+                setTimeout(() => {
+                    nextHaditsMemoryQuestion();
+                }, 2000);
+            } else {
+                buttonEl.classList.add('shake');
+                // Highlight correct answer
+                buttons.forEach(btn => {
+                    if (btn.textContent.trim() === correct) {
+                        btn.classList.add('pulse-correct');
+                    }
+                });
+                
+                setTimeout(() => {
+                    nextHaditsMemoryQuestion();
+                }, 3000);
+            }
+        }
+
+        function nextHaditsMemoryQuestion() {
+            currentQuestionIndex++;
+            updateProgress();
+            if (currentQuestionIndex <= 4) {
+                generateHaditsMemoryGame();
+            } else {
+                showSuccess();
+            }
+        }
+
+        // Hadits Matching Game
+        function startHaditsMatching() {
+            currentQuestionIndex = 1;
+            totalQuestions = 4;
+            generateHaditsMatchingGame();
+        }
+
+        function generateHaditsMatchingGame() {
+            const gameContent = document.getElementById('gameContent');
+            
+            // Create pairs (Arabic phrases and meanings)
+            const arabicPhrases = gameData.hadits.arabic.split(' ').slice(0, 8); // First 8 words
+            const meanings = [
+                "Bertakwalah", "kepada Allah", "di mana pun", "kamu berada",
+                "ikutilah", "perbuatan buruk", "dengan perbuatan", "baik"
+            ];
+            
+            // Take first 4 pairs
+            const phrasesToMatch = arabicPhrases.slice(0, 4);
+            const meaningsToMatch = meanings.slice(0, 4);
+            
+            // Create cards
+            const arabicCards = phrasesToMatch.map((phrase, index) => ({
+                id: `arabic-${index}`,
+                content: phrase,
+                type: 'arabic',
+                pair: `meaning-${index}`,
+                matched: false
+            }));
+            
+            const meaningCards = meaningsToMatch.map((meaning, index) => ({
+                id: `meaning-${index}`,
+                content: meaning,
+                type: 'meaning',
+                pair: `arabic-${index}`,
+                matched: false
+            }));
+            
+            // Shuffle all cards
+            const allCards = [...arabicCards, ...meaningCards].sort(() => Math.random() - 0.5);
+            
+            gameContent.innerHTML = `
+                <div class="text-center mb-8">
+                    <div class="bg-gradient-to-br from-green-100 to-teal-100 rounded-3xl p-6 shadow-lg border-4 border-green-300 mb-8">
+                        <h4 class="text-2xl font-bold text-green-700 mb-4">Cocokkan Kata Arab dengan Artinya!</h4>
+                        <p class="text-lg text-green-600 font-semibold">Klik dua kartu untuk mencocokkannya</p>
+                        <div class="mt-4">
+                            <span class="bg-green-500 text-white px-4 py-2 rounded-full font-bold">
+                                Pasangan ditemukan: <span id="haditsMatchedPairs">0</span>/4
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div id="haditsMatchingGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-6xl mx-auto">
+                        ${allCards.map(card => `
+                            <div class="hadits-matching-card bg-gradient-to-br from-green-400 to-teal-500 text-white p-4 rounded-2xl shadow-lg cursor-pointer hover:scale-105 transition-all border-4 border-white min-h-32 flex items-center justify-center" 
+                                 onclick="selectHaditsMatchingCard('${card.id}', this)" 
+                                 data-pair="${card.pair}" 
+                                 data-type="${card.type}">
+                                <div class="text-center ${card.type === 'arabic' ? 'arabic-text text-xl' : 'text-sm'} font-bold">
+                                    ${card.content}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="mt-8">
+                        <button onclick="resetHaditsMatchingGame()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-full font-bold shadow-lg">
+                            <i class="fas fa-redo"></i> Reset Game
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Initialize matching game variables
+            window.haditsSelectedCards = [];
+            window.haditsMatchedPairs = 0;
+            updateProgress();
+        }
+
+        let haditsSelectedCards = [];
+        let haditsMatchedPairs = 0;
+
+        function selectHaditsMatchingCard(cardId, cardElement) {
+            // Don't allow selecting already matched cards
+            if (cardElement.classList.contains('matched') || cardElement.classList.contains('selected')) {
+                return;
+            }
+            
+            // Don't allow more than 2 selections
+            if (haditsSelectedCards.length >= 2) {
+                return;
+            }
+            
+            // Add to selection
+            haditsSelectedCards.push({ id: cardId, element: cardElement });
+            cardElement.classList.add('selected', 'bg-yellow-400');
+            
+            // Check if we have 2 cards selected
+            if (haditsSelectedCards.length === 2) {
+                setTimeout(() => checkHaditsMatchingPair(), 500);
+            }
+        }
+
+        function checkHaditsMatchingPair() {
+            const [card1, card2] = haditsSelectedCards;
+            const pair1 = card1.element.dataset.pair;
+            const pair2 = card2.element.dataset.pair;
+            
+            if (card1.id === pair2 && card2.id === pair1) {
+                // Match found!
+                card1.element.classList.remove('selected', 'bg-yellow-400');
+                card2.element.classList.remove('selected', 'bg-yellow-400');
+                card1.element.classList.add('matched', 'bg-green-500', 'pulse-correct');
+                card2.element.classList.add('matched', 'bg-green-500', 'pulse-correct');
+                
+                haditsMatchedPairs++;
+                document.getElementById('haditsMatchedPairs').textContent = haditsMatchedPairs;
+                score += 30;
+                document.getElementById('score').textContent = score;
+                
+                // Check if all pairs matched
+                if (haditsMatchedPairs === 4) {
+                    setTimeout(() => {
+                        showSuccess();
+                    }, 1500);
+                }
+            } else {
+                // No match
+                card1.element.classList.add('shake');
+                card2.element.classList.add('shake');
+                
+                setTimeout(() => {
+                    card1.element.classList.remove('selected', 'bg-yellow-400', 'shake');
+                    card2.element.classList.remove('selected', 'bg-yellow-400', 'shake');
+                }, 1000);
+            }
+            
+            haditsSelectedCards = [];
+        }
+
+        function resetHaditsMatchingGame() {
+            haditsSelectedCards = [];
+            haditsMatchedPairs = 0;
+            document.getElementById('haditsMatchedPairs').textContent = '0';
+            
+            const cards = document.querySelectorAll('.hadits-matching-card');
+            cards.forEach(card => {
+                card.classList.remove('matched', 'selected', 'bg-green-500', 'bg-yellow-400', 'pulse-correct', 'shake');
+                card.classList.add('bg-gradient-to-br', 'from-green-400', 'to-teal-500');
+            });
+        }
+
+        function nextHaditsQuestion() {
+            currentQuestionIndex++;
+            updateProgress();
+            if (currentQuestionIndex <= 4) {
+                generateHaditsGame();
+            } else {
+                showSuccess();
+            }
+        }
+
+        function checkHaditsAnswer(selected, correct, buttonEl) {
+            const buttons = document.querySelectorAll('#gameContent button[onclick*="checkHaditsAnswer"]');
+            buttons.forEach(btn => btn.style.pointerEvents = 'none');
+            
+            if (selected === correct) {
+                buttonEl.classList.add('pulse-correct');
+                score += 25;
+                document.getElementById('score').textContent = score;
+                
+                setTimeout(() => {
+                    nextHaditsQuestion();
+                }, 2000);
+            } else {
+                buttonEl.classList.add('shake');
+                // Highlight correct answer
+                buttons.forEach(btn => {
+                    if (btn.textContent.trim() === correct) {
+                        btn.classList.add('pulse-correct');
+                    }
+                });
+                
+                setTimeout(() => {
+                    nextHaditsQuestion();
+                }, 3000);
+            }
+        }
+
+        // Drag and Drop functions
+        function allowDrop(ev) {
+            ev.preventDefault();
+            ev.target.classList.add('drag-over');
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            ev.target.classList.remove('drag-over');
+            const data = ev.dataTransfer.getData("text");
+            const draggedElement = document.getElementById(data);
+            
+            if (ev.target.classList.contains('drop-zone')) {
+                ev.target.appendChild(draggedElement);
+                draggedElement.style.cursor = 'grab';
+            }
+        }
+
+        function checkArabicOrder() {
+            const dropZone = document.getElementById('dropZone');
+            const droppedWords = Array.from(dropZone.children).filter(child => child.classList.contains('drag-item'));
+            const userOrder = droppedWords.map(word => word.textContent.trim());
+            const correctOrder = gameData.hadits.arabic.split(' ').slice(0, 6);
+            
+            const isCorrect = userOrder.length === correctOrder.length && 
+                             userOrder.every((word, index) => word === correctOrder[index]);
+            
+            if (isCorrect) {
+                dropZone.classList.add('correct-drop');
+                score += 30;
+                document.getElementById('score').textContent = score;
+                
+                setTimeout(() => {
+                    nextHaditsQuestion();
+                }, 2000);
+            } else {
+                dropZone.classList.add('wrong-drop');
+                
+                setTimeout(() => {
+                    dropZone.classList.remove('wrong-drop');
+                }, 1000);
+            }
+        }
+
+        function updateProgress() {
+            const progress = (currentQuestionIndex / totalQuestions) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            document.getElementById('totalQuestions').textContent = totalQuestions;
+        }
+
+        function showSuccess() {
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('successModal').classList.remove('hidden');
+            
+            // Level up
+            level++;
+            document.getElementById('level').textContent = level;
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.add('hidden');
+            backToSubMenu();
+        }
+
+        function playArabicSound(text) {
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+                
+                const utterance = new SpeechSynthesisUtterance();
+                const voices = speechSynthesis.getVoices();
+                
+                // Find Arabic voice
+                const arabicVoice = voices.find(voice => 
+                    voice.lang.includes('ar') || voice.name.toLowerCase().includes('arabic')
+                );
+                
+                utterance.text = text;
+                if (arabicVoice) {
+                    utterance.voice = arabicVoice;
+                    utterance.lang = arabicVoice.lang;
+                } else {
+                    utterance.lang = 'ar-SA';
+                }
+                
+                utterance.rate = 0.7;
+                utterance.pitch = 1.0;
+                utterance.volume = 1.0;
+                
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        function playArabicWord(arabic, latin) {
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+                
+                const utterance = new SpeechSynthesisUtterance();
+                const voices = speechSynthesis.getVoices();
+                
+                // Find Arabic voice
+                const arabicVoice = voices.find(voice => 
+                    voice.lang.includes('ar') || voice.name.toLowerCase().includes('arabic')
+                );
+                
+                utterance.text = arabicVoice ? arabic : latin;
+                if (arabicVoice) {
+                    utterance.voice = arabicVoice;
+                    utterance.lang = arabicVoice.lang;
+                    utterance.rate = 0.6;
+                } else {
+                    utterance.lang = 'en-US';
+                    utterance.rate = 0.5;
+                }
+                
+                utterance.pitch = 1.0;
+                utterance.volume = 1.0;
+                
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Initialize voices
+        if ('speechSynthesis' in window) {
+            speechSynthesis.addEventListener('voiceschanged', () => {
+                console.log('Voices loaded:', speechSynthesis.getVoices().length);
+            });
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'974b937ed44191b3',t:'MTc1NjEzMDAxMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
