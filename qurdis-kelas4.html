@@ -15,9 +15,16 @@
         
         .arabic-text {
             font-family: 'Amiri', serif;
-            font-size: 1.5em;
+            font-size: 1.2em;
             direction: rtl;
-            line-height: 1.8;
+            line-height: 1.6;
+        }
+        
+        @media (min-width: 640px) {
+            .arabic-text {
+                font-size: 1.5em;
+                line-height: 1.8;
+            }
         }
         
         .bounce-in {
@@ -226,118 +233,142 @@
     </div>
 
     <!-- Header -->
-    <div class="bg-white shadow-xl p-4 border-b-4 border-emerald-400 content-overlay">
-        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-4">
-                <div class="w-16 h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-full flex items-center justify-center bounce-in float">
-                    <i class="fas fa-book-quran text-white text-3xl lg:text-4xl"></i>
+    <div class="bg-white shadow-xl p-3 sm:p-4 border-b-4 border-emerald-400 content-overlay">
+        <div class="max-w-6xl mx-auto">
+            <!-- Mobile Layout -->
+            <div class="flex flex-col gap-3 sm:hidden">
+                <div class="flex items-center justify-center gap-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-full flex items-center justify-center bounce-in float">
+                        <i class="fas fa-book-quran text-white text-xl"></i>
+                    </div>
+                    <div class="text-center">
+                        <h1 class="text-lg font-bold text-emerald-700">Al-Quran Hadits Pedomanku</h1>
+                        <p class="text-sm text-emerald-600 font-semibold">Kelas 4 SD/MI</p>
+                    </div>
                 </div>
-                <div>
-                    <h1 class="text-2xl lg:text-3xl font-bold text-emerald-700">Al-Quran Hadits Pedoman Hidupku</h1>
-                    <p class="text-base lg:text-lg text-emerald-600 font-semibold">Kelas 4 SD/MI - Media Pembelajaran Islami</p>
+                <div class="flex items-center justify-center gap-2">
+                    <div class="bg-yellow-500 px-3 py-2 rounded-full shadow-lg border-2 border-yellow-600">
+                        <span class="text-sm font-bold text-white"><i class="fas fa-star"></i> <span id="score">0</span></span>
+                    </div>
+                    <div class="bg-emerald-600 px-3 py-2 rounded-full shadow-lg border-2 border-emerald-700">
+                        <span class="text-sm font-bold text-white"><i class="fas fa-trophy"></i> Level <span id="level">1</span></span>
+                    </div>
                 </div>
             </div>
-            <div class="flex items-center gap-4">
-                <div class="bg-yellow-500 px-6 py-3 rounded-full shadow-lg border-3 border-yellow-600">
-                    <span class="text-xl font-bold text-white"><i class="fas fa-star"></i> <span id="score">0</span></span>
+            
+            <!-- Desktop Layout -->
+            <div class="hidden sm:flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-16 h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-full flex items-center justify-center bounce-in float">
+                        <i class="fas fa-book-quran text-white text-3xl lg:text-4xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl lg:text-3xl font-bold text-emerald-700">Game Al-Quran Hadits</h1>
+                        <p class="text-base lg:text-lg text-emerald-600 font-semibold">Kelas 4 SD/MI - Media Pembelajaran Islami</p>
+                    </div>
                 </div>
-                <div class="bg-emerald-600 px-6 py-3 rounded-full shadow-lg border-3 border-emerald-700">
-                    <span class="text-xl font-bold text-white"><i class="fas fa-trophy"></i> Level <span id="level">1</span></span>
+                <div class="flex items-center gap-4">
+                    <div class="bg-yellow-500 px-6 py-3 rounded-full shadow-lg border-3 border-yellow-600">
+                        <span class="text-xl font-bold text-white"><i class="fas fa-star"></i> <span id="score">0</span></span>
+                    </div>
+                    <div class="bg-emerald-600 px-6 py-3 rounded-full shadow-lg border-3 border-emerald-700">
+                        <span class="text-xl font-bold text-white"><i class="fas fa-trophy"></i> Level <span id="level">1</span></span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Main Menu -->
-    <div id="mainMenu" class="max-w-7xl mx-auto p-6 content-overlay">
-        <div class="text-center mb-8">
-            <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4 drop-shadow-lg float">
-                <span class="arabic-text">رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي</span>
+    <div id="mainMenu" class="max-w-7xl mx-auto p-3 sm:p-6 content-overlay">
+        <div class="text-center mb-6 sm:mb-8">
+            <h2 class="text-xl sm:text-2xl lg:text-4xl font-bold text-white mb-3 sm:mb-4 drop-shadow-lg float">
+                <span class="arabic-text leading-relaxed">رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي</span>
             </h2>
-            <p class="text-xl lg:text-2xl text-white/90 mb-4 drop-shadow font-semibold">
+            <p class="text-sm sm:text-lg lg:text-2xl text-white/90 mb-3 sm:mb-4 drop-shadow font-semibold px-2">
                 "Ya Tuhanku, lapangkanlah dadaku dan mudahkanlah urusanku"
             </p>
-            <p class="text-lg lg:text-xl text-white/80 mb-8 drop-shadow font-medium">
+            <p class="text-sm sm:text-base lg:text-xl text-white/80 mb-6 sm:mb-8 drop-shadow font-medium px-2">
                 Mari belajar Al-Quran dan Hadits dengan cara yang menyenangkan!
             </p>
         </div>
 
         <!-- Main Categories -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-6 sm:mb-8">
             <!-- Tajwid -->
-            <div class="bg-gradient-to-br from-purple-400 via-purple-500 to-indigo-600 p-8 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-purple-300 hover:border-white cursor-pointer" onclick="showSubMenu('tajwid')">
+            <div class="bg-gradient-to-br from-purple-400 via-purple-500 to-indigo-600 p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-2 sm:border-4 border-purple-300 hover:border-white cursor-pointer" onclick="showSubMenu('tajwid')">
                 <div class="text-center">
-                    <div class="w-20 h-20 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                        <i class="fas fa-book-open text-white text-4xl drop-shadow-lg"></i>
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-3 sm:mb-4 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <i class="fas fa-book-open text-white text-2xl sm:text-3xl lg:text-4xl drop-shadow-lg"></i>
                     </div>
-                    <h3 class="text-3xl font-bold text-white mb-3 drop-shadow-lg">Tajwid</h3>
-                    <p class="text-lg text-purple-100 font-semibold mb-4">Belajar cara membaca Al-Quran dengan benar</p>
-                    <div class="bg-white/30 rounded-full px-4 py-2 backdrop-blur-sm">
-                        <span class="text-purple-800 font-bold">Izhar & Ikhfa'</span>
+                    <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-3 drop-shadow-lg">Tajwid</h3>
+                    <p class="text-sm sm:text-base lg:text-lg text-purple-100 font-semibold mb-3 sm:mb-4 px-1">Belajar cara membaca Al-Quran dengan benar</p>
+                    <div class="bg-white/30 rounded-full px-3 sm:px-4 py-1 sm:py-2 backdrop-blur-sm">
+                        <span class="text-purple-800 font-bold text-xs sm:text-sm lg:text-base">Izhar & Ikhfa'</span>
                     </div>
                 </div>
             </div>
 
             <!-- Surat Pendek -->
-            <div class="bg-gradient-to-br from-green-400 via-emerald-500 to-teal-600 p-8 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-green-300 hover:border-white cursor-pointer" onclick="showSubMenu('surat')">
+            <div class="bg-gradient-to-br from-green-400 via-emerald-500 to-teal-600 p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-2 sm:border-4 border-green-300 hover:border-white cursor-pointer" onclick="showSubMenu('surat')">
                 <div class="text-center">
-                    <div class="w-20 h-20 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                        <div class="text-white text-2xl drop-shadow-lg arabic-text">سُورَة</div>
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-3 sm:mb-4 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <div class="text-white text-lg sm:text-xl lg:text-2xl drop-shadow-lg arabic-text">سُورَة</div>
                     </div>
-                    <h3 class="text-3xl font-bold text-white mb-3 drop-shadow-lg">Surat Pendek</h3>
-                    <p class="text-lg text-green-100 font-semibold mb-4">Hafalan surat-surat pendek Al-Quran</p>
-                    <div class="bg-white/30 rounded-full px-4 py-2 backdrop-blur-sm">
-                        <span class="text-green-800 font-bold">4 Surat Pilihan</span>
+                    <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-3 drop-shadow-lg">Surat Pendek</h3>
+                    <p class="text-sm sm:text-base lg:text-lg text-green-100 font-semibold mb-3 sm:mb-4 px-1">Hafalan surat-surat pendek Al-Quran</p>
+                    <div class="bg-white/30 rounded-full px-3 sm:px-4 py-1 sm:py-2 backdrop-blur-sm">
+                        <span class="text-green-800 font-bold text-xs sm:text-sm lg:text-base">4 Surat Pilihan</span>
                     </div>
                 </div>
             </div>
 
             <!-- Hadits -->
-            <div class="bg-gradient-to-br from-orange-400 via-red-500 to-pink-500 p-8 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-orange-300 hover:border-white cursor-pointer" onclick="showSubMenu('hadits')">
+            <div class="bg-gradient-to-br from-orange-400 via-red-500 to-pink-500 p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-2 sm:border-4 border-orange-300 hover:border-white cursor-pointer sm:col-span-2 lg:col-span-1" onclick="showSubMenu('hadits')">
                 <div class="text-center">
-                    <div class="w-20 h-20 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                        <div class="text-white text-2xl drop-shadow-lg arabic-text">حَدِيث</div>
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 mx-auto mb-3 sm:mb-4 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <div class="text-white text-lg sm:text-xl lg:text-2xl drop-shadow-lg arabic-text">حَدِيث</div>
                     </div>
-                    <h3 class="text-3xl font-bold text-white mb-3 drop-shadow-lg">Hadits</h3>
-                    <p class="text-lg text-orange-100 font-semibold mb-4">Pelajari hadits-hadits pilihan</p>
-                    <div class="bg-white/30 rounded-full px-4 py-2 backdrop-blur-sm">
-                        <span class="text-orange-800 font-bold">Takwa & Niat</span>
+                    <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-3 drop-shadow-lg">Hadits</h3>
+                    <p class="text-sm sm:text-base lg:text-lg text-orange-100 font-semibold mb-3 sm:mb-4 px-1">Pelajari hadits-hadits pilihan</p>
+                    <div class="bg-white/30 rounded-full px-3 sm:px-4 py-1 sm:py-2 backdrop-blur-sm">
+                        <span class="text-orange-800 font-bold text-xs sm:text-sm lg:text-base">Takwa & Niat</span>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Islamic Greeting -->
-        <div class="bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-500 rounded-3xl p-6 shadow-xl border-4 border-white relative overflow-hidden">
-            <div class="absolute top-2 left-2 text-yellow-300 text-2xl animate-pulse"><i class="fas fa-star"></i></div>
-            <div class="absolute top-2 right-2 text-pink-300 text-2xl animate-bounce"><i class="fas fa-heart"></i></div>
-            <div class="absolute bottom-2 left-2 text-cyan-300 text-2xl wiggle"><i class="fas fa-mosque"></i></div>
-            <div class="absolute bottom-2 right-2 text-yellow-400 text-2xl float"><i class="fas fa-moon"></i></div>
+        <div class="bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-500 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl border-2 sm:border-4 border-white relative overflow-hidden">
+            <div class="absolute top-2 left-2 text-yellow-300 text-lg sm:text-2xl animate-pulse"><i class="fas fa-star"></i></div>
+            <div class="absolute top-2 right-2 text-pink-300 text-lg sm:text-2xl animate-bounce"><i class="fas fa-heart"></i></div>
+            <div class="absolute bottom-2 left-2 text-cyan-300 text-lg sm:text-2xl wiggle"><i class="fas fa-mosque"></i></div>
+            <div class="absolute bottom-2 right-2 text-yellow-400 text-lg sm:text-2xl float"><i class="fas fa-moon"></i></div>
             
             <div class="text-center relative z-10">
-                <h3 class="text-2xl font-bold text-white mb-4 drop-shadow-lg">
+                <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-3 sm:mb-4 drop-shadow-lg">
                     <i class="fas fa-book-quran text-yellow-300"></i> Panduan Belajar <i class="fas fa-star-and-crescent text-pink-300"></i>
                 </h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                    <div class="bg-white/20 backdrop-blur-sm p-4 rounded-2xl border-2 border-white/50">
-                        <i class="fas fa-eye text-white text-2xl mb-2"></i>
-                        <p class="text-white font-bold">Baca dan pelajari dengan seksama</p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-3 sm:mb-4">
+                    <div class="bg-white/20 backdrop-blur-sm p-3 sm:p-4 rounded-xl sm:rounded-2xl border-2 border-white/50">
+                        <i class="fas fa-eye text-white text-lg sm:text-2xl mb-2"></i>
+                        <p class="text-white font-bold text-sm sm:text-base">Baca dan pelajari dengan seksama</p>
                     </div>
-                    <div class="bg-white/20 backdrop-blur-sm p-4 rounded-2xl border-2 border-white/50">
-                        <i class="fas fa-volume-up text-white text-2xl mb-2"></i>
-                        <p class="text-white font-bold">Dengarkan audio dengan baik</p>
+                    <div class="bg-white/20 backdrop-blur-sm p-3 sm:p-4 rounded-xl sm:rounded-2xl border-2 border-white/50">
+                        <i class="fas fa-volume-up text-white text-lg sm:text-2xl mb-2"></i>
+                        <p class="text-white font-bold text-sm sm:text-base">Dengarkan audio dengan baik</p>
                     </div>
-                    <div class="bg-white/20 backdrop-blur-sm p-4 rounded-2xl border-2 border-white/50">
-                        <i class="fas fa-gamepad text-white text-2xl mb-2"></i>
-                        <p class="text-white font-bold">Mainkan game dengan semangat</p>
+                    <div class="bg-white/20 backdrop-blur-sm p-3 sm:p-4 rounded-xl sm:rounded-2xl border-2 border-white/50">
+                        <i class="fas fa-gamepad text-white text-lg sm:text-2xl mb-2"></i>
+                        <p class="text-white font-bold text-sm sm:text-base">Mainkan game dengan semangat</p>
                     </div>
                 </div>
-                <div class="bg-white/20 backdrop-blur-sm rounded-2xl p-3 border-2 border-white/50">
-                    <div class="flex items-center justify-center gap-2 text-white">
-                        <i class="fas fa-mosque text-yellow-300 text-xl animate-pulse"></i>
-                        <span class="font-bold arabic-text">رَبَّنَا زِدْنَا عِلْمًا</span>
-                        <span class="font-bold">(Ya Allah, tambahkanlah ilmu kepada kami)</span>
-                        <i class="fas fa-star-and-crescent text-cyan-300 text-xl wiggle"></i>
+                <div class="bg-white/20 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 border-2 border-white/50">
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-2 text-white">
+                        <i class="fas fa-mosque text-yellow-300 text-lg sm:text-xl animate-pulse"></i>
+                        <span class="font-bold arabic-text text-sm sm:text-base">رَبَّنَا زِدْنَا عِلْمًا</span>
+                        <span class="font-bold text-xs sm:text-sm text-center">(Ya Allah, tambahkanlah ilmu kepada kami)</span>
+                        <i class="fas fa-star-and-crescent text-cyan-300 text-lg sm:text-xl wiggle"></i>
                     </div>
                 </div>
             </div>
@@ -345,39 +376,39 @@
     </div>
 
     <!-- Sub Menus -->
-    <div id="subMenus" class="hidden max-w-7xl mx-auto p-6 content-overlay">
-        <button onclick="backToMain()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-full mb-6 transition-colors text-lg font-bold shadow-lg">
+    <div id="subMenus" class="hidden max-w-7xl mx-auto p-3 sm:p-6 content-overlay">
+        <button onclick="backToMain()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full mb-4 sm:mb-6 transition-colors text-sm sm:text-lg font-bold shadow-lg">
             ← Kembali ke Menu Utama
         </button>
 
         <!-- Tajwid Sub Menu -->
         <div id="tajwidMenu" class="hidden">
-            <h2 class="text-4xl font-bold text-white text-center mb-8 drop-shadow-lg">
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white text-center mb-6 sm:mb-8 drop-shadow-lg">
                 <i class="fas fa-book-open text-yellow-300"></i> Belajar Tajwid <i class="fas fa-book-open text-yellow-300"></i>
             </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-gradient-to-br from-red-400 to-pink-500 p-8 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-red-300 hover:border-white cursor-pointer" onclick="startGame('izhar')">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
+                <div class="bg-gradient-to-br from-red-400 to-pink-500 p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-2 sm:border-4 border-red-300 hover:border-white cursor-pointer" onclick="startGame('izhar')">
                     <div class="text-center">
-                        <div class="w-20 h-20 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                            <div class="text-white text-2xl drop-shadow-lg arabic-text">إِظْهَار</div>
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                            <div class="text-white text-lg sm:text-xl lg:text-2xl drop-shadow-lg arabic-text">إِظْهَار</div>
                         </div>
-                        <h3 class="text-3xl font-bold text-white mb-3 drop-shadow-lg">Hukum Izhar</h3>
-                        <p class="text-lg text-red-100 font-semibold mb-4">Belajar membaca nun sukun dan tanwin dengan jelas</p>
-                        <div class="bg-white/30 rounded-full px-4 py-2 backdrop-blur-sm">
-                            <span class="text-red-800 font-bold">6 Huruf Halqi</span>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-3 drop-shadow-lg">Hukum Izhar</h3>
+                        <p class="text-sm sm:text-base lg:text-lg text-red-100 font-semibold mb-3 sm:mb-4 px-1">Belajar membaca nun sukun dan tanwin dengan jelas</p>
+                        <div class="bg-white/30 rounded-full px-3 sm:px-4 py-1 sm:py-2 backdrop-blur-sm">
+                            <span class="text-red-800 font-bold text-xs sm:text-sm lg:text-base">6 Huruf Halqi</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-gradient-to-br from-blue-400 to-indigo-500 p-8 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-blue-300 hover:border-white cursor-pointer" onclick="startGame('ikhfa')">
+                <div class="bg-gradient-to-br from-blue-400 to-indigo-500 p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-2 sm:border-4 border-blue-300 hover:border-white cursor-pointer" onclick="startGame('ikhfa')">
                     <div class="text-center">
-                        <div class="w-20 h-20 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                            <div class="text-white text-2xl drop-shadow-lg arabic-text">إِخْفَاء</div>
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                            <div class="text-white text-lg sm:text-xl lg:text-2xl drop-shadow-lg arabic-text">إِخْفَاء</div>
                         </div>
-                        <h3 class="text-3xl font-bold text-white mb-3 drop-shadow-lg">Hukum Ikhfa'</h3>
-                        <p class="text-lg text-blue-100 font-semibold mb-4">Belajar menyembunyikan bunyi nun sukun dan tanwin</p>
-                        <div class="bg-white/30 rounded-full px-4 py-2 backdrop-blur-sm">
-                            <span class="text-blue-800 font-bold">15 Huruf</span>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-3 drop-shadow-lg">Hukum Ikhfa'</h3>
+                        <p class="text-sm sm:text-base lg:text-lg text-blue-100 font-semibold mb-3 sm:mb-4 px-1">Belajar menyembunyikan bunyi nun sukun dan tanwin</p>
+                        <div class="bg-white/30 rounded-full px-3 sm:px-4 py-1 sm:py-2 backdrop-blur-sm">
+                            <span class="text-blue-800 font-bold text-xs sm:text-sm lg:text-base">15 Huruf</span>
                         </div>
                     </div>
                 </div>
@@ -386,58 +417,58 @@
 
         <!-- Surat Sub Menu -->
         <div id="suratMenu" class="hidden">
-            <h2 class="text-4xl font-bold text-white text-center mb-8 drop-shadow-lg">
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white text-center mb-6 sm:mb-8 drop-shadow-lg">
                 <i class="fas fa-book-quran text-yellow-300"></i> Surat-Surat Pendek <i class="fas fa-book-quran text-yellow-300"></i>
             </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-gradient-to-br from-emerald-400 to-teal-500 p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-emerald-300 hover:border-white cursor-pointer" onclick="startGame('al-ashr')">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                <div class="bg-gradient-to-br from-emerald-400 to-teal-500 p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-2 sm:border-4 border-emerald-300 hover:border-white cursor-pointer" onclick="startGame('al-ashr')">
                     <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                            <div class="text-white text-lg drop-shadow-lg arabic-text">العَصْر</div>
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-2 sm:mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                            <div class="text-white text-sm sm:text-lg drop-shadow-lg arabic-text">العَصْر</div>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-2 drop-shadow-lg">Al-Ashr</h3>
-                        <p class="text-sm text-emerald-100 font-semibold mb-3">Surat tentang waktu</p>
-                        <div class="bg-white/30 rounded-full px-3 py-1 backdrop-blur-sm">
-                            <span class="text-emerald-800 font-bold text-sm">3 Ayat</span>
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-1 sm:mb-2 drop-shadow-lg">Al-Ashr</h3>
+                        <p class="text-xs sm:text-sm text-emerald-100 font-semibold mb-2 sm:mb-3">Surat tentang waktu</p>
+                        <div class="bg-white/30 rounded-full px-2 sm:px-3 py-1 backdrop-blur-sm">
+                            <span class="text-emerald-800 font-bold text-xs sm:text-sm">3 Ayat</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-gradient-to-br from-purple-400 to-pink-500 p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-purple-300 hover:border-white cursor-pointer" onclick="startGame('quraisy')">
+                <div class="bg-gradient-to-br from-purple-400 to-pink-500 p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-2 sm:border-4 border-purple-300 hover:border-white cursor-pointer" onclick="startGame('quraisy')">
                     <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                            <div class="text-white text-lg drop-shadow-lg arabic-text">قُرَيْش</div>
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-2 sm:mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                            <div class="text-white text-sm sm:text-lg drop-shadow-lg arabic-text">قُرَيْش</div>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-2 drop-shadow-lg">Quraisy</h3>
-                        <p class="text-sm text-purple-100 font-semibold mb-3">Surat tentang suku Quraisy</p>
-                        <div class="bg-white/30 rounded-full px-3 py-1 backdrop-blur-sm">
-                            <span class="text-purple-800 font-bold text-sm">4 Ayat</span>
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-1 sm:mb-2 drop-shadow-lg">Quraisy</h3>
+                        <p class="text-xs sm:text-sm text-purple-100 font-semibold mb-2 sm:mb-3">Surat tentang suku Quraisy</p>
+                        <div class="bg-white/30 rounded-full px-2 sm:px-3 py-1 backdrop-blur-sm">
+                            <span class="text-purple-800 font-bold text-xs sm:text-sm">4 Ayat</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-gradient-to-br from-orange-400 to-red-500 p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-orange-300 hover:border-white cursor-pointer" onclick="startGame('al-maun')">
+                <div class="bg-gradient-to-br from-orange-400 to-red-500 p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-2 sm:border-4 border-orange-300 hover:border-white cursor-pointer" onclick="startGame('al-maun')">
                     <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                            <div class="text-white text-lg drop-shadow-lg arabic-text">المَاعُون</div>
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-2 sm:mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                            <div class="text-white text-sm sm:text-lg drop-shadow-lg arabic-text">المَاعُون</div>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-2 drop-shadow-lg">Al-Ma'un</h3>
-                        <p class="text-sm text-orange-100 font-semibold mb-3">Surat tentang pertolongan</p>
-                        <div class="bg-white/30 rounded-full px-3 py-1 backdrop-blur-sm">
-                            <span class="text-orange-800 font-bold text-sm">7 Ayat</span>
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-1 sm:mb-2 drop-shadow-lg">Al-Ma'un</h3>
+                        <p class="text-xs sm:text-sm text-orange-100 font-semibold mb-2 sm:mb-3">Surat tentang pertolongan</p>
+                        <div class="bg-white/30 rounded-full px-2 sm:px-3 py-1 backdrop-blur-sm">
+                            <span class="text-orange-800 font-bold text-xs sm:text-sm">7 Ayat</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-gradient-to-br from-cyan-400 to-blue-500 p-6 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-cyan-300 hover:border-white cursor-pointer" onclick="startGame('at-takatsur')">
+                <div class="bg-gradient-to-br from-cyan-400 to-blue-500 p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-2 sm:border-4 border-cyan-300 hover:border-white cursor-pointer" onclick="startGame('at-takatsur')">
                     <div class="text-center">
-                        <div class="w-16 h-16 mx-auto mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                            <div class="text-white text-lg drop-shadow-lg arabic-text">التَّكَاثُر</div>
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-2 sm:mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                            <div class="text-white text-sm sm:text-lg drop-shadow-lg arabic-text">التَّكَاثُر</div>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-2 drop-shadow-lg">At-Takatsur</h3>
-                        <p class="text-sm text-cyan-100 font-semibold mb-3">Surat tentang bermegah-megahan</p>
-                        <div class="bg-white/30 rounded-full px-3 py-1 backdrop-blur-sm">
-                            <span class="text-cyan-800 font-bold text-sm">8 Ayat</span>
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-1 sm:mb-2 drop-shadow-lg">At-Takatsur</h3>
+                        <p class="text-xs sm:text-sm text-cyan-100 font-semibold mb-2 sm:mb-3">Surat tentang bermegah-megahan</p>
+                        <div class="bg-white/30 rounded-full px-2 sm:px-3 py-1 backdrop-blur-sm">
+                            <span class="text-cyan-800 font-bold text-xs sm:text-sm">8 Ayat</span>
                         </div>
                     </div>
                 </div>
@@ -446,32 +477,32 @@
 
         <!-- Hadits Sub Menu -->
         <div id="haditsMenu" class="hidden">
-            <h2 class="text-4xl font-bold text-white text-center mb-8 drop-shadow-lg">
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white text-center mb-6 sm:mb-8 drop-shadow-lg">
                 <i class="fas fa-scroll text-yellow-300"></i> Hadits Pilihan <i class="fas fa-scroll text-yellow-300"></i>
             </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-gradient-to-br from-yellow-400 to-orange-500 p-8 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-yellow-300 hover:border-white cursor-pointer" onclick="startGame('hadits-takwa')">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
+                <div class="bg-gradient-to-br from-yellow-400 to-orange-500 p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-2 sm:border-4 border-yellow-300 hover:border-white cursor-pointer" onclick="startGame('hadits-takwa')">
                     <div class="text-center">
-                        <div class="w-20 h-20 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                            <div class="text-white text-2xl drop-shadow-lg arabic-text">تَقْوَى</div>
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                            <div class="text-white text-lg sm:text-xl lg:text-2xl drop-shadow-lg arabic-text">تَقْوَى</div>
                         </div>
-                        <h3 class="text-3xl font-bold text-white mb-3 drop-shadow-lg">Hadits Takwa</h3>
-                        <p class="text-lg text-yellow-100 font-semibold mb-4">Belajar tentang ketakwaan kepada Allah</p>
-                        <div class="bg-white/30 rounded-full px-4 py-2 backdrop-blur-sm">
-                            <span class="text-yellow-800 font-bold">Riwayat At-Tirmidzi</span>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-3 drop-shadow-lg">Hadits Takwa</h3>
+                        <p class="text-sm sm:text-base lg:text-lg text-yellow-100 font-semibold mb-3 sm:mb-4 px-1">Belajar tentang ketakwaan kepada Allah</p>
+                        <div class="bg-white/30 rounded-full px-3 sm:px-4 py-1 sm:py-2 backdrop-blur-sm">
+                            <span class="text-yellow-800 font-bold text-xs sm:text-sm lg:text-base">Riwayat At-Tirmidzi</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-gradient-to-br from-indigo-400 to-purple-500 p-8 rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-4 border-indigo-300 hover:border-white cursor-pointer" onclick="startGame('hadits-niat')">
+                <div class="bg-gradient-to-br from-indigo-400 to-purple-500 p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-2 sm:border-4 border-indigo-300 hover:border-white cursor-pointer" onclick="startGame('hadits-niat')">
                     <div class="text-center">
-                        <div class="w-20 h-20 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                            <div class="text-white text-2xl drop-shadow-lg arabic-text">نِيَّة</div>
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                            <div class="text-white text-lg sm:text-xl lg:text-2xl drop-shadow-lg arabic-text">نِيَّة</div>
                         </div>
-                        <h3 class="text-3xl font-bold text-white mb-3 drop-shadow-lg">Hadits Niat</h3>
-                        <p class="text-lg text-indigo-100 font-semibold mb-4">Belajar tentang pentingnya niat dalam beramal</p>
-                        <div class="bg-white/30 rounded-full px-4 py-2 backdrop-blur-sm">
-                            <span class="text-indigo-800 font-bold">Riwayat Bukhari</span>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-3 drop-shadow-lg">Hadits Niat</h3>
+                        <p class="text-sm sm:text-base lg:text-lg text-indigo-100 font-semibold mb-3 sm:mb-4 px-1">Belajar tentang pentingnya niat dalam beramal</p>
+                        <div class="bg-white/30 rounded-full px-3 sm:px-4 py-1 sm:py-2 backdrop-blur-sm">
+                            <span class="text-indigo-800 font-bold text-xs sm:text-sm lg:text-base">Riwayat Bukhari</span>
                         </div>
                     </div>
                 </div>
@@ -480,59 +511,59 @@
     </div>
 
     <!-- Game Area -->
-    <div id="gameArea" class="hidden max-w-7xl mx-auto p-6 content-overlay">
-        <div class="bg-white rounded-3xl shadow-2xl p-6 lg:p-8 border-4 border-emerald-400">
-            <div class="text-center mb-6">
-                <button onclick="backToSubMenu()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-full mb-4 transition-colors text-lg font-bold shadow-lg">
+    <div id="gameArea" class="hidden max-w-7xl mx-auto p-3 sm:p-6 content-overlay">
+        <div class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 lg:p-8 border-2 sm:border-4 border-emerald-400">
+            <div class="text-center mb-4 sm:mb-6">
+                <button onclick="backToSubMenu()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full mb-3 sm:mb-4 transition-colors text-sm sm:text-lg font-bold shadow-lg">
                     ← Kembali
                 </button>
-                <h3 id="gameTitle" class="text-3xl lg:text-4xl font-bold text-emerald-600 mb-4"></h3>
-                <div id="gameDescription" class="text-xl text-gray-700 mb-6"></div>
+                <h3 id="gameTitle" class="text-xl sm:text-2xl lg:text-4xl font-bold text-emerald-600 mb-3 sm:mb-4"></h3>
+                <div id="gameDescription" class="text-sm sm:text-lg lg:text-xl text-gray-700 mb-4 sm:mb-6 px-2"></div>
             </div>
             
             <!-- Game Content -->
-            <div id="gameContent" class="min-h-96"></div>
+            <div id="gameContent" class="min-h-64 sm:min-h-80 lg:min-h-96"></div>
             
             <!-- Progress Bar -->
-            <div class="bg-gray-200 rounded-full h-4 mb-4 mt-8">
-                <div id="progressBar" class="bg-gradient-to-r from-emerald-400 to-teal-500 h-4 rounded-full transition-all duration-500" style="width: 0%"></div>
+            <div class="bg-gray-200 rounded-full h-3 sm:h-4 mb-3 sm:mb-4 mt-6 sm:mt-8">
+                <div id="progressBar" class="bg-gradient-to-r from-emerald-400 to-teal-500 h-3 sm:h-4 rounded-full transition-all duration-500" style="width: 0%"></div>
             </div>
-            <p class="text-center text-gray-600 font-semibold">Soal <span id="currentQuestion">1</span> dari <span id="totalQuestions">5</span></p>
+            <p class="text-center text-gray-600 font-semibold text-sm sm:text-base">Soal <span id="currentQuestion">1</span> dari <span id="totalQuestions">5</span></p>
         </div>
     </div>
 
     <!-- Success Modal -->
-    <div id="successModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-3xl p-8 text-center max-w-md mx-auto bounce-in border-4 border-green-300 relative overflow-hidden">
-            <div class="text-8xl mb-4 star-burst text-green-500">
+    <div id="successModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-3 sm:p-4">
+        <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 text-center max-w-sm sm:max-w-md mx-auto bounce-in border-2 sm:border-4 border-green-300 relative overflow-hidden">
+            <div class="text-4xl sm:text-6xl lg:text-8xl mb-3 sm:mb-4 star-burst text-green-500">
                 <i class="fas fa-trophy"></i>
             </div>
-            <h3 class="text-3xl lg:text-4xl font-bold text-green-600 mb-4 arabic-text">ماشاء الله!</h3>
-            <p class="text-xl text-gray-600 mb-6">Alhamdulillah! Kamu berhasil menyelesaikan materi ini!</p>
-            <div class="text-lg text-green-600 font-bold mb-6">
-                Skor: <span id="finalScore" class="text-2xl">0</span> poin
+            <h3 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-green-600 mb-3 sm:mb-4 arabic-text">ماشاء الله!</h3>
+            <p class="text-sm sm:text-lg lg:text-xl text-gray-600 mb-4 sm:mb-6 px-2">Alhamdulillah! Kamu berhasil menyelesaikan materi ini!</p>
+            <div class="text-base sm:text-lg text-green-600 font-bold mb-4 sm:mb-6">
+                Skor: <span id="finalScore" class="text-xl sm:text-2xl">0</span> poin
             </div>
-            <button onclick="closeSuccessModal()" class="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-full text-xl font-bold transition-colors shadow-lg wiggle">
+            <button onclick="closeSuccessModal()" class="bg-green-500 hover:bg-green-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-lg sm:text-xl font-bold transition-colors shadow-lg wiggle">
                 <i class="fas fa-rocket"></i> Lanjut Belajar!
             </button>
         </div>
     </div>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-6 mt-12 content-overlay">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <div class="flex flex-col md:flex-row justify-center items-center gap-4">
+    <footer class="bg-gray-800 text-white py-4 sm:py-6 mt-8 sm:mt-12 content-overlay">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 text-center">
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-4">
                 <div class="flex items-center gap-2">
                     <i class="fas fa-lightbulb text-yellow-400"></i>
-                    <span class="font-semibold">Ide Kreatif: Mahfud Sidik</span>
+                    <span class="font-semibold text-sm sm:text-base">Ide Kreatif: Mahfud Sidik</span>
                 </div>
-                <div class="text-gray-400">|</div>
+                <div class="text-gray-400 hidden sm:block">|</div>
                 <div class="flex items-center gap-2">
                     <i class="fas fa-robot text-blue-400"></i>
-                    <span class="font-semibold">Dibuat dengan Canva AI</span>
+                    <span class="font-semibold text-sm sm:text-base">Dibuat dengan Canva AI</span>
                 </div>
             </div>
-            <div class="mt-4 text-gray-400 text-sm">
+            <div class="mt-3 sm:mt-4 text-gray-400 text-xs sm:text-sm">
                 &copy; 2025 Game Edukasi Al-Quran Hadits - Semua hak dilindungi
             </div>
         </div>
@@ -1963,5 +1994,5 @@
             });
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'974b937ed44191b3',t:'MTc1NjEzMDAxMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'974ba30b35ebc887',t:'MTc1NjEzMDY0OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
