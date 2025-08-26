@@ -544,6 +544,8 @@
             let controls = '';
 
             if (currentGame === 'huruf') {
+                // Shuffle options randomly
+                const shuffledOptions = [...question.options].sort(() => Math.random() - 0.5);
                 content = `
                     <div class="mb-4 md:mb-8">
                         <div class="text-6xl md:text-9xl mb-4 md:mb-6 letter-bounce">${question.emoji}</div>
@@ -555,11 +557,13 @@
                     </div>
                 `;
                 controls = `<div class="grid grid-cols-2 gap-3 md:gap-4 max-w-sm md:max-w-md mx-auto px-2 md:px-0">` +
-                    question.options.map(option => 
+                    shuffledOptions.map(option => 
                         `<button onclick="checkAnswer('${option}', '${question.letter}')" class="bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white text-2xl md:text-3xl px-4 py-4 md:px-8 md:py-6 rounded-xl md:rounded-2xl font-bold transition-all transform hover:scale-105 shadow-lg">${option}</button>`
                     ).join('') + `</div>`;
             } 
             else if (currentGame === 'drag-drop') {
+                // Shuffle letters randomly
+                const shuffledLetters = [...question.letters].sort(() => Math.random() - 0.5);
                 content = `
                     <div class="mb-4 md:mb-8">
                         <div class="text-5xl md:text-8xl mb-4 md:mb-6">${question.emoji}</div>
@@ -572,13 +576,13 @@
                             ).join('')}
                         </div>
                         <div class="flex justify-center gap-2 md:gap-4 mb-4 md:mb-6 flex-wrap">
-                            ${question.letters.map(letter => 
+                            ${shuffledLetters.map(letter => 
                                 `<div class="draggable bg-gradient-to-r from-purple-400 to-pink-400 text-white text-2xl md:text-4xl font-bold w-12 h-12 md:w-16 md:h-16 rounded-lg md:rounded-xl flex items-center justify-center cursor-grab shadow-lg touch-manipulation" draggable="true" data-letter="${letter}">${letter}</div>`
                             ).join('')}
                         </div>
                     </div>
                 `;
-                controls = `<button onclick="checkDragAnswer()" class="btn-primary text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-lg md:text-xl transition-all hover:scale-105">Periksa Jawaban ✨</button>`;
+                controls = ``;
             }
             else if (currentGame === 'suku-kata') {
                 const keyboardLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
@@ -610,9 +614,11 @@
                         </div>
                     </div>
                 `;
-                controls = `<button onclick="checkWrittenAnswer()" class="btn-primary text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-lg md:text-xl transition-all hover:scale-105 mt-4 md:mt-6">Periksa Jawaban 🎯</button>`;
+                controls = ``;
             }
             else if (currentGame === 'tebak-gambar') {
+                // Shuffle options randomly
+                const shuffledOptions = [...question.options].sort(() => Math.random() - 0.5);
                 content = `
                     <div class="mb-4 md:mb-8">
                         <div class="text-6xl md:text-9xl mb-6 md:mb-8 letter-bounce">${question.emoji}</div>
@@ -620,7 +626,7 @@
                     </div>
                 `;
                 controls = `<div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 max-w-lg md:max-w-2xl mx-auto px-2 md:px-0">` +
-                    question.options.map(option => 
+                    shuffledOptions.map(option => 
                         `<button onclick="checkAnswer('${option}')" class="bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 text-white text-lg md:text-2xl px-6 py-3 md:px-8 md:py-4 rounded-xl md:rounded-2xl font-bold transition-all transform hover:scale-105 shadow-lg">${option}</button>`
                     ).join('') + `</div>`;
             }
@@ -708,6 +714,11 @@
                             osc.start();
                             osc.stop(audioContext.currentTime + 0.2);
                         }
+                        
+                        // Auto check answer immediately
+                        setTimeout(() => {
+                            checkDragAnswer();
+                        }, 500);
                     }
                     
                     // Cleanup
@@ -753,6 +764,11 @@
                         osc.start();
                         osc.stop(audioContext.currentTime + 0.2);
                     }
+                    
+                    // Auto check answer immediately
+                    setTimeout(() => {
+                        checkDragAnswer();
+                    }, 500);
                 });
             });
         }
@@ -1256,7 +1272,7 @@
                     <!-- Canvas Container -->
                     <div class="bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-lg border-2 md:border-4 border-purple-200">
                         <h4 class="text-lg md:text-2xl font-bold text-purple-600 mb-3 md:mb-4 text-center">🎨 Canvas Menulis</h4>
-                        <canvas id="writingCanvas" width="400" height="250" class="border-2 md:border-4 border-purple-400 rounded-xl md:rounded-2xl cursor-crosshair mx-auto block bg-gradient-to-br from-yellow-50 to-orange-50 shadow-inner touch-manipulation"></canvas>
+                        <canvas id="writingCanvas" class="border-2 md:border-4 border-purple-400 rounded-xl md:rounded-2xl cursor-crosshair mx-auto block bg-gradient-to-br from-yellow-50 to-orange-50 shadow-inner touch-manipulation w-full max-w-sm md:max-w-md" style="height: 200px;"></canvas>
                         
                         <!-- Auto Feedback Area -->
                         <div id="writingFeedback" class="mt-4 md:mt-6 text-center hidden">
@@ -1373,8 +1389,16 @@
             let drawingStarted = false;
             let feedbackTimer;
             
+            // Set responsive canvas size
+            const containerWidth = canvas.parentElement.clientWidth;
+            const canvasWidth = Math.min(containerWidth - 32, window.innerWidth < 768 ? 300 : 400);
+            const canvasHeight = window.innerWidth < 768 ? 180 : 250;
+            
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+            
             ctx.strokeStyle = '#3B82F6';
-            ctx.lineWidth = 4;
+            ctx.lineWidth = window.innerWidth < 768 ? 3 : 4;
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
             
@@ -1601,8 +1625,9 @@
             ctx.lineJoin = 'round';
             ctx.globalAlpha = 0.7;
             
-            // Draw letter demonstration
-            ctx.font = 'bold 120px Arial';
+            // Draw letter demonstration with responsive font size
+            const fontSize = Math.min(canvas.width / 4, canvas.height / 2, 120);
+            ctx.font = `bold ${fontSize}px Arial`;
             ctx.fillStyle = '#10B981';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
@@ -1614,20 +1639,22 @@
             ctx.lineWidth = 1;
             ctx.globalAlpha = 0.5;
             
-            // Horizontal guidelines
+            // Horizontal guidelines with responsive margins
+            const margin = Math.min(canvas.width * 0.1, 50);
             ctx.beginPath();
-            ctx.moveTo(50, canvas.height / 4);
-            ctx.lineTo(canvas.width - 50, canvas.height / 4);
-            ctx.moveTo(50, canvas.height / 2);
-            ctx.lineTo(canvas.width - 50, canvas.height / 2);
-            ctx.moveTo(50, (canvas.height * 3) / 4);
-            ctx.lineTo(canvas.width - 50, (canvas.height * 3) / 4);
+            ctx.moveTo(margin, canvas.height / 4);
+            ctx.lineTo(canvas.width - margin, canvas.height / 4);
+            ctx.moveTo(margin, canvas.height / 2);
+            ctx.lineTo(canvas.width - margin, canvas.height / 2);
+            ctx.moveTo(margin, (canvas.height * 3) / 4);
+            ctx.lineTo(canvas.width - margin, (canvas.height * 3) / 4);
             ctx.stroke();
             
             // Vertical center line
+            const verticalMargin = Math.min(canvas.height * 0.1, 30);
             ctx.beginPath();
-            ctx.moveTo(canvas.width / 2, 30);
-            ctx.lineTo(canvas.width / 2, canvas.height - 30);
+            ctx.moveTo(canvas.width / 2, verticalMargin);
+            ctx.lineTo(canvas.width / 2, canvas.height - verticalMargin);
             ctx.stroke();
             
             // Reset line dash and alpha
@@ -1731,6 +1758,13 @@
             setTimeout(() => {
                 button.style.transform = 'scale(1)';
             }, 150);
+            
+            // Auto check if answer looks complete (3+ characters)
+            if (input.value.length >= 3) {
+                setTimeout(() => {
+                    checkWrittenAnswer();
+                }, 1000);
+            }
         }
 
         function deleteLetter() {
@@ -1932,5 +1966,5 @@
         `;
         document.head.appendChild(style);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'975105e41223ce33',t:'MTc1NjE4NzEyNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97511534e46ace46',t:'MTc1NjE4Nzc1NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
