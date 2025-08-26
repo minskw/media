@@ -1087,169 +1087,291 @@
             // Show immediate feedback
             showFeedbackMessage('🔍 Mengecek sistem audio...', 'success');
             
+            // Comprehensive audio system test
+            const diagnostics = {
+                speechSynthesis: !!window.speechSynthesis,
+                audioContext: !!(window.AudioContext || window.webkitAudioContext),
+                mediaDevices: !!navigator.mediaDevices,
+                userAgent: navigator.userAgent,
+                language: navigator.language,
+                onLine: navigator.onLine,
+                platform: navigator.platform,
+                cookieEnabled: navigator.cookieEnabled
+            };
+            
+            console.log('🔍 Audio Diagnostics:', diagnostics);
+            
             // Test 1: Check if speech synthesis is available
-            if (!('speechSynthesis' in window)) {
+            if (!window.speechSynthesis) {
                 setTimeout(() => {
-                    showFeedbackMessage('❌ Browser tidak mendukung Text-to-Speech. Coba gunakan Chrome atau Firefox.', 'error');
+                    showFeedbackMessage('❌ Browser tidak mendukung Text-to-Speech. Gunakan Chrome, Firefox, atau Safari terbaru.', 'error');
                 }, 1000);
                 return;
             }
             
-            // Test 2: Initialize audio context
-            initializeAudio();
+            // Test 2: Initialize audio context with user gesture
+            if (!isAudioInitialized) {
+                initializeAudio();
+            }
             
-            // Test 3: Check device volume and settings
+            // Test 3: Device detection with more specific checks
             const userAgent = navigator.userAgent.toLowerCase();
             const isAndroid = userAgent.includes('android');
             const isIOS = userAgent.includes('iphone') || userAgent.includes('ipad');
+            const isChrome = userAgent.includes('chrome');
+            const isFirefox = userAgent.includes('firefox');
+            const isSafari = userAgent.includes('safari') && !userAgent.includes('chrome');
+            const isSamsung = userAgent.includes('samsung');
+            const isOpera = userAgent.includes('opera') || userAgent.includes('opr');
             
-            console.log('Device info:', { isAndroid, isIOS, userAgent });
+            console.log('🔍 Device Detection:', { 
+                isAndroid, isIOS, isChrome, isFirefox, isSafari, isSamsung, isOpera,
+                userAgent: userAgent.substring(0, 100) + '...'
+            });
             
-            // Test 4: Wait for voices to load (critical for Android)
+            // Test 4: Check for common blocking issues
+            const checkAudioBlocking = () => {
+                // Check if page is served over HTTPS (required for some audio features)
+                const isHTTPS = location.protocol === 'https:';
+                
+                // Check if in iframe (can cause audio issues)
+                const inIframe = window !== window.top;
+                
+                // Check document visibility
+                const isVisible = !document.hidden;
+                
+                console.log('🔍 Audio Environment:', { isHTTPS, inIframe, isVisible });
+                
+                if (!isHTTPS && location.hostname !== 'localhost') {
+                    showFeedbackMessage('⚠️ Halaman tidak aman (HTTP). Beberapa fitur audio mungkin tidak berfungsi.', 'error');
+                    return false;
+                }
+                
+                return true;
+            };
+            
+            if (!checkAudioBlocking()) {
+                return;
+            }
+            
+            // Test 5: Wait for voices with extended timeout and fallbacks
             const waitForVoices = () => {
                 return new Promise((resolve) => {
-                    const voices = speechSynthesis.getVoices();
-                    if (voices.length > 0) {
-                        resolve(voices);
-                    } else {
-                        speechSynthesis.onvoiceschanged = () => {
-                            const newVoices = speechSynthesis.getVoices();
-                            if (newVoices.length > 0) {
-                                resolve(newVoices);
-                            }
-                        };
+                    let attempts = 0;
+                    const maxAttempts = 10;
+                    
+                    const checkVoices = () => {
+                        const voices = speechSynthesis.getVoices();
+                        attempts++;
                         
-                        // Timeout after 3 seconds
-                        setTimeout(() => {
-                            resolve(speechSynthesis.getVoices());
-                        }, 3000);
-                    }
+                        console.log(`🔍 Voice check attempt ${attempts}: ${voices.length} voices found`);
+                        
+                        if (voices.length > 0) {
+                            console.log('🔍 Available voices:', voices.map(v => `${v.name} (${v.lang})`));
+                            resolve(voices);
+                        } else if (attempts >= maxAttempts) {
+                            console.log('🔍 Voice loading timeout, proceeding with empty voice list');
+                            resolve([]);
+                        } else {
+                            setTimeout(checkVoices, 500);
+                        }
+                    };
+                    
+                    // Initial check
+                    checkVoices();
+                    
+                    // Also listen for voice changes
+                    speechSynthesis.onvoiceschanged = () => {
+                        const newVoices = speechSynthesis.getVoices();
+                        if (newVoices.length > 0) {
+                            console.log('🔍 Voices loaded via event:', newVoices.length);
+                            resolve(newVoices);
+                        }
+                    };
                 });
             };
             
-            // Test 5: Try speech with proper error handling
+            // Test 6: Advanced speech test with multiple fallbacks
             waitForVoices().then((voices) => {
-                console.log('Available voices:', voices.length);
+                console.log('🔍 Final voice count:', voices.length);
                 
-                // Clear any pending speech
-                speechSynthesis.cancel();
-                
-                // Wait a bit for cancel to complete
-                setTimeout(() => {
-                    const testUtterance = new SpeechSynthesisUtterance('Tes audio berhasil');
-                    
-                    // Try to find Indonesian voice
-                    const indonesianVoice = voices.find(voice => 
-                        voice.lang.includes('id') || 
-                        voice.lang.includes('ID') ||
-                        voice.name.toLowerCase().includes('indonesia')
-                    );
-                    
-                    if (indonesianVoice) {
-                        testUtterance.voice = indonesianVoice;
-                        console.log('Using Indonesian voice:', indonesianVoice.name);
-                    } else {
-                        console.log('No Indonesian voice found, using default');
-                    }
-                    
-                    testUtterance.lang = 'id-ID';
-                    testUtterance.rate = isAndroid ? 0.8 : 1.0; // Slower for Android
-                    testUtterance.pitch = 1.0; // Normal pitch for compatibility
-                    testUtterance.volume = 1.0;
-                    
-                    let hasStarted = false;
-                    let hasEnded = false;
-                    
-                    testUtterance.onstart = () => {
-                        hasStarted = true;
-                        console.log('Speech started successfully');
-                        showFeedbackMessage('✅ Audio berfungsi! Suara terdengar!', 'success');
-                    };
-                    
-                    testUtterance.onerror = (event) => {
-                        console.error('Speech error:', event.error);
-                        let errorMsg = '';
-                        
-                        switch(event.error) {
-                            case 'network':
-                                errorMsg = '❌ Tidak ada koneksi internet. Text-to-Speech butuh internet.';
-                                break;
-                            case 'synthesis-unavailable':
-                                errorMsg = '❌ Text-to-Speech tidak tersedia di perangkat ini.';
-                                break;
-                            case 'synthesis-failed':
-                                errorMsg = '❌ Gagal memutar suara. Coba restart browser atau periksa volume.';
-                                break;
-                            case 'audio-busy':
-                                errorMsg = '❌ Audio sedang digunakan aplikasi lain. Tutup aplikasi musik/video.';
-                                break;
-                            case 'not-allowed':
-                                errorMsg = '❌ Browser memblokir audio. Klik ikon suara di address bar untuk mengizinkan.';
-                                break;
-                            default:
-                                errorMsg = `❌ Error: ${event.error}. Coba aktifkan volume atau restart browser.`;
-                        }
-                        
-                        showFeedbackMessage(errorMsg, 'error');
-                    };
-                    
-                    testUtterance.onend = () => {
-                        hasEnded = true;
-                        console.log('Speech ended successfully');
-                    };
-                    
-                    // Android-specific fixes
-                    if (isAndroid) {
-                        // Force resume before speaking
-                        if (speechSynthesis.paused) {
-                            speechSynthesis.resume();
-                        }
-                        
-                        // Multiple resume attempts for Android
-                        const resumeInterval = setInterval(() => {
-                            if (speechSynthesis.paused) {
-                                speechSynthesis.resume();
-                            }
-                        }, 100);
-                        
-                        setTimeout(() => {
-                            clearInterval(resumeInterval);
-                        }, 2000);
-                    }
-                    
-                    // Speak the test phrase
-                    speechSynthesis.speak(testUtterance);
-                    
-                    // Timeout check - if speech doesn't start in 3 seconds
+                // Clear any pending speech with force
+                try {
+                    speechSynthesis.cancel();
+                    // Wait for cancel to complete
                     setTimeout(() => {
-                        if (!hasStarted && !hasEnded) {
-                            console.log('Speech timeout - no start event received');
-                            showFeedbackMessage('⚠️ Audio mungkin tidak berfungsi. Periksa volume dan pengaturan suara perangkat.', 'error');
-                        }
-                    }, 3000);
+                        speechSynthesis.cancel(); // Double cancel for stubborn browsers
+                    }, 100);
+                } catch (e) {
+                    console.log('🔍 Speech cancel error (normal):', e.message);
+                }
+                
+                // Wait longer for cancel to complete
+                setTimeout(() => {
+                    const testPhrases = ['Tes audio berhasil', 'Halo', 'A'];
+                    let currentPhrase = 0;
                     
-                }, 200);
+                    const tryNextPhrase = () => {
+                        if (currentPhrase >= testPhrases.length) {
+                            showFeedbackMessage('❌ Semua tes audio gagal. Coba restart browser atau gunakan browser lain.', 'error');
+                            return;
+                        }
+                        
+                        const testText = testPhrases[currentPhrase];
+                        console.log(`🔍 Testing phrase ${currentPhrase + 1}: "${testText}"`);
+                        
+                        const testUtterance = new SpeechSynthesisUtterance(testText);
+                        
+                        // Voice selection with better fallbacks
+                        let selectedVoice = null;
+                        
+                        // Try to find Indonesian voice
+                        const indonesianVoices = voices.filter(voice => 
+                            voice.lang.toLowerCase().includes('id') || 
+                            voice.name.toLowerCase().includes('indonesia') ||
+                            voice.name.toLowerCase().includes('bahasa')
+                        );
+                        
+                        if (indonesianVoices.length > 0) {
+                            selectedVoice = indonesianVoices[0];
+                            console.log('🔍 Using Indonesian voice:', selectedVoice.name);
+                        } else {
+                            // Try English voices as fallback
+                            const englishVoices = voices.filter(voice => 
+                                voice.lang.toLowerCase().includes('en')
+                            );
+                            if (englishVoices.length > 0) {
+                                selectedVoice = englishVoices[0];
+                                console.log('🔍 Using English voice as fallback:', selectedVoice.name);
+                            } else if (voices.length > 0) {
+                                selectedVoice = voices[0];
+                                console.log('🔍 Using first available voice:', selectedVoice.name);
+                            }
+                        }
+                        
+                        if (selectedVoice) {
+                            testUtterance.voice = selectedVoice;
+                        }
+                        
+                        // Optimized settings for different browsers/devices
+                        testUtterance.lang = selectedVoice ? selectedVoice.lang : 'id-ID';
+                        testUtterance.rate = isAndroid ? 0.7 : isSamsung ? 0.6 : 0.9;
+                        testUtterance.pitch = isAndroid ? 1.0 : 1.2;
+                        testUtterance.volume = 1.0;
+                        
+                        let hasStarted = false;
+                        let hasEnded = false;
+                        let startTimeout, endTimeout;
+                        
+                        testUtterance.onstart = () => {
+                            hasStarted = true;
+                            console.log('✅ Speech started successfully');
+                            clearTimeout(startTimeout);
+                            showFeedbackMessage('✅ Audio berfungsi! Suara berhasil diputar!', 'success');
+                        };
+                        
+                        testUtterance.onerror = (event) => {
+                            console.error('❌ Speech error:', event.error, event);
+                            clearTimeout(startTimeout);
+                            clearTimeout(endTimeout);
+                            
+                            let errorMsg = '';
+                            switch(event.error) {
+                                case 'network':
+                                    errorMsg = '❌ Tidak ada koneksi internet. Text-to-Speech memerlukan koneksi internet.';
+                                    break;
+                                case 'synthesis-unavailable':
+                                    errorMsg = '❌ Text-to-Speech tidak tersedia. Coba gunakan browser Chrome atau Firefox.';
+                                    break;
+                                case 'synthesis-failed':
+                                    errorMsg = '❌ Gagal memutar suara. Coba tutup aplikasi musik lain atau restart browser.';
+                                    break;
+                                case 'audio-busy':
+                                    errorMsg = '❌ Audio sedang digunakan aplikasi lain. Tutup YouTube, Spotify, atau aplikasi musik lainnya.';
+                                    break;
+                                case 'not-allowed':
+                                    errorMsg = '❌ Browser memblokir audio. Klik ikon 🔊 di address bar untuk mengizinkan suara.';
+                                    break;
+                                case 'interrupted':
+                                    errorMsg = '❌ Audio terputus. Coba lagi atau gunakan headphone.';
+                                    break;
+                                default:
+                                    errorMsg = `❌ Error: ${event.error}. Coba gunakan browser lain atau restart perangkat.`;
+                            }
+                            
+                            // Try next phrase
+                            currentPhrase++;
+                            setTimeout(tryNextPhrase, 1000);
+                        };
+                        
+                        testUtterance.onend = () => {
+                            hasEnded = true;
+                            console.log('✅ Speech ended successfully');
+                            clearTimeout(endTimeout);
+                        };
+                        
+                        // Device-specific fixes
+                        if (isAndroid || isSamsung) {
+                            // Android/Samsung specific workarounds
+                            const forceResume = () => {
+                                if (speechSynthesis.paused) {
+                                    console.log('🔍 Resuming paused speech (Android fix)');
+                                    speechSynthesis.resume();
+                                }
+                            };
+                            
+                            // Multiple resume attempts
+                            const resumeInterval = setInterval(forceResume, 200);
+                            setTimeout(() => clearInterval(resumeInterval), 3000);
+                        }
+                        
+                        // Set timeouts for detection
+                        startTimeout = setTimeout(() => {
+                            if (!hasStarted && !hasEnded) {
+                                console.log('❌ Speech start timeout');
+                                currentPhrase++;
+                                tryNextPhrase();
+                            }
+                        }, 4000);
+                        
+                        endTimeout = setTimeout(() => {
+                            if (hasStarted && !hasEnded) {
+                                console.log('⚠️ Speech running longer than expected, but started successfully');
+                            }
+                        }, 8000);
+                        
+                        // Speak the test phrase
+                        try {
+                            console.log('🔍 Attempting to speak:', testText);
+                            speechSynthesis.speak(testUtterance);
+                            
+                            // Additional resume for problematic devices
+                            setTimeout(() => {
+                                if (speechSynthesis.paused) {
+                                    speechSynthesis.resume();
+                                }
+                            }, 500);
+                            
+                        } catch (e) {
+                            console.error('❌ Speech speak error:', e);
+                            currentPhrase++;
+                            setTimeout(tryNextPhrase, 1000);
+                        }
+                    };
+                    
+                    // Start testing
+                    tryNextPhrase();
+                    
+                }, 500); // Longer wait for cancel
             });
             
             // Visual feedback
             createParticles('🎵');
             
-            // Haptic feedback
+            // Haptic feedback with pattern
             if (navigator.vibrate) {
-                navigator.vibrate([100, 50, 100]);
+                navigator.vibrate([100, 50, 100, 50, 200]);
             }
-            
-            // Additional diagnostic info
-            setTimeout(() => {
-                console.log('Audio diagnostic info:', {
-                    speechSynthesis: !!window.speechSynthesis,
-                    audioContext: !!window.AudioContext || !!window.webkitAudioContext,
-                    mediaDevices: !!navigator.mediaDevices,
-                    userAgent: navigator.userAgent,
-                    language: navigator.language,
-                    onLine: navigator.onLine
-                });
-            }, 1000);
         }
 
         function playSuccessSound() {
@@ -2254,101 +2376,226 @@
         }
 
         function playFallbackAudio(letter) {
-            // Fallback audio using Web Audio API with beep patterns
-            if (!audioContext) {
-                initializeAudio();
-            }
-            
-            if (audioContext && audioContext.state === 'running') {
-                // Create unique beep pattern for each letter
-                const letterPatterns = {
-                    'A': [440, 523, 659], // A major chord
-                    'B': [493, 587, 698], // B major chord  
-                    'C': [523, 659, 784], // C major chord
-                    'D': [587, 698, 831], // D major chord
-                    'E': [659, 784, 988], // E major chord
-                    'F': [698, 831, 1047], // F major chord
-                    'G': [784, 988, 1175], // G major chord
-                    'H': [831, 1047, 1245], // H pattern
-                    'I': [880, 1109, 1319], // I pattern
-                    'J': [932, 1175, 1397], // J pattern
-                    'K': [988, 1245, 1480], // K pattern
-                    'L': [1047, 1319, 1568], // L pattern
-                    'M': [1109, 1397, 1661], // M pattern
-                    'N': [1175, 1480, 1760], // N pattern
-                    'O': [1245, 1568, 1865], // O pattern
-                    'P': [1319, 1661, 1976], // P pattern
-                    'Q': [1397, 1760, 2093], // Q pattern
-                    'R': [1480, 1865, 2217], // R pattern
-                    'S': [1568, 1976, 2349], // S pattern
-                    'T': [1661, 2093, 2489], // T pattern
-                    'U': [1760, 2217, 2637], // U pattern
-                    'V': [1865, 2349, 2794], // V pattern
-                    'W': [1976, 2489, 2960], // W pattern
-                    'X': [2093, 2637, 3136], // X pattern
-                    'Y': [2217, 2794, 3322], // Y pattern
-                    'Z': [2349, 2960, 3520]  // Z pattern
-                };
-                
-                const frequencies = letterPatterns[letter] || [440, 523, 659];
-                const now = audioContext.currentTime;
-                
-                // Play distinctive pattern for the letter
-                frequencies.forEach((freq, index) => {
-                    const oscillator = audioContext.createOscillator();
-                    const gainNode = audioContext.createGain();
-                    const filterNode = audioContext.createBiquadFilter();
-                    
-                    oscillator.connect(filterNode);
-                    filterNode.connect(gainNode);
-                    gainNode.connect(audioContext.destination);
-                    
-                    oscillator.frequency.setValueAtTime(freq, now + index * 0.2);
-                    oscillator.type = 'sine';
-                    
-                    filterNode.type = 'lowpass';
-                    filterNode.frequency.setValueAtTime(2000, now + index * 0.2);
-                    
-                    const startTime = now + (index * 0.2);
-                    gainNode.gain.setValueAtTime(0, startTime);
-                    gainNode.gain.linearRampToValueAtTime(0.15, startTime + 0.05);
-                    gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + 0.3);
-                    
-                    oscillator.start(startTime);
-                    oscillator.stop(startTime + 0.3);
-                });
-                
-                // Visual feedback
-                showFeedbackMessage(`🎶 Nada untuk huruf ${letter}`, 'success');
-                createParticles('🎵');
-                
-                // Speak the letter name as backup
-                setTimeout(() => {
-                    if ('speechSynthesis' in window) {
-                        speechSynthesis.cancel();
-                        const utterance = new SpeechSynthesisUtterance(letter);
-                        utterance.lang = 'id-ID';
-                        utterance.rate = 0.7;
-                        utterance.pitch = 1.5;
-                        utterance.volume = 1.0;
-                        speechSynthesis.speak(utterance);
+            // Force initialize audio context with user gesture
+            if (!audioContext || audioContext.state !== 'running') {
+                try {
+                    if (!audioContext) {
+                        audioContext = new (AudioContext || webkitAudioContext)();
                     }
-                }, 800);
-                
-            } else {
-                // Ultimate fallback - just visual and vibration
-                showFeedbackMessage(`📢 Huruf ${letter} - Aktifkan audio untuk mendengar suara!`, 'error');
-                
-                // Haptic pattern for the letter
-                if (navigator.vibrate) {
-                    const vibrationPattern = letter.charCodeAt(0) - 64; // A=1, B=2, etc.
-                    const pattern = [];
-                    for (let i = 0; i < vibrationPattern && i < 5; i++) {
-                        pattern.push(100, 50);
+                    
+                    // Resume audio context if suspended
+                    if (audioContext.state === 'suspended') {
+                        audioContext.resume().then(() => {
+                            console.log('🔍 Audio context resumed for fallback');
+                            playFallbackAudio(letter); // Retry after resume
+                        }).catch(e => {
+                            console.log('🔍 Failed to resume audio context:', e);
+                            showFallbackWithoutAudio(letter);
+                        });
+                        return;
                     }
-                    navigator.vibrate(pattern);
+                } catch (e) {
+                    console.log('🔍 Failed to create audio context:', e);
+                    showFallbackWithoutAudio(letter);
+                    return;
                 }
             }
+            
+            // Test if audio context is working
+            if (audioContext && audioContext.state === 'running') {
+                try {
+                    // Create unique beep pattern for each letter
+                    const letterPatterns = {
+                        'A': [440, 523, 659], // A major chord
+                        'B': [493, 587, 698], // B major chord  
+                        'C': [523, 659, 784], // C major chord
+                        'D': [587, 698, 831], // D major chord
+                        'E': [659, 784, 988], // E major chord
+                        'F': [698, 831, 1047], // F major chord
+                        'G': [784, 988, 1175], // G major chord
+                        'H': [831, 1047, 1245], // H pattern
+                        'I': [880, 1109, 1319], // I pattern
+                        'J': [932, 1175, 1397], // J pattern
+                        'K': [988, 1245, 1480], // K pattern
+                        'L': [1047, 1319, 1568], // L pattern
+                        'M': [1109, 1397, 1661], // M pattern
+                        'N': [1175, 1480, 1760], // N pattern
+                        'O': [1245, 1568, 1865], // O pattern
+                        'P': [1319, 1661, 1976], // P pattern
+                        'Q': [1397, 1760, 2093], // Q pattern
+                        'R': [1480, 1865, 2217], // R pattern
+                        'S': [1568, 1976, 2349], // S pattern
+                        'T': [1661, 2093, 2489], // T pattern
+                        'U': [1760, 2217, 2637], // U pattern
+                        'V': [1865, 2349, 2794], // V pattern
+                        'W': [1976, 2489, 2960], // W pattern
+                        'X': [2093, 2637, 3136], // X pattern
+                        'Y': [2217, 2794, 3322], // Y pattern
+                        'Z': [2349, 2960, 3520]  // Z pattern
+                    };
+                    
+                    const frequencies = letterPatterns[letter] || [440, 523, 659];
+                    const now = audioContext.currentTime;
+                    
+                    console.log(`🔍 Playing fallback audio for ${letter} with frequencies:`, frequencies);
+                    
+                    // Play distinctive pattern for the letter
+                    frequencies.forEach((freq, index) => {
+                        try {
+                            const oscillator = audioContext.createOscillator();
+                            const gainNode = audioContext.createGain();
+                            const filterNode = audioContext.createBiquadFilter();
+                            
+                            oscillator.connect(filterNode);
+                            filterNode.connect(gainNode);
+                            gainNode.connect(audioContext.destination);
+                            
+                            oscillator.frequency.setValueAtTime(freq, now + index * 0.25);
+                            oscillator.type = 'sine';
+                            
+                            filterNode.type = 'lowpass';
+                            filterNode.frequency.setValueAtTime(3000, now + index * 0.25);
+                            
+                            const startTime = now + (index * 0.25);
+                            gainNode.gain.setValueAtTime(0, startTime);
+                            gainNode.gain.linearRampToValueAtTime(0.2, startTime + 0.05);
+                            gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + 0.4);
+                            
+                            oscillator.start(startTime);
+                            oscillator.stop(startTime + 0.4);
+                            
+                            // Add success callback for first oscillator
+                            if (index === 0) {
+                                oscillator.onended = () => {
+                                    console.log('✅ Fallback audio played successfully');
+                                    showFeedbackMessage(`🎶 Nada berhasil diputar untuk huruf ${letter}!`, 'success');
+                                };
+                            }
+                            
+                        } catch (e) {
+                            console.log('🔍 Error creating oscillator:', e);
+                        }
+                    });
+                    
+                    // Visual feedback
+                    createParticles('🎵');
+                    
+                    // Try speech synthesis as additional backup after tones
+                    setTimeout(() => {
+                        if ('speechSynthesis' in window) {
+                            try {
+                                speechSynthesis.cancel();
+                                const utterance = new SpeechSynthesisUtterance(letter);
+                                utterance.lang = 'id-ID';
+                                utterance.rate = 0.8;
+                                utterance.pitch = 1.3;
+                                utterance.volume = 1.0;
+                                
+                                utterance.onstart = () => {
+                                    console.log('✅ Backup speech started for', letter);
+                                };
+                                
+                                utterance.onerror = (e) => {
+                                    console.log('🔍 Backup speech failed:', e.error);
+                                };
+                                
+                                speechSynthesis.speak(utterance);
+                            } catch (e) {
+                                console.log('🔍 Speech synthesis error:', e);
+                            }
+                        }
+                    }, 1000);
+                    
+                } catch (e) {
+                    console.log('🔍 Web Audio API error:', e);
+                    showFallbackWithoutAudio(letter);
+                }
+                
+            } else {
+                console.log('🔍 Audio context not available or not running');
+                showFallbackWithoutAudio(letter);
+            }
+        }
+        
+        function showFallbackWithoutAudio(letter) {
+            // Ultimate fallback when no audio is possible
+            console.log('🔍 Using ultimate fallback for letter:', letter);
+            
+            // Enhanced visual feedback
+            showFeedbackMessage(`📢 Huruf ${letter} - Coba aktifkan suara di pengaturan browser!`, 'error');
+            
+            // Create enhanced visual representation
+            const letterInfo = {
+                'A': { emoji: '🍎', word: 'APEL', color: '#FF6B6B' },
+                'B': { emoji: '⚽', word: 'BOLA', color: '#4ECDC4' },
+                'C': { emoji: '🍒', word: 'CERI', color: '#45B7D1' },
+                'D': { emoji: '🎲', word: 'DADU', color: '#96CEB4' },
+                'E': { emoji: '🦅', word: 'ELANG', color: '#FECA57' }
+            };
+            
+            const info = letterInfo[letter] || { emoji: '📝', word: letter, color: '#95A5A6' };
+            
+            // Create floating letter display
+            const floatingLetter = document.createElement('div');
+            floatingLetter.innerHTML = `
+                <div style="
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: linear-gradient(135deg, ${info.color}, ${info.color}AA);
+                    color: white;
+                    padding: 2rem;
+                    border-radius: 2rem;
+                    text-align: center;
+                    z-index: 1000;
+                    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+                    animation: bounce 1s ease-in-out infinite;
+                ">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">${info.emoji}</div>
+                    <div style="font-size: 6rem; font-weight: bold; margin-bottom: 1rem;">${letter}</div>
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">${info.word}</div>
+                    <div style="font-size: 1rem; opacity: 0.8;">Suara tidak tersedia</div>
+                </div>
+            `;
+            
+            document.body.appendChild(floatingLetter);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                if (document.body.contains(floatingLetter)) {
+                    floatingLetter.style.opacity = '0';
+                    floatingLetter.style.transform = 'translate(-50%, -50%) scale(0.8)';
+                    setTimeout(() => {
+                        if (document.body.contains(floatingLetter)) {
+                            document.body.removeChild(floatingLetter);
+                        }
+                    }, 300);
+                }
+            }, 3000);
+            
+            // Enhanced haptic pattern for the letter
+            if (navigator.vibrate) {
+                const vibrationPattern = letter.charCodeAt(0) - 64; // A=1, B=2, etc.
+                const pattern = [];
+                
+                // Create unique vibration pattern
+                for (let i = 0; i < Math.min(vibrationPattern, 5); i++) {
+                    pattern.push(150, 100); // Long buzz, short pause
+                }
+                pattern.push(300); // Final long buzz
+                
+                navigator.vibrate(pattern);
+                console.log('🔍 Vibration pattern for', letter, ':', pattern);
+            }
+            
+            // Create visual particles
+            createParticles('🔇');
+            
+            // Show helpful message
+            setTimeout(() => {
+                showFeedbackMessage('💡 Tips: Coba restart browser atau gunakan headphone!', 'success');
+            }, 2000);
         }
 
         // Add CSS classes for animations
@@ -2360,5 +2607,5 @@
         `;
         document.head.appendChild(style);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97512f7bb078ce46',t:'MTc1NjE4ODgzMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9751379d76a0fd61',t:'MTc1NjE4OTE2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
