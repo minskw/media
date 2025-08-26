@@ -1,0 +1,1936 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>🌟 Petualangan Belajar Bahasa Indonesia 🌟</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Nunito:wght@400;600;700;800&display=swap');
+        
+        body { 
+            font-family: 'Nunito', sans-serif; 
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        
+        /* Mobile First Design */
+        @media (max-width: 768px) {
+            .mobile-text-lg { font-size: 1.125rem; }
+            .mobile-text-xl { font-size: 1.25rem; }
+            .mobile-text-2xl { font-size: 1.5rem; }
+            .mobile-text-3xl { font-size: 1.875rem; }
+            .mobile-text-4xl { font-size: 2.25rem; }
+            .mobile-text-5xl { font-size: 3rem; }
+            .mobile-text-6xl { font-size: 3.75rem; }
+            .mobile-text-7xl { font-size: 4.5rem; }
+            .mobile-text-8xl { font-size: 6rem; }
+            .mobile-px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+            .mobile-px-4 { padding-left: 1rem; padding-right: 1rem; }
+            .mobile-py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+            .mobile-py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+            .mobile-gap-2 { gap: 0.5rem; }
+            .mobile-gap-4 { gap: 1rem; }
+            .mobile-mb-4 { margin-bottom: 1rem; }
+            .mobile-mb-6 { margin-bottom: 1.5rem; }
+        }
+        
+        .title-font { font-family: 'Fredoka One', cursive; }
+        
+        /* Animasi Background */
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .shape:nth-child(1) { animation-delay: 0s; }
+        .shape:nth-child(2) { animation-delay: 1s; }
+        .shape:nth-child(3) { animation-delay: 2s; }
+        .shape:nth-child(4) { animation-delay: 3s; }
+        .shape:nth-child(5) { animation-delay: 4s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        /* Animasi Kartu Game */
+        .game-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-15px) scale(1.08);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+        }
+        
+        .game-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s;
+            opacity: 0;
+        }
+        
+        .game-card:hover::after {
+            animation: shimmer 0.8s ease-in-out;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+        }
+        
+        /* Drag and Drop Styles */
+        .draggable {
+            cursor: grab;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+        
+        .draggable:active {
+            cursor: grabbing;
+            transform: scale(1.1) rotate(5deg);
+            z-index: 1000;
+        }
+        
+        .drop-zone {
+            transition: all 0.3s ease;
+            border: 3px dashed #cbd5e1;
+        }
+        
+        .drop-zone.drag-over {
+            border-color: #3b82f6;
+            background-color: #dbeafe;
+            transform: scale(1.05);
+        }
+        
+        .drop-zone.correct {
+            border-color: #10b981;
+            background-color: #d1fae5;
+            animation: success-pulse 0.6s ease;
+        }
+        
+        @keyframes success-pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Letter Animation */
+        .letter-bounce {
+            animation: letterBounce 0.8s ease infinite;
+        }
+        
+        @keyframes letterBounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-15px) scale(1.1); }
+        }
+        
+        /* Particle Effects */
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            animation: particle-float 2s ease-out forwards;
+        }
+        
+        @keyframes particle-float {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) scale(0);
+            }
+        }
+        
+        /* Progress Bar */
+        .progress-bar {
+            background: linear-gradient(90deg, #ff6b6b 0%, #4ecdc4 50%, #45b7d1 100%);
+            animation: progress-glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes progress-glow {
+            0% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
+            100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.8); }
+        }
+        
+        /* Button Animations */
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+        
+        /* Modal Animations */
+        .modal-enter {
+            animation: modalEnter 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        @keyframes modalEnter {
+            0% {
+                opacity: 0;
+                transform: scale(0.7) translateY(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        
+        /* Confetti Animation */
+        .confetti {
+            position: fixed;
+            top: -10px;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff6b6b;
+            animation: confetti-fall 3s linear forwards;
+        }
+        
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-purple-400 via-pink-400 to-red-400 min-h-screen relative">
+    
+    <!-- Floating Background Shapes -->
+    <div class="floating-shapes">
+        <div class="shape text-6xl" style="top: 10%; left: 10%;">🌟</div>
+        <div class="shape text-4xl" style="top: 20%; right: 15%;">📚</div>
+        <div class="shape text-5xl" style="top: 60%; left: 5%;">🎨</div>
+        <div class="shape text-3xl" style="top: 70%; right: 10%;">✨</div>
+        <div class="shape text-4xl" style="top: 40%; right: 5%;">🎯</div>
+    </div>
+
+    <!-- Header -->
+    <div class="relative z-10">
+        <div class="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 shadow-2xl rounded-b-3xl p-4 md:p-8 mb-4 md:mb-8 border-b-4 md:border-b-8 border-yellow-400 relative overflow-hidden">
+            <!-- Animated Background Elements -->
+            <div class="absolute inset-0 opacity-20">
+                <div class="absolute top-2 left-2 text-2xl md:text-4xl animate-bounce">⭐</div>
+                <div class="absolute top-4 right-4 text-xl md:text-3xl animate-pulse">🎯</div>
+                <div class="absolute bottom-2 left-4 text-3xl md:text-5xl animate-bounce" style="animation-delay: 0.5s;">📚</div>
+                <div class="absolute bottom-4 right-2 text-2xl md:text-4xl animate-pulse" style="animation-delay: 1s;">✨</div>
+                <div class="absolute top-1/2 left-1/4 text-lg md:text-2xl animate-bounce" style="animation-delay: 1.5s;">🌟</div>
+                <div class="absolute top-1/3 right-1/3 text-xl md:text-3xl animate-pulse" style="animation-delay: 2s;">🎨</div>
+            </div>
+            
+            <div class="text-center relative z-10">
+                <div class="mb-4 md:mb-6">
+                    <div class="text-5xl md:text-8xl mb-2 md:mb-4 animate-bounce">🚀</div>
+                    <h1 class="title-font text-3xl md:text-6xl lg:text-7xl text-white mb-2 md:mb-4 drop-shadow-2xl animate-pulse leading-tight">
+                        🌟 PETUALANGAN<br class="md:hidden"> BELAJAR 🌟
+                    </h1>
+                    <div class="bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 md:px-8 md:py-4 inline-block mb-2 md:mb-4">
+                        <p class="text-sm md:text-2xl lg:text-3xl font-bold text-white drop-shadow-lg">Bahasa Indonesia untuk Jagoan Kecil!</p>
+                    </div>
+                    <div class="flex justify-center gap-2 md:gap-4 text-2xl md:text-4xl animate-bounce">
+                        <span style="animation-delay: 0.2s;">🎪</span>
+                        <span style="animation-delay: 0.4s;">🎭</span>
+                        <span style="animation-delay: 0.6s;">🎨</span>
+                        <span style="animation-delay: 0.8s;">🎯</span>
+                    </div>
+                </div>
+                
+                <!-- Stats Dashboard -->
+                <div class="flex flex-col md:flex-row justify-center items-center gap-2 md:gap-4 mt-4 md:mt-6">
+                    <div class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 md:px-6 md:py-3 rounded-full shadow-lg w-full md:w-auto">
+                        <span class="text-sm md:text-lg font-bold">⭐ Skor: <span id="totalScore" class="text-lg md:text-2xl">0</span></span>
+                    </div>
+                    <div class="bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 md:px-6 md:py-3 rounded-full shadow-lg w-full md:w-auto">
+                        <span class="text-sm md:text-lg font-bold">🏆 Level: <span id="currentLevel" class="text-lg md:text-2xl">1</span></span>
+                    </div>
+                    <div class="bg-gradient-to-r from-pink-400 to-purple-500 text-white px-4 py-2 md:px-6 md:py-3 rounded-full shadow-lg w-full md:w-auto">
+                        <span class="text-sm md:text-lg font-bold">🎖️ Lencana: <span id="totalBadges" class="text-lg md:text-2xl">0</span></span>
+                    </div>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="mt-4 md:mt-6 max-w-xs md:max-w-md mx-auto px-4 md:px-0">
+                    <div class="bg-gray-200 rounded-full h-3 md:h-4 overflow-hidden">
+                        <div id="levelProgress" class="progress-bar h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                    <p class="text-xs md:text-sm text-gray-100 mt-1 md:mt-2">Progress Level Saat Ini</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Selection -->
+        <div class="container mx-auto px-2 md:px-4">
+            <div id="gameMenu" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 mb-4 md:mb-8">
+                
+                <!-- Mengenal Huruf dengan Audio -->
+                <div class="game-card relative rounded-2xl md:rounded-3xl shadow-2xl p-4 md:p-8 cursor-pointer bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 text-white border-2 md:border-4 border-blue-300" onclick="startGame('huruf')">
+                    <div class="absolute inset-0 bg-white/10 rounded-2xl md:rounded-3xl"></div>
+                    <div class="text-center relative z-10">
+                        <div class="text-5xl md:text-8xl mb-3 md:mb-6 letter-bounce drop-shadow-lg">🔤</div>
+                        <h3 class="text-xl md:text-3xl font-bold mb-2 md:mb-3 drop-shadow-md">Mengenal Huruf</h3>
+                        <p class="text-blue-100 text-sm md:text-lg mb-3 md:mb-4 font-medium">Belajar huruf A-Z dengan suara yang menyenangkan!</p>
+                        <div class="flex justify-center">
+                            <span class="bg-white/20 backdrop-blur-sm text-white px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold border border-white/30">🔊 Ada Suara</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Drag & Drop Melengkapi Kata -->
+                <div class="game-card relative rounded-2xl md:rounded-3xl shadow-2xl p-4 md:p-8 cursor-pointer bg-gradient-to-br from-emerald-400 via-emerald-500 to-emerald-600 text-white border-2 md:border-4 border-emerald-300" onclick="startGame('drag-drop')">
+                    <div class="absolute inset-0 bg-white/10 rounded-2xl md:rounded-3xl"></div>
+                    <div class="text-center relative z-10">
+                        <div class="text-5xl md:text-8xl mb-3 md:mb-6 drop-shadow-lg">🧩</div>
+                        <h3 class="text-xl md:text-3xl font-bold mb-2 md:mb-3 drop-shadow-md">Lengkapi Kata</h3>
+                        <p class="text-emerald-100 text-sm md:text-lg mb-3 md:mb-4 font-medium">Seret huruf untuk melengkapi kata yang hilang!</p>
+                        <div class="flex justify-center">
+                            <span class="bg-white/20 backdrop-blur-sm text-white px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold border border-white/30">🖱️ Drag & Drop</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Suku Kata Interaktif -->
+                <div class="game-card relative rounded-2xl md:rounded-3xl shadow-2xl p-4 md:p-8 cursor-pointer bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 text-white border-2 md:border-4 border-purple-300" onclick="startGame('suku-kata')">
+                    <div class="absolute inset-0 bg-white/10 rounded-2xl md:rounded-3xl"></div>
+                    <div class="text-center relative z-10">
+                        <div class="text-5xl md:text-8xl mb-3 md:mb-6 drop-shadow-lg">📝</div>
+                        <h3 class="text-xl md:text-3xl font-bold mb-2 md:mb-3 drop-shadow-md">Suku Kata</h3>
+                        <p class="text-purple-100 text-sm md:text-lg mb-3 md:mb-4 font-medium">Gabungkan suku kata dengan keyboard mini!</p>
+                        <div class="flex justify-center">
+                            <span class="bg-white/20 backdrop-blur-sm text-white px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold border border-white/30">⌨️ Keyboard</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tebak Gambar -->
+                <div class="game-card relative rounded-2xl md:rounded-3xl shadow-2xl p-4 md:p-8 cursor-pointer bg-gradient-to-br from-rose-400 via-rose-500 to-rose-600 text-white border-2 md:border-4 border-rose-300" onclick="startGame('tebak-gambar')">
+                    <div class="absolute inset-0 bg-white/10 rounded-2xl md:rounded-3xl"></div>
+                    <div class="text-center relative z-10">
+                        <div class="text-5xl md:text-8xl mb-3 md:mb-6 drop-shadow-lg">🖼️</div>
+                        <h3 class="text-xl md:text-3xl font-bold mb-2 md:mb-3 drop-shadow-md">Tebak Gambar</h3>
+                        <p class="text-rose-100 text-sm md:text-lg mb-3 md:mb-4 font-medium">Cocokkan kata dengan gambar yang tepat!</p>
+                        <div class="flex justify-center">
+                            <span class="bg-white/20 backdrop-blur-sm text-white px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold border border-white/30">🎯 Interaktif</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menulis Kreatif -->
+                <div class="game-card relative rounded-2xl md:rounded-3xl shadow-2xl p-4 md:p-8 cursor-pointer bg-gradient-to-br from-indigo-400 via-indigo-500 to-indigo-600 text-white border-2 md:border-4 border-indigo-300" onclick="startGame('menulis')">
+                    <div class="absolute inset-0 bg-white/10 rounded-2xl md:rounded-3xl"></div>
+                    <div class="text-center relative z-10">
+                        <div class="text-5xl md:text-8xl mb-3 md:mb-6 drop-shadow-lg">✏️</div>
+                        <h3 class="text-xl md:text-3xl font-bold mb-2 md:mb-3 drop-shadow-md">Menulis Kreatif</h3>
+                        <p class="text-indigo-100 text-sm md:text-lg mb-3 md:mb-4 font-medium">Belajar menulis dengan canvas digital!</p>
+                        <div class="flex justify-center">
+                            <span class="bg-white/20 backdrop-blur-sm text-white px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold border border-white/30">🎨 Canvas</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Membaca Cepat -->
+                <div class="game-card relative rounded-2xl md:rounded-3xl shadow-2xl p-4 md:p-8 cursor-pointer bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600 text-white border-2 md:border-4 border-orange-300" onclick="startGame('membaca')">
+                    <div class="absolute inset-0 bg-white/10 rounded-2xl md:rounded-3xl"></div>
+                    <div class="text-center relative z-10">
+                        <div class="text-5xl md:text-8xl mb-3 md:mb-6 drop-shadow-lg">📖</div>
+                        <h3 class="text-xl md:text-3xl font-bold mb-2 md:mb-3 drop-shadow-md">Membaca Cerdas</h3>
+                        <p class="text-orange-100 text-sm md:text-lg mb-3 md:mb-4 font-medium">Latihan membaca dengan AI dan rekam suara!</p>
+                        <div class="flex justify-center">
+                            <span class="bg-white/20 backdrop-blur-sm text-white px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold border border-white/30">🎤 AI + Rekam</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Area -->
+            <div id="gameArea" class="hidden">
+                <div class="bg-white/95 backdrop-blur-sm rounded-2xl md:rounded-3xl shadow-2xl p-3 md:p-8 mb-3 md:mb-6 border-2 md:border-4 border-transparent bg-clip-padding">
+                    
+                    <!-- Game Header -->
+                    <div class="flex flex-col md:flex-row justify-between items-center mb-4 md:mb-8 gap-2 md:gap-4">
+                        <button onclick="backToMenu()" class="btn-danger text-white px-4 py-2 md:px-6 md:py-3 rounded-full font-bold transition-all hover:scale-105 text-sm md:text-base order-1 md:order-none">
+                            ← Kembali
+                        </button>
+                        
+                        <div class="text-center flex-1 order-2 md:order-none">
+                            <h2 id="gameTitle" class="text-xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-1 md:mb-2 leading-tight"></h2>
+                            <div class="flex flex-col md:flex-row justify-center items-center gap-2 md:gap-4">
+                                <span id="gameScore" class="text-sm md:text-xl font-bold text-blue-600 bg-blue-100 px-3 py-1 md:px-4 md:py-2 rounded-full">Skor: 0</span>
+                                <span id="gameProgress" class="text-sm md:text-xl font-bold text-green-600 bg-green-100 px-3 py-1 md:px-4 md:py-2 rounded-full">1/5</span>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center md:text-right order-3 md:order-none">
+                            <div id="gameTimer" class="text-lg md:text-2xl font-bold text-red-600 bg-red-100 px-3 py-1 md:px-4 md:py-2 rounded-full hidden">⏱️ 30</div>
+                        </div>
+                    </div>
+
+                    <!-- Game Content -->
+                    <div id="gameContent" class="text-center min-h-64 md:min-h-96">
+                        <!-- Game content will be inserted here -->
+                    </div>
+
+                    <!-- Game Controls -->
+                    <div id="gameControls" class="mt-4 md:mt-8 text-center">
+                        <!-- Game controls will be inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div id="successModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50">
+            <div class="modal-enter bg-white rounded-3xl p-8 text-center max-w-md mx-4 shadow-2xl border-4 border-yellow-400">
+                <div class="text-8xl mb-6">🎉</div>
+                <h3 class="text-3xl font-bold text-green-600 mb-4">Hebat Sekali!</h3>
+                <p id="successMessage" class="text-xl text-gray-600 mb-6"></p>
+                <div id="badgeEarned" class="hidden mb-6">
+                    <div class="text-6xl mb-2">🏅</div>
+                    <p class="text-lg font-bold text-yellow-600">Kamu mendapat lencana baru!</p>
+                </div>
+                <button onclick="closeModal()" class="btn-success text-white px-8 py-4 rounded-full font-bold text-xl transition-all hover:scale-105">
+                    Lanjut Bermain! 🚀
+                </button>
+            </div>
+        </div>
+
+        <!-- Audio Elements (Hidden) -->
+        <div class="hidden">
+            <audio id="successSound" preload="auto">
+                <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT" type="audio/wav">
+            </audio>
+        </div>
+    </div>
+
+    <script>
+        // Game State
+        let currentGame = '';
+        let gameScore = 0;
+        let totalScore = parseInt(localStorage.getItem('totalScore') || '0');
+        let currentLevel = parseInt(localStorage.getItem('currentLevel') || '1');
+        let totalBadges = parseInt(localStorage.getItem('totalBadges') || '0');
+        let gameProgress = 1;
+        let maxProgress = 5;
+        let gameTimer = 30;
+        let timerInterval;
+
+        // Initialize display
+        updateDisplay();
+
+        // Game Data
+        const gameData = {
+            huruf: {
+                title: '🔤 Mengenal Huruf Ajaib',
+                questions: [
+                    { letter: 'A', sound: 'A seperti APEL', emoji: '🍎', options: ['A', 'E', 'I', 'O'] },
+                    { letter: 'B', sound: 'B seperti BOLA', emoji: '⚽', options: ['B', 'D', 'P', 'R'] },
+                    { letter: 'C', sound: 'C seperti CERI', emoji: '🍒', options: ['C', 'G', 'O', 'Q'] },
+                    { letter: 'D', sound: 'D seperti DADU', emoji: '🎲', options: ['D', 'B', 'P', 'O'] },
+                    { letter: 'E', sound: 'E seperti ELANG', emoji: '🦅', options: ['E', 'A', 'I', 'U'] }
+                ]
+            },
+            'drag-drop': {
+                title: '🧩 Seret & Lengkapi Kata',
+                questions: [
+                    { word: 'B_JU', missing: 'A', complete: 'BAJU', emoji: '👕', letters: ['A', 'I', 'U', 'E'] },
+                    { word: 'M_TA', missing: 'A', complete: 'MATA', emoji: '👁️', letters: ['A', 'I', 'O', 'E'] },
+                    { word: 'KA_I', missing: 'K', complete: 'KAKI', emoji: '🦵', letters: ['K', 'T', 'P', 'R'] },
+                    { word: 'BU_U', missing: 'K', complete: 'BUKU', emoji: '📚', letters: ['K', 'T', 'N', 'M'] },
+                    { word: 'RU_AH', missing: 'M', complete: 'RUMAH', emoji: '🏠', letters: ['M', 'N', 'T', 'S'] }
+                ]
+            },
+            'suku-kata': {
+                title: '📝 Petualangan Suku Kata',
+                questions: [
+                    { parts: ['BA', 'JU'], answer: 'BAJU', emoji: '👕' },
+                    { parts: ['MA', 'TA'], answer: 'MATA', emoji: '👁️' },
+                    { parts: ['KA', 'KI'], answer: 'KAKI', emoji: '🦵' },
+                    { parts: ['BU', 'KU'], answer: 'BUKU', emoji: '📚' },
+                    { parts: ['RU', 'MAH'], answer: 'RUMAH', emoji: '🏠' }
+                ]
+            },
+            'tebak-gambar': {
+                title: '🖼️ Tebak Gambar Seru',
+                questions: [
+                    { emoji: '🐱', options: ['ANJING', 'KUCING', 'BURUNG', 'IKAN'], answer: 'KUCING' },
+                    { emoji: '🌸', options: ['POHON', 'BUNGA', 'RUMPUT', 'DAUN'], answer: 'BUNGA' },
+                    { emoji: '🚗', options: ['SEPEDA', 'MOBIL', 'PESAWAT', 'KAPAL'], answer: 'MOBIL' },
+                    { emoji: '🍎', options: ['PISANG', 'JERUK', 'APEL', 'MANGGA'], answer: 'APEL' },
+                    { emoji: '☀️', options: ['BULAN', 'BINTANG', 'MATAHARI', 'AWAN'], answer: 'MATAHARI' }
+                ]
+            }
+        };
+
+        function updateDisplay() {
+            document.getElementById('totalScore').textContent = totalScore;
+            document.getElementById('currentLevel').textContent = currentLevel;
+            document.getElementById('totalBadges').textContent = totalBadges;
+            
+            // Update progress bar
+            const progress = ((totalScore % 100) / 100) * 100;
+            document.getElementById('levelProgress').style.width = progress + '%';
+        }
+
+        function startGame(gameType) {
+            currentGame = gameType;
+            gameScore = 0;
+            gameProgress = 1;
+            
+            document.getElementById('gameMenu').classList.add('hidden');
+            document.getElementById('gameArea').classList.remove('hidden');
+            
+            if (gameData[gameType]) {
+                document.getElementById('gameTitle').textContent = gameData[gameType].title;
+                loadQuestion();
+            } else if (gameType === 'menulis') {
+                startWritingGame();
+            } else if (gameType === 'membaca') {
+                startReadingGame();
+            }
+        }
+
+        function loadQuestion() {
+            const data = gameData[currentGame];
+            const question = data.questions[gameProgress - 1];
+            
+            document.getElementById('gameScore').textContent = `Skor: ${gameScore}`;
+            document.getElementById('gameProgress').textContent = `${gameProgress}/${data.questions.length}`;
+            
+            let content = '';
+            let controls = '';
+
+            if (currentGame === 'huruf') {
+                content = `
+                    <div class="mb-4 md:mb-8">
+                        <div class="text-6xl md:text-9xl mb-4 md:mb-6 letter-bounce">${question.emoji}</div>
+                        <div class="text-5xl md:text-8xl font-bold text-blue-600 mb-3 md:mb-4 letter-bounce">${question.letter}</div>
+                        <button onclick="playLetterSound('${question.sound}')" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 md:px-6 md:py-3 rounded-full font-bold text-lg md:text-xl mb-4 md:mb-6 transition-all hover:scale-105">
+                            🔊 Dengarkan Suara
+                        </button>
+                        <h3 class="text-lg md:text-2xl font-bold mb-4 md:mb-6">Huruf apa ini?</h3>
+                    </div>
+                `;
+                controls = `<div class="grid grid-cols-2 gap-3 md:gap-4 max-w-sm md:max-w-md mx-auto px-2 md:px-0">` +
+                    question.options.map(option => 
+                        `<button onclick="checkAnswer('${option}', '${question.letter}')" class="bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white text-2xl md:text-3xl px-4 py-4 md:px-8 md:py-6 rounded-xl md:rounded-2xl font-bold transition-all transform hover:scale-105 shadow-lg">${option}</button>`
+                    ).join('') + `</div>`;
+            } 
+            else if (currentGame === 'drag-drop') {
+                content = `
+                    <div class="mb-4 md:mb-8">
+                        <div class="text-5xl md:text-8xl mb-4 md:mb-6">${question.emoji}</div>
+                        <h3 class="text-lg md:text-3xl font-bold mb-4 md:mb-6 px-2">Seret huruf yang tepat untuk melengkapi kata:</h3>
+                        <div class="text-3xl md:text-6xl font-bold mb-6 md:mb-8 tracking-wider">
+                            ${question.word.split('').map(char => 
+                                char === '_' ? 
+                                `<span class="drop-zone inline-block w-12 h-12 md:w-20 md:h-20 mx-1 md:mx-2 border-2 md:border-4 border-dashed border-gray-400 rounded-lg md:rounded-xl bg-gray-100 leading-12 md:leading-20 text-center" data-answer="${question.missing}">_</span>` : 
+                                `<span class="inline-block mx-1 md:mx-2">${char}</span>`
+                            ).join('')}
+                        </div>
+                        <div class="flex justify-center gap-2 md:gap-4 mb-4 md:mb-6 flex-wrap">
+                            ${question.letters.map(letter => 
+                                `<div class="draggable bg-gradient-to-r from-purple-400 to-pink-400 text-white text-2xl md:text-4xl font-bold w-12 h-12 md:w-16 md:h-16 rounded-lg md:rounded-xl flex items-center justify-center cursor-grab shadow-lg touch-manipulation" draggable="true" data-letter="${letter}">${letter}</div>`
+                            ).join('')}
+                        </div>
+                    </div>
+                `;
+                controls = `<button onclick="checkDragAnswer()" class="btn-primary text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-lg md:text-xl transition-all hover:scale-105">Periksa Jawaban ✨</button>`;
+            }
+            else if (currentGame === 'suku-kata') {
+                const keyboardLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+                content = `
+                    <div class="mb-4 md:mb-8">
+                        <div class="text-5xl md:text-8xl mb-4 md:mb-6">${question.emoji}</div>
+                        <h3 class="text-lg md:text-3xl font-bold mb-4 md:mb-6 px-2">Gabungkan suku kata ini:</h3>
+                        <div class="flex justify-center items-center space-x-2 md:space-x-6 mb-6 md:mb-8 flex-wrap">
+                            ${question.parts.map((part, index) => 
+                                `<div class="bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-2xl md:text-4xl font-bold px-4 py-3 md:px-8 md:py-6 rounded-xl md:rounded-2xl shadow-lg transform hover:scale-105 transition-all">${part}</div>
+                                ${index < question.parts.length - 1 ? '<div class="text-2xl md:text-4xl font-bold text-gray-600">+</div>' : ''}`
+                            ).join('')}
+                        </div>
+                        <div class="text-lg md:text-2xl text-gray-600 mb-3 md:mb-4">Jawabanmu:</div>
+                        <input type="text" id="answerInput" class="text-2xl md:text-4xl text-center border-2 md:border-4 border-purple-300 rounded-xl md:rounded-2xl px-4 py-2 md:px-8 md:py-4 mb-4 md:mb-6 uppercase bg-purple-50 focus:border-purple-500 focus:outline-none transition-all w-full max-w-xs md:max-w-md" placeholder="Tulis di sini..." readonly>
+                        
+                        <!-- Keyboard Mini -->
+                        <div class="bg-white rounded-xl md:rounded-2xl p-3 md:p-6 shadow-lg border border-purple-200 md:border-2 max-w-full mx-auto">
+                            <h4 class="text-sm md:text-lg font-bold text-purple-600 mb-3 md:mb-4 text-center">🎹 Keyboard Mini</h4>
+                            <div class="grid grid-cols-6 md:grid-cols-9 gap-1 md:gap-2">
+                                ${keyboardLetters.map(letter => 
+                                    `<button onclick="addLetter('${letter}')" class="bg-gradient-to-r from-purple-400 to-pink-400 hover:from-purple-500 hover:to-pink-500 text-white font-bold py-2 px-2 md:py-3 md:px-4 rounded-lg md:rounded-xl transition-all transform hover:scale-105 shadow-md text-sm md:text-lg touch-manipulation">${letter}</button>`
+                                ).join('')}
+                            </div>
+                            <div class="flex justify-center gap-2 md:gap-4 mt-3 md:mt-4">
+                                <button onclick="deleteLetter()" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-3 md:py-3 md:px-6 rounded-lg md:rounded-xl transition-all transform hover:scale-105 text-sm md:text-base">🗑️ Hapus</button>
+                                <button onclick="clearInput()" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-3 md:py-3 md:px-6 rounded-lg md:rounded-xl transition-all transform hover:scale-105 text-sm md:text-base">🧹 Bersihkan</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                controls = `<button onclick="checkWrittenAnswer()" class="btn-primary text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-lg md:text-xl transition-all hover:scale-105 mt-4 md:mt-6">Periksa Jawaban 🎯</button>`;
+            }
+            else if (currentGame === 'tebak-gambar') {
+                content = `
+                    <div class="mb-4 md:mb-8">
+                        <div class="text-6xl md:text-9xl mb-6 md:mb-8 letter-bounce">${question.emoji}</div>
+                        <h3 class="text-lg md:text-3xl font-bold mb-6 md:mb-8 px-2">Kata apa yang cocok dengan gambar ini?</h3>
+                    </div>
+                `;
+                controls = `<div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 max-w-lg md:max-w-2xl mx-auto px-2 md:px-0">` +
+                    question.options.map(option => 
+                        `<button onclick="checkAnswer('${option}')" class="bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 text-white text-lg md:text-2xl px-6 py-3 md:px-8 md:py-4 rounded-xl md:rounded-2xl font-bold transition-all transform hover:scale-105 shadow-lg">${option}</button>`
+                    ).join('') + `</div>`;
+            }
+
+            document.getElementById('gameContent').innerHTML = content;
+            document.getElementById('gameControls').innerHTML = controls;
+
+            // Setup drag and drop for drag-drop game
+            if (currentGame === 'drag-drop') {
+                setupDragAndDrop();
+            }
+        }
+
+        function setupDragAndDrop() {
+            const draggables = document.querySelectorAll('.draggable');
+            const dropZones = document.querySelectorAll('.drop-zone');
+
+            draggables.forEach(draggable => {
+                // Mouse/Desktop drag events
+                draggable.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('text/plain', e.target.dataset.letter);
+                    e.target.style.opacity = '0.5';
+                });
+
+                draggable.addEventListener('dragend', (e) => {
+                    e.target.style.opacity = '1';
+                });
+
+                // Touch events for mobile
+                let isDragging = false;
+                let startX, startY;
+                let dragElement = null;
+
+                draggable.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    isDragging = true;
+                    const touch = e.touches[0];
+                    startX = touch.clientX;
+                    startY = touch.clientY;
+                    
+                    // Create drag clone
+                    dragElement = draggable.cloneNode(true);
+                    dragElement.style.position = 'fixed';
+                    dragElement.style.zIndex = '1000';
+                    dragElement.style.pointerEvents = 'none';
+                    dragElement.style.opacity = '0.8';
+                    dragElement.style.transform = 'scale(1.1)';
+                    document.body.appendChild(dragElement);
+                    
+                    draggable.style.opacity = '0.5';
+                });
+
+                draggable.addEventListener('touchmove', (e) => {
+                    if (!isDragging || !dragElement) return;
+                    e.preventDefault();
+                    
+                    const touch = e.touches[0];
+                    dragElement.style.left = (touch.clientX - 25) + 'px';
+                    dragElement.style.top = (touch.clientY - 25) + 'px';
+                });
+
+                draggable.addEventListener('touchend', (e) => {
+                    if (!isDragging) return;
+                    e.preventDefault();
+                    
+                    const touch = e.changedTouches[0];
+                    const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+                    const dropZone = elementBelow?.closest('.drop-zone');
+                    
+                    if (dropZone) {
+                        dropZone.textContent = draggable.dataset.letter;
+                        dropZone.dataset.dropped = draggable.dataset.letter;
+                        dropZone.style.backgroundColor = '#dbeafe';
+                        dropZone.style.borderColor = '#3b82f6';
+                        
+                        // Play success sound for successful drop
+                        if (audioContext && audioContext.state === 'running') {
+                            const osc = audioContext.createOscillator();
+                            const gain = audioContext.createGain();
+                            osc.connect(gain);
+                            gain.connect(audioContext.destination);
+                            osc.frequency.setValueAtTime(800, audioContext.currentTime);
+                            gain.gain.setValueAtTime(0.1, audioContext.currentTime);
+                            gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.2);
+                            osc.start();
+                            osc.stop(audioContext.currentTime + 0.2);
+                        }
+                    }
+                    
+                    // Cleanup
+                    if (dragElement) {
+                        document.body.removeChild(dragElement);
+                        dragElement = null;
+                    }
+                    draggable.style.opacity = '1';
+                    isDragging = false;
+                });
+            });
+
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    zone.classList.add('drag-over');
+                });
+
+                zone.addEventListener('dragleave', () => {
+                    zone.classList.remove('drag-over');
+                });
+
+                zone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    const letter = e.dataTransfer.getData('text/plain');
+                    zone.textContent = letter;
+                    zone.classList.remove('drag-over');
+                    zone.dataset.dropped = letter;
+                    
+                    // Add visual feedback
+                    zone.style.backgroundColor = '#dbeafe';
+                    zone.style.borderColor = '#3b82f6';
+                    
+                    // Play success sound for successful drop
+                    if (audioContext && audioContext.state === 'running') {
+                        const osc = audioContext.createOscillator();
+                        const gain = audioContext.createGain();
+                        osc.connect(gain);
+                        gain.connect(audioContext.destination);
+                        osc.frequency.setValueAtTime(800, audioContext.currentTime);
+                        gain.gain.setValueAtTime(0.1, audioContext.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.2);
+                        osc.start();
+                        osc.stop(audioContext.currentTime + 0.2);
+                    }
+                });
+            });
+        }
+
+        function checkDragAnswer() {
+            const dropZone = document.querySelector('.drop-zone');
+            const droppedLetter = dropZone.dataset.dropped;
+            const correctAnswer = dropZone.dataset.answer;
+
+            if (droppedLetter === correctAnswer) {
+                dropZone.classList.add('correct');
+                showSuccess();
+                gameScore += 20;
+                totalScore += 20;
+            } else {
+                showError();
+                dropZone.classList.add('shake');
+                setTimeout(() => dropZone.classList.remove('shake'), 500);
+            }
+        }
+
+        function playLetterSound(soundText) {
+            // Create speech synthesis
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(soundText);
+                utterance.lang = 'id-ID';
+                utterance.rate = 0.8;
+                utterance.pitch = 1.2;
+                speechSynthesis.speak(utterance);
+            }
+            
+            // Visual feedback
+            createParticles('🔊');
+        }
+
+        function checkAnswer(selectedAnswer, correctAnswer = null) {
+            const data = gameData[currentGame];
+            const question = data.questions[gameProgress - 1];
+            const answer = correctAnswer || question.answer;
+            
+            if (selectedAnswer === answer) {
+                showSuccess();
+                gameScore += 20;
+                totalScore += 20;
+            } else {
+                showError();
+            }
+        }
+
+        function checkWrittenAnswer() {
+            const input = document.getElementById('answerInput');
+            const answer = input.value.toUpperCase().trim();
+            const data = gameData[currentGame];
+            const question = data.questions[gameProgress - 1];
+            
+            if (answer === question.answer) {
+                showSuccess();
+                gameScore += 20;
+                totalScore += 20;
+            } else {
+                showError();
+                input.classList.add('shake');
+                setTimeout(() => input.classList.remove('shake'), 500);
+            }
+        }
+
+        function showSuccess() {
+            // Visual effects
+            createParticles('⭐');
+            createConfetti();
+            
+            // Play success sound
+            playSuccessSound();
+            
+            // Show success message
+            showFeedbackMessage('🎉 Hebat! Jawaban benar!', 'success');
+            
+            // Add bounce animation
+            document.getElementById('gameContent').classList.add('bounce');
+            
+            setTimeout(() => {
+                document.getElementById('gameContent').classList.remove('bounce');
+                nextQuestion();
+            }, 2000);
+        }
+
+        function showError() {
+            document.getElementById('gameContent').classList.add('shake');
+            createParticles('❌');
+            
+            // Play error sound
+            playErrorSound();
+            
+            // Show error message
+            showFeedbackMessage('🤔 Coba lagi! Kamu pasti bisa!', 'error');
+            
+            setTimeout(() => document.getElementById('gameContent').classList.remove('shake'), 500);
+        }
+
+        function showFeedbackMessage(message, type) {
+            // Remove existing feedback
+            const existingFeedback = document.getElementById('feedbackMessage');
+            if (existingFeedback) {
+                existingFeedback.remove();
+            }
+            
+            // Create feedback element
+            const feedback = document.createElement('div');
+            feedback.id = 'feedbackMessage';
+            feedback.className = `fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 px-8 py-6 rounded-3xl text-2xl font-bold text-white shadow-2xl animate-bounce ${
+                type === 'success' ? 'bg-gradient-to-r from-green-500 to-emerald-500' : 'bg-gradient-to-r from-red-500 to-pink-500'
+            }`;
+            feedback.innerHTML = `
+                <div class="text-center">
+                    <div class="text-4xl mb-2">${type === 'success' ? '🎉' : '💪'}</div>
+                    <div>${message}</div>
+                </div>
+            `;
+            
+            document.body.appendChild(feedback);
+            
+            // Remove after animation
+            setTimeout(() => {
+                if (document.body.contains(feedback)) {
+                    feedback.style.opacity = '0';
+                    feedback.style.transform = 'translate(-50%, -50%) scale(0.8)';
+                    setTimeout(() => {
+                        if (document.body.contains(feedback)) {
+                            document.body.removeChild(feedback);
+                        }
+                    }, 300);
+                }
+            }, 1500);
+        }
+
+        function createParticles(emoji) {
+            for (let i = 0; i < 5; i++) {
+                const particle = document.createElement('div');
+                particle.innerHTML = emoji;
+                particle.className = 'particle text-4xl';
+                particle.style.left = Math.random() * window.innerWidth + 'px';
+                particle.style.top = Math.random() * window.innerHeight + 'px';
+                document.body.appendChild(particle);
+                
+                setTimeout(() => {
+                    if (document.body.contains(particle)) {
+                        document.body.removeChild(particle);
+                    }
+                }, 2000);
+            }
+        }
+
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3', '#54a0ff'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti-piece';
+                confetti.style.left = Math.random() * window.innerWidth + 'px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    if (document.body.contains(confetti)) {
+                        document.body.removeChild(confetti);
+                    }
+                }, 5000);
+            }
+        }
+
+        // Pre-create audio context for instant feedback
+        let audioContext;
+        let isAudioInitialized = false;
+
+        function initializeAudio() {
+            if (!isAudioInitialized && (typeof AudioContext !== 'undefined' || typeof webkitAudioContext !== 'undefined')) {
+                audioContext = new (AudioContext || webkitAudioContext)();
+                isAudioInitialized = true;
+            }
+        }
+
+        // Initialize audio on first user interaction
+        document.addEventListener('click', initializeAudio, { once: true });
+        document.addEventListener('touchstart', initializeAudio, { once: true });
+
+        function playSuccessSound() {
+            // Immediate visual feedback
+            createSuccessVisualFeedback();
+            
+            // Instant audio feedback without delay
+            if (audioContext && audioContext.state === 'running') {
+                // Create celebratory chord progression
+                const now = audioContext.currentTime;
+                const frequencies = [523.25, 659.25, 783.99, 1046.5]; // C5, E5, G5, C6
+                
+                frequencies.forEach((freq, index) => {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    const filterNode = audioContext.createBiquadFilter();
+                    
+                    oscillator.connect(filterNode);
+                    filterNode.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.setValueAtTime(freq, now);
+                    oscillator.type = 'sine';
+                    
+                    filterNode.type = 'lowpass';
+                    filterNode.frequency.setValueAtTime(2000, now);
+                    
+                    const startTime = now + (index * 0.05);
+                    gainNode.gain.setValueAtTime(0, startTime);
+                    gainNode.gain.linearRampToValueAtTime(0.2, startTime + 0.02);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + 0.4);
+                    
+                    oscillator.start(startTime);
+                    oscillator.stop(startTime + 0.4);
+                });
+                
+                // Add sparkle effect
+                setTimeout(() => {
+                    for (let i = 0; i < 3; i++) {
+                        const sparkleOsc = audioContext.createOscillator();
+                        const sparkleGain = audioContext.createGain();
+                        
+                        sparkleOsc.connect(sparkleGain);
+                        sparkleGain.connect(audioContext.destination);
+                        
+                        sparkleOsc.frequency.setValueAtTime(1568 + (i * 200), now + 0.3);
+                        sparkleOsc.type = 'sine';
+                        
+                        sparkleGain.gain.setValueAtTime(0.1, now + 0.3);
+                        sparkleGain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+                        
+                        sparkleOsc.start(now + 0.3);
+                        sparkleOsc.stop(now + 0.5);
+                    }
+                }, 0);
+            }
+            
+            // Immediate speech feedback
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel(); // Cancel any ongoing speech
+                const phrases = ['Hebat!', 'Bagus sekali!', 'Pintar!', 'Luar biasa!', 'Mantap!', 'Keren!'];
+                const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+                const utterance = new SpeechSynthesisUtterance(randomPhrase);
+                utterance.lang = 'id-ID';
+                utterance.rate = 1.3;
+                utterance.pitch = 1.4;
+                utterance.volume = 0.8;
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        function playErrorSound() {
+            // Immediate visual feedback
+            createErrorVisualFeedback();
+            
+            // Gentle error sound without delay
+            if (audioContext && audioContext.state === 'running') {
+                const now = audioContext.currentTime;
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                const filterNode = audioContext.createBiquadFilter();
+                
+                oscillator.connect(filterNode);
+                filterNode.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                // Gentle descending tone
+                oscillator.frequency.setValueAtTime(350, now);
+                oscillator.frequency.exponentialRampToValueAtTime(280, now + 0.4);
+                oscillator.type = 'sine';
+                
+                filterNode.type = 'lowpass';
+                filterNode.frequency.setValueAtTime(800, now);
+                
+                gainNode.gain.setValueAtTime(0.15, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+                
+                oscillator.start(now);
+                oscillator.stop(now + 0.4);
+            }
+            
+            // Immediate encouraging speech
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel(); // Cancel any ongoing speech
+                const phrases = ['Coba lagi ya!', 'Kamu pasti bisa!', 'Jangan menyerah!', 'Ayo semangat!', 'Hampir benar!'];
+                const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+                const utterance = new SpeechSynthesisUtterance(randomPhrase);
+                utterance.lang = 'id-ID';
+                utterance.rate = 1.1;
+                utterance.pitch = 1.2;
+                utterance.volume = 0.7;
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        function createSuccessVisualFeedback() {
+            // Create instant visual explosion
+            const colors = ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FECA57'];
+            
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.innerHTML = ['🌟', '✨', '⭐', '🎉', '💫'][Math.floor(Math.random() * 5)];
+                particle.className = 'fixed text-3xl pointer-events-none z-50';
+                particle.style.left = (window.innerWidth / 2 - 20) + 'px';
+                particle.style.top = (window.innerHeight / 2 - 20) + 'px';
+                particle.style.color = colors[Math.floor(Math.random() * colors.length)];
+                
+                const angle = (i / 15) * Math.PI * 2;
+                const velocity = 100 + Math.random() * 100;
+                const vx = Math.cos(angle) * velocity;
+                const vy = Math.sin(angle) * velocity;
+                
+                document.body.appendChild(particle);
+                
+                let x = window.innerWidth / 2;
+                let y = window.innerHeight / 2;
+                let opacity = 1;
+                
+                const animate = () => {
+                    x += vx * 0.02;
+                    y += vy * 0.02;
+                    opacity -= 0.02;
+                    
+                    particle.style.left = x + 'px';
+                    particle.style.top = y + 'px';
+                    particle.style.opacity = opacity;
+                    particle.style.transform = `scale(${opacity}) rotate(${(1-opacity) * 360}deg)`;
+                    
+                    if (opacity > 0) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        document.body.removeChild(particle);
+                    }
+                };
+                
+                requestAnimationFrame(animate);
+            }
+        }
+
+        function createErrorVisualFeedback() {
+            // Create gentle shake effect
+            const gameContent = document.getElementById('gameContent');
+            gameContent.style.transform = 'translateX(-5px)';
+            
+            setTimeout(() => {
+                gameContent.style.transform = 'translateX(5px)';
+                setTimeout(() => {
+                    gameContent.style.transform = 'translateX(-3px)';
+                    setTimeout(() => {
+                        gameContent.style.transform = 'translateX(3px)';
+                        setTimeout(() => {
+                            gameContent.style.transform = 'translateX(0)';
+                        }, 50);
+                    }, 50);
+                }, 50);
+            }, 50);
+            
+            // Create encouraging particles
+            for (let i = 0; i < 5; i++) {
+                const particle = document.createElement('div');
+                particle.innerHTML = ['💪', '🤗', '😊', '👍', '❤️'][i];
+                particle.className = 'fixed text-2xl pointer-events-none z-50';
+                particle.style.left = (window.innerWidth / 2 - 10 + (i * 20)) + 'px';
+                particle.style.top = (window.innerHeight / 2 + 50) + 'px';
+                
+                document.body.appendChild(particle);
+                
+                let y = window.innerHeight / 2 + 50;
+                let opacity = 1;
+                
+                const animate = () => {
+                    y -= 2;
+                    opacity -= 0.02;
+                    
+                    particle.style.top = y + 'px';
+                    particle.style.opacity = opacity;
+                    
+                    if (opacity > 0) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        document.body.removeChild(particle);
+                    }
+                };
+                
+                setTimeout(() => requestAnimationFrame(animate), i * 100);
+            }
+        }
+
+        function nextQuestion() {
+            gameProgress++;
+            
+            // Handle different game types
+            let maxQuestions;
+            if (currentGame === 'menulis') {
+                maxQuestions = maxProgress; // 10 letters for writing
+            } else {
+                const data = gameData[currentGame];
+                maxQuestions = data.questions.length;
+            }
+            
+            if (gameProgress > maxQuestions) {
+                // Game completed
+                localStorage.setItem('totalScore', totalScore.toString());
+                
+                let badgeEarned = false;
+                if (gameScore >= 80) { // 4 out of 5 correct
+                    currentLevel++;
+                    totalBadges++;
+                    badgeEarned = true;
+                    localStorage.setItem('currentLevel', currentLevel.toString());
+                    localStorage.setItem('totalBadges', totalBadges.toString());
+                }
+                
+                const gameTitle = currentGame === 'menulis' ? '✏️ Menulis Kreatif' : gameData[currentGame].title;
+                document.getElementById('successMessage').textContent = 
+                    `Kamu berhasil menyelesaikan ${gameTitle} dengan skor ${gameScore}! Total skormu sekarang ${totalScore}.`;
+                
+                if (badgeEarned) {
+                    document.getElementById('badgeEarned').classList.remove('hidden');
+                }
+                
+                document.getElementById('successModal').classList.remove('hidden');
+                document.getElementById('successModal').classList.add('flex');
+                
+                createConfetti();
+            } else {
+                // Continue to next question/letter
+                if (currentGame === 'menulis') {
+                    startWritingGame(); // Restart writing game with next letter
+                } else {
+                    loadQuestion();
+                }
+            }
+        }
+
+        function startWritingGame() {
+            document.getElementById('gameTitle').textContent = '✏️ Menulis Kreatif';
+            const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+            const currentLetter = letters[gameProgress - 1] || 'A';
+            maxProgress = 10; // Set to 10 letters for writing practice
+            
+            document.getElementById('gameScore').textContent = `Skor: ${gameScore}`;
+            document.getElementById('gameProgress').textContent = `${gameProgress}/${maxProgress}`;
+            
+            // Letter guidance with stroke order hints
+            const letterGuides = {
+                'A': { emoji: '🍎', word: 'APEL', hint: 'Mulai dari atas, garis miring kiri, lalu kanan, tambah garis tengah' },
+                'B': { emoji: '⚽', word: 'BOLA', hint: 'Garis vertikal, lalu dua lengkungan di kanan' },
+                'C': { emoji: '🍒', word: 'CERI', hint: 'Lengkungan dari atas ke bawah, buka ke kanan' },
+                'D': { emoji: '🎲', word: 'DADU', hint: 'Garis vertikal, lalu lengkungan besar di kanan' },
+                'E': { emoji: '🦅', word: 'ELANG', hint: 'Garis vertikal, tiga garis horizontal: atas, tengah, bawah' },
+                'F': { emoji: '🐸', word: 'KATAK', hint: 'Garis vertikal, dua garis horizontal: atas dan tengah' },
+                'G': { emoji: '🍇', word: 'ANGGUR', hint: 'Seperti C, tambah garis horizontal kecil di dalam' },
+                'H': { emoji: '🏠', word: 'RUMAH', hint: 'Dua garis vertikal, satu garis horizontal di tengah' },
+                'I': { emoji: '🍦', word: 'ES KRIM', hint: 'Garis vertikal dengan garis horizontal atas dan bawah' },
+                'J': { emoji: '🥤', word: 'JUS', hint: 'Garis melengkung seperti kail, titik di atas' },
+                'K': { emoji: '🔑', word: 'KUNCI', hint: 'Garis vertikal, dua garis miring bertemu di tengah' },
+                'L': { emoji: '🦁', word: 'SINGA', hint: 'Garis vertikal, lalu garis horizontal di bawah' },
+                'M': { emoji: '🌙', word: 'BULAN', hint: 'Dua garis vertikal, dua garis miring bertemu di atas' },
+                'N': { emoji: '🥜', word: 'KACANG', hint: 'Dua garis vertikal, satu garis miring menghubungkan' },
+                'O': { emoji: '🍊', word: 'JERUK', hint: 'Lingkaran penuh dari atas searah jarum jam' },
+                'P': { emoji: '🍕', word: 'PIZZA', hint: 'Garis vertikal, lengkungan di atas saja' },
+                'Q': { emoji: '👑', word: 'RATU', hint: 'Seperti O, tambah garis kecil di kanan bawah' },
+                'R': { emoji: '🌈', word: 'PELANGI', hint: 'Garis vertikal, lengkungan atas, garis miring bawah' },
+                'S': { emoji: '🐍', word: 'ULAR', hint: 'Lengkungan S dari atas ke bawah' },
+                'T': { emoji: '🌳', word: 'POHON', hint: 'Garis horizontal atas, garis vertikal di tengah' },
+                'U': { emoji: '☂️', word: 'PAYUNG', hint: 'Lengkungan dari atas kiri ke atas kanan' },
+                'V': { emoji: '🎻', word: 'BIOLA', hint: 'Dua garis miring bertemu di bawah' },
+                'W': { emoji: '🌊', word: 'AIR', hint: 'Seperti dua V bersebelahan' },
+                'X': { emoji: '❌', word: 'SILANG', hint: 'Dua garis miring bersilangan' },
+                'Y': { emoji: '💛', word: 'KUNING', hint: 'Dua garis miring bertemu, lalu garis vertikal' },
+                'Z': { emoji: '⚡', word: 'KILAT', hint: 'Garis horizontal atas, miring, horizontal bawah' }
+            };
+            
+            const guide = letterGuides[currentLetter] || { emoji: '📝', word: currentLetter, hint: 'Tulis huruf dengan hati-hati' };
+            
+            document.getElementById('gameContent').innerHTML = `
+                <div class="mb-6 md:mb-8">
+                    <h3 class="text-2xl md:text-3xl font-bold mb-4 md:mb-6">Latihan menulis huruf: <span class="text-6xl md:text-8xl text-blue-600 letter-bounce">${currentLetter}</span></h3>
+                    
+                    <!-- Letter Information Card -->
+                    <div class="bg-gradient-to-r from-blue-100 to-purple-100 border-2 md:border-4 border-dashed border-blue-400 rounded-2xl md:rounded-3xl p-4 md:p-8 mb-4 md:mb-8">
+                        <div class="flex flex-col md:flex-row items-center gap-4 md:gap-8">
+                            <div class="text-center">
+                                <div class="text-6xl md:text-9xl text-blue-300 mb-2 md:mb-4 letter-bounce">${currentLetter}</div>
+                                <div class="text-3xl md:text-5xl mb-2">${guide.emoji}</div>
+                                <div class="text-lg md:text-2xl font-bold text-purple-600">${guide.word}</div>
+                            </div>
+                            <div class="flex-1 text-center md:text-left">
+                                <p class="text-lg md:text-xl text-gray-700 mb-2 md:mb-4">Tirulah bentuk huruf di canvas!</p>
+                                <p class="text-sm md:text-lg text-blue-600 bg-blue-50 p-2 md:p-3 rounded-xl border border-blue-200">💡 ${guide.hint}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Canvas Container -->
+                    <div class="bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-lg border-2 md:border-4 border-purple-200">
+                        <h4 class="text-lg md:text-2xl font-bold text-purple-600 mb-3 md:mb-4 text-center">🎨 Canvas Menulis</h4>
+                        <canvas id="writingCanvas" width="400" height="250" class="border-2 md:border-4 border-purple-400 rounded-xl md:rounded-2xl cursor-crosshair mx-auto block bg-gradient-to-br from-yellow-50 to-orange-50 shadow-inner touch-manipulation"></canvas>
+                        
+                        <!-- Auto Feedback Area -->
+                        <div id="writingFeedback" class="mt-4 md:mt-6 text-center hidden">
+                            <div id="feedbackContent" class="text-lg md:text-xl font-bold"></div>
+                        </div>
+                        
+                        <!-- Progress Indicator -->
+                        <div class="mt-3 md:mt-4 text-center">
+                            <div class="text-sm md:text-base text-gray-600">Mulai menggambar untuk mendapat feedback otomatis!</div>
+                            <div id="strokeCount" class="text-xs md:text-sm text-purple-500 mt-1">Goresan: 0</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('gameControls').innerHTML = `
+                <div class="flex justify-center gap-2 md:gap-4 flex-wrap">
+                    <button onclick="clearCanvas()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 md:px-8 md:py-4 rounded-full font-bold text-lg md:text-xl transition-all hover:scale-105">🗑️ Hapus</button>
+                    <button id="nextWritingBtn" onclick="nextWritingExercise()" class="btn-success text-white px-4 py-2 md:px-8 md:py-4 rounded-full font-bold text-lg md:text-xl transition-all hover:scale-105 hidden">✅ Lanjut</button>
+                    <button onclick="showLetterDemo()" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 md:px-8 md:py-4 rounded-full font-bold text-lg md:text-xl transition-all hover:scale-105">👀 Contoh</button>
+                </div>
+            `;
+            
+            setupCanvas();
+        }
+
+        function startReadingGame() {
+            document.getElementById('gameTitle').textContent = '📖 Membaca Cerdas AI';
+            const words = ['BAJU', 'MATA', 'KAKI', 'BUKU', 'RUMAH'];
+            const currentWord = words[gameProgress - 1];
+            
+            document.getElementById('gameScore').textContent = `Skor: ${gameScore}`;
+            document.getElementById('gameProgress').textContent = `${gameProgress}/${words.length}`;
+            
+            // Start timer
+            gameTimer = 60;
+            document.getElementById('gameTimer').classList.remove('hidden');
+            startTimer();
+            
+            document.getElementById('gameContent').innerHTML = `
+                <div class="mb-8">
+                    <h3 class="text-3xl font-bold mb-8">Bacalah kata ini dengan keras dan jelas:</h3>
+                    <div class="bg-gradient-to-r from-indigo-400 to-purple-500 text-white text-9xl font-bold py-12 px-8 rounded-3xl mb-8 shadow-2xl letter-bounce">${currentWord}</div>
+                    
+                    <!-- Recording Interface -->
+                    <div class="bg-white rounded-3xl p-8 shadow-lg border-4 border-indigo-200 max-w-2xl mx-auto mb-8">
+                        <h4 class="text-2xl font-bold text-indigo-600 mb-6">🎤 Rekam Suaramu</h4>
+                        
+                        <!-- Recording Status -->
+                        <div id="recordingStatus" class="mb-6">
+                            <div class="text-6xl mb-4">🎙️</div>
+                            <p class="text-lg text-gray-600">Tekan tombol rekam dan bacalah kata dengan jelas!</p>
+                        </div>
+                        
+                        <!-- Audio Visualizer -->
+                        <div id="audioVisualizer" class="hidden mb-6">
+                            <div class="flex justify-center items-end space-x-1 h-16">
+                                <div class="bg-green-400 w-2 rounded-full audio-bar" style="height: 20px;"></div>
+                                <div class="bg-green-400 w-2 rounded-full audio-bar" style="height: 30px;"></div>
+                                <div class="bg-green-400 w-2 rounded-full audio-bar" style="height: 25px;"></div>
+                                <div class="bg-green-400 w-2 rounded-full audio-bar" style="height: 40px;"></div>
+                                <div class="bg-green-400 w-2 rounded-full audio-bar" style="height: 35px;"></div>
+                                <div class="bg-green-400 w-2 rounded-full audio-bar" style="height: 45px;"></div>
+                                <div class="bg-green-400 w-2 rounded-full audio-bar" style="height: 30px;"></div>
+                                <div class="bg-green-400 w-2 rounded-full audio-bar" style="height: 20px;"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- AI Analysis Result -->
+                        <div id="aiAnalysis" class="hidden mb-6 p-6 bg-gradient-to-r from-green-100 to-blue-100 rounded-2xl">
+                            <h5 class="text-xl font-bold text-green-600 mb-4">🤖 Analisis AI</h5>
+                            <div id="analysisResult" class="text-lg"></div>
+                            <div id="pronunciationScore" class="mt-4"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('gameControls').innerHTML = `
+                <div class="flex justify-center gap-4">
+                    <button id="recordBtn" onclick="toggleRecording()" class="bg-red-500 hover:bg-red-600 text-white text-xl px-8 py-4 rounded-full font-bold transition-all hover:scale-105 shadow-lg">
+                        🎤 Mulai Rekam
+                    </button>
+                    <button id="playbackBtn" onclick="playRecording()" class="bg-blue-500 hover:bg-blue-600 text-white text-xl px-8 py-4 rounded-full font-bold transition-all hover:scale-105 shadow-lg hidden">
+                        🔊 Putar Ulang
+                    </button>
+                    <button id="nextBtn" onclick="nextReadingWord()" class="btn-success text-white text-xl px-8 py-4 rounded-full font-bold transition-all hover:scale-105 shadow-lg hidden">
+                        ✅ Lanjut
+                    </button>
+                </div>
+            `;
+            
+            setupRecording(currentWord);
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                gameTimer--;
+                document.getElementById('gameTimer').textContent = `⏱️ ${gameTimer}`;
+                
+                if (gameTimer <= 0) {
+                    clearInterval(timerInterval);
+                    // Auto advance to next question
+                    nextReadingWord();
+                }
+            }, 1000);
+        }
+
+        function setupCanvas() {
+            const canvas = document.getElementById('writingCanvas');
+            const ctx = canvas.getContext('2d');
+            let isDrawing = false;
+            let strokeCount = 0;
+            let drawingStarted = false;
+            let feedbackTimer;
+            
+            ctx.strokeStyle = '#3B82F6';
+            ctx.lineWidth = 4;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            // Mouse events
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            
+            // Touch events
+            canvas.addEventListener('touchstart', handleTouch);
+            canvas.addEventListener('touchmove', handleTouch);
+            canvas.addEventListener('touchend', stopDrawing);
+            
+            function startDrawing(e) {
+                isDrawing = true;
+                drawingStarted = true;
+                strokeCount++;
+                updateStrokeCount();
+                
+                const rect = canvas.getBoundingClientRect();
+                ctx.beginPath();
+                ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+                
+                // Clear any existing feedback timer
+                if (feedbackTimer) {
+                    clearTimeout(feedbackTimer);
+                }
+            }
+            
+            function draw(e) {
+                if (!isDrawing) return;
+                const rect = canvas.getBoundingClientRect();
+                ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+                ctx.stroke();
+                
+                // Add drawing sound effect
+                if (audioContext && audioContext.state === 'running') {
+                    const osc = audioContext.createOscillator();
+                    const gain = audioContext.createGain();
+                    osc.connect(gain);
+                    gain.connect(audioContext.destination);
+                    osc.frequency.setValueAtTime(800 + Math.random() * 200, audioContext.currentTime);
+                    osc.type = 'sine';
+                    gain.gain.setValueAtTime(0.02, audioContext.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
+                    osc.start();
+                    osc.stop(audioContext.currentTime + 0.1);
+                }
+            }
+            
+            function stopDrawing() {
+                if (!isDrawing) return;
+                isDrawing = false;
+                
+                // Start feedback timer - give feedback after user stops drawing for 2 seconds
+                feedbackTimer = setTimeout(() => {
+                    if (drawingStarted) {
+                        provideAutoFeedback();
+                    }
+                }, 2000);
+            }
+            
+            function handleTouch(e) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const mouseEvent = new MouseEvent(e.type === 'touchstart' ? 'mousedown' : 
+                                                 e.type === 'touchmove' ? 'mousemove' : 'mouseup', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                });
+                canvas.dispatchEvent(mouseEvent);
+            }
+            
+            function updateStrokeCount() {
+                const strokeElement = document.getElementById('strokeCount');
+                if (strokeElement) {
+                    strokeElement.textContent = `Goresan: ${strokeCount}`;
+                }
+            }
+            
+            function provideAutoFeedback() {
+                const feedbackArea = document.getElementById('writingFeedback');
+                const feedbackContent = document.getElementById('feedbackContent');
+                const nextBtn = document.getElementById('nextWritingBtn');
+                
+                if (!feedbackArea || !feedbackContent) return;
+                
+                // Analyze drawing based on stroke count and canvas content
+                let feedback = '';
+                let score = 0;
+                let feedbackClass = '';
+                
+                if (strokeCount === 0) {
+                    feedback = '🤔 Belum ada goresan. Coba mulai menggambar huruf!';
+                    feedbackClass = 'text-gray-600';
+                } else if (strokeCount >= 1 && strokeCount <= 3) {
+                    feedback = '🌟 Bagus sekali! Goresan yang tepat untuk huruf ini!';
+                    feedbackClass = 'text-green-600';
+                    score = 25;
+                } else if (strokeCount <= 5) {
+                    feedback = '👍 Cukup baik! Huruf sudah terbentuk dengan baik!';
+                    feedbackClass = 'text-blue-600';
+                    score = 20;
+                } else if (strokeCount <= 8) {
+                    feedback = '😊 Tidak buruk! Coba buat goresan yang lebih efisien!';
+                    feedbackClass = 'text-yellow-600';
+                    score = 15;
+                } else {
+                    feedback = '💪 Terus berlatih! Coba buat huruf dengan goresan yang lebih sedikit!';
+                    feedbackClass = 'text-orange-600';
+                    score = 10;
+                }
+                
+                // Add bonus for good timing
+                if (strokeCount >= 1 && strokeCount <= 4) {
+                    const bonusMessages = [
+                        '✨ Bonus: Goresan yang efisien!',
+                        '🎯 Bonus: Teknik yang bagus!',
+                        '⭐ Bonus: Bentuk huruf yang rapi!',
+                        '🏆 Bonus: Penggunaan ruang yang baik!'
+                    ];
+                    feedback += ' ' + bonusMessages[Math.floor(Math.random() * bonusMessages.length)];
+                    score += 5;
+                }
+                
+                feedbackContent.innerHTML = `
+                    <div class="${feedbackClass}">
+                        <div class="text-3xl md:text-4xl mb-2">${score >= 20 ? '🎉' : score >= 15 ? '😊' : '💪'}</div>
+                        <div class="mb-2">${feedback}</div>
+                        <div class="text-lg md:text-xl">Skor: +${score}</div>
+                    </div>
+                `;
+                
+                feedbackArea.classList.remove('hidden');
+                nextBtn.classList.remove('hidden');
+                
+                // Update game score
+                gameScore += score;
+                totalScore += score;
+                document.getElementById('gameScore').textContent = `Skor: ${gameScore}`;
+                
+                // Play feedback sound
+                if (score >= 20) {
+                    playSuccessSound();
+                    createParticles('⭐');
+                } else if (score >= 15) {
+                    playEncouragementSound();
+                } else {
+                    playTryAgainSound();
+                }
+                
+                // Speak feedback
+                if ('speechSynthesis' in window) {
+                    const utterance = new SpeechSynthesisUtterance(
+                        score >= 20 ? 'Hebat sekali!' : 
+                        score >= 15 ? 'Bagus!' : 
+                        'Terus berlatih ya!'
+                    );
+                    utterance.lang = 'id-ID';
+                    utterance.rate = 1.2;
+                    utterance.pitch = 1.3;
+                    speechSynthesis.speak(utterance);
+                }
+            }
+            
+            // Reset function for canvas
+            window.resetCanvas = function() {
+                strokeCount = 0;
+                drawingStarted = false;
+                updateStrokeCount();
+                document.getElementById('writingFeedback').classList.add('hidden');
+                document.getElementById('nextWritingBtn').classList.add('hidden');
+                if (feedbackTimer) {
+                    clearTimeout(feedbackTimer);
+                }
+            };
+        }
+
+        function clearCanvas() {
+            const canvas = document.getElementById('writingCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Reset canvas state
+            if (window.resetCanvas) {
+                window.resetCanvas();
+            }
+            
+            // Add clear animation
+            canvas.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                canvas.style.transform = 'scale(1)';
+            }, 150);
+            
+            // Play clear sound
+            if (audioContext && audioContext.state === 'running') {
+                const osc = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+                osc.connect(gain);
+                gain.connect(audioContext.destination);
+                osc.frequency.setValueAtTime(400, audioContext.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.3);
+                osc.type = 'sine';
+                gain.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.3);
+                osc.start();
+                osc.stop(audioContext.currentTime + 0.3);
+            }
+        }
+
+        function showLetterDemo() {
+            const canvas = document.getElementById('writingCanvas');
+            const ctx = canvas.getContext('2d');
+            const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+            const currentLetter = letters[gameProgress - 1] || 'A';
+            
+            // Clear canvas first
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Set demo style
+            ctx.strokeStyle = '#10B981';
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.globalAlpha = 0.7;
+            
+            // Draw letter demonstration
+            ctx.font = 'bold 120px Arial';
+            ctx.fillStyle = '#10B981';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(currentLetter, canvas.width / 2, canvas.height / 2);
+            
+            // Add dotted guidelines
+            ctx.setLineDash([5, 5]);
+            ctx.strokeStyle = '#94A3B8';
+            ctx.lineWidth = 1;
+            ctx.globalAlpha = 0.5;
+            
+            // Horizontal guidelines
+            ctx.beginPath();
+            ctx.moveTo(50, canvas.height / 4);
+            ctx.lineTo(canvas.width - 50, canvas.height / 4);
+            ctx.moveTo(50, canvas.height / 2);
+            ctx.lineTo(canvas.width - 50, canvas.height / 2);
+            ctx.moveTo(50, (canvas.height * 3) / 4);
+            ctx.lineTo(canvas.width - 50, (canvas.height * 3) / 4);
+            ctx.stroke();
+            
+            // Vertical center line
+            ctx.beginPath();
+            ctx.moveTo(canvas.width / 2, 30);
+            ctx.lineTo(canvas.width / 2, canvas.height - 30);
+            ctx.stroke();
+            
+            // Reset line dash and alpha
+            ctx.setLineDash([]);
+            ctx.globalAlpha = 1;
+            
+            // Play demo sound
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(`Ini contoh huruf ${currentLetter}. Coba tirukan bentuknya!`);
+                utterance.lang = 'id-ID';
+                utterance.rate = 1.0;
+                utterance.pitch = 1.2;
+                speechSynthesis.speak(utterance);
+            }
+            
+            // Auto clear demo after 5 seconds
+            setTimeout(() => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                if (window.resetCanvas) {
+                    window.resetCanvas();
+                }
+            }, 5000);
+        }
+
+        function nextWritingExercise() {
+            // Don't add score here as it's already added in auto feedback
+            showSuccess();
+        }
+
+        // Additional sound functions for writing game
+        function playEncouragementSound() {
+            if (audioContext && audioContext.state === 'running') {
+                const frequencies = [523.25, 659.25]; // C5, E5
+                frequencies.forEach((freq, index) => {
+                    const osc = audioContext.createOscillator();
+                    const gain = audioContext.createGain();
+                    osc.connect(gain);
+                    gain.connect(audioContext.destination);
+                    osc.frequency.setValueAtTime(freq, audioContext.currentTime + index * 0.1);
+                    osc.type = 'sine';
+                    gain.gain.setValueAtTime(0.15, audioContext.currentTime + index * 0.1);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + index * 0.1 + 0.3);
+                    osc.start(audioContext.currentTime + index * 0.1);
+                    osc.stop(audioContext.currentTime + index * 0.1 + 0.3);
+                });
+            }
+        }
+
+        function playTryAgainSound() {
+            if (audioContext && audioContext.state === 'running') {
+                const osc = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+                osc.connect(gain);
+                gain.connect(audioContext.destination);
+                osc.frequency.setValueAtTime(300, audioContext.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(250, audioContext.currentTime + 0.5);
+                osc.type = 'sine';
+                gain.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.5);
+                osc.start();
+                osc.stop(audioContext.currentTime + 0.5);
+            }
+        }
+
+        function nextReadingWord() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+            document.getElementById('gameTimer').classList.add('hidden');
+            
+            gameScore += 20;
+            totalScore += 20;
+            showSuccess();
+        }
+
+        function closeModal() {
+            document.getElementById('successModal').classList.add('hidden');
+            document.getElementById('successModal').classList.remove('flex');
+            document.getElementById('badgeEarned').classList.add('hidden');
+            backToMenu();
+        }
+
+        function backToMenu() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+            document.getElementById('gameTimer').classList.add('hidden');
+            document.getElementById('gameArea').classList.add('hidden');
+            document.getElementById('gameMenu').classList.remove('hidden');
+            updateDisplay();
+        }
+
+        // Keyboard functions for suku kata
+        function addLetter(letter) {
+            const input = document.getElementById('answerInput');
+            input.value += letter;
+            
+            // Add visual feedback
+            const button = event.target;
+            button.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+            }, 150);
+        }
+
+        function deleteLetter() {
+            const input = document.getElementById('answerInput');
+            input.value = input.value.slice(0, -1);
+        }
+
+        function clearInput() {
+            const input = document.getElementById('answerInput');
+            input.value = '';
+            
+            // Add clear animation
+            input.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                input.style.transform = 'scale(1)';
+            }, 150);
+        }
+
+        // Recording functionality
+        let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
+        let recordedAudio;
+        let currentTargetWord = '';
+
+        function setupRecording(targetWord) {
+            currentTargetWord = targetWord;
+            
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ audio: true })
+                    .then(stream => {
+                        mediaRecorder = new MediaRecorder(stream);
+                        
+                        mediaRecorder.ondataavailable = event => {
+                            audioChunks.push(event.data);
+                        };
+                        
+                        mediaRecorder.onstop = () => {
+                            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                            recordedAudio = URL.createObjectURL(audioBlob);
+                            audioChunks = [];
+                            
+                            // Show playback button
+                            document.getElementById('playbackBtn').classList.remove('hidden');
+                            
+                            // Simulate AI analysis
+                            setTimeout(() => {
+                                analyzeRecording();
+                            }, 1000);
+                        };
+                    })
+                    .catch(err => {
+                        console.log('Microphone access denied:', err);
+                        document.getElementById('recordingStatus').innerHTML = `
+                            <div class="text-6xl mb-4">❌</div>
+                            <p class="text-lg text-red-600">Tidak dapat mengakses mikrofon. Silakan izinkan akses mikrofon untuk fitur ini.</p>
+                        `;
+                    });
+            }
+        }
+
+        function toggleRecording() {
+            const recordBtn = document.getElementById('recordBtn');
+            const visualizer = document.getElementById('audioVisualizer');
+            const status = document.getElementById('recordingStatus');
+            
+            if (!isRecording) {
+                // Start recording
+                if (mediaRecorder && mediaRecorder.state === 'inactive') {
+                    mediaRecorder.start();
+                    isRecording = true;
+                    
+                    recordBtn.textContent = '⏹️ Stop Rekam';
+                    recordBtn.className = 'bg-red-600 hover:bg-red-700 text-white text-xl px-8 py-4 rounded-full font-bold transition-all hover:scale-105 shadow-lg';
+                    
+                    status.innerHTML = `
+                        <div class="text-6xl mb-4 animate-pulse">🔴</div>
+                        <p class="text-lg text-red-600 font-bold">SEDANG MEREKAM... Bacalah kata dengan jelas!</p>
+                    `;
+                    
+                    visualizer.classList.remove('hidden');
+                    animateAudioBars();
+                }
+            } else {
+                // Stop recording
+                if (mediaRecorder && mediaRecorder.state === 'recording') {
+                    mediaRecorder.stop();
+                    isRecording = false;
+                    
+                    recordBtn.textContent = '🎤 Rekam Lagi';
+                    recordBtn.className = 'bg-red-500 hover:bg-red-600 text-white text-xl px-8 py-4 rounded-full font-bold transition-all hover:scale-105 shadow-lg';
+                    
+                    status.innerHTML = `
+                        <div class="text-6xl mb-4">✅</div>
+                        <p class="text-lg text-green-600 font-bold">Rekaman selesai! AI sedang menganalisis...</p>
+                    `;
+                    
+                    visualizer.classList.add('hidden');
+                }
+            }
+        }
+
+        function animateAudioBars() {
+            if (!isRecording) return;
+            
+            const bars = document.querySelectorAll('.audio-bar');
+            bars.forEach(bar => {
+                const height = Math.random() * 40 + 10;
+                bar.style.height = height + 'px';
+                bar.style.backgroundColor = `hsl(${120 + Math.random() * 60}, 70%, 50%)`;
+            });
+            
+            setTimeout(animateAudioBars, 100);
+        }
+
+        function playRecording() {
+            if (recordedAudio) {
+                const audio = new Audio(recordedAudio);
+                audio.play();
+                
+                // Visual feedback
+                const playBtn = document.getElementById('playbackBtn');
+                playBtn.textContent = '🔊 Sedang Putar...';
+                
+                audio.onended = () => {
+                    playBtn.textContent = '🔊 Putar Ulang';
+                };
+            }
+        }
+
+        function analyzeRecording() {
+            const analysis = document.getElementById('aiAnalysis');
+            const result = document.getElementById('analysisResult');
+            const score = document.getElementById('pronunciationScore');
+            
+            // Simulate AI analysis with random but realistic results
+            const accuracy = Math.random() * 30 + 70; // 70-100%
+            const clarity = Math.random() * 25 + 75; // 75-100%
+            
+            let feedback = '';
+            let scoreColor = '';
+            
+            if (accuracy >= 90) {
+                feedback = '🌟 Luar biasa! Pengucapanmu sangat jelas dan tepat!';
+                scoreColor = 'text-green-600';
+                gameScore += 25;
+                totalScore += 25;
+            } else if (accuracy >= 80) {
+                feedback = '👍 Bagus sekali! Pengucapanmu sudah sangat baik!';
+                scoreColor = 'text-blue-600';
+                gameScore += 20;
+                totalScore += 20;
+            } else if (accuracy >= 70) {
+                feedback = '😊 Cukup baik! Terus berlatih untuk hasil yang lebih baik!';
+                scoreColor = 'text-yellow-600';
+                gameScore += 15;
+                totalScore += 15;
+            } else {
+                feedback = '💪 Terus semangat! Coba ulangi dengan pengucapan yang lebih jelas!';
+                scoreColor = 'text-orange-600';
+                gameScore += 10;
+                totalScore += 10;
+            }
+            
+            result.innerHTML = `
+                <p class="mb-2">${feedback}</p>
+                <div class="grid grid-cols-2 gap-4 mt-4">
+                    <div class="text-center">
+                        <div class="text-2xl font-bold ${scoreColor}">${accuracy.toFixed(0)}%</div>
+                        <div class="text-sm text-gray-600">Ketepatan</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold ${scoreColor}">${clarity.toFixed(0)}%</div>
+                        <div class="text-sm text-gray-600">Kejelasan</div>
+                    </div>
+                </div>
+            `;
+            
+            score.innerHTML = `
+                <div class="flex items-center justify-center gap-2">
+                    <span class="text-lg">Skor yang didapat:</span>
+                    <span class="text-2xl font-bold ${scoreColor}">+${accuracy >= 90 ? 25 : accuracy >= 80 ? 20 : accuracy >= 70 ? 15 : 10}</span>
+                </div>
+            `;
+            
+            analysis.classList.remove('hidden');
+            document.getElementById('nextBtn').classList.remove('hidden');
+            
+            // Update score display
+            document.getElementById('gameScore').textContent = `Skor: ${gameScore}`;
+        }
+
+        // Add CSS classes for animations
+        const style = document.createElement('style');
+        style.textContent = `
+            .bounce { animation: bounce 0.6s ease-in-out; }
+            .shake { animation: shake 0.5s ease-in-out; }
+            .audio-bar { transition: all 0.1s ease; }
+        `;
+        document.head.appendChild(style);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'975105e41223ce33',t:'MTc1NjE4NzEyNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
