@@ -492,8 +492,8 @@
                 <div class="border-t border-gray-300 pt-4">
                     <div class="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 text-xs md:text-sm text-gray-600">
                         <div class="flex items-center gap-2">
-                            <span>© 2024</span>
-                            <span class="font-semibold text-red-600">Petualangan Belajar Indonesia</span>
+                            <span>© 2025</span>
+                            <span class="font-semibold text-blue-600">Emes Creative</span>
                         </div>
                         <div class="hidden md:block">•</div>
                         <div class="flex items-center gap-4">
@@ -617,12 +617,6 @@
                         <div class="flex flex-col gap-2 md:gap-3 mb-4 md:mb-6">
                             <button onclick="playLetterSound('${question.sound}')" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 md:px-6 md:py-3 rounded-full font-bold text-lg md:text-xl transition-all hover:scale-105">
                                 🔊 Dengarkan Suara
-                            </button>
-                            <button onclick="testAudioSystem()" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 md:px-4 md:py-2 rounded-full font-bold text-sm md:text-base transition-all hover:scale-105">
-                                🎵 Test Audio
-                            </button>
-                            <button onclick="playFallbackAudio('${question.letter}')" class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 md:px-4 md:py-2 rounded-full font-bold text-sm md:text-base transition-all hover:scale-105">
-                                🎶 Audio Alternatif
                             </button>
                         </div>
                         <h3 class="text-lg md:text-2xl font-bold mb-4 md:mb-6">Huruf apa ini?</h3>
@@ -868,7 +862,7 @@
                 initializeAudio();
             }
             
-            // Create speech synthesis with Android compatibility
+            // Create speech synthesis with Indonesian pronunciation
             if ('speechSynthesis' in window) {
                 // Cancel any ongoing speech first
                 speechSynthesis.cancel();
@@ -876,30 +870,86 @@
                 // Small delay to ensure cancellation is processed
                 setTimeout(() => {
                     const utterance = new SpeechSynthesisUtterance(soundText);
-                    utterance.lang = 'id-ID';
-                    utterance.rate = 0.9;
-                    utterance.pitch = 1.3;
-                    utterance.volume = 1.0;
+                    
+                    // Wait for voices to load and select Indonesian voice
+                    const setIndonesianVoice = () => {
+                        const voices = speechSynthesis.getVoices();
+                        console.log('Available voices:', voices.map(v => `${v.name} (${v.lang})`));
+                        
+                        // Find Indonesian voice with priority order
+                        let selectedVoice = null;
+                        
+                        // Priority 1: Indonesian voices
+                        const indonesianVoices = voices.filter(voice => 
+                            voice.lang.toLowerCase().includes('id') || 
+                            voice.lang.toLowerCase() === 'id-id' ||
+                            voice.name.toLowerCase().includes('indonesia') ||
+                            voice.name.toLowerCase().includes('bahasa')
+                        );
+                        
+                        if (indonesianVoices.length > 0) {
+                            selectedVoice = indonesianVoices[0];
+                            console.log('Using Indonesian voice:', selectedVoice.name, selectedVoice.lang);
+                        } else {
+                            // Priority 2: Try to find any voice that might work better for Indonesian
+                            const malayVoices = voices.filter(voice => 
+                                voice.lang.toLowerCase().includes('ms') || 
+                                voice.name.toLowerCase().includes('malay')
+                            );
+                            
+                            if (malayVoices.length > 0) {
+                                selectedVoice = malayVoices[0];
+                                console.log('Using Malay voice as fallback:', selectedVoice.name);
+                            } else {
+                                // Priority 3: Use default voice but force Indonesian language
+                                console.log('No Indonesian/Malay voice found, using default with id-ID');
+                            }
+                        }
+                        
+                        if (selectedVoice) {
+                            utterance.voice = selectedVoice;
+                        }
+                        
+                        // Always set Indonesian language
+                        utterance.lang = 'id-ID';
+                        utterance.rate = 0.8; // Slower for clearer pronunciation
+                        utterance.pitch = 1.2;
+                        utterance.volume = 1.0;
+                        
+                        return true;
+                    };
+                    
+                    // Set voice immediately if available
+                    if (speechSynthesis.getVoices().length > 0) {
+                        setIndonesianVoice();
+                    } else {
+                        // Wait for voices to load
+                        speechSynthesis.onvoiceschanged = () => {
+                            setIndonesianVoice();
+                        };
+                    }
                     
                     // Android-specific fixes
                     utterance.onstart = () => {
-                        console.log('Speech started');
+                        console.log('Indonesian speech started:', soundText);
                     };
                     
                     utterance.onerror = (event) => {
                         console.log('Speech error:', event.error);
-                        // Fallback: try again with simpler text
+                        // Fallback: try with just the letter/word
                         if (event.error === 'network' || event.error === 'synthesis-failed') {
-                            const fallbackUtterance = new SpeechSynthesisUtterance(soundText.split(' ')[0]);
+                            const fallbackText = soundText.includes('seperti') ? 
+                                soundText.split(' ')[0] : soundText; // Just the letter
+                            const fallbackUtterance = new SpeechSynthesisUtterance(fallbackText);
                             fallbackUtterance.lang = 'id-ID';
-                            fallbackUtterance.rate = 1.0;
+                            fallbackUtterance.rate = 0.9;
                             fallbackUtterance.pitch = 1.2;
                             speechSynthesis.speak(fallbackUtterance);
                         }
                     };
                     
                     utterance.onend = () => {
-                        console.log('Speech ended');
+                        console.log('Indonesian speech ended');
                     };
                     
                     // Force resume for Android (common issue)
@@ -1222,30 +1272,33 @@
                         
                         const testUtterance = new SpeechSynthesisUtterance(testText);
                         
-                        // Voice selection with better fallbacks
+                        // Voice selection with Indonesian priority
                         let selectedVoice = null;
                         
-                        // Try to find Indonesian voice
+                        // Priority 1: Indonesian voices
                         const indonesianVoices = voices.filter(voice => 
                             voice.lang.toLowerCase().includes('id') || 
+                            voice.lang.toLowerCase() === 'id-id' ||
                             voice.name.toLowerCase().includes('indonesia') ||
                             voice.name.toLowerCase().includes('bahasa')
                         );
                         
                         if (indonesianVoices.length > 0) {
                             selectedVoice = indonesianVoices[0];
-                            console.log('🔍 Using Indonesian voice:', selectedVoice.name);
+                            console.log('🔍 Using Indonesian voice:', selectedVoice.name, selectedVoice.lang);
                         } else {
-                            // Try English voices as fallback
-                            const englishVoices = voices.filter(voice => 
-                                voice.lang.toLowerCase().includes('en')
+                            // Priority 2: Malay voices (similar pronunciation)
+                            const malayVoices = voices.filter(voice => 
+                                voice.lang.toLowerCase().includes('ms') || 
+                                voice.name.toLowerCase().includes('malay')
                             );
-                            if (englishVoices.length > 0) {
-                                selectedVoice = englishVoices[0];
-                                console.log('🔍 Using English voice as fallback:', selectedVoice.name);
+                            if (malayVoices.length > 0) {
+                                selectedVoice = malayVoices[0];
+                                console.log('🔍 Using Malay voice as fallback:', selectedVoice.name);
                             } else if (voices.length > 0) {
+                                // Priority 3: Use any available voice but force Indonesian language
                                 selectedVoice = voices[0];
-                                console.log('🔍 Using first available voice:', selectedVoice.name);
+                                console.log('🔍 Using first available voice with Indonesian language:', selectedVoice.name);
                             }
                         }
                         
@@ -1253,10 +1306,10 @@
                             testUtterance.voice = selectedVoice;
                         }
                         
-                        // Optimized settings for different browsers/devices
-                        testUtterance.lang = selectedVoice ? selectedVoice.lang : 'id-ID';
-                        testUtterance.rate = isAndroid ? 0.7 : isSamsung ? 0.6 : 0.9;
-                        testUtterance.pitch = isAndroid ? 1.0 : 1.2;
+                        // Always use Indonesian language settings
+                        testUtterance.lang = 'id-ID';
+                        testUtterance.rate = isAndroid ? 0.6 : isSamsung ? 0.5 : 0.8; // Slower for clearer Indonesian
+                        testUtterance.pitch = isAndroid ? 1.0 : 1.1; // Slightly lower pitch for Indonesian
                         testUtterance.volume = 1.0;
                         
                         let hasStarted = false;
@@ -1429,17 +1482,32 @@
                 }, 0);
             }
             
-            // Immediate speech feedback
+            // Immediate speech feedback with Indonesian voice
             if ('speechSynthesis' in window) {
                 speechSynthesis.cancel(); // Cancel any ongoing speech
-                const phrases = ['Hebat!', 'Bagus sekali!', 'Pintar!', 'Luar biasa!', 'Mantap!', 'Keren!'];
-                const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
-                const utterance = new SpeechSynthesisUtterance(randomPhrase);
-                utterance.lang = 'id-ID';
-                utterance.rate = 1.3;
-                utterance.pitch = 1.4;
-                utterance.volume = 0.8;
-                speechSynthesis.speak(utterance);
+                
+                setTimeout(() => {
+                    const phrases = ['Hebat!', 'Bagus sekali!', 'Pintar!', 'Luar biasa!', 'Mantap!', 'Keren!'];
+                    const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+                    const utterance = new SpeechSynthesisUtterance(randomPhrase);
+                    
+                    // Try to use Indonesian voice
+                    const voices = speechSynthesis.getVoices();
+                    const indonesianVoice = voices.find(voice => 
+                        voice.lang.toLowerCase().includes('id') || 
+                        voice.name.toLowerCase().includes('indonesia')
+                    );
+                    
+                    if (indonesianVoice) {
+                        utterance.voice = indonesianVoice;
+                    }
+                    
+                    utterance.lang = 'id-ID';
+                    utterance.rate = 1.1;
+                    utterance.pitch = 1.3;
+                    utterance.volume = 0.8;
+                    speechSynthesis.speak(utterance);
+                }, 100);
             }
         }
 
@@ -1473,17 +1541,32 @@
                 oscillator.stop(now + 0.4);
             }
             
-            // Immediate encouraging speech
+            // Immediate encouraging speech with Indonesian voice
             if ('speechSynthesis' in window) {
                 speechSynthesis.cancel(); // Cancel any ongoing speech
-                const phrases = ['Coba lagi ya!', 'Kamu pasti bisa!', 'Jangan menyerah!', 'Ayo semangat!', 'Hampir benar!'];
-                const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
-                const utterance = new SpeechSynthesisUtterance(randomPhrase);
-                utterance.lang = 'id-ID';
-                utterance.rate = 1.1;
-                utterance.pitch = 1.2;
-                utterance.volume = 0.7;
-                speechSynthesis.speak(utterance);
+                
+                setTimeout(() => {
+                    const phrases = ['Coba lagi ya!', 'Kamu pasti bisa!', 'Jangan menyerah!', 'Ayo semangat!', 'Hampir benar!'];
+                    const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+                    const utterance = new SpeechSynthesisUtterance(randomPhrase);
+                    
+                    // Try to use Indonesian voice
+                    const voices = speechSynthesis.getVoices();
+                    const indonesianVoice = voices.find(voice => 
+                        voice.lang.toLowerCase().includes('id') || 
+                        voice.name.toLowerCase().includes('indonesia')
+                    );
+                    
+                    if (indonesianVoice) {
+                        utterance.voice = indonesianVoice;
+                    }
+                    
+                    utterance.lang = 'id-ID';
+                    utterance.rate = 1.0;
+                    utterance.pitch = 1.2;
+                    utterance.volume = 0.7;
+                    speechSynthesis.speak(utterance);
+                }, 100);
             }
         }
 
@@ -1968,17 +2051,30 @@
                     playTryAgainSound();
                 }
                 
-                // Speak feedback
+                // Speak feedback with Indonesian voice
                 if ('speechSynthesis' in window) {
-                    const utterance = new SpeechSynthesisUtterance(
-                        score >= 20 ? 'Hebat sekali!' : 
-                        score >= 15 ? 'Bagus!' : 
-                        'Terus berlatih ya!'
-                    );
-                    utterance.lang = 'id-ID';
-                    utterance.rate = 1.2;
-                    utterance.pitch = 1.3;
-                    speechSynthesis.speak(utterance);
+                    setTimeout(() => {
+                        const feedbackText = score >= 20 ? 'Hebat sekali!' : 
+                                           score >= 15 ? 'Bagus!' : 
+                                           'Terus berlatih ya!';
+                        const utterance = new SpeechSynthesisUtterance(feedbackText);
+                        
+                        // Try to use Indonesian voice
+                        const voices = speechSynthesis.getVoices();
+                        const indonesianVoice = voices.find(voice => 
+                            voice.lang.toLowerCase().includes('id') || 
+                            voice.name.toLowerCase().includes('indonesia')
+                        );
+                        
+                        if (indonesianVoice) {
+                            utterance.voice = indonesianVoice;
+                        }
+                        
+                        utterance.lang = 'id-ID';
+                        utterance.rate = 1.0;
+                        utterance.pitch = 1.2;
+                        speechSynthesis.speak(utterance);
+                    }, 200);
                 }
             }
             
@@ -2079,13 +2175,28 @@
             ctx.setLineDash([]);
             ctx.globalAlpha = 1;
             
-            // Play demo sound
+            // Play demo sound with Indonesian voice
             if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(`Ini contoh huruf ${currentLetter}. Coba tirukan bentuknya!`);
-                utterance.lang = 'id-ID';
-                utterance.rate = 1.0;
-                utterance.pitch = 1.2;
-                speechSynthesis.speak(utterance);
+                setTimeout(() => {
+                    const demoText = `Ini contoh huruf ${currentLetter}. Coba tirukan bentuknya!`;
+                    const utterance = new SpeechSynthesisUtterance(demoText);
+                    
+                    // Try to use Indonesian voice
+                    const voices = speechSynthesis.getVoices();
+                    const indonesianVoice = voices.find(voice => 
+                        voice.lang.toLowerCase().includes('id') || 
+                        voice.name.toLowerCase().includes('indonesia')
+                    );
+                    
+                    if (indonesianVoice) {
+                        utterance.voice = indonesianVoice;
+                    }
+                    
+                    utterance.lang = 'id-ID';
+                    utterance.rate = 0.9;
+                    utterance.pitch = 1.1;
+                    speechSynthesis.speak(utterance);
+                }, 100);
             }
             
             // Auto clear demo after 5 seconds
@@ -2607,5 +2718,5 @@
         `;
         document.head.appendChild(style);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9751379d76a0fd61',t:'MTc1NjE4OTE2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97513f0ad1befd61',t:'MTc1NjE4OTQ2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
