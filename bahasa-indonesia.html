@@ -273,6 +273,15 @@
                     <div class="bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 md:px-8 md:py-4 inline-block mb-2 md:mb-4">
                         <p class="text-sm md:text-2xl lg:text-3xl font-bold text-white drop-shadow-lg">Bahasa Indonesia untuk Jagoan Kecil!</p>
                     </div>
+                    
+                    <!-- Mobile Audio Activation Button -->
+                    <div id="mobileAudioActivator" class="mb-4 md:mb-6 block md:hidden">
+                        <button onclick="activateMobileAudio()" class="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white px-6 py-3 rounded-full font-bold text-lg shadow-lg transition-all hover:scale-105 border-2 border-white/30">
+                            🔊 Aktifkan Suara
+                        </button>
+                        <p class="text-xs text-white/80 mt-2">Tap untuk mengaktifkan audio di smartphone</p>
+                    </div>
+                    
                     <div class="flex justify-center gap-2 md:gap-4 text-2xl md:text-4xl animate-bounce">
                         <span style="animation-delay: 0.2s;">🎪</span>
                         <span style="animation-delay: 0.4s;">🎭</span>
@@ -492,8 +501,8 @@
                 <div class="border-t border-gray-300 pt-4">
                     <div class="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 text-xs md:text-sm text-gray-600">
                         <div class="flex items-center gap-2">
-                            <span>© 2024</span>
-                            <span class="font-semibold text-blue-600">Emes Creative</span>
+                            <span>© 2025</span>
+                            <span class="font-semibold text-blue-800">EMES CREATIVE</span>
                         </div>
                         <div class="hidden md:block">•</div>
                         <div class="flex items-center gap-4">
@@ -1132,6 +1141,79 @@
         // Initialize audio on first user interaction
         document.addEventListener('click', initializeAudio, { once: true });
         document.addEventListener('touchstart', initializeAudio, { once: true });
+        
+        // Mobile audio activation function
+        function activateMobileAudio() {
+            const button = document.querySelector('#mobileAudioActivator button');
+            const activator = document.getElementById('mobileAudioActivator');
+            
+            // Force initialize audio context
+            initializeAudio();
+            
+            // Test speech synthesis immediately
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+                
+                setTimeout(() => {
+                    const testUtterance = new SpeechSynthesisUtterance('Halo! Audio sudah aktif!');
+                    testUtterance.lang = 'id-ID';
+                    testUtterance.rate = 0.8;
+                    testUtterance.pitch = 1.2;
+                    testUtterance.volume = 1.0;
+                    
+                    testUtterance.onstart = () => {
+                        console.log('🔊 Mobile audio activation successful');
+                        button.innerHTML = '✅ Audio Aktif!';
+                        button.className = 'bg-gradient-to-r from-green-400 to-green-600 text-white px-6 py-3 rounded-full font-bold text-lg shadow-lg border-2 border-white/30';
+                        
+                        // Hide activator after success
+                        setTimeout(() => {
+                            activator.style.opacity = '0';
+                            activator.style.transform = 'scale(0.8)';
+                            setTimeout(() => {
+                                activator.style.display = 'none';
+                            }, 300);
+                        }, 2000);
+                    };
+                    
+                    testUtterance.onerror = (event) => {
+                        console.log('🔊 Mobile audio activation failed:', event.error);
+                        button.innerHTML = '❌ Coba Lagi';
+                        button.className = 'bg-gradient-to-r from-red-400 to-red-600 text-white px-6 py-3 rounded-full font-bold text-lg shadow-lg border-2 border-white/30';
+                        
+                        // Show helpful message
+                        showFeedbackMessage('Coba izinkan audio di pengaturan browser atau gunakan headphone', 'error');
+                        
+                        // Reset button after 3 seconds
+                        setTimeout(() => {
+                            button.innerHTML = '🔊 Aktifkan Suara';
+                            button.className = 'bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white px-6 py-3 rounded-full font-bold text-lg shadow-lg transition-all hover:scale-105 border-2 border-white/30';
+                        }, 3000);
+                    };
+                    
+                    // Try to resume audio context first
+                    if (audioContext && audioContext.state === 'suspended') {
+                        audioContext.resume().then(() => {
+                            speechSynthesis.speak(testUtterance);
+                        }).catch(() => {
+                            speechSynthesis.speak(testUtterance);
+                        });
+                    } else {
+                        speechSynthesis.speak(testUtterance);
+                    }
+                    
+                }, 100);
+            }
+            
+            // Visual feedback
+            button.innerHTML = '⏳ Mengaktifkan...';
+            button.className = 'bg-gradient-to-r from-blue-400 to-blue-600 text-white px-6 py-3 rounded-full font-bold text-lg shadow-lg border-2 border-white/30';
+            
+            // Haptic feedback
+            if (navigator.vibrate) {
+                navigator.vibrate([100, 50, 100]);
+            }
+        }
 
         function testAudioSystem() {
             // Show immediate feedback
@@ -2718,5 +2800,5 @@
         `;
         document.head.appendChild(style);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'975148dd476789b9',t:'MTc1NjE4OTg2OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9751587de1238348',t:'MTc1NjE5MDUxMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
