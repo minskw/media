@@ -260,52 +260,70 @@
 </head>
 <body class="bg-gradient-to-br from-green-600 via-emerald-600 to-teal-700 min-h-screen">
 
-    <!-- Header -->
-    <div class="bg-gradient-to-br from-green-800 via-emerald-800 to-teal-800 shadow-xl rounded-b-3xl p-3 md:p-4 mb-4 border-b-4 border-yellow-400">
-        <div class="text-center">
-            <img src="https://cdn-icons-png.flaticon.com/128/3165/3165231.png" alt="Iqra Logo" class="w-12 h-12 md:w-16 md:h-16 mx-auto mb-2 floating">
-            <h1 class="title-font text-lg md:text-2xl text-white mb-1 font-bold" dir="rtl">
-                🕌 إِقْرَأْ ديجيتال - الجزء الأول 🕌
-            </h1>
-            <h2 class="text-md md:text-xl text-yellow-300 mb-2 font-bold">IQRA' DIGITAL JILID 1</h2>
-            <p class="text-xs md:text-sm text-white/90 mb-3">Belajar Membaca Huruf Hijaiyah dengan Mudah</p>
-            
-            <!-- User Profile Section -->
-            <div id="userProfile" class="hidden mb-3 bg-white/10 rounded-xl p-3">
-                <div class="flex flex-col md:flex-row items-center justify-center gap-3">
-                    <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-yellow-400">
-                        <img id="userPhoto" src="" alt="Foto Siswa" class="w-full h-full object-cover" style="display: none;">
-                        <div id="defaultAvatar" class="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-lg font-bold">
-                            👤
-                        </div>
-                    </div>
-                    <div class="text-center md:text-left">
-                        <h3 id="userName" class="text-md font-bold text-white mb-1">Nama Siswa</h3>
-                        <p id="userClass" class="text-yellow-300 text-xs">Kelas</p>
-                    </div>
-                    <button onclick="editProfile()" class="bg-white/20 hover:bg-white/30 text-white px-2 py-1 rounded-full text-xs font-bold transition-all">
-                        ✏️ Edit
-                    </button>
+    <!-- Professional Header -->
+    <div class="bg-gradient-to-br from-green-800 via-emerald-800 to-teal-800 shadow-xl p-4 mb-4 border-b-4 border-yellow-400">
+        <!-- Top Header with Logo and Title -->
+        <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-4">
+                <img src="https://cdn-icons-png.flaticon.com/128/3165/3165231.png" alt="Iqra Logo" class="w-12 h-12 md:w-16 md:h-16 floating">
+                <div>
+                    <h1 class="title-font text-lg md:text-2xl text-white font-bold" dir="rtl">
+                        إِقْرَأْ ديجيتال - الجزء الأول
+                    </h1>
+                    <h2 class="text-sm md:text-lg text-yellow-300 font-bold">IQRA' DIGITAL JILID 1</h2>
+                    <p class="text-xs text-white/90">Belajar Membaca Huruf Hijaiyah dengan Mudah</p>
                 </div>
             </div>
             
-            <!-- Setup Profile Button -->
-            <div id="setupProfileBtn" class="mb-4">
-                <button onclick="showProfileSetup()" class="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-6 py-2 rounded-full font-bold transition-all shadow-lg">
-                    👤 Atur Profil Siswa
+            <!-- Setup Profile Button (when no profile) -->
+            <div id="setupProfileBtn">
+                <button onclick="showProfileSetup()" class="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-4 py-2 rounded-full font-bold transition-all shadow-lg text-sm">
+                    👤 Atur Profil
                 </button>
             </div>
+        </div>
+        
+        <!-- Student Identity Section -->
+        <div id="studentIdentity" class="hidden bg-white/10 rounded-xl p-4">
+            <div class="flex items-center gap-4 mb-3">
+                <div class="w-16 h-16 rounded-full overflow-hidden border-3 border-yellow-400 shadow-lg">
+                    <img id="userPhoto" src="" alt="Foto Siswa" class="w-full h-full object-cover" style="display: none;">
+                    <div id="defaultAvatar" class="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-2xl font-bold">
+                        👤
+                    </div>
+                </div>
+                <div class="flex-1">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 id="userName" class="text-lg font-bold text-white mb-1">Nama Siswa</h3>
+                            <p id="userClass" class="text-yellow-300 text-sm font-medium">Kelas</p>
+                        </div>
+                        <button onclick="editProfile()" class="bg-white/20 hover:bg-white/30 text-white px-3 py-2 rounded-full text-xs font-bold transition-all">
+                            ✏️ Edit Profil
+                        </button>
+                    </div>
+                </div>
+            </div>
             
-            <!-- Stats Dashboard -->
-            <div class="flex flex-col md:flex-row justify-center items-center gap-1 md:gap-2">
-                <div class="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-3 py-1 rounded-full shadow-lg">
-                    <span class="text-xs font-bold">⭐ Pahala: <span id="totalScore">0</span></span>
+            <!-- Progress Section -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div class="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-4 py-2 rounded-lg shadow-lg">
+                    <div class="text-center">
+                        <div class="text-lg font-bold">⭐ <span id="totalScore">0</span></div>
+                        <div class="text-xs opacity-90">Total Pahala</div>
+                    </div>
                 </div>
-                <div class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-3 py-1 rounded-full shadow-lg">
-                    <span class="text-xs font-bold">📖 Halaman: <span id="currentPage">1</span>/25</span>
+                <div class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-lg shadow-lg">
+                    <div class="text-center">
+                        <div class="text-lg font-bold">📖 <span id="currentPage">1</span>/25</div>
+                        <div class="text-xs opacity-90">Halaman Selesai</div>
+                    </div>
                 </div>
-                <div class="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-1 rounded-full shadow-lg">
-                    <span class="text-xs font-bold">🏅 Prestasi: <span id="totalBadges">0</span></span>
+                <div class="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 py-2 rounded-lg shadow-lg">
+                    <div class="text-center">
+                        <div class="text-lg font-bold">🏅 <span id="totalBadges">0</span></div>
+                        <div class="text-xs opacity-90">Prestasi Diraih</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -558,6 +576,14 @@
         let gameLevel = 1;
         let ujianScore = 0;
         let ujianQuestion = 1;
+        
+        // Practice tracking variables
+        let practiceAttempts = 0;
+        let successfulAttempts = 0;
+        let currentPatternIndex = 0;
+        let pagePatterns = [];
+        let minPracticeCount = 10;
+        let passThreshold = 0.8; // 80% success rate
 
         // Writing Canvas Variables
         let writingCanvas = null;
@@ -754,9 +780,14 @@
                 return;
             }
             
-            // Generate random practice pattern
-            const randomPattern = pageData.practicePatterns[Math.floor(Math.random() * pageData.practicePatterns.length)];
-            currentPracticePattern = randomPattern;
+            // Reset practice tracking for new page
+            practiceAttempts = 0;
+            successfulAttempts = 0;
+            currentPatternIndex = 0;
+            pagePatterns = [...pageData.practicePatterns];
+            
+            // Get first pattern
+            currentPracticePattern = pagePatterns[currentPatternIndex];
             
             updateDisplay();
             
@@ -787,39 +818,54 @@
                 </div>
                 
                 <!-- Bottom Panel: Practice Section -->
-                <div class="bg-gradient-to-r from-yellow-50 to-orange-50 border-2 border-orange-400 rounded-xl p-4" style="height: 280px;">
-                    <h3 class="text-center text-sm font-bold text-orange-700 mb-2">📝 Latihan Praktik</h3>
+                <div class="bg-gradient-to-r from-yellow-50 to-orange-50 border-2 border-orange-400 rounded-xl p-4" style="height: 320px;">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="text-sm font-bold text-orange-700">📝 Latihan Praktik</h3>
+                        <div class="text-xs font-bold text-orange-600 bg-orange-100 px-2 py-1 rounded-full">
+                            <span id="practiceProgress">${successfulAttempts}/${minPracticeCount}</span> ✅
+                        </div>
+                    </div>
                     
                     <!-- Practice Pattern Display -->
-                    <div class="text-center mb-3">
-                        <div class="bg-white border-2 border-orange-300 rounded-xl p-3 mb-3 cursor-pointer hover:bg-orange-50 transition-all" onclick="playCurrentPattern()">
-                            <div class="arabic-text text-4xl text-orange-700 font-bold mb-1" id="currentPattern" dir="rtl">
+                    <div class="text-center mb-4">
+                        <div class="bg-white border-2 border-orange-300 rounded-xl p-4 mb-3 cursor-pointer hover:bg-orange-50 transition-all" onclick="playCurrentPattern()">
+                            <div class="arabic-text text-5xl text-orange-700 font-bold mb-2" id="currentPattern" dir="rtl">
                                 ${randomPattern}
                             </div>
-                            <div class="text-xs text-gray-600">Klik untuk mendengar contoh</div>
+                            <div class="text-xs text-gray-600">👆 Klik untuk mendengar contoh</div>
                         </div>
                         
-                        <!-- Recording Status -->
-                        <div id="recordingStatus" class="mb-2 text-xs font-bold text-gray-600">
-                            🎤 Rekam bacaan Anda untuk melanjutkan
+                        <!-- Practice Status -->
+                        <div id="practiceStatus" class="mb-3 p-2 bg-blue-50 border border-blue-200 rounded-lg">
+                            <div class="text-sm font-bold text-blue-700 mb-1">Status Latihan</div>
+                            <div class="text-xs text-blue-600" id="statusText">
+                                Dengarkan contoh, lalu rekam bacaan Anda
+                            </div>
                         </div>
                         
                         <!-- Practice Controls -->
-                        <div class="flex justify-center gap-1 mb-2">
-                            <button onclick="playCurrentPattern()" class="btn-gold text-white px-2 py-1 rounded-full font-bold text-xs transition-all hover:scale-105 shadow-lg">
-                                🔊 Contoh
+                        <div class="flex justify-center gap-2 mb-3">
+                            <button onclick="playCurrentPattern()" class="btn-gold text-white px-4 py-2 rounded-full font-bold text-sm transition-all hover:scale-105 shadow-lg">
+                                🔊 Dengarkan
                             </button>
-                            <button onclick="startRecording()" id="recordBtn" class="bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white px-2 py-1 rounded-full font-bold text-xs transition-all hover:scale-105 shadow-lg">
-                                🎤 Rekam
-                            </button>
-                            <button onclick="generateNewPattern()" class="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white px-2 py-1 rounded-full font-bold text-xs transition-all hover:scale-105 shadow-lg">
-                                🔄 Pola Baru
+                            <button onclick="startRecording()" id="recordBtn" class="bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white px-4 py-2 rounded-full font-bold text-sm transition-all hover:scale-105 shadow-lg">
+                                🎤 Baca
                             </button>
                         </div>
                         
-                        <!-- Next Button (Initially Disabled) -->
-                        <button onclick="nextBelajarPage()" id="nextBtn" class="bg-gray-400 text-gray-600 px-3 py-1 rounded-full font-bold text-xs cursor-not-allowed" disabled>
-                            🔒 Rekam Dulu untuk Lanjut
+                        <!-- Progress Bar -->
+                        <div class="mb-3">
+                            <div class="bg-gray-200 rounded-full h-2 mb-1">
+                                <div class="bg-green-500 h-2 rounded-full transition-all duration-500" id="progressBar" style="width: ${(successfulAttempts/minPracticeCount)*100}%"></div>
+                            </div>
+                            <div class="text-xs text-gray-600">
+                                Kemajuan: <span id="progressPercent">${Math.round((successfulAttempts/minPracticeCount)*100)}%</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Next Button -->
+                        <button onclick="nextBelajarPage()" id="nextBtn" class="bg-gray-400 text-gray-600 px-4 py-2 rounded-full font-bold text-sm cursor-not-allowed" disabled>
+                            🔒 Selesaikan ${minPracticeCount} latihan dulu (${Math.round(passThreshold*100)}% benar)
                         </button>
                     </div>
                 </div>
@@ -946,26 +992,7 @@
             return letterMap[arabicLetter] || arabicLetter;
         }
 
-        function generateNewPattern() {
-            const pageData = iqraData.pages[currentPage - 1];
-            
-            // Generate new random pattern
-            const randomPattern = pageData.practicePatterns[Math.floor(Math.random() * pageData.practicePatterns.length)];
-            currentPracticePattern = randomPattern;
-            
-            // Update display
-            const patternElement = document.getElementById('currentPattern');
-            if (patternElement) {
-                patternElement.textContent = randomPattern;
-            }
-            
-            // Reset recording status
-            isRecordingApproved = false;
-            updateNextButton();
-            updateRecordingStatus('🎤 Rekam bacaan Anda untuk melanjutkan');
-            
-            showMessage('🔄 Pola baru telah dibuat!', 'info');
-        }
+
 
         // Audio Permission and Recording Functions
         async function requestAudioPermission() {
@@ -1104,75 +1131,203 @@
         }
 
         function analyzeRecording(audioBlob) {
-            updateRecordingStatus('🤖 AI sedang menganalisis bacaan...');
+            updatePracticeStatus('🤖 AI sedang menganalisis bacaan...', 'analyzing');
             
-            // Simulate AI analysis
+            // Enhanced analysis simulation with multiple factors
             setTimeout(() => {
-                const analysisScore = Math.random();
+                practiceAttempts++;
                 
-                if (analysisScore > 0.6) {
-                    // Good recording
-                    isRecordingApproved = true;
-                    updateNextButton();
-                    updateRecordingStatus('✅ Bacaan sudah baik! Silakan lanjut.');
-                    showMessage('🎉 بَارَكَ اللهُ فِيكَ! Bacaan sudah sesuai!', 'success');
+                // Simulate more sophisticated analysis
+                const baseAccuracy = Math.random();
+                const durationFactor = audioBlob.size > 5000 ? 0.2 : 0; // Bonus for adequate length
+                const consistencyFactor = Math.random() * 0.1; // Random consistency bonus
+                
+                const finalScore = Math.min(1.0, baseAccuracy + durationFactor + consistencyFactor);
+                
+                // More stringent scoring for better accuracy
+                if (finalScore > 0.75) {
+                    // Excellent reading
+                    successfulAttempts++;
+                    updatePracticeStatus('🎉 Excellent! Bacaan sangat baik dan jelas!', 'success');
+                    showMessage('🎉 بَارَكَ اللهُ فِيكَ! Bacaan sangat baik!', 'success');
                     
-                    totalScore += 50;
-                    localStorage.setItem('iqra_totalScore', totalScore.toString());
-                    updateDisplay();
+                    totalScore += 100;
                     
-                } else if (analysisScore > 0.3) {
-                    // Needs improvement
-                    updateRecordingStatus('🔄 Bacaan cukup baik, tapi coba sekali lagi untuk hasil terbaik.');
+                    // Move to next pattern automatically
+                    setTimeout(() => {
+                        moveToNextPattern();
+                    }, 1500);
+                    
+                } else if (finalScore > 0.65) {
+                    // Good reading
+                    successfulAttempts++;
+                    updatePracticeStatus('👍 Bagus! Bacaan sudah benar dan jelas.', 'success');
+                    showMessage('👍 Alhamdulillah! Bacaan sudah benar!', 'success');
+                    
+                    totalScore += 75;
+                    
+                    // Move to next pattern automatically
+                    setTimeout(() => {
+                        moveToNextPattern();
+                    }, 1500);
+                    
+                } else if (finalScore > 0.5) {
+                    // Acceptable but needs improvement
+                    updatePracticeStatus('🔄 Cukup baik, tapi masih bisa diperbaiki. Coba lagi!', 'warning');
                     showMessage('🤲 Bacaan cukup baik! Coba sekali lagi untuk hasil yang lebih baik.', 'info');
                     
-                } else {
+                    totalScore += 25;
+                    
+                } else if (finalScore > 0.35) {
                     // Needs more practice
-                    updateRecordingStatus('📚 Dengarkan contoh lagi dan coba ulangi dengan lebih jelas.');
+                    updatePracticeStatus('📚 Belum tepat. Dengarkan contoh lagi dan ulangi.', 'error');
                     showMessage('🤲 Coba dengarkan contoh sekali lagi dan ulangi dengan lebih jelas.', 'error');
                     
                     // Auto play example
                     setTimeout(() => {
                         playCurrentPattern();
                     }, 1000);
+                    
+                } else {
+                    // Poor reading - needs significant improvement
+                    updatePracticeStatus('❌ Bacaan belum jelas. Dengarkan baik-baik dan coba lagi.', 'error');
+                    showMessage('🤲 Bacaan belum jelas. Dengarkan contoh dengan seksama dan coba lagi.', 'error');
+                    
+                    // Auto play example
+                    setTimeout(() => {
+                        playCurrentPattern();
+                    }, 1000);
                 }
-            }, 2500);
+                
+                // Update progress
+                updatePracticeProgress();
+                localStorage.setItem('iqra_totalScore', totalScore.toString());
+                updateDisplay();
+                
+            }, 2000 + Math.random() * 1000); // Variable analysis time for realism
+        }
+
+        function updatePracticeStatus(message, type = 'info') {
+            const statusElement = document.getElementById('statusText');
+            const statusContainer = document.getElementById('practiceStatus');
+            
+            if (statusElement && statusContainer) {
+                statusElement.textContent = message;
+                
+                // Update container styling based on type
+                statusContainer.className = 'mb-3 p-2 rounded-lg border';
+                switch(type) {
+                    case 'success':
+                        statusContainer.className += ' bg-green-50 border-green-200';
+                        statusElement.className = 'text-xs text-green-700';
+                        break;
+                    case 'error':
+                        statusContainer.className += ' bg-red-50 border-red-200';
+                        statusElement.className = 'text-xs text-red-700';
+                        break;
+                    case 'warning':
+                        statusContainer.className += ' bg-yellow-50 border-yellow-200';
+                        statusElement.className = 'text-xs text-yellow-700';
+                        break;
+                    case 'analyzing':
+                        statusContainer.className += ' bg-purple-50 border-purple-200';
+                        statusElement.className = 'text-xs text-purple-700';
+                        break;
+                    default:
+                        statusContainer.className += ' bg-blue-50 border-blue-200';
+                        statusElement.className = 'text-xs text-blue-600';
+                }
+            }
+        }
+
+        function updatePracticeProgress() {
+            // Update progress counter
+            const progressElement = document.getElementById('practiceProgress');
+            if (progressElement) {
+                progressElement.textContent = `${successfulAttempts}/${minPracticeCount}`;
+            }
+            
+            // Update progress bar
+            const progressBar = document.getElementById('progressBar');
+            const progressPercent = document.getElementById('progressPercent');
+            if (progressBar && progressPercent) {
+                const percentage = Math.round((successfulAttempts / minPracticeCount) * 100);
+                progressBar.style.width = `${Math.min(100, percentage)}%`;
+                progressPercent.textContent = `${Math.min(100, percentage)}%`;
+            }
+            
+            // Update next button
+            updateNextButton();
         }
 
         function updateNextButton() {
             const nextBtn = document.getElementById('nextBtn');
             if (nextBtn) {
-                if (isRecordingApproved) {
+                const successRate = practiceAttempts > 0 ? successfulAttempts / practiceAttempts : 0;
+                const canProceed = successfulAttempts >= minPracticeCount && successRate >= passThreshold;
+                
+                if (canProceed) {
                     nextBtn.className = 'btn-islamic text-white px-4 py-2 rounded-full font-bold text-sm transition-all hover:scale-105 shadow-lg';
                     nextBtn.innerHTML = '✅ Lanjut ke Halaman Berikutnya';
                     nextBtn.disabled = false;
                 } else {
+                    const remaining = minPracticeCount - successfulAttempts;
+                    const requiredPercent = Math.round(passThreshold * 100);
                     nextBtn.className = 'bg-gray-400 text-gray-600 px-4 py-2 rounded-full font-bold text-sm cursor-not-allowed';
-                    nextBtn.innerHTML = '🔒 Rekam Dulu untuk Lanjut';
+                    
+                    if (remaining > 0) {
+                        nextBtn.innerHTML = `🔒 Butuh ${remaining} latihan lagi (${requiredPercent}% benar)`;
+                    } else {
+                        const currentPercent = Math.round(successRate * 100);
+                        nextBtn.innerHTML = `🔒 Tingkatkan akurasi (${currentPercent}% → ${requiredPercent}%)`;
+                    }
                     nextBtn.disabled = true;
                 }
             }
         }
 
-        function updateRecordingStatus(message) {
-            const statusElement = document.getElementById('recordingStatus');
-            if (statusElement) {
-                statusElement.textContent = message;
+        function moveToNextPattern() {
+            // Move to next pattern in the list
+            currentPatternIndex = (currentPatternIndex + 1) % pagePatterns.length;
+            currentPracticePattern = pagePatterns[currentPatternIndex];
+            
+            // Update pattern display
+            const patternElement = document.getElementById('currentPattern');
+            if (patternElement) {
+                patternElement.textContent = currentPracticePattern;
             }
+            
+            // Update status
+            updatePracticeStatus('📝 Pola baru! Dengarkan dan praktikkan.', 'info');
+            
+            // Auto play new pattern
+            setTimeout(() => {
+                playCurrentPattern();
+            }, 500);
         }
 
         // Page Navigation
         function nextBelajarPage() {
-            if (!isRecordingApproved) {
-                showMessage('🎤 Rekam bacaan dulu sebelum melanjutkan!', 'error');
+            const successRate = practiceAttempts > 0 ? successfulAttempts / practiceAttempts : 0;
+            const canProceed = successfulAttempts >= minPracticeCount && successRate >= passThreshold;
+            
+            if (!canProceed) {
+                const remaining = minPracticeCount - successfulAttempts;
+                const requiredPercent = Math.round(passThreshold * 100);
+                
+                if (remaining > 0) {
+                    showMessage(`🎤 Selesaikan ${remaining} latihan lagi dengan akurasi ${requiredPercent}%!`, 'error');
+                } else {
+                    const currentPercent = Math.round(successRate * 100);
+                    showMessage(`📈 Tingkatkan akurasi dari ${currentPercent}% menjadi ${requiredPercent}%!`, 'error');
+                }
                 return;
             }
             
             if (currentPage < 5) {
                 currentPage++;
-                isRecordingApproved = false;
                 loadBelajarPage();
-                showMessage(`📖 Halaman ${currentPage}`, 'success');
+                showMessage(`📖 Masuk ke Halaman ${currentPage}! Alhamdulillah!`, 'success');
             } else {
                 completeBelajarPage();
             }
@@ -1914,8 +2069,8 @@
                 document.getElementById('defaultAvatar').style.display = 'none';
             }
             
-            // Show profile section
-            document.getElementById('userProfile').classList.remove('hidden');
+            // Show student identity section instead of profile section
+            document.getElementById('studentIdentity').classList.remove('hidden');
             document.getElementById('setupProfileBtn').style.display = 'none';
             
             closeProfileModal();
@@ -1953,7 +2108,7 @@
                     document.getElementById('defaultAvatar').style.display = 'none';
                 }
                 
-                document.getElementById('userProfile').classList.remove('hidden');
+                document.getElementById('studentIdentity').classList.remove('hidden');
                 document.getElementById('setupProfileBtn').style.display = 'none';
             }
         }
@@ -2002,5 +2157,5 @@
             console.log('Iqra Digital Jilid 1 initialized successfully');
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97531be440902035',t:'MTc1NjIwODk5OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97534700004591cb',t:'MTc1NjIxMDc2NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
