@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Iqra' Digital - Belajar Membaca Al-Qur'an </title>
+    <title>Iqra' Digital - Belajar Membaca Al-Qur'an</title>
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/3165/3165231.png" type="image/png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-           @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Nunito:wght@400;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Nunito:wght@400;600;700;800&display=swap');
         
         body { 
             font-family: 'Nunito', sans-serif; 
@@ -26,7 +26,6 @@
         
         .title-font { font-family: 'Amiri', serif; }
         
-        /* Menu card animations */
         .menu-card {
             transition: all 0.3s ease;
         }
@@ -36,7 +35,6 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.15);
         }
         
-        /* Letter animations */
         .letter-glow {
             text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
             transition: all 0.3s ease;
@@ -51,7 +49,6 @@
             50% { transform: scale(1.2); }
         }
         
-        /* Game animations */
         .game-card {
             transition: all 0.3s ease;
             cursor: pointer;
@@ -62,7 +59,6 @@
             box-shadow: 0 15px 30px rgba(0,0,0,0.2);
         }
         
-        /* Button styles */
         .btn-islamic {
             background: linear-gradient(135deg, #059669 0%, #047857 100%);
             transition: all 0.2s ease;
@@ -85,7 +81,6 @@
             background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
         }
         
-        /* Modal animations */
         .modal-enter {
             animation: modalEnter 0.4s ease-out;
         }
@@ -95,7 +90,6 @@
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
         
-        /* Success animations */
         .success-pulse {
             animation: successPulse 0.6s ease;
         }
@@ -106,184 +100,53 @@
             100% { transform: scale(1); }
         }
         
-        /* Game specific styles */
-        .memory-card {
-            perspective: 1000px;
-        }
-        
-        .memory-card-inner {
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-        }
-        
-        .memory-card.flipped .memory-card-inner {
-            transform: rotateY(180deg);
-        }
-        
-        .memory-card-front, .memory-card-back {
-            backface-visibility: hidden;
-        }
-        
-        .memory-card-back {
-            transform: rotateY(180deg);
-        }
-        
-        /* Writing Canvas Styles */
-        .writing-canvas {
-            border: 3px solid #10B981;
-            border-radius: 12px;
-            background: white;
-            cursor: crosshair;
-            touch-action: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .writing-guide {
-            position: absolute;
-            pointer-events: none;
-            opacity: 0.2;
-            font-family: 'Amiri', serif;
-            color: #10B981;
-            font-size: 120px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 100%;
-            user-select: none;
-        }
-        
-        .brush-size-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid #10B981;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .brush-size-btn.active {
-            background: #10B981;
-            color: white;
-            transform: scale(1.1);
-        }
-        
-        .brush-size-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
-        }
-        
-        .color-btn {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            border: 3px solid white;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        }
-        
-        .color-btn.active {
-            border-color: #374151;
-            transform: scale(1.2);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-        
-        .color-btn:hover {
-            transform: scale(1.1);
-        }
-        
-        .writing-letter-btn {
-            transition: all 0.2s ease;
-        }
-        
-        .writing-letter-btn:hover {
-            transform: scale(1.05);
-        }
-        
-        .writing-letter-btn.active {
-            transform: scale(1.1);
-            box-shadow: 0 4px 12px rgba(20, 184, 166, 0.4);
-        }
-        
-        /* Canvas container */
-        .canvas-container {
-            position: relative;
-            display: inline-block;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .arabic-text { font-size: 2rem; }
-            .menu-card { margin-bottom: 1rem; }
-            .writing-guide { font-size: 80px; }
-            .canvas-container { width: 280px !important; height: 180px !important; }
-            .writing-canvas { width: 280px !important; height: 180px !important; }
-        }
-        
-        @media (min-width: 769px) {
-            .arabic-text { font-size: 3rem; }
-        }
-        
-        /* Progress bar */
         .progress-bar {
+            background: linear-gradient(90deg, #10B981, #059669);
             transition: width 0.5s ease;
         }
         
-        /* Floating elements */
-        .floating {
-            animation: floating 3s ease-in-out infinite;
+        .float {
+            animation: float 3s ease-in-out infinite;
         }
         
-        @keyframes floating {
+        @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
         }
         
-        /* Writing feedback animations */
-        .writing-feedback {
-            animation: feedbackPulse 0.5s ease;
+        .recording {
+            animation: pulse 1s infinite;
         }
         
-        @keyframes feedbackPulse {
-            0% { transform: scale(1); opacity: 0; }
-            50% { transform: scale(1.1); opacity: 1; }
-            100% { transform: scale(1); opacity: 1; }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
-        /* Quiz styles */
-        .quiz-option {
-            transition: all 0.3s ease;
+        .profile-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .correct-answer {
+            animation: correctPulse 0.5s ease;
+            background: linear-gradient(135deg, #10B981, #059669) !important;
+            color: white !important;
         }
         
-        .quiz-option:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .quiz-option.correct {
-            background: linear-gradient(135deg, #10B981, #059669);
-            color: white;
-            animation: correctPulse 0.6s ease;
-        }
-        
-        .quiz-option.wrong {
-            background: linear-gradient(135deg, #EF4444, #DC2626);
-            color: white;
-            animation: wrongShake 0.6s ease;
+        .wrong-answer {
+            animation: wrongShake 0.5s ease;
+            background: linear-gradient(135deg, #EF4444, #DC2626) !important;
+            color: white !important;
         }
         
         @keyframes correctPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
         
         @keyframes wrongShake {
@@ -292,19 +155,15 @@
             75% { transform: translateX(5px); }
         }
 
-        /* Memory game styles */
+        /* Memory card styles */
         .memory-card {
-            height: 120px;
             perspective: 1000px;
         }
         
         .memory-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
             transition: transform 0.6s;
             transform-style: preserve-3d;
+            position: relative;
         }
         
         .memory-card.flipped .memory-card-inner {
@@ -317,1499 +176,1436 @@
             height: 100%;
             backface-visibility: hidden;
             border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        
-        .memory-card-front {
-            background: linear-gradient(135deg, #6366F1, #4F46E5);
-            color: white;
         }
         
         .memory-card-back {
-            background: linear-gradient(135deg, #10B981, #059669);
-            color: white;
             transform: rotateY(180deg);
-        }
-
-        /* Speed game styles */
-        .speed-letter {
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .speed-letter:hover {
-            transform: scale(1.1);
-        }
-        
-        .speed-letter.clicked {
-            animation: speedClick 0.3s ease;
-        }
-        
-        @keyframes speedClick {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        /* Pattern game styles */
-        .pattern-display {
-            background: linear-gradient(135deg, #F59E0B, #D97706);
-            border-radius: 16px;
-            padding: 20px;
-            margin: 20px 0;
-            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3);
-        }
-        
-        .pattern-input {
-            background: white;
-            border: 3px solid #10B981;
-            border-radius: 12px;
-            padding: 15px;
-            margin: 10px 0;
-        }
-
-        /* Exam styles */
-        .exam-question {
-            background: linear-gradient(135deg, #F3F4F6, #E5E7EB);
-            border-radius: 16px;
-            padding: 24px;
-            margin: 16px 0;
-            border: 2px solid #D1D5DB;
-        }
-        
-        .exam-timer {
-            background: linear-gradient(135deg, #EF4444, #DC2626);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            animation: timerPulse 1s infinite;
-        }
-        
-        @keyframes timerPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-        
-        /* Footer Styles */
-        .footer {
-            background: linear-gradient(135deg, #059669 0%, #047857 100%);
-            color: white;
-            padding: 2rem 1rem;
-            margin-top: 2rem;
-            border-top: 4px solid #F59E0B;
-        }
-        
-        .footer-links a {
-            transition: all 0.3s ease;
-        }
-        
-        .footer-links a:hover {
-            color: #F59E0B;
-            transform: translateY(-2px);
-        }
-        
-        /* Certificate Styles */
-        .certificate-container {
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23f0f0f0"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="%23e0e0e0" stroke-width="1"/></svg>');
-            background-size: 20px 20px;
-            border: 20px solid transparent;
-            border-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50"><rect width="50" height="50" fill="%23059669" opacity="0.2"/></svg>') 30 round;
-            padding: 3rem;
-            position: relative;
-            max-width: 800px;
-            margin: 2rem auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        
-        .certificate-border {
-            border: 3px solid #10B981;
-            padding: 2rem;
-            position: relative;
-            text-align: center;
-        }
-        
-        .certificate-title {
-            font-family: 'Amiri', serif;
-            font-size: 2.5rem;
-            color: #059669;
-            margin-bottom: 1.5rem;
-            text-decoration: underline;
-        }
-        
-        .certificate-text {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-        
-        .certificate-stamp {
-            position: absolute;
-            bottom: 30px;
-            right: 30px;
-            width: 120px;
-            height: 120px;
-            border: 3px solid #10B981;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255,255,255,0.9);
-            transform: rotate(15deg);
-        }
-        
-        .certificate-signature {
-            margin-top: 2rem;
-            border-top: 2px solid #10B981;
-            padding-top: 1rem;
-            display: inline-block;
-        }
-        
-        /* Game Card Animations */
-        .game-card {
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .game-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-        }
-        
-        /* Memory Game Styles */
-        .memory-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin: 20px 0;
-        }
-        
-        .memory-card {
-            height: 100px;
-            perspective: 1000px;
-        }
-        
-        .memory-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-        }
-        
-        .memory-card.flipped .memory-card-inner {
-            transform: rotateY(180deg);
-        }
-        
-        .memory-card-front, .memory-card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        
-        .memory-card-front {
-            background: linear-gradient(135deg, #6366F1, #4F46E5);
-            color: white;
-            font-size: 1.5rem;
-        }
-        
-        .memory-card-back {
-            background: linear-gradient(135deg, #10B981, #059669);
-            color: white;
-            transform: rotateY(180deg);
-            font-size: 2rem;
-            font-family: 'Amiri', serif;
-        }
-        
-        /* Quiz Game Styles */
-        .quiz-option {
-            transition: all 0.3s ease;
-            cursor: pointer;
-            padding: 15px;
-            border-radius: 12px;
-            background: #F3F4F6;
-            margin: 10px 0;
-            border: 2px solid #E5E7EB;
-        }
-        
-        .quiz-option:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .quiz-option.correct {
-            background: linear-gradient(135deg, #10B981, #059669);
-            color: white;
-            animation: correctPulse 0.6s ease;
-        }
-        
-        .quiz-option.wrong {
-            background: linear-gradient(135deg, #EF4444, #DC2626);
-            color: white;
-            animation: wrongShake 0.6s ease;
-        }
-        
-        @keyframes correctPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        
-        @keyframes wrongShake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-        
-        /* Speed Game Styles */
-        .speed-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin: 20px 0;
-        }
-        
-        .speed-letter {
-            background: linear-gradient(135deg, #3B82F6, #1D4ED8);
-            color: white;
-            border-radius: 12px;
-            padding: 20px;
-            font-size: 2rem;
-            font-family: 'Amiri', serif;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .speed-letter:hover {
-            transform: scale(1.1);
-        }
-        
-        .speed-letter.clicked {
-            background: linear-gradient(135deg, #10B981, #059669);
-            animation: speedClick 0.3s ease;
-        }
-        
-        @keyframes speedClick {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-        
-        /* Pattern Game Styles */
-        .pattern-display {
-            background: linear-gradient(135deg, #F59E0B, #D97706);
-            color: white;
-            border-radius: 16px;
-            padding: 20px;
-            margin: 20px 0;
-            font-size: 2rem;
-            font-family: 'Amiri', serif;
-            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3);
-        }
-        
-        .pattern-input {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 20px 0;
-        }
-        
-        .pattern-input .letter-btn {
-            background: #F3F4F6;
-            border: 2px solid #E5E7EB;
-            border-radius: 12px;
-            padding: 15px;
-            font-size: 1.5rem;
-            font-family: 'Amiri', serif;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-width: 60px;
-        }
-        
-        .pattern-input .letter-btn:hover {
-            transform: scale(1.1);
-            background: #E5E7EB;
-        }
-        
-        /* Writing Practice Styles */
-        .writing-controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
-        
-        .color-btn {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            border: 3px solid white;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        }
-        
-        .color-btn.active {
-            border-color: #374151;
-            transform: scale(1.2);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-        
-        .color-btn:hover {
-            transform: scale(1.1);
-        }
-        
-        .brush-size-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid #10B981;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .brush-size-btn.active {
-            background: #10B981;
-            color: white;
-            transform: scale(1.1);
-        }
-        
-        .brush-size-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
-        }
-        
-        .writing-letter-btn {
-            background: #F3F4F6;
-            border: 2px solid #E5E7EB;
-            border-radius: 12px;
-            padding: 10px 15px;
-            font-size: 1.2rem;
-            font-family: 'Amiri', serif;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .writing-letter-btn:hover {
-            transform: scale(1.05);
-        }
-        
-        .writing-letter-btn.active {
-            transform: scale(1.1);
-            box-shadow: 0 4px 12px rgba(20, 184, 166, 0.4);
-            background: #10B981;
-            color: white;
-        }
-        
-        .canvas-container {
-            position: relative;
-            display: inline-block;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-            margin: 20px 0;
-        }
-        
-        .writing-canvas {
-            border: 3px solid #10B981;
-            border-radius: 12px;
-            background: white;
-            cursor: crosshair;
-            touch-action: none;
-        }
-        
-        .writing-guide {
-            position: absolute;
-            pointer-events: none;
-            opacity: 0.2;
-            font-family: 'Amiri', serif;
-            color: #10B981;
-            font-size: 120px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 100%;
-            user-select: none;
-        }
-        
-        /* Exam Styles */
-        .exam-question {
-            background: linear-gradient(135deg, #F3F4F6, #E5E7EB);
-            border-radius: 16px;
-            padding: 24px;
-            margin: 16px 0;
-            border: 2px solid #D1D5DB;
-        }
-        
-        .exam-timer {
-            background: linear-gradient(135deg, #EF4444, #DC2626);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            animation: timerPulse 1s infinite;
-        }
-        
-        @keyframes timerPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-        
-        /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            .memory-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            
-            .speed-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .certificate-container {
-                padding: 1rem;
-            }
-            
-            .certificate-title {
-                font-size: 1.8rem;
-            }
-            
-            .certificate-stamp {
-                width: 80px;
-                height: 80px;
-                bottom: 15px;
-                right: 15px;
-            }
-            
-            .pattern-input {
-                flex-wrap: wrap;
-            }
-            
-            .writing-controls {
-                gap: 10px;
-            }
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-green-600 via-emerald-600 to-teal-700 min-h-screen">
-
-    <!-- [Kode HTML yang sudah ada tetap dipertahankan] -->
-    
-    <!-- Footer Section -->
-    <footer class="footer">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div>
-                    <h3 class="text-xl font-bold mb-4 flex items-center">
-                        <img src="https://cdn-icons-png.flaticon.com/128/3165/3165231.png" alt="Iqra Logo" class="w-8 h-8 mr-2">
-                        Iqra' Digital
-                    </h3>
-                    <p class="text-green-100 mb-4">
-                        Aplikasi pembelajaran membaca Al-Qur'an untuk anak dengan metode Iqra' yang interaktif dan menyenangkan.
-                    </p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-white hover:text-yellow-300 text-2xl"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="text-white hover:text-yellow-300 text-2xl"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-white hover:text-yellow-300 text-2xl"><i class="fab fa-youtube"></i></a>
-                        <a href="#" class="text-white hover:text-yellow-300 text-2xl"><i class="fab fa-whatsapp"></i></a>
+<body class="bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white shadow-2xl">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="text-4xl float text-white">
+                        <i class="fas fa-mosque"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold title-font">Iqra' Digital Jilid 1</h1>
+                        <p class="text-emerald-100 text-sm md:text-base">Belajar Membaca Al-Qur'an dengan Mudah</p>
                     </div>
                 </div>
-                
-                <div>
-                    <h3 class="text-xl font-bold mb-4">Tautan Cepat</h3>
-                    <ul class="footer-links space-y-2">
-                        <li><a href="#" class="text-green-100"><i class="fas fa-arrow-right mr-2"></i> Beranda</a></li>
-                        <li><a href="#" class="text-green-100"><i class="fas fa-arrow-right mr-2"></i> Metode Belajar</a></li>
-                        <li><a href="#" class="text-green-100"><i class="fas fa-arrow-right mr-2"></i> Prestasi</a></li>
-                        <li><a href="#" class="text-green-100"><i class="fas fa-arrow-right mr-2"></i> Tentang Kami</a></li>
-                        <li><a href="#" class="text-green-100"><i class="fas fa-arrow-right mr-2"></i> Kontak</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-xl font-bold mb-4">Kontak</h3>
-                    <ul class="space-y-2 text-green-100">
-                        <li class="flex items-start">
-                            <i class="fas fa-map-marker-alt mr-3 mt-1"></i>
-                            <span>Jl. Pendidikan No. 123, Bandung, Jawa Barat</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-phone-alt mr-3 mt-1"></i>
-                            <span>+62 812 3456 7890</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-envelope mr-3 mt-1"></i>
-                            <span>info@iqradigital.com</span>
-                        </li>
-                    </ul>
-                    
-                    <div class="mt-6">
-                        <button onclick="showCertificate()" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-full font-bold transition-all flex items-center">
-                            <i class="fas fa-award mr-2"></i> Lihat Sertifikat
-                        </button>
+                <div class="flex items-center space-x-4">
+                    <button onclick="testMicrophone()" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white p-3 rounded-lg text-lg" title="Tes Mikrofon">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <button onclick="showProfileSetup()" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white p-3 rounded-lg text-lg" title="Profil">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <div class="text-right">
+                        <div class="text-sm text-emerald-100">Progress Belajar</div>
+                        <div class="w-32 bg-emerald-800 rounded-full h-2 mt-1">
+                            <div id="overallProgress" class="progress-bar h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                        <div id="progressText" class="text-xs text-emerald-100 mt-1">0%</div>
                     </div>
                 </div>
             </div>
-            
-            <div class="border-t border-green-800 mt-8 pt-6 text-center text-green-200">
-                <p>&copy; 2023 Iqra' Digital. All rights reserved. | Developed with <i class="fas fa-heart text-red-400"></i> for Islamic Education</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Welcome Section -->
+        <div class="text-center mb-12">
+            <div class="inline-block bg-white rounded-2xl shadow-xl p-8 mb-8">
+                <div class="text-6xl mb-4 float text-emerald-600">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-800 mb-4 title-font">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</h2>
+                <p class="text-gray-600 text-lg">Selamat datang di pembelajaran Iqra' Digital Jilid 1</p>
+                <p class="text-gray-500">Mari belajar membaca Al-Qur'an dengan metode yang menyenangkan!</p>
+                <div id="welcomeUser" class="mt-4 hidden">
+                    <div class="flex items-center justify-center space-x-3">
+                        <img id="userAvatar" class="profile-img" src="" alt="Avatar">
+                        <div>
+                            <p class="text-lg font-semibold text-gray-800">Selamat datang, <span id="userName"></span>!</p>
+                            <p class="text-sm text-gray-600">Usia: <span id="userAge"></span> tahun</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Cards -->
+        <div id="menuCards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <!-- Belajar Huruf -->
+            <div class="menu-card bg-white rounded-2xl shadow-xl p-6 text-center cursor-pointer" onclick="showLetters()">
+                <div class="text-5xl mb-4 float text-emerald-600">
+                    <i class="fas fa-font"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Belajar Huruf</h3>
+                <p class="text-gray-600 text-sm">Pelajari huruf hijaiyah dengan suara</p>
+                <div class="mt-4">
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div id="letterProgress" class="progress-bar h-2 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <div id="letterProgressText" class="text-xs text-gray-500 mt-1">0/28 huruf</div>
+                </div>
+            </div>
+
+            <!-- Latihan Membaca -->
+            <div class="menu-card bg-white rounded-2xl shadow-xl p-6 text-center cursor-pointer" onclick="showReading()">
+                <div class="text-5xl mb-4 float text-blue-600">
+                    <i class="fas fa-book-reader"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Latihan Membaca</h3>
+                <p class="text-gray-600 text-sm">Berlatih membaca kata dan kalimat</p>
+                <div class="mt-4">
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div id="readingProgress" class="progress-bar h-2 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <div id="readingProgressText" class="text-xs text-gray-500 mt-1">0/20 latihan</div>
+                </div>
+            </div>
+
+            <!-- Game Edukatif -->
+            <div class="menu-card bg-white rounded-2xl shadow-xl p-6 text-center cursor-pointer" onclick="showGames()">
+                <div class="text-5xl mb-4 float text-purple-600">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Game Edukatif</h3>
+                <p class="text-gray-600 text-sm">Bermain sambil belajar</p>
+                <div class="mt-4">
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div id="gameProgress" class="progress-bar h-2 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <div id="gameProgressText" class="text-xs text-gray-500 mt-1">0/5 game</div>
+                </div>
+            </div>
+
+            <!-- Evaluasi -->
+            <div class="menu-card bg-white rounded-2xl shadow-xl p-6 text-center cursor-pointer" onclick="showEvaluation()">
+                <div class="text-5xl mb-4 float text-orange-600">
+                    <i class="fas fa-clipboard-check"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Evaluasi</h3>
+                <p class="text-gray-600 text-sm">Uji kemampuan membaca Anda</p>
+                <div class="mt-4">
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div id="evalProgress" class="progress-bar h-2 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <div id="evalProgressText" class="text-xs text-gray-500 mt-1">Belum dimulai</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div id="contentArea" class="bg-white rounded-2xl shadow-xl p-8 min-h-96">
+            <div class="text-center py-12">
+                <div class="text-6xl mb-6 float text-yellow-500">
+                    <i class="fas fa-play-circle"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Pilih Menu untuk Memulai</h3>
+                <p class="text-gray-600">Klik salah satu menu di atas untuk memulai pembelajaran</p>
+                <div class="mt-8">
+                    <button onclick="showProfileSetup()" class="btn-islamic text-white px-8 py-3 rounded-lg font-semibold mr-4">
+                        <i class="fas fa-user-plus mr-2"></i>Atur Profil
+                    </button>
+                    <button onclick="testMicrophone()" class="btn-blue text-white px-8 py-3 rounded-lg font-semibold">
+                        <i class="fas fa-microphone mr-2"></i>Tes Mikrofon
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-gray-800 via-gray-900 to-black text-white mt-16">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="text-3xl text-emerald-400">
+                            <i class="fas fa-mosque"></i>
+                        </div>
+                        <h3 class="text-xl font-bold title-font">Iqra' Digital Jilid 1</h3>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        Platform pembelajaran Al-Qur'an digital yang dirancang khusus untuk memudahkan 
+                        pembelajaran membaca huruf hijaiyah dengan metode Iqra' yang telah terbukti efektif.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Fitur Utama</h4>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><i class="fas fa-check text-emerald-400 mr-2"></i>28 Huruf Hijaiyah</li>
+                        <li><i class="fas fa-check text-emerald-400 mr-2"></i>Rekam & Evaluasi Suara</li>
+                        <li><i class="fas fa-check text-emerald-400 mr-2"></i>Game Edukatif Interaktif</li>
+                        <li><i class="fas fa-check text-emerald-400 mr-2"></i>Sistem Evaluasi Lengkap</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Statistik</h4>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-gray-300">Total Pengguna:</span>
+                            <span class="font-semibold text-emerald-400">1,234+</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-300">Rating:</span>
+                            <span class="font-semibold text-yellow-400"><i class="fas fa-star"></i> 4.9/5</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-gray-400 text-sm">
+                    © 2024 Iqra' Digital. Dibuat dengan <i class="fas fa-heart text-red-500"></i> untuk pembelajaran Al-Qur'an
+                </p>
             </div>
         </div>
     </footer>
 
-    <!-- Certificate Modal -->
-    <div id="certificateModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-xl max-w-4xl w-full max-h-screen overflow-y-auto">
-            <div class="sticky top-0 bg-white p-4 border-b flex justify-between items-center">
-                <h3 class="text-xl font-bold text-green-700">Sertifikat Kelulusan</h3>
-                <button onclick="closeCertificate()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
-            </div>
-            
-            <div class="p-4">
-                <div class="certificate-container">
-                    <div class="certificate-border">
-                        <div class="certificate-title">شَهَادَةُ التَّخَرُّج</div>
-                        <div class="certificate-title">SERTIFIKAT KELULUSAN</div>
-                        
-                        <div class="certificate-text">
-                            Dengan ini menyatakan bahwa
-                        </div>
-                        
-                        <div class="text-2xl font-bold mb-6" id="certificateName">Nama Siswa</div>
-                        
-                        <div class="certificate-text">
-                            telah menyelesaikan dengan baik pembelajaran
-                        </div>
-                        
-                        <div class="text-xl font-bold text-green-700 mb-6">IQRA' DIGITAL JILID 1</div>
-                        
-                        <div class="certificate-text">
-                            pada tanggal <span id="certificateDate">01 Januari 2023</span>
-                        </div>
-                        
-                        <div class="certificate-text">
-                            dengan perolehan total pahala: <span id="certificateScore" class="font-bold">0</span>
-                        </div>
-                        
-                        <div class="certificate-stamp">
-                            <div class="text-center">
-                                <div class="font-bold">Tanda Tangan</div>
-                                <div class="text-sm">Guru Pembimbing</div>
-                            </div>
-                        </div>
-                        
-                        <div class="certificate-signature">
-                            <div class="font-bold">Ust. Ahmad S.Pd.I</div>
-                            <div>Pembimbing Iqra' Digital</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="text-center mt-6">
-                    <button onclick="printCertificate()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-bold transition-all mr-3">
-                        <i class="fas fa-print mr-2"></i> Cetak Sertifikat
-                    </button>
-                    <button onclick="shareCertificate()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-bold transition-all">
-                        <i class="fas fa-share-alt mr-2"></i> Bagikan
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // [Kode JavaScript yang sudah ada tetap dipertahankan]
-        
-        // ==================== MEMORY GAME ====================
-        function startMemoryGame() {
-            gameScore = 0;
-            gameLevel = 1;
-            updateDisplay();
-            
-            const letters = ['أَ', 'بَ', 'تَ', 'ثَ', 'جَ', 'حَ'];
-            let memoryCards = [];
-            
-            // Create pairs of cards
-            letters.forEach(letter => {
-                memoryCards.push({ type: 'letter', value: letter });
-                memoryCards.push({ type: 'name', value: convertArabicToName(letter) });
-            });
-            
-            // Shuffle cards
-            memoryCards = memoryCards.sort(() => Math.random() - 0.5);
-            
-            let content = `
-                <div class="text-center mb-6">
-                    <h3 class="text-2xl font-bold text-purple-600 mb-2"><i class="fas fa-brain"></i> Memory Game</h3>
-                    <p class="text-gray-600">Cocokkan huruf Hijaiyah dengan nama latinnya!</p>
-                    <div class="flex justify-center gap-4 mt-3">
-                        <div class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-bold">
-                            Level: ${gameLevel}
-                        </div>
-                        <div class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-bold">
-                            Pasangan: <span id="matchedPairs">0</span>/6
-                        </div>
-                        <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-bold">
-                            Waktu: <span id="memoryTimer">60</span>s
-                        </div>
-                    </div>
-                </div>
+        // Global variables
+        let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
+        let currentLetter = null;
+        let microphonePermission = false;
+
+        // Data pembelajaran
+        const hijaiyahLetters = [
+            {letter: 'ا', name: 'Alif', sound: 'a'},
+            {letter: 'ب', name: 'Ba', sound: 'ba'},
+            {letter: 'ت', name: 'Ta', sound: 'ta'},
+            {letter: 'ث', name: 'Tsa', sound: 'tsa'},
+            {letter: 'ج', name: 'Jim', sound: 'ja'},
+            {letter: 'ح', name: 'Ha', sound: 'ha'},
+            {letter: 'خ', name: 'Kha', sound: 'kha'},
+            {letter: 'د', name: 'Dal', sound: 'da'},
+            {letter: 'ذ', name: 'Dzal', sound: 'dza'},
+            {letter: 'ر', name: 'Ra', sound: 'ra'},
+            {letter: 'ز', name: 'Zai', sound: 'za'},
+            {letter: 'س', name: 'Sin', sound: 'sa'},
+            {letter: 'ش', name: 'Syin', sound: 'sya'},
+            {letter: 'ص', name: 'Shad', sound: 'sha'},
+            {letter: 'ض', name: 'Dhad', sound: 'dha'},
+            {letter: 'ط', name: 'Tha', sound: 'tha'},
+            {letter: 'ظ', name: 'Zha', sound: 'zha'},
+            {letter: 'ع', name: 'Ain', sound: 'a'},
+            {letter: 'غ', name: 'Ghain', sound: 'gha'},
+            {letter: 'ف', name: 'Fa', sound: 'fa'},
+            {letter: 'ق', name: 'Qaf', sound: 'qa'},
+            {letter: 'ك', name: 'Kaf', sound: 'ka'},
+            {letter: 'ل', name: 'Lam', sound: 'la'},
+            {letter: 'م', name: 'Mim', sound: 'ma'},
+            {letter: 'ن', name: 'Nun', sound: 'na'},
+            {letter: 'و', name: 'Waw', sound: 'wa'},
+            {letter: 'ه', name: 'Ha', sound: 'ha'},
+            {letter: 'ي', name: 'Ya', sound: 'ya'}
+        ];
+
+        const readingExercises = [
+            {text: 'بَا', meaning: 'ba'},
+            {text: 'تَا', meaning: 'ta'},
+            {text: 'جَا', meaning: 'ja'},
+            {text: 'دَا', meaning: 'da'},
+            {text: 'رَا', meaning: 'ra'},
+            {text: 'سَا', meaning: 'sa'},
+            {text: 'فَا', meaning: 'fa'},
+            {text: 'كَا', meaning: 'ka'},
+            {text: 'لَا', meaning: 'la'},
+            {text: 'مَا', meaning: 'ma'},
+            {text: 'نَا', meaning: 'na'},
+            {text: 'هَا', meaning: 'ha'},
+            {text: 'يَا', meaning: 'ya'},
+            {text: 'بِي', meaning: 'bi'},
+            {text: 'تِي', meaning: 'ti'},
+            {text: 'جِي', meaning: 'ji'},
+            {text: 'دِي', meaning: 'di'},
+            {text: 'رِي', meaning: 'ri'},
+            {text: 'سِي', meaning: 'si'},
+            {text: 'فِي', meaning: 'fi'}
+        ];
+
+        // Progress tracking
+        let progress = {
+            letters: [],
+            reading: [],
+            games: [],
+            evaluation: 0
+        };
+
+        // Utility functions
+        function saveToLocalStorage(key, data) {
+            try {
+                localStorage.setItem(key, JSON.stringify(data));
+                return true;
+            } catch (error) {
+                console.error('Error saving to localStorage:', error);
+                return false;
+            }
+        }
+
+        function loadFromLocalStorage(key, defaultValue = null) {
+            try {
+                const data = localStorage.getItem(key);
+                return data ? JSON.parse(data) : defaultValue;
+            } catch (error) {
+                console.error('Error loading from localStorage:', error);
+                return defaultValue;
+            }
+        }
+
+        // Test microphone function
+        async function testMicrophone() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 
-                <div class="memory-grid">
-            `;
-            
-            memoryCards.forEach((card, index) => {
-                content += `
-                    <div class="memory-card" onclick="flipCard(this, '${card.type}', '${card.value}')">
-                        <div class="memory-card-inner">
-                            <div class="memory-card-front">
-                                <i class="fas fa-question"></i>
-                            </div>
-                            <div class="memory-card-back">
-                                ${card.type === 'letter' ? card.value : card.value}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            content += `
-                </div>
+                Swal.fire({
+                    title: '🎤 Tes Mikrofon',
+                    text: 'Silakan bicara... (2 detik)',
+                    icon: 'info',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
                 
-                <div class="text-center mt-6">
-                    <button onclick="loadLatihanMenu()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-full font-bold transition-all mr-2">
-                        <i class="fas fa-arrow-left"></i> Kembali
-                    </button>
-                    <button onclick="startMemoryGame()" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-full font-bold transition-all">
-                        <i class="fas fa-redo"></i> Ulangi
-                    </button>
-                </div>
-            `;
-            
-            document.getElementById('latihan-content').innerHTML = content;
-            document.getElementById('latihan-controls').innerHTML = '';
-            
-            // Start timer
-            let timeLeft = 60;
-            const timerElement = document.getElementById('memoryTimer');
-            const timer = setInterval(() => {
-                timeLeft--;
-                if (timerElement) timerElement.textContent = timeLeft;
-                
-                if (timeLeft <= 0) {
-                    clearInterval(timer);
+                setTimeout(() => {
+                    stream.getTracks().forEach(track => track.stop());
                     Swal.fire({
-                        icon: 'info',
-                        title: 'Waktu Habis!',
-                        text: 'Waktu permainan telah habis. Ingin mencoba lagi?',
-                        showCancelButton: true,
-                        confirmButtonText: 'Ya, ulangi!',
-                        cancelButtonText: 'Kembali ke menu',
+                        title: '✅ Mikrofon Berfungsi!',
+                        text: 'Mikrofon Anda siap digunakan.',
+                        icon: 'success',
                         confirmButtonColor: '#059669'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            startMemoryGame();
-                        } else {
-                            loadLatihanMenu();
-                        }
+                    });
+                }, 2000);
+                
+            } catch (error) {
+                Swal.fire({
+                    title: '❌ Tes Mikrofon Gagal',
+                    text: 'Silakan izinkan akses mikrofon.',
+                    icon: 'error',
+                    confirmButtonColor: '#DC2626'
+                });
+            }
+        }
+
+        // Profile setup function
+        function showProfileSetup() {
+            Swal.fire({
+                title: '👤 Setup Profil',
+                html: `
+                    <div class="text-left">
+                        <div class="mb-4">
+                            <label class="block text-gray-700 font-semibold mb-2">Nama:</label>
+                            <input type="text" id="profileName" class="w-full px-3 py-2 border rounded-lg" placeholder="Masukkan nama Anda">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 font-semibold mb-2">Usia:</label>
+                            <select id="profileAge" class="w-full px-3 py-2 border rounded-lg">
+                                <option value="">Pilih usia</option>
+                                ${Array.from({length: 80}, (_, i) => i + 5).map(age => 
+                                    `<option value="${age}">${age} tahun</option>`
+                                ).join('')}
+                            </select>
+                        </div>
+                    </div>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Simpan',
+                cancelButtonText: 'Batal',
+                confirmButtonColor: '#059669',
+                preConfirm: () => {
+                    const name = document.getElementById('profileName').value;
+                    const age = document.getElementById('profileAge').value;
+                    
+                    if (!name || !age) {
+                        Swal.showValidationMessage('Silakan lengkapi semua field');
+                        return false;
+                    }
+                    
+                    return { name, age };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const profile = result.value;
+                    saveToLocalStorage('userProfile', profile);
+                    loadUserProfile();
+                    
+                    Swal.fire({
+                        title: '✅ Profil Tersimpan!',
+                        text: `Selamat datang, ${profile.name}!`,
+                        icon: 'success',
+                        confirmButtonColor: '#059669'
                     });
                 }
-            }, 1000);
-            
-            // Store timer reference to clear it later
-            window.memoryGameTimer = timer;
+            });
         }
-        
-        let flippedCards = [];
-        let matchedPairs = 0;
-        
-        function flipCard(cardElement, type, value) {
-            if (flippedCards.length >= 2 || cardElement.classList.contains('flipped') || cardElement.classList.contains('matched')) {
-                return;
-            }
+
+        // Load user profile
+        function loadUserProfile() {
+            const profile = loadFromLocalStorage('userProfile');
             
-            cardElement.classList.add('flipped');
-            flippedCards.push({ element: cardElement, type, value });
-            
-            if (flippedCards.length === 2) {
-                const card1 = flippedCards[0];
-                const card2 = flippedCards[1];
+            if (profile) {
+                const welcomeUser = document.getElementById('welcomeUser');
+                const userName = document.getElementById('userName');
+                const userAge = document.getElementById('userAge');
+                const userAvatar = document.getElementById('userAvatar');
                 
-                // Check if it's a match (one letter and its corresponding name)
-                const letterValue = card1.type === 'letter' ? card1.value : card2.value;
-                const nameValue = card1.type === 'name' ? card1.value : card2.value;
-                
-                if (convertArabicToName(letterValue) === nameValue) {
-                    // Match found
-                    setTimeout(() => {
-                        card1.element.classList.add('matched');
-                        card2.element.classList.add('matched');
-                        card1.element.classList.remove('flipped');
-                        card2.element.classList.remove('flipped');
-                        
-                        flippedCards = [];
-                        matchedPairs++;
-                        document.getElementById('matchedPairs').textContent = matchedPairs;
-                        
-                        gameScore += 50;
-                        updateDisplay();
-                        
-                        // Check if all pairs are matched
-                        if (matchedPairs >= 6) {
-                            clearInterval(window.memoryGameTimer);
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Selamat!',
-                                text: `Kamu berhasil menyelesaikan Memory Game! Skor: ${gameScore}`,
-                                confirmButtonColor: '#059669'
-                            }).then(() => {
-                                gameLevel++;
-                                totalScore += gameScore;
-                                localStorage.setItem('iqra_totalScore', totalScore.toString());
-                                updateDisplay();
-                                loadLatihanMenu();
-                            });
-                        }
-                    }, 500);
-                } else {
-                    // Not a match
-                    setTimeout(() => {
-                        card1.element.classList.remove('flipped');
-                        card2.element.classList.remove('flipped');
-                        flippedCards = [];
-                    }, 1000);
+                if (welcomeUser && userName && userAge && userAvatar) {
+                    userName.textContent = profile.name;
+                    userAge.textContent = profile.age;
+                    userAvatar.src = 'https://via.placeholder.com/80/059669/FFFFFF?text=USER';
+                    welcomeUser.classList.remove('hidden');
                 }
             }
         }
-        
-        // ==================== QUIZ GAME ====================
-        function startQuizGame() {
-            gameScore = 0;
-            quizCurrentQuestion = 0;
-            updateDisplay();
+
+        // Show Letters Section
+        function showLetters() {
+            hideMenuAndWelcome();
             
-            // Define quiz questions
-            quizQuestions = [
-                {
-                    question: 'Apa nama huruf ini?',
-                    letter: 'أَ',
-                    options: ['ALIF', 'BA', 'TA', 'TSA'],
-                    correctAnswer: 'ALIF'
-                },
-                {
-                    question: 'Apa nama huruf ini?',
-                    letter: 'بَ',
-                    options: ['ALIF', 'BA', 'JA', 'HA'],
-                    correctAnswer: 'BA'
-                },
-                {
-                    question: 'Apa nama huruf ini?',
-                    letter: 'تَ',
-                    options: ['TSA', 'BA', 'TA', 'ALIF'],
-                    correctAnswer: 'TA'
-                },
-                {
-                    question: 'Apa nama huruf ini?',
-                    letter: 'ثَ',
-                    options: ['TSA', 'BA', 'TA', 'ALIF'],
-                    correctAnswer: 'TSA'
-                },
-                {
-                    question: 'Apa nama huruf ini?',
-                    letter: 'جَ',
-                    options: ['HA', 'BA', 'JA', 'TSA'],
-                    correctAnswer: 'JA'
-                },
-                {
-                    question: 'Apa nama huruf ini?',
-                    letter: 'حَ',
-                    options: ['HA', 'BA', 'JA', 'KHA'],
-                    correctAnswer: 'HA'
-                },
-                {
-                    question: 'Apa nama huruf ini?',
-                    letter: 'خَ',
-                    options: ['HA', 'KHA', 'JA', 'TSA'],
-                    correctAnswer: 'KHA'
-                },
-                {
-                    question: 'Apa nama huruf ini?',
-                    letter: 'دَ',
-                    options: ['DZA', 'DA', 'RA', 'ZA'],
-                    correctAnswer: 'DA'
-                },
-                {
-                    question: 'Apa nama huruf ini?',
-                    letter: 'ذَ',
-                    options: ['DZA', 'DA', 'RA', 'ZA'],
-                    correctAnswer: 'DZA'
-                },
-                {
-                    question: 'Apa nama huruf ini?',
-                    letter: 'رَ',
-                    options: ['DZA', 'DA', 'RA', 'ZA'],
-                    correctAnswer: 'RA'
+            const content = `
+                <div class="text-center mb-8">
+                    <button onclick="showHome()" class="btn-islamic text-white p-3 rounded-lg mb-4 text-lg">
+                        <i class="fas fa-arrow-left"></i> Kembali
+                    </button>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">
+                        <i class="fas fa-font text-emerald-600 mr-3"></i>Belajar Huruf Hijaiyah
+                    </h2>
+                    <p class="text-gray-600">Klik huruf untuk belajar</p>
+                </div>
+                
+                <div class="grid grid-cols-4 md:grid-cols-7 gap-4 mb-8">
+                    ${hijaiyahLetters.map((letter, index) => `
+                        <div class="game-card bg-gradient-to-br from-emerald-100 to-emerald-200 p-6 rounded-xl text-center ${progress.letters.includes(index) ? 'bg-gradient-to-br from-green-200 to-green-300' : ''}" 
+                             onclick="learnLetter(${index})">
+                            <div class="arabic-text text-4xl font-bold text-emerald-800 mb-2">${letter.letter}</div>
+                            <div class="text-sm font-semibold text-emerald-700">${letter.name}</div>
+                            ${progress.letters.includes(index) ? '<div class="text-green-600 mt-2"><i class="fas fa-check-circle"></i></div>' : ''}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            document.getElementById('contentArea').innerHTML = content;
+        }
+
+        // Learn letter function
+        function learnLetter(index) {
+            const letter = hijaiyahLetters[index];
+            
+            Swal.fire({
+                title: letter.letter,
+                html: `
+                    <div class="text-center">
+                        <div class="arabic-text text-6xl font-bold text-emerald-800 mb-4">${letter.letter}</div>
+                        <p class="text-xl mb-2"><strong>${letter.name}</strong></p>
+                        <p class="text-gray-600">Dibaca: "${letter.sound}"</p>
+                    </div>
+                `,
+                icon: 'info',
+                confirmButtonText: 'Sudah Paham',
+                confirmButtonColor: '#059669'
+            }).then(() => {
+                if (!progress.letters.includes(index)) {
+                    progress.letters.push(index);
+                    saveToLocalStorage('letterProgress', progress.letters);
+                    updateAllProgress();
+                    showLetters();
                 }
+            });
+        }
+
+        // Show Reading Section
+        function showReading() {
+            hideMenuAndWelcome();
+            
+            const content = `
+                <div class="text-center mb-8">
+                    <button onclick="showHome()" class="btn-islamic text-white p-3 rounded-lg mb-4 text-lg">
+                        <i class="fas fa-arrow-left"></i> Kembali
+                    </button>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">
+                        <i class="fas fa-book-reader text-blue-600 mr-3"></i>Latihan Membaca
+                    </h2>
+                    <p class="text-gray-600">Berlatih membaca kata-kata sederhana</p>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    ${readingExercises.map((exercise, index) => `
+                        <div class="game-card bg-gradient-to-br from-blue-100 to-blue-200 p-6 rounded-xl text-center ${progress.reading.includes(index) ? 'bg-gradient-to-br from-green-200 to-green-300' : ''}" 
+                             onclick="practiceReading(${index})">
+                            <div class="arabic-text text-3xl font-bold text-blue-800 mb-2">${exercise.text}</div>
+                            <div class="text-sm font-semibold text-blue-700">${exercise.meaning}</div>
+                            ${progress.reading.includes(index) ? '<div class="text-green-600 mt-2"><i class="fas fa-check-circle"></i></div>' : ''}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            document.getElementById('contentArea').innerHTML = content;
+        }
+
+        // Practice reading function
+        function practiceReading(index) {
+            const exercise = readingExercises[index];
+            
+            Swal.fire({
+                title: 'Bacalah:',
+                html: `
+                    <div class="text-center">
+                        <div class="arabic-text text-6xl font-bold text-blue-800 my-4">${exercise.text}</div>
+                        <div class="text-lg text-gray-600 mb-4">Dibaca: "${exercise.meaning}"</div>
+                    </div>
+                `,
+                icon: 'info',
+                confirmButtonText: 'Sudah Bisa!',
+                confirmButtonColor: '#059669'
+            }).then(() => {
+                if (!progress.reading.includes(index)) {
+                    progress.reading.push(index);
+                    saveToLocalStorage('readingProgress', progress.reading);
+                    updateAllProgress();
+                    showReading();
+                }
+            });
+        }
+
+        // Show Games Section
+        function showGames() {
+            hideMenuAndWelcome();
+            
+            const games = [
+                {name: 'Memory Huruf', icon: '<i class="fas fa-brain text-purple-600"></i>', desc: 'Cocokkan huruf yang sama'},
+                {name: 'Tebak Huruf', icon: '<i class="fas fa-question-circle text-purple-600"></i>', desc: 'Tebak nama huruf hijaiyah'},
+                {name: 'Susun Kata', icon: '<i class="fas fa-spell-check text-purple-600"></i>', desc: 'Susun huruf menjadi kata'},
+                {name: 'Kuis Cepat', icon: '<i class="fas fa-bolt text-purple-600"></i>', desc: 'Jawab pertanyaan dengan cepat'},
+                {name: 'Puzzle Huruf', icon: '<i class="fas fa-puzzle-piece text-purple-600"></i>', desc: 'Selesaikan puzzle huruf'}
             ];
             
-            loadQuizQuestion();
-        }
-        
-        function loadQuizQuestion() {
-            if (quizCurrentQuestion >= quizQuestions.length) {
-                // Quiz completed
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Quiz Selesai!',
-                    html: `Kamu telah menyelesaikan quiz!<br>Skor akhir: <b>${gameScore}/${quizQuestions.length * 10}</b>`,
-                    confirmButtonColor: '#059669'
-                }).then(() => {
-                    totalScore += gameScore;
-                    localStorage.setItem('iqra_totalScore', totalScore.toString());
-                    updateDisplay();
-                    loadLatihanMenu();
-                });
-                return;
-            }
-            
-            const question = quizQuestions[quizCurrentQuestion];
-            
-            let content = `
-                <div class="text-center mb-6">
-                    <h3 class="text-2xl font-bold text-purple-600 mb-2"><i class="fas fa-question-circle"></i> Quiz Huruf Hijaiyah</h3>
-                    <p class="text-gray-600">Pilih nama yang tepat untuk huruf berikut!</p>
-                    <div class="flex justify-center gap-4 mt-3">
-                        <div class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-bold">
-                            Soal: ${quizCurrentQuestion + 1}/${quizQuestions.length}
-                        </div>
-                        <div class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-bold">
-                            Skor: ${gameScore}
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-xl p-6 shadow-lg mb-6">
-                    <div class="text-5xl mb-4 arabic-text">${question.letter}</div>
-                    <h4 class="text-xl font-bold text-gray-800">${question.question}</h4>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            `;
-            
-            question.options.forEach(option => {
-                content += `
-                    <div class="quiz-option" onclick="checkQuizAnswer('${option}')">
-                        <div class="text-center py-4 font-bold">${option}</div>
-                    </div>
-                `;
-            });
-            
-            content += `
-                </div>
-                
-                <div class="text-center mt-6">
-                    <button onclick="loadLatihanMenu()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-full font-bold transition-all">
-                        <i class="fas fa-arrow-left"></i> Kembali ke Menu
-                    </button>
-                </div>
-            `;
-            
-            document.getElementById('latihan-content').innerHTML = content;
-            document.getElementById('latihan-controls').innerHTML = '';
-        }
-        
-        function checkQuizAnswer(selectedAnswer) {
-            const question = quizQuestions[quizCurrentQuestion];
-            const optionElements = document.querySelectorAll('.quiz-option');
-            
-            // Disable all options
-            optionElements.forEach(option => {
-                option.style.pointerEvents = 'none';
-            });
-            
-            // Find the selected option and mark it
-            optionElements.forEach(option => {
-                if (option.textContent.includes(selectedAnswer)) {
-                    if (selectedAnswer === question.correctAnswer) {
-                        option.classList.add('correct');
-                        gameScore += 10;
-                        updateDisplay();
-                    } else {
-                        option.classList.add('wrong');
-                        
-                        // Also highlight the correct answer
-                        optionElements.forEach(opt => {
-                            if (opt.textContent.includes(question.correctAnswer)) {
-                                opt.classList.add('correct');
-                            }
-                        });
-                    }
-                }
-            });
-            
-            // Move to next question after a delay
-            setTimeout(() => {
-                quizCurrentQuestion++;
-                loadQuizQuestion();
-            }, 1500);
-        }
-        
-        // ==================== SPEED GAME ====================
-        function startSpeedGame() {
-            gameScore = 0;
-            speedGameScore = 0;
-            updateDisplay();
-            
-            const letters = ['أَ', 'بَ', 'تَ', 'ثَ', 'جَ', 'حَ', 'خَ', 'دَ', 'ذَ', 'رَ'];
-            const targetLetter = letters[Math.floor(Math.random() * letters.length)];
-            
-            let content = `
-                <div class="text-center mb-6">
-                    <h3 class="text-2xl font-bold text-purple-600 mb-2"><i class="fas fa-bolt"></i> Speed Reading</h3>
-                    <p class="text-gray-600">Klik huruf <span class="font-bold">${convertArabicToName(targetLetter)}</span> secepat mungkin!</p>
-                    <div class="flex justify-center gap-4 mt-3">
-                        <div class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-bold">
-                            Waktu: <span id="speedTimer">60</span>s
-                        </div>
-                        <div class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-bold">
-                            Skor: <span id="speedScore">0</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="speed-grid">
-            `;
-            
-            // Create a shuffled array of letters
-            const shuffledLetters = [...letters].sort(() => Math.random() - 0.5);
-            
-            shuffledLetters.forEach(letter => {
-                content += `
-                    <div class="speed-letter" onclick="checkSpeedLetter('${letter}', '${targetLetter}')">
-                        ${letter}
-                    </div>
-                `;
-            });
-            
-            content += `
-                </div>
-                
-                <div class="text-center mt-6">
-                    <button onclick="loadLatihanMenu()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-full font-bold transition-all mr-2">
+            const content = `
+                <div class="text-center mb-8">
+                    <button onclick="showHome()" class="btn-islamic text-white p-3 rounded-lg mb-4 text-lg">
                         <i class="fas fa-arrow-left"></i> Kembali
                     </button>
-                    <button onclick="startSpeedGame()" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-full font-bold transition-all">
-                        <i class="fas fa-redo"></i> Ulangi
-                    </button>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">
+                        <i class="fas fa-gamepad text-purple-600 mr-3"></i>Game Edukatif
+                    </h2>
+                    <p class="text-gray-600">Bermain sambil belajar huruf hijaiyah</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    ${games.map((game, index) => `
+                        <div class="game-card bg-gradient-to-br from-purple-100 to-purple-200 p-6 rounded-xl text-center ${progress.games.includes(index) ? 'bg-gradient-to-br from-green-200 to-green-300' : ''}" 
+                             onclick="playGame(${index})">
+                            <div class="text-5xl mb-4">${game.icon}</div>
+                            <h3 class="text-xl font-bold text-purple-800 mb-2">${game.name}</h3>
+                            <p class="text-purple-600 text-sm mb-4">${game.desc}</p>
+                            ${progress.games.includes(index) ? 
+                                '<div class="text-green-600"><i class="fas fa-trophy mr-2"></i>Selesai</div>' : 
+                                '<button class="btn-purple text-white px-4 py-2 rounded-lg text-sm">Mainkan</button>'
+                            }
+                        </div>
+                    `).join('')}
                 </div>
             `;
             
-            document.getElementById('latihan-content').innerHTML = content;
-            document.getElementById('latihan-controls').innerHTML = '';
-            
-            // Start timer
-            let timeLeft = 60;
-            const timerElement = document.getElementById('speedTimer');
-            const timer = setInterval(() => {
-                timeLeft--;
-                if (timerElement) timerElement.textContent = timeLeft;
-                
-                if (timeLeft <= 0) {
-                    clearInterval(timer);
-                    Swal.fire({
-                        icon: 'info',
-                        title: 'Waktu Habis!',
-                        html: `Permainan selesai! Skor akhir: <b>${speedGameScore}</b><br>Huruf yang diklik dengan benar: <b>${speedGameScore}</b>`,
-                        confirmButtonColor: '#059669'
-                    }).then(() => {
-                        gameScore = speedGameScore;
-                        totalScore += gameScore;
-                        localStorage.setItem('iqra_totalScore', totalScore.toString());
-                        updateDisplay();
-                        loadLatihanMenu();
-                    });
-                }
-            }, 1000);
-            
-            // Store timer reference to clear it later
-            window.speedGameTimer = timer;
+            document.getElementById('contentArea').innerHTML = content;
         }
-        
-        function checkSpeedLetter(letter, targetLetter) {
-            const letterElement = event.currentTarget;
-            
-            if (letter === targetLetter) {
-                // Correct letter
-                letterElement.classList.add('clicked');
-                speedGameScore++;
-                document.getElementById('speedScore').textContent = speedGameScore;
-                
-                // Change the letter after a short delay
-                setTimeout(() => {
-                    letterElement.classList.remove('clicked');
-                }, 300);
-            } else {
-                // Wrong letter
-                letterElement.style.background = 'linear-gradient(135deg, #EF4444, #DC2626)';
-                
-                // Revert after a short delay
-                setTimeout(() => {
-                    letterElement.style.background = 'linear-gradient(135deg, #3B82F6, #1D4ED8)';
-                }, 300);
+
+        // Play game function - SEKARANG BENAR-BENAR INTERAKTIF!
+        function playGame(gameIndex) {
+            switch(gameIndex) {
+                case 0:
+                    showMemoryGame();
+                    break;
+                case 1:
+                    showGuessLetterGame();
+                    break;
+                case 2:
+                    showWordBuilderGame();
+                    break;
+                case 3:
+                    showQuickQuizGame();
+                    break;
+                case 4:
+                    showPuzzleGame();
+                    break;
             }
         }
-        
-        // ==================== PATTERN GAME ====================
-        function startPatternGame() {
-            gameScore = 0;
-            patternLevel = 1;
-            updateDisplay();
+
+        // Memory Game - Game mencocokkan huruf
+        function showMemoryGame() {
+            const gameLetters = hijaiyahLetters.slice(0, 8); // 8 pasang huruf
+            const cards = [...gameLetters, ...gameLetters].sort(() => Math.random() - 0.5);
             
-            // Generate a pattern sequence
-            const letters = ['أَ', 'بَ', 'تَ', 'ثَ', 'جَ', 'حَ'];
-            const patternLength = 3 + patternLevel; // Increase pattern length with level
-            let patternSequence = [];
-            
-            for (let i = 0; i < patternLength; i++) {
-                patternSequence.push(letters[Math.floor(Math.random() * letters.length)]);
-            }
-            
-            let content = `
-                <div class="text-center mb-6">
-                    <h3 class="text-2xl font-bold text-purple-600 mb-2"><i class="fas fa-project-diagram"></i> Pattern Game</h3>
-                    <p class="text-gray-600">Hafalkan dan ulangi pola huruf berikut!</p>
-                    <div class="flex justify-center gap-4 mt-3">
-                        <div class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-bold">
-                            Level: ${patternLevel}
-                        </div>
-                        <div class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-bold">
-                            Skor: ${gameScore}
+            let gameData = {
+                cards: cards,
+                flippedCards: [],
+                matchedPairs: 0,
+                moves: 0,
+                timeLeft: 120,
+                timer: null
+            };
+
+            function showMemoryBoard() {
+                const content = `
+                    <div class="text-center mb-6">
+                        <button onclick="showGames()" class="btn-islamic text-white p-3 rounded-lg mb-4">
+                            <i class="fas fa-arrow-left"></i> Kembali
+                        </button>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">🧠 Memory Huruf</h3>
+                        <div class="flex justify-center space-x-4 mb-4">
+                            <div class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full">
+                                Langkah: <span id="moveCount">${gameData.moves}</span>
+                            </div>
+                            <div class="bg-green-100 text-green-800 px-4 py-2 rounded-full">
+                                Pasangan: <span id="pairCount">${gameData.matchedPairs}/8</span>
+                            </div>
+                            <div class="bg-red-100 text-red-800 px-4 py-2 rounded-full">
+                                Waktu: <span id="timeLeft">${gameData.timeLeft}s</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="pattern-display text-center" id="patternDisplay">
-                    ${patternSequence.join(' ')}
-                </div>
-                
-                <div class="text-center mt-4">
-                    <button onclick="showPattern()" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-full font-bold transition-all mr-2">
-                        <i class="fas fa-eye"></i> Lihat Pola
-                    </button>
-                    <button onclick="startPatternInput()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full font-bold transition-all">
-                        <i class="fas fa-play"></i> Mulai
-                    </button>
-                </div>
-                
-                <div class="pattern-input hidden" id="patternInput">
-                    <div class="text-center mb-4">
-                        <p class="text-gray-700 font-bold">Ulangi pola yang telah ditampilkan:</p>
+                    
+                    <div class="max-w-4xl mx-auto">
+                        <div class="grid grid-cols-4 gap-4 mb-6">
+                            ${cards.map((card, index) => `
+                                <div class="memory-card h-24 cursor-pointer" onclick="flipCard(${index})" id="card-${index}">
+                                    <div class="memory-card-inner h-full">
+                                        <div class="memory-card-front bg-purple-600 flex items-center justify-center rounded-lg">
+                                            <i class="fas fa-question text-white text-2xl"></i>
+                                        </div>
+                                        <div class="memory-card-back bg-white border-2 border-purple-300 flex items-center justify-center rounded-lg">
+                                            <div class="arabic-text text-3xl font-bold text-purple-800">${card.letter}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="text-center">
+                            <p class="text-gray-600">Klik kartu untuk membalik dan cocokkan huruf yang sama!</p>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="text-center mt-6">
-                    <button onclick="loadLatihanMenu()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-full font-bold transition-all">
-                        <i class="fas fa-arrow-left"></i> Kembali ke Menu
-                    </button>
-                </div>
-            `;
-            
-            document.getElementById('latihan-content').innerHTML = content;
-            document.getElementById('latihan-controls').innerHTML = '';
-            
-            // Store the pattern sequence for later checking
-            window.patternSequence = patternSequence;
-        }
-        
-        function showPattern() {
-            const patternDisplay = document.getElementById('patternDisplay');
-            patternDisplay.classList.add('text-4xl');
-            
-            // Hide the pattern after 3 seconds
-            setTimeout(() => {
-                patternDisplay.textContent = '? ? ?';
-                patternDisplay.classList.remove('text-4xl');
-            }, 3000);
-        }
-        
-        function startPatternInput() {
-            const patternInput = document.getElementById('patternInput');
-            patternInput.classList.remove('hidden');
-            
-            let inputContent = '';
-            
-            window.patternSequence.forEach((letter, index) => {
-                inputContent += `
-                    <button class="letter-btn" onclick="addPatternInput('${letter}')">
-                        ${letter}
-                    </button>
                 `;
-            });
-            
-            inputContent += `
-                <div class="w-full text-center mt-4">
-                    <div id="patternUserInput" class="text-2xl font-bold text-gray-800 mb-4"></div>
-                    <button onclick="checkPattern()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full font-bold transition-all mr-2">
-                        <i class="fas fa-check"></i> Periksa
-                    </button>
-                    <button onclick="resetPatternInput()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-full font-bold transition-all">
-                        <i class="fas fa-undo"></i> Ulangi
-                    </button>
-                </div>
-            `;
-            
-            patternInput.innerHTML = inputContent;
-        }
-        
-        function addPatternInput(letter) {
-            const userInput = document.getElementById('patternUserInput');
-            userInput.textContent += userInput.textContent ? ' ' + letter : letter;
-        }
-        
-        function resetPatternInput() {
-            document.getElementById('patternUserInput').textContent = '';
-        }
-        
-        function checkPattern() {
-            const userInput = document.getElementById('patternUserInput').textContent;
-            const correctPattern = window.patternSequence.join(' ');
-            
-            if (userInput === correctPattern) {
-                // Correct pattern
+                
+                document.getElementById('contentArea').innerHTML = content;
+                startMemoryTimer();
+            }
+
+            function startMemoryTimer() {
+                gameData.timer = setInterval(() => {
+                    gameData.timeLeft--;
+                    const timeElement = document.getElementById('timeLeft');
+                    if (timeElement) {
+                        timeElement.textContent = gameData.timeLeft + 's';
+                    }
+                    
+                    if (gameData.timeLeft <= 0) {
+                        clearInterval(gameData.timer);
+                        endMemoryGame(false);
+                    }
+                }, 1000);
+            }
+
+            window.flipCard = function(index) {
+                if (gameData.flippedCards.length >= 2) return;
+                
+                const card = document.getElementById(`card-${index}`);
+                if (card.classList.contains('flipped')) return;
+                
+                card.classList.add('flipped');
+                gameData.flippedCards.push(index);
+                
+                if (gameData.flippedCards.length === 2) {
+                    gameData.moves++;
+                    document.getElementById('moveCount').textContent = gameData.moves;
+                    
+                    setTimeout(() => {
+                        checkMemoryMatch();
+                    }, 1000);
+                }
+            };
+
+            function checkMemoryMatch() {
+                const [first, second] = gameData.flippedCards;
+                const firstCard = gameData.cards[first];
+                const secondCard = gameData.cards[second];
+                
+                if (firstCard.letter === secondCard.letter) {
+                    // Match found
+                    gameData.matchedPairs++;
+                    document.getElementById('pairCount').textContent = `${gameData.matchedPairs}/8`;
+                    
+                    // Keep cards flipped
+                    gameData.flippedCards = [];
+                    
+                    if (gameData.matchedPairs === 8) {
+                        clearInterval(gameData.timer);
+                        endMemoryGame(true);
+                    }
+                } else {
+                    // No match, flip back
+                    const card1 = document.getElementById(`card-${first}`);
+                    const card2 = document.getElementById(`card-${second}`);
+                    
+                    card1.classList.remove('flipped');
+                    card2.classList.remove('flipped');
+                    gameData.flippedCards = [];
+                }
+            }
+
+            function endMemoryGame(won) {
+                const timeUsed = 120 - gameData.timeLeft;
+                const score = won ? Math.max(50, 100 - gameData.moves - Math.floor(timeUsed/10)) : 0;
+                
                 Swal.fire({
-                    icon: 'success',
-                    title: 'Benar!',
-                    text: 'Kamu berhasil mengulangi pola dengan benar!',
+                    title: won ? '🎉 Selamat!' : '⏰ Waktu Habis!',
+                    html: `
+                        <div class="text-center">
+                            <div class="text-4xl mb-4 ${won ? 'text-green-500' : 'text-red-500'}">
+                                <i class="fas fa-${won ? 'trophy' : 'clock'}"></i>
+                            </div>
+                            <p class="text-lg mb-2">${won ? 'Memory Game selesai!' : 'Coba lagi lain kali!'}</p>
+                            <div class="space-y-2">
+                                <p>Langkah: ${gameData.moves}</p>
+                                <p>Waktu: ${timeUsed}s</p>
+                                <p class="text-xl font-bold text-purple-600">Skor: ${score}/100</p>
+                            </div>
+                        </div>
+                    `,
+                    icon: won ? 'success' : 'error',
                     confirmButtonColor: '#059669'
                 }).then(() => {
-                    gameScore += 20 * patternLevel;
-                    patternLevel++;
-                    updateDisplay();
-                    
-                    if (patternLevel <= 5) {
-                        startPatternGame();
-                    } else {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Level Selesai!',
-                            html: `Selamat! Kamu telah menyelesaikan semua level Pattern Game!<br>Skor akhir: <b>${gameScore}</b>`,
-                            confirmButtonColor: '#059669'
-                        }).then(() => {
-                            totalScore += gameScore;
-                            localStorage.setItem('iqra_totalScore', totalScore.toString());
-                            updateDisplay();
-                            loadLatihanMenu();
-                        });
+                    if (won && !progress.games.includes(0)) {
+                        progress.games.push(0);
+                        saveToLocalStorage('gameProgress', progress.games);
+                        updateAllProgress();
                     }
-                });
-            } else {
-                // Wrong pattern
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Belum tepat',
-                    text: 'Pola yang kamu input belum sesuai. Coba lagi!',
-                    confirmButtonColor: '#059669'
+                    showGames();
                 });
             }
+
+            showMemoryBoard();
         }
-        
-        // ==================== WRITING PRACTICE ====================
-        function startWritingPractice() {
-            let content = `
-                <div class="text-center mb-6">
-                    <h3 class="text-2xl font-bold text-purple-600 mb-2"><i class="fas fa-pen"></i> Latihan Menulis</h3>
-                    <p class="text-gray-600">Latihan menulis huruf Hijaiyah dengan benar</p>
-                </div>
+
+        // Tebak Huruf Game
+        function showGuessLetterGame() {
+            const gameLetters = hijaiyahLetters.slice(0, 10);
+            let gameData = {
+                letters: gameLetters.sort(() => Math.random() - 0.5),
+                currentIndex: 0,
+                score: 0,
+                totalQuestions: 10
+            };
+            
+            function showGuessQuestion() {
+                if (gameData.currentIndex < gameData.totalQuestions) {
+                    const letter = gameData.letters[gameData.currentIndex];
+                    const options = [letter.name];
+                    
+                    // Add 3 random wrong options
+                    while (options.length < 4) {
+                        const randomLetter = hijaiyahLetters[Math.floor(Math.random() * hijaiyahLetters.length)];
+                        if (!options.includes(randomLetter.name)) {
+                            options.push(randomLetter.name);
+                        }
+                    }
+                    
+                    // Shuffle options
+                    const shuffledOptions = options.sort(() => Math.random() - 0.5);
+                    const correctIndex = shuffledOptions.indexOf(letter.name);
+                    
+                    const content = `
+                        <div class="text-center mb-8">
+                            <button onclick="showGames()" class="btn-islamic text-white p-3 rounded-lg mb-4">
+                                <i class="fas fa-arrow-left"></i> Kembali
+                            </button>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">❓ Tebak Huruf</h3>
+                            <div class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full inline-block mb-4">
+                                Soal ${gameData.currentIndex + 1} dari ${gameData.totalQuestions} | Skor: ${gameData.score}
+                            </div>
+                        </div>
+                        
+                        <div class="max-w-2xl mx-auto">
+                            <div class="bg-white border-2 border-purple-300 rounded-xl p-8 text-center mb-6">
+                                <h3 class="text-lg font-semibold text-gray-700 mb-4">Huruf apakah ini?</h3>
+                                <div class="arabic-text text-8xl font-bold text-purple-800 mb-6 letter-glow">${letter.letter}</div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    ${shuffledOptions.map((option, index) => `
+                                        <button onclick="selectGuessAnswer(${index}, ${correctIndex}, '${letter.name}')" 
+                                                id="guessBtn${index}"
+                                                class="bg-purple-100 hover:bg-purple-200 border-2 border-purple-300 hover:border-purple-500 p-4 rounded-lg font-semibold text-purple-800 transition-all">
+                                            ${option}
+                                        </button>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    document.getElementById('contentArea').innerHTML = content;
+                } else {
+                    // Game finished
+                    const finalScore = Math.round((gameData.score / gameData.totalQuestions) * 100);
+                    
+                    Swal.fire({
+                        title: 'Game Selesai!',
+                        html: `
+                            <div class="text-center">
+                                <div class="text-6xl mb-4 text-yellow-500"><i class="fas fa-trophy"></i></div>
+                                <p class="text-xl mb-2">Tebak Huruf Selesai!</p>
+                                <p class="text-lg font-bold text-purple-600">Skor: ${finalScore}/100</p>
+                                <p class="text-gray-600 mt-2">Benar: ${gameData.score}/${gameData.totalQuestions}</p>
+                            </div>
+                        `,
+                        icon: 'success',
+                        confirmButtonColor: '#059669'
+                    }).then(() => {
+                        if (!progress.games.includes(1)) {
+                            progress.games.push(1);
+                            saveToLocalStorage('gameProgress', progress.games);
+                            updateAllProgress();
+                        }
+                        showGames();
+                    });
+                }
+            }
+            
+            window.selectGuessAnswer = function(selectedIndex, correctIndex, correctName) {
+                const buttons = document.querySelectorAll('button[id^="guessBtn"]');
                 
-                <div class="writing-controls">
-                    <div class="flex items-center space-x-2">
-                        <span class="font-bold">Warna:</span>
-                        <div class="color-btn active" style="background-color: #000000;" onclick="changeColor('#000000', this)"></div>
-                        <div class="color-btn" style="background-color: #3B82F6;" onclick="changeColor('#3B82F6', this)"></div>
-                        <div class="color-btn" style="background-color: #EF4444;" onclick="changeColor('#EF4444', this)"></div>
-                        <div class="color-btn" style="background-color: #10B981;" onclick="changeColor('#10B981', this)"></div>
-                    </div>
+                // Disable all buttons
+                buttons.forEach(btn => btn.disabled = true);
+                
+                if (selectedIndex === correctIndex) {
+                    gameData.score++;
+                    buttons[selectedIndex].classList.add('correct-answer');
                     
-                    <div class="flex items-center space-x-2">
-                        <span class="font-bold">Ukuran:</span>
-                        <div class="brush-size-btn active" onclick="changeSize(2, this)">S</div>
-                        <div class="brush-size-btn" onclick="changeSize(5, this)">M</div>
-                        <div class="brush-size-btn" onclick="changeSize(10, this)">L</div>
-                    </div>
+                    Swal.fire({
+                        title: '✅ Benar!',
+                        text: `Huruf tersebut adalah ${correctName}`,
+                        icon: 'success',
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                } else {
+                    buttons[selectedIndex].classList.add('wrong-answer');
+                    buttons[correctIndex].classList.add('correct-answer');
                     
-                    <div class="flex items-center space-x-2">
-                        <span class="font-bold">Huruf:</span>
-                        <button class="writing-letter-btn active" onclick="changeGuide('أَ', this)">أَ</button>
-                        <button class="writing-letter-btn" onclick="changeGuide('بَ', this)">بَ</button>
-                        <button class="writing-letter-btn" onclick="changeGuide('تَ', this)">تَ</button>
-                        <button class="writing-letter-btn" onclick="changeGuide('ثَ', this)">ثَ</button>
-                    </div>
+                    Swal.fire({
+                        title: '❌ Salah!',
+                        text: `Jawaban yang benar adalah: ${correctName}`,
+                        icon: 'error',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+                
+                gameData.currentIndex++;
+                setTimeout(showGuessQuestion, 2000);
+            };
+            
+            showGuessQuestion();
+        }
+
+        // Quick Quiz Game
+        function showQuickQuizGame() {
+            const quizQuestions = [
+                {question: 'Berapa jumlah huruf hijaiyah?', options: ['26', '28', '30', '32'], correct: 1},
+                {question: 'Huruf pertama dalam hijaiyah adalah:', options: ['ا (Alif)', 'ب (Ba)', 'ت (Ta)', 'ث (Tsa)'], correct: 0},
+                {question: 'Huruf apa ini? ج', options: ['Ha', 'Kha', 'Jim', 'Dal'], correct: 2},
+                {question: 'Bacaan "مَا" adalah:', options: ['mi', 'ma', 'mu', 'me'], correct: 1},
+                {question: 'Huruf apa ini? ر', options: ['Zai', 'Ra', 'Sin', 'Syin'], correct: 1}
+            ];
+            
+            let gameData = {
+                questions: quizQuestions,
+                currentIndex: 0,
+                score: 0,
+                timeLeft: 15,
+                timer: null
+            };
+            
+            function showQuizQuestion() {
+                if (gameData.currentIndex < gameData.questions.length) {
+                    const question = gameData.questions[gameData.currentIndex];
+                    gameData.timeLeft = 15;
                     
-                    <button onclick="clearCanvas()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full font-bold transition-all">
-                        <i class="fas fa-trash"></i> Hapus
+                    const content = `
+                        <div class="text-center mb-8">
+                            <button onclick="endQuickQuiz()" class="btn-islamic text-white p-3 rounded-lg mb-4">
+                                <i class="fas fa-arrow-left"></i> Kembali
+                            </button>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">⚡ Kuis Cepat</h3>
+                            <div class="flex justify-center space-x-4 mb-4">
+                                <div class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">
+                                    Soal ${gameData.currentIndex + 1}/${gameData.questions.length}
+                                </div>
+                                <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+                                    Skor: ${gameData.score}
+                                </div>
+                                <div id="timer" class="bg-red-100 text-red-800 px-3 py-1 rounded-full font-bold text-sm">
+                                    ⏰ ${gameData.timeLeft}s
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="max-w-3xl mx-auto">
+                            <div class="bg-white border-2 border-purple-300 rounded-xl p-6 text-center mb-4">
+                                <h3 class="text-xl font-bold text-gray-800 mb-6">${question.question}</h3>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    ${question.options.map((option, index) => `
+                                        <button onclick="selectQuizAnswer(${index})" 
+                                                id="quizBtn${index}"
+                                                class="bg-purple-50 hover:bg-purple-100 border-2 border-purple-200 hover:border-purple-400 p-4 rounded-lg font-semibold text-purple-800 transition-all">
+                                            ${option}
+                                        </button>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    document.getElementById('contentArea').innerHTML = content;
+                    startQuizTimer();
+                } else {
+                    endQuickQuiz();
+                }
+            }
+            
+            function startQuizTimer() {
+                gameData.timer = setInterval(() => {
+                    gameData.timeLeft--;
+                    const timerElement = document.getElementById('timer');
+                    if (timerElement) {
+                        timerElement.textContent = `⏰ ${gameData.timeLeft}s`;
+                    }
+                    
+                    if (gameData.timeLeft <= 0) {
+                        clearInterval(gameData.timer);
+                        gameData.currentIndex++;
+                        setTimeout(showQuizQuestion, 1000);
+                    }
+                }, 1000);
+            }
+            
+            window.selectQuizAnswer = function(selectedIndex) {
+                clearInterval(gameData.timer);
+                const question = gameData.questions[gameData.currentIndex];
+                const buttons = document.querySelectorAll('button[id^="quizBtn"]');
+                
+                buttons.forEach(btn => btn.disabled = true);
+                
+                if (selectedIndex === question.correct) {
+                    gameData.score++;
+                    buttons[selectedIndex].classList.add('correct-answer');
+                    
+                    Swal.fire({
+                        title: '✅ Benar!',
+                        icon: 'success',
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                } else {
+                    buttons[selectedIndex].classList.add('wrong-answer');
+                    buttons[question.correct].classList.add('correct-answer');
+                    
+                    Swal.fire({
+                        title: '❌ Salah!',
+                        text: `Jawaban yang benar: ${question.options[question.correct]}`,
+                        icon: 'error',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+                
+                gameData.currentIndex++;
+                setTimeout(showQuizQuestion, 2000);
+            };
+            
+            window.endQuickQuiz = function() {
+                if (gameData.timer) clearInterval(gameData.timer);
+                
+                const finalScore = Math.round((gameData.score / gameData.questions.length) * 100);
+                
+                Swal.fire({
+                    title: 'Kuis Selesai!',
+                    html: `
+                        <div class="text-center">
+                            <div class="text-6xl mb-4 text-yellow-500"><i class="fas fa-trophy"></i></div>
+                            <p class="text-xl mb-2">Kuis Cepat Selesai!</p>
+                            <p class="text-lg font-bold text-purple-600">Skor: ${finalScore}/100</p>
+                            <p class="text-gray-600 mt-2">Benar: ${gameData.score}/${gameData.questions.length}</p>
+                        </div>
+                    `,
+                    icon: 'success',
+                    confirmButtonColor: '#059669'
+                }).then(() => {
+                    if (!progress.games.includes(3)) {
+                        progress.games.push(3);
+                        saveToLocalStorage('gameProgress', progress.games);
+                        updateAllProgress();
+                    }
+                    showGames();
+                });
+            };
+            
+            showQuizQuestion();
+        }
+
+        // Word Builder Game (placeholder)
+        function showWordBuilderGame() {
+            Swal.fire({
+                title: '🔧 Dalam Pengembangan',
+                text: 'Game Susun Kata sedang dalam tahap pengembangan. Akan segera hadir!',
+                icon: 'info',
+                confirmButtonColor: '#059669'
+            }).then(() => {
+                showGames();
+            });
+        }
+
+        // Puzzle Game (placeholder)
+        function showPuzzleGame() {
+            Swal.fire({
+                title: '🔧 Dalam Pengembangan',
+                text: 'Game Puzzle Huruf sedang dalam tahap pengembangan. Akan segera hadir!',
+                icon: 'info',
+                confirmButtonColor: '#059669'
+            }).then(() => {
+                showGames();
+            });
+        }
+
+        // Show Evaluation Section - SEKARANG LENGKAP!
+        function showEvaluation() {
+            hideMenuAndWelcome();
+            
+            const content = `
+                <div class="text-center mb-8">
+                    <button onclick="showHome()" class="btn-islamic text-white p-3 rounded-lg mb-4 text-lg">
+                        <i class="fas fa-arrow-left"></i> Kembali
                     </button>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">
+                        <i class="fas fa-clipboard-check text-orange-600 mr-3"></i>Evaluasi
+                    </h2>
+                    <p class="text-gray-600">Uji kemampuan membaca Anda</p>
                 </div>
                 
-                <div class="text-center">
-                    <div class="canvas-container">
-                        <canvas id="writingCanvas" width="400" height="400" class="writing-canvas"></canvas>
-                        <div class="writing-guide" id="writingGuide">أَ</div>
+                <div class="max-w-2xl mx-auto">
+                    <div class="bg-gradient-to-br from-orange-100 to-yellow-100 p-8 rounded-xl text-center">
+                        <div class="text-6xl mb-4 text-orange-600">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">Evaluasi Akhir</h3>
+                        <p class="text-gray-600 mb-6">Selesaikan semua materi untuk membuka evaluasi akhir</p>
+                        
+                        <div class="space-y-4 mb-6">
+                            <div class="flex justify-between items-center bg-white p-3 rounded-lg">
+                                <span>Belajar Huruf</span>
+                                <span class="${progress.letters.length >= 28 ? 'text-green-600' : 'text-orange-600'}">
+                                    ${progress.letters.length}/28 ${progress.letters.length >= 28 ? '✅' : '⏳'}
+                                </span>
+                            </div>
+                            <div class="flex justify-between items-center bg-white p-3 rounded-lg">
+                                <span>Latihan Membaca</span>
+                                <span class="${progress.reading.length >= 20 ? 'text-green-600' : 'text-orange-600'}">
+                                    ${progress.reading.length}/20 ${progress.reading.length >= 20 ? '✅' : '⏳'}
+                                </span>
+                            </div>
+                            <div class="flex justify-between items-center bg-white p-3 rounded-lg">
+                                <span>Game Edukatif</span>
+                                <span class="${progress.games.length >= 3 ? 'text-green-600' : 'text-orange-600'}">
+                                    ${progress.games.length}/3 ${progress.games.length >= 3 ? '✅' : '⏳'}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <button onclick="startEvaluation()" 
+                                class="btn-gold text-white px-8 py-3 rounded-lg font-semibold ${progress.letters.length >= 10 && progress.reading.length >= 5 && progress.games.length >= 1 ? '' : 'opacity-50 cursor-not-allowed'}"
+                                ${progress.letters.length >= 10 && progress.reading.length >= 5 && progress.games.length >= 1 ? '' : 'disabled'}>
+                            <i class="fas fa-play mr-2"></i>Mulai Evaluasi
+                        </button>
+                        
+                        <p class="text-xs text-gray-500 mt-2">
+                            *Syarat: Min. 10 huruf, 5 latihan membaca, dan 1 game selesai
+                        </p>
                     </div>
-                </div>
-                
-                <div class="text-center mt-6">
-                    <button onclick="loadLatihanMenu()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-full font-bold transition-all">
-                        <i class="fas fa-arrow-left"></i> Kembali ke Menu
-                    </button>
                 </div>
             `;
             
-            document.getElementById('latihan-content').innerHTML = content;
-            document.getElementById('latihan-controls').innerHTML = '';
-            
-            // Initialize canvas
-            setTimeout(initCanvas, 100);
+            document.getElementById('contentArea').innerHTML = content;
         }
-        
-        function initCanvas() {
-            const canvas = document.getElementById('writingCanvas');
-            const guide = document.getElementById('writingGuide');
-            const ctx = canvas.getContext('2d');
+
+        // Start evaluation function - SEKARANG BENAR-BENAR ADA EVALUASINYA!
+        function startEvaluation() {
+            const evaluationQuestions = [
+                {question: 'Huruf apa ini?', letter: 'ب', options: ['Ba', 'Ta', 'Tsa', 'Jim'], correct: 0},
+                {question: 'Huruf apa ini?', letter: 'ج', options: ['Ha', 'Kha', 'Jim', 'Dal'], correct: 2},
+                {question: 'Bacaan "مَا" adalah:', options: ['mi', 'ma', 'mu', 'me'], correct: 1},
+                {question: 'Huruf apa ini?', letter: 'ر', options: ['Zai', 'Ra', 'Sin', 'Syin'], correct: 1},
+                {question: 'Bacaan "بِي" adalah:', options: ['ba', 'bi', 'bu', 'be'], correct: 1},
+                {question: 'Huruf apa ini?', letter: 'ن', options: ['Mim', 'Nun', 'Waw', 'Ha'], correct: 1},
+                {question: 'Berapa jumlah huruf hijaiyah?', options: ['26', '28', '30', '32'], correct: 1},
+                {question: 'Huruf pertama hijaiyah adalah:', options: ['ا (Alif)', 'ب (Ba)', 'ت (Ta)', 'ث (Tsa)'], correct: 0},
+                {question: 'Bacaan "كَا" adalah:', options: ['ki', 'ku', 'ka', 'ke'], correct: 2},
+                {question: 'Huruf terakhir hijaiyah adalah:', options: ['و (Waw)', 'ه (Ha)', 'ي (Ya)', 'ء (Hamzah)'], correct: 2}
+            ];
             
-            // Set initial styles
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-            ctx.lineWidth = 2;
-            ctx.strokeStyle = '#000000';
-            
-            let isDrawing = false;
-            let lastX = 0;
-            let lastY = 0;
-            
-            // Mouse event listeners
-            canvas.addEventListener('mousedown', startDrawing);
-            canvas.addEventListener('mousemove', draw);
-            canvas.addEventListener('mouseup', stopDrawing);
-            canvas.addEventListener('mouseout', stopDrawing);
-            
-            // Touch event listeners for mobile devices
-            canvas.addEventListener('touchstart', handleTouchStart);
-            canvas.addEventListener('touchmove', handleTouchMove);
-            canvas.addEventListener('touchend', handleTouchEnd);
-            
-            function startDrawing(e) {
-                isDrawing = true;
-                [lastX, lastY] = [e.offsetX, e.offsetY];
-            }
-            
-            function draw(e) {
-                if (!isDrawing) return;
-                
-                ctx.beginPath();
-                ctx.moveTo(lastX, lastY);
-                ctx.lineTo(e.offsetX, e.offsetY);
-                ctx.stroke();
-                
-                [lastX, lastY] = [e.offsetX, e.offsetY];
-            }
-            
-            function stopDrawing() {
-                isDrawing = false;
-            }
-            
-            function handleTouchStart(e) {
-                e.preventDefault();
-                const touch = e.touches[0];
-                const rect = canvas.getBoundingClientRect();
-                
-                isDrawing = true;
-                [lastX, lastY] = [
-                    touch.clientX - rect.left,
-                    touch.clientY - rect.top
-                ];
-            }
-            
-            function handleTouchMove(e) {
-                e.preventDefault();
-                if (!isDrawing) return;
-                
-                const touch = e.touches[0];
-                const rect = canvas.getBoundingClientRect();
-                
-                const currentX = touch.clientX - rect.left;
-                const currentY = touch.clientY - rect.top;
-                
-                ctx.beginPath();
-                ctx.moveTo(lastX, lastY);
-                ctx.lineTo(currentX, currentY);
-                ctx.stroke();
-                
-                [lastX, lastY] = [currentX, currentY];
-            }
-            
-            function handleTouchEnd(e) {
-                e.preventDefault();
-                isDrawing = false;
-            }
-            
-            // Store canvas context for other functions
-            window.canvasCtx = ctx;
-        }
-        
-        function changeColor(color, element) {
-            // Update active color button
-            document.querySelectorAll('.color-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            element.classList.add('active');
-            
-            // Change drawing color
-            if (window.canvasCtx) {
-                window.canvasCtx.strokeStyle = color;
-            }
-        }
-        
-        function changeSize(size, element) {
-            // Update active size button
-            document.querySelectorAll('.brush-size-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            element.classList.add('active');
-            
-            // Change brush size
-            if (window.canvasCtx) {
-                window.canvasCtx.lineWidth = size;
-            }
-        }
-        
-        function changeGuide(letter, element) {
-            // Update active letter button
-            document.querySelectorAll('.writing-letter-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            element.classList.add('active');
-            
-            // Change guide letter
-            document.getElementById('writingGuide').textContent = letter;
-        }
-        
-        function clearCanvas() {
-            if (window.canvasCtx) {
-                const canvas = document.getElementById('writingCanvas');
-                window.canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
-            }
-        }
-        
-        // ==================== CERTIFICATE FUNCTIONS ====================
-        function showCertificate() {
-            // Get user name from localStorage or use default
-            const userName = localStorage.getItem('iqra_userName') || 'Siswa';
-            const userScore = localStorage.getItem('iqra_totalScore') || '0';
-            
-            // Set current date
-            const now = new Date();
-            const options = { day: 'numeric', month: 'long', year: 'numeric' };
-            const formattedDate = now.toLocaleDateString('id-ID', options);
-            
-            // Update certificate content
-            document.getElementById('certificateName').textContent = userName;
-            document.getElementById('certificateDate').textContent = formattedDate;
-            document.getElementById('certificateScore').textContent = userScore;
-            
-            // Show certificate modal
-            document.getElementById('certificateModal').classList.remove('hidden');
-            document.getElementById('certificateModal').classList.add('flex');
-        }
-        
-        function closeCertificate() {
-            document.getElementById('certificateModal').classList.add('hidden');
-            document.getElementById('certificateModal').classList.remove('flex');
-        }
-        
-        function printCertificate() {
-            const printContent = document.querySelector('.certificate-container').innerHTML;
-            const originalContent = document.body.innerHTML;
-            
-            document.body.innerHTML = printContent;
-            window.print();
-            document.body.innerHTML = originalContent;
-            
-            // Reload the page to restore functionality
-            window.location.reload();
-        }
-        
-        function shareCertificate() {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Sertifikat Kelulusan Iqra Digital',
-                    text: `Saya telah menyelesaikan pembelajaran Iqra Digital dengan skor ${localStorage.getItem('iqra_totalScore') || '0'}!`,
-                    url: window.location.href
-                })
-                .then(() => console.log('Berhasil berbagi'))
-                .catch((error) => console.log('Error sharing:', error));
-            } else {
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Fitur Berbagi',
-                    text: 'Fitur berbagi tidak didukung pada browser ini. Anda dapat mencetak sertifikat sebagai gantinya.',
-                    confirmButtonColor: '#059669'
-                });
-            }
-        }
-        
-        // ==================== UTILITY FUNCTIONS ====================
-        function convertArabicToName(arabicLetter) {
-            const mapping = {
-                'أَ': 'ALIF',
-                'بَ': 'BA',
-                'تَ': 'TA',
-                'ثَ': 'TSA',
-                'جَ': 'JA',
-                'حَ': 'HA',
-                'خَ': 'KHA',
-                'دَ': 'DA',
-                'ذَ': 'DZA',
-                'رَ': 'RA',
-                'زَ': 'ZA',
-                'سَ': 'SA',
-                'شَ': 'SYA',
-                'صَ': 'SHA',
-                'ضَ': 'DHA',
-                'طَ': 'THA',
-                'ظَ': 'ZHA',
-                'عَ': 'AIN',
-                'غَ': 'GHAIN',
-                'فَ': 'FA',
-                'قَ': 'QA',
-                'كَ': 'KA',
-                'لَ': 'LA',
-                'مَ': 'MA',
-                'نَ': 'NA',
-                'وَ': 'WAW',
-                'هَ': 'HA',
-                'ء': 'HAMZAH',
-                'يَ': 'YA'
+            let evalData = {
+                questions: evaluationQuestions,
+                currentIndex: 0,
+                score: 0,
+                answers: []
             };
             
-            return mapping[arabicLetter] || arabicLetter;
+            function showEvaluationQuestion() {
+                if (evalData.currentIndex < evalData.questions.length) {
+                    const question = evalData.questions[evalData.currentIndex];
+                    
+                    const content = `
+                        <div class="text-center mb-8">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">📋 Evaluasi Akhir</h3>
+                            <div class="bg-orange-100 text-orange-800 px-4 py-2 rounded-full inline-block mb-4">
+                                Soal ${evalData.currentIndex + 1} dari ${evalData.questions.length}
+                            </div>
+                        </div>
+                        
+                        <div class="max-w-2xl mx-auto">
+                            <div class="bg-white border-2 border-orange-300 rounded-xl p-8 text-center mb-6">
+                                <h3 class="text-lg font-semibold text-gray-700 mb-4">${question.question}</h3>
+                                ${question.letter ? `<div class="arabic-text text-8xl font-bold text-orange-800 mb-6 letter-glow">${question.letter}</div>` : ''}
+                                <div class="grid grid-cols-2 gap-4">
+                                    ${question.options.map((option, index) => `
+                                        <button onclick="selectEvalAnswer(${index})" 
+                                                id="evalBtn${index}"
+                                                class="bg-orange-100 hover:bg-orange-200 border-2 border-orange-300 hover:border-orange-500 p-4 rounded-lg font-semibold text-orange-800 transition-all">
+                                            ${option}
+                                        </button>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            
+                            <!-- Progress Bar -->
+                            <div class="bg-gray-200 rounded-full h-2 mb-4">
+                                <div class="bg-gradient-to-r from-orange-500 to-yellow-500 h-2 rounded-full transition-all duration-300" 
+                                     style="width: ${(evalData.currentIndex / evalData.questions.length) * 100}%"></div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    document.getElementById('contentArea').innerHTML = content;
+                } else {
+                    // Evaluation finished
+                    finishEvaluation();
+                }
+            }
+            
+            window.selectEvalAnswer = function(selectedIndex) {
+                const question = evalData.questions[evalData.currentIndex];
+                const buttons = document.querySelectorAll('button[id^="evalBtn"]');
+                
+                buttons.forEach(btn => btn.disabled = true);
+                
+                const isCorrect = selectedIndex === question.correct;
+                evalData.answers.push({
+                    question: question.question,
+                    selected: question.options[selectedIndex],
+                    correct: question.options[question.correct],
+                    isCorrect: isCorrect
+                });
+                
+                if (isCorrect) {
+                    evalData.score++;
+                    buttons[selectedIndex].classList.add('correct-answer');
+                } else {
+                    buttons[selectedIndex].classList.add('wrong-answer');
+                    buttons[question.correct].classList.add('correct-answer');
+                }
+                
+                setTimeout(() => {
+                    evalData.currentIndex++;
+                    showEvaluationQuestion();
+                }, 1500);
+            };
+            
+            function finishEvaluation() {
+                const finalScore = Math.round((evalData.score / evalData.questions.length) * 100);
+                progress.evaluation = finalScore;
+                saveToLocalStorage('evaluationProgress', finalScore);
+                updateAllProgress();
+                
+                let grade, message, color;
+                if (finalScore >= 90) {
+                    grade = 'A';
+                    message = 'Luar Biasa! Anda menguasai materi dengan sangat baik!';
+                    color = 'text-green-600';
+                } else if (finalScore >= 80) {
+                    grade = 'B';
+                    message = 'Bagus! Anda memahami sebagian besar materi dengan baik!';
+                    color = 'text-blue-600';
+                } else if (finalScore >= 70) {
+                    grade = 'C';
+                    message = 'Cukup! Terus berlatih untuk hasil yang lebih baik!';
+                    color = 'text-yellow-600';
+                } else {
+                    grade = 'D';
+                    message = 'Perlu belajar lagi. Jangan menyerah, terus berlatih!';
+                    color = 'text-red-600';
+                }
+                
+                const content = `
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-gray-800 mb-4">
+                            <i class="fas fa-clipboard-check text-orange-600 mr-3"></i>Hasil Evaluasi
+                        </h2>
+                    </div>
+                    
+                    <div class="max-w-3xl mx-auto">
+                        <div class="bg-gradient-to-br from-orange-100 to-yellow-100 p-8 rounded-xl text-center mb-6">
+                            <div class="text-6xl mb-4 text-yellow-500">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <h3 class="text-3xl font-bold ${color} mb-2">Nilai: ${grade}</h3>
+                            <p class="text-2xl font-bold text-gray-800 mb-4">Skor: ${finalScore}/100</p>
+                            <p class="text-lg text-gray-600 mb-6">${message}</p>
+                            
+                            <div class="bg-white rounded-lg p-6 mb-6">
+                                <h4 class="text-lg font-bold text-gray-800 mb-4">Detail Hasil:</h4>
+                                <div class="grid grid-cols-2 gap-4 text-sm">
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold text-green-600">${evalData.score}</div>
+                                        <div class="text-gray-600">Benar</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-2xl font-bold text-red-600">${evalData.questions.length - evalData.score}</div>
+                                        <div class="text-gray-600">Salah</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="space-x-4">
+                                <button onclick="showDetailedResults()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold">
+                                    <i class="fas fa-list mr-2"></i>Lihat Detail
+                                </button>
+                                <button onclick="showHome()" class="btn-islamic text-white px-6 py-3 rounded-lg font-semibold">
+                                    <i class="fas fa-home mr-2"></i>Kembali ke Menu
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('contentArea').innerHTML = content;
+                
+                // Store evaluation data for detailed results
+                window.evaluationResults = evalData;
+            }
+            
+            // Start the evaluation
+            Swal.fire({
+                title: '🎯 Evaluasi Dimulai!',
+                text: 'Anda akan mengerjakan 10 soal evaluasi. Selamat mengerjakan!',
+                icon: 'info',
+                confirmButtonText: 'Mulai',
+                confirmButtonColor: '#059669'
+            }).then(() => {
+                showEvaluationQuestion();
+            });
         }
+
+        // Show detailed evaluation results
+        function showDetailedResults() {
+            if (!window.evaluationResults) return;
+            
+            const results = window.evaluationResults;
+            
+            const content = `
+                <div class="text-center mb-8">
+                    <button onclick="showEvaluation()" class="btn-islamic text-white p-3 rounded-lg mb-4">
+                        <i class="fas fa-arrow-left"></i> Kembali
+                    </button>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">
+                        <i class="fas fa-list text-blue-600 mr-3"></i>Detail Hasil Evaluasi
+                    </h2>
+                </div>
+                
+                <div class="max-w-4xl mx-auto">
+                    <div class="space-y-4">
+                        ${results.answers.map((answer, index) => `
+                            <div class="bg-white border-2 ${answer.isCorrect ? 'border-green-300' : 'border-red-300'} rounded-lg p-4">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-gray-800 mb-2">
+                                            ${index + 1}. ${answer.question}
+                                        </h4>
+                                        <div class="space-y-1 text-sm">
+                                            <p class="text-gray-600">
+                                                <strong>Jawaban Anda:</strong> 
+                                                <span class="${answer.isCorrect ? 'text-green-600' : 'text-red-600'}">${answer.selected}</span>
+                                            </p>
+                                            ${!answer.isCorrect ? `<p class="text-gray-600"><strong>Jawaban Benar:</strong> <span class="text-green-600">${answer.correct}</span></p>` : ''}
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="${answer.isCorrect ? 'text-green-600' : 'text-red-600'} text-2xl">
+                                            <i class="fas fa-${answer.isCorrect ? 'check-circle' : 'times-circle'}"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="text-center mt-8">
+                        <button onclick="showHome()" class="btn-islamic text-white px-8 py-3 rounded-lg font-semibold">
+                            <i class="fas fa-home mr-2"></i>Kembali ke Menu Utama
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('contentArea').innerHTML = content;
+        }
+
+        // Utility functions
+        function hideMenuAndWelcome() {
+            const menuCards = document.getElementById('menuCards');
+            const welcomeSection = document.querySelector('.text-center.mb-12');
+            
+            if (menuCards) menuCards.style.display = 'none';
+            if (welcomeSection) welcomeSection.style.display = 'none';
+        }
+
+        function showMenuAndWelcome() {
+            const menuCards = document.getElementById('menuCards');
+            const welcomeSection = document.querySelector('.text-center.mb-12');
+            
+            if (menuCards) menuCards.style.display = 'grid';
+            if (welcomeSection) welcomeSection.style.display = 'block';
+        }
+
+        function showHome() {
+            showMenuAndWelcome();
+            
+            const content = `
+                <div class="text-center py-12">
+                    <div class="text-6xl mb-6 float text-yellow-500">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Pilih Menu untuk Memulai</h3>
+                    <p class="text-gray-600">Klik salah satu menu di atas untuk memulai pembelajaran</p>
+                    <div class="mt-8">
+                        <button onclick="showProfileSetup()" class="btn-islamic text-white px-8 py-3 rounded-lg font-semibold mr-4">
+                            <i class="fas fa-user-plus mr-2"></i>Atur Profil
+                        </button>
+                        <button onclick="testMicrophone()" class="btn-blue text-white px-8 py-3 rounded-lg font-semibold">
+                            <i class="fas fa-microphone mr-2"></i>Tes Mikrofon
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('contentArea').innerHTML = content;
+        }
+
+        function updateAllProgress() {
+            // Update letter progress
+            const letterProgressBar = document.getElementById('letterProgress');
+            const letterProgressText = document.getElementById('letterProgressText');
+            if (letterProgressBar && letterProgressText) {
+                const letterPercent = (progress.letters.length / 28) * 100;
+                letterProgressBar.style.width = letterPercent + '%';
+                letterProgressText.textContent = `${progress.letters.length}/28 huruf`;
+            }
+
+            // Update reading progress
+            const readingProgressBar = document.getElementById('readingProgress');
+            const readingProgressText = document.getElementById('readingProgressText');
+            if (readingProgressBar && readingProgressText) {
+                const readingPercent = (progress.reading.length / 20) * 100;
+                readingProgressBar.style.width = readingPercent + '%';
+                readingProgressText.textContent = `${progress.reading.length}/20 latihan`;
+            }
+
+            // Update game progress
+            const gameProgressBar = document.getElementById('gameProgress');
+            const gameProgressText = document.getElementById('gameProgressText');
+            if (gameProgressBar && gameProgressText) {
+                const gamePercent = (progress.games.length / 5) * 100;
+                gameProgressBar.style.width = gamePercent + '%';
+                gameProgressText.textContent = `${progress.games.length}/5 game`;
+            }
+
+            // Update evaluation progress
+            const evalProgressBar = document.getElementById('evalProgress');
+            const evalProgressText = document.getElementById('evalProgressText');
+            if (evalProgressBar && evalProgressText) {
+                if (progress.evaluation > 0) {
+                    evalProgressBar.style.width = '100%';
+                    evalProgressText.textContent = `Selesai (${progress.evaluation}/100)`;
+                } else {
+                    evalProgressBar.style.width = '0%';
+                    evalProgressText.textContent = 'Belum dimulai';
+                }
+            }
+
+            // Update overall progress
+            const overallProgressBar = document.getElementById('overallProgress');
+            const progressText = document.getElementById('progressText');
+            if (overallProgressBar && progressText) {
+                const totalItems = 28 + 20 + 5; // letters + reading + games
+                const completedItems = progress.letters.length + progress.reading.length + progress.games.length;
+                let overallPercent = (completedItems / totalItems) * 100;
+                
+                // Add evaluation bonus
+                if (progress.evaluation > 0) {
+                    overallPercent = Math.min(100, overallPercent + 10);
+                }
+                
+                overallProgressBar.style.width = overallPercent + '%';
+                progressText.textContent = Math.round(overallPercent) + '%';
+            }
+        }
+
+        // Initialize app
+        function initializeApp() {
+            // Load progress data
+            progress.letters = loadFromLocalStorage('letterProgress', []);
+            progress.reading = loadFromLocalStorage('readingProgress', []);
+            progress.games = loadFromLocalStorage('gameProgress', []);
+            progress.evaluation = loadFromLocalStorage('evaluationProgress', 0);
+            
+            // Load user profile
+            loadUserProfile();
+            
+            // Update progress bars
+            updateAllProgress();
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', initializeApp);
+
+        // Make functions globally available
+        window.testMicrophone = testMicrophone;
+        window.showProfileSetup = showProfileSetup;
+        window.showLetters = showLetters;
+        window.showReading = showReading;
+        window.showGames = showGames;
+        window.showEvaluation = showEvaluation;
+        window.showHome = showHome;
+        window.learnLetter = learnLetter;
+        window.practiceReading = practiceReading;
+        window.playGame = playGame;
+        window.startEvaluation = startEvaluation;
+        window.showDetailedResults = showDetailedResults;
     </script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'975a266591318930',t:'MTc1NjI4MjgzMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
