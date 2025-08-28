@@ -41,8 +41,8 @@
         
         .arabic-large {
             font-family: 'Amiri', serif;
-            font-size: 2em;
-            line-height: 2;
+            font-size: 2.5em;
+            line-height: 2.2;
         }
         
         .latin-text {
@@ -107,24 +107,6 @@
             50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.8); }
         }
         
-        .star-twinkle {
-            animation: starTwinkle 1.5s infinite;
-        }
-        
-        @keyframes starTwinkle {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.2); }
-        }
-        
-        .audio-wave {
-            animation: audioWave 1s infinite;
-        }
-        
-        @keyframes audioWave {
-            0%, 100% { transform: scaleY(1); }
-            50% { transform: scaleY(1.5); }
-        }
-        
         .verse-highlight {
             background: linear-gradient(120deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%);
             border-left: 4px solid #3b82f6;
@@ -136,23 +118,92 @@
             transform: translateX(5px);
         }
         
-        .game-button {
+        .audio-player {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50px;
+            padding: 8px 16px;
+            color: white;
+            border: none;
+            cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 14px;
         }
         
-        .game-button:hover {
+        .audio-player:hover {
             background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .audio-player.playing {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .game-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .game-card:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: translateY(-5px);
+        }
+        
+        .memory-card {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .memory-card.flipped {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            transform: rotateY(180deg);
+        }
+        
+        .memory-card.matched {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            transform: scale(1.1);
+        }
+        
+        .quiz-option {
+            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+            border: 2px solid #9ca3af;
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .quiz-option:hover {
+            background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%);
+            border-color: #8b5cf6;
             transform: translateY(-2px);
         }
         
-        .evaluation-progress {
-            background: linear-gradient(90deg, #10b981 0%, #059669 100%);
-            transition: width 0.5s ease;
+        .quiz-option.correct {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            border-color: #22c55e;
         }
         
-        .swal2-popup {
-            font-family: 'Amiri', serif !important;
+        .quiz-option.incorrect {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border-color: #ef4444;
         }
         
         .loading-spinner {
@@ -168,44 +219,129 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+            height: 8px;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
     </style>
 </head>
 <body class="min-h-screen">
     <!-- Header -->
     <header class="bg-gradient-to-r from-emerald-900 via-teal-800 to-blue-900 shadow-2xl p-6 islamic-pattern">
         <div class="container mx-auto">
-            <div class="flex items-center justify-between mb-4">
+            <!-- Header Content - Desktop and Mobile -->
+            <div class="flex items-center justify-center md:justify-between mb-4">
                 <div class="flex items-center space-x-4">
-                    <div class="w-16 h-16 bg-gradient-to-br from-white to-gray-100 rounded-lg flex items-center justify-center shadow-xl border-3 border-white border-opacity-50 pulse-glow">
-                        <img src="https://p7.hiclipart.com/preview/192/122/336/learn-quran-the-holy-qur-an-text-translation-and-commentary-tajwid-surah-android-thumbnail.jpg" alt="Logo Al-Quran" class="w-12 h-12 rounded-md" onerror="this.src='https://cdn-icons-png.flaticon.com/512/9960/9960119.png'; this.alt='Logo Fallback';">
+                    <div class="w-16 md:w-24 h-16 md:h-24 flex items-center justify-center">
+                        <img src="https://archive.org/download/logoku_202508/png-clipart-islam-muslim-quran-reading-child-reading-thumbnail-removebg-preview.png" 
+                             alt="Al-Quran Logo" 
+                             class="w-14 md:w-20 h-14 md:h-20 object-contain"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <div class="w-14 md:w-20 h-14 md:h-20 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-full flex items-center justify-center text-white text-xl md:text-2xl font-bold" style="display: none;">
+                            <i class="fas fa-book-quran"></i>
+                        </div>
                     </div>
                     <div class="text-left indo-text">
-                        <p class="text-sm text-emerald-200">Media Pembelajaran Interaktif</p>
-                        <h1 class="text-4xl font-bold text-white">Al-Qur'an Hadits</h1>
-                        <p class="text-lg text-emerald-100">Kelas 4 MI</p>
+                        <p class="text-xs md:text-sm text-emerald-200">Media Pembelajaran Interaktif</p>
+                        <h1 class="text-2xl md:text-4xl font-bold text-white">Al-Qur'an Hadits</h1>
+                        <p class="text-sm md:text-lg text-emerald-100">Kelas 4 MI</p>
                     </div>
                 </div>
-                <div class="text-center">
-                    <div class="flex items-center space-x-2 mb-2">
-                        <div class="bg-yellow-400 px-4 py-2 rounded-full shadow-lg">
-                            <span class="text-yellow-900 font-bold">Poin: <span id="totalPoints">0</span></span>
+                
+                <!-- Desktop Student Identity Card -->
+                <div class="hidden md:block text-center">
+                    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl p-4 mb-4 border border-white border-opacity-20">
+                        <div class="flex items-center justify-center space-x-4 mb-3">
+                            <!-- Student Photo -->
+                            <div class="relative">
+                                <div id="studentPhotoContainer" class="w-16 h-16 rounded-full overflow-hidden border-3 border-white shadow-lg cursor-pointer" onclick="changeStudentPhoto()" title="Klik untuk ganti foto">
+                                    <img id="studentPhoto" src="" alt="Foto Siswa" class="w-full h-full object-cover hidden">
+                                    <div id="defaultAvatar" class="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-2xl font-bold">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                </div>
+                                <button onclick="changeStudentPhoto()" class="absolute -bottom-1 -right-1 bg-blue-500 text-white w-6 h-6 rounded-full text-xs hover:bg-blue-600 transition-colors" title="Ganti Foto">
+                                    <i class="fas fa-camera"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- Student Info -->
+                            <div class="text-left">
+                                <div class="text-white font-bold text-lg" id="studentName" onclick="editStudentName()" title="Klik untuk edit nama" style="cursor: pointer;">
+                                    Siswa Rajin
+                                </div>
+                                <div class="text-emerald-200 text-sm" id="studentClass" onclick="editStudentClass()" title="Klik untuk edit kelas" style="cursor: pointer;">
+                                    Kelas 4 MI
+                                </div>
+                                <div class="text-emerald-100 text-xs opacity-75">
+                                    <i class="fas fa-edit mr-1"></i>Klik untuk edit
+                                </div>
+                            </div>
                         </div>
-                        <div id="stars" class="flex space-x-1"></div>
-                        <button onclick="clearStudentData()" class="bg-red-500 text-white px-3 py-1 rounded-full text-xs hover:bg-red-600 transition-colors" title="Reset Data">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                    <div class="text-white text-sm opacity-75">
-                        <i class="fas fa-user-graduate mr-1"></i>
-                        <span id="studentName">Siswa Rajin</span>
+                        
+                        <!-- Points and Stars -->
+                        <div class="flex items-center justify-center space-x-2">
+                            <div class="bg-yellow-400 px-4 py-2 rounded-full shadow-lg">
+                                <span class="text-yellow-900 font-bold">Poin: <span id="totalPoints">0</span></span>
+                            </div>
+                            <div id="stars" class="flex space-x-1"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
+    <!-- Mobile Student Identity Card -->
+    <div class="md:hidden bg-white bg-opacity-95 backdrop-blur-sm shadow-lg border-b border-gray-200">
+        <div class="container mx-auto p-4">
+            <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-4 border border-blue-200">
+                <div class="flex items-center space-x-4 mb-3">
+                    <!-- Mobile Student Photo -->
+                    <div class="relative">
+                        <div id="studentPhotoContainerMobile" class="w-14 h-14 rounded-full overflow-hidden border-3 border-blue-400 shadow-lg cursor-pointer" onclick="changeStudentPhoto()" title="Klik untuk ganti foto">
+                            <img id="studentPhotoMobile" src="" alt="Foto Siswa" class="w-full h-full object-cover hidden">
+                            <div id="defaultAvatarMobile" class="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-xl font-bold">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <button onclick="changeStudentPhoto()" class="absolute -bottom-1 -right-1 bg-blue-500 text-white w-5 h-5 rounded-full text-xs hover:bg-blue-600 transition-colors" title="Ganti Foto">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Mobile Student Info -->
+                    <div class="flex-1">
+                        <div class="text-gray-800 font-bold text-lg" id="studentNameMobile" onclick="editStudentName()" title="Klik untuk edit nama" style="cursor: pointer;">
+                            Siswa Rajin
+                        </div>
+                        <div class="text-blue-600 text-sm font-semibold" id="studentClassMobile" onclick="editStudentClass()" title="Klik untuk edit kelas" style="cursor: pointer;">
+                            Kelas 4 MI
+                        </div>
+                        <div class="text-gray-500 text-xs">
+                            <i class="fas fa-edit mr-1"></i>Tap untuk edit
+                        </div>
+                    </div>
+                    
+                    <!-- Mobile Points and Stars -->
+                    <div class="text-right">
+                        <div class="bg-yellow-400 px-3 py-1 rounded-full shadow-lg mb-2">
+                            <span class="text-yellow-900 font-bold text-sm">Poin: <span id="totalPointsMobile">0</span></span>
+                        </div>
+                        <div id="starsMobile" class="flex justify-end space-x-1"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </header>
+
     <!-- Main Container -->
-    <div class="container mx-auto p-6">
+    <div class="container mx-auto p-4 md:p-6">
         <!-- Main Menu -->
         <div id="mainMenu" class="fade-in">
             <div class="text-center mb-8">
@@ -213,7 +349,7 @@
                 <p class="text-xl text-emerald-100 arabic-text" dir="rtl">اختر الموضوع الذي تريد تعلمه</p>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 <!-- Menu 1: Hukum Izhar dan Ikhfa' -->
                 <div class="menu-card bg-gradient-to-br from-white to-blue-50 rounded-3xl p-8 shadow-2xl cursor-pointer border-3 border-blue-200" onclick="showSubMenu('tajweed')">
                     <div class="text-center">
@@ -337,7 +473,7 @@
                 <h2 id="subMenuTitle" class="text-3xl font-bold text-white mx-auto arabic-text"></h2>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
                 <!-- Materi Pembelajaran -->
                 <div class="submenu-card bg-gradient-to-br from-white to-blue-50 rounded-2xl p-8 shadow-xl cursor-pointer border-2 border-blue-200" onclick="showContent('materi')">
                     <div class="text-center">
@@ -419,8 +555,14 @@
     <footer class="bg-gradient-to-r from-emerald-900 via-teal-800 to-blue-900 text-white py-8 mt-16 islamic-pattern">
         <div class="container mx-auto text-center">
             <div class="flex items-center justify-center mb-4">
-                <div class="w-12 h-12 bg-gradient-to-br from-white to-gray-100 rounded-lg flex items-center justify-center shadow-xl border border-white border-opacity-50 mr-4">
-                    <img src="https://p7.hiclipart.com/preview/192/122/336/learn-quran-the-holy-qur-an-text-translation-and-commentary-tajwid-surah-android-thumbnail.jpg" alt="Logo Al-Quran" class="w-8 h-8 rounded-md" onerror="this.src='https://cdn-icons-png.flaticon.com/512/9960/9960119.png'; this.alt='Logo Fallback';">
+                <div class="w-16 h-16 flex items-center justify-center mr-4">
+                    <img src="https://archive.org/download/logoku_202508/png-clipart-islam-muslim-quran-reading-child-reading-thumbnail-removebg-preview.png" 
+                         alt="Al-Quran Logo" 
+                         class="w-12 h-12 object-contain"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-full flex items-center justify-center text-white text-lg font-bold" style="display: none;">
+                        <i class="fas fa-book-quran"></i>
+                    </div>
                 </div>
                 <div class="indo-text">
                     <h3 class="text-xl font-bold">Al-Qur'an Hadits</h3>
@@ -431,10 +573,10 @@
                 Media Pembelajaran Interaktif Al-Qur'an Hadits untuk Siswa Kelas 4 MI
             </div>
             <div class="text-emerald-200 text-xs mb-2">
-                <span class="indo-text">© 2025 Emes Media Creativa. All Rights Reserved</span>
+                <span class="indo-text">© 2025 Media Pembelajaran Interaktif. All Rights Reserved</span>
             </div>
             <div class="text-emerald-300 text-xs">
-                <span class="indo-text">Made with ❤️ for Islamic Education</span>
+                <span class="indo-text">Persembahan dari ❤️ Emes Media Creativa</span>
             </div>
         </div>
     </footer>
@@ -442,10 +584,478 @@
     <script>
         let currentTopic = '';
         let currentContent = '';
-        let totalPoints = 0;
-        let stars = 0;
+        let totalPoints = parseInt(localStorage.getItem('totalPoints') || '0');
+        let stars = Math.floor(totalPoints / 100);
         let currentAudio = null;
         let isPlaying = false;
+        let gameScore = 0;
+        let gameLevel = 1;
+
+        // Complete data for Tajwid and Al-Ashr, templates for others
+        const materiData = {
+            tajweed: {
+                title: "أحكام الإظهار والإخفاء",
+                titleIndo: "Hukum Izhar dan Ikhfa'",
+                izhar: {
+                    definition: "الإظهار لغة: البيان والوضوح. واصطلاحاً: إخراج كل حرف من مخرجه من غير غنة في الحرف المظهر",
+                    definitionIndo: "Izhar secara bahasa berarti jelas dan terang. Secara istilah: mengeluarkan setiap huruf dari tempat keluarnya tanpa dengung pada huruf yang di-izhar-kan",
+                    huruf: ["ء", "ه", "ع", "ح", "غ", "خ"],
+                    hurufNames: ["الهمزة", "الهاء", "العين", "الحاء", "الغين", "الخاء"],
+                    contoh: [
+                        { arabic: "مِنْ آمَنَ", keterangan: "نون ساكنة + همزة", audioUrl: "AUDIO_IZHAR_1" },
+                        { arabic: "مِنْ هَادٍ", keterangan: "نون ساكنة + هاء", audioUrl: "AUDIO_IZHAR_2" },
+                        { arabic: "مِنْ عِلْمٍ", keterangan: "نون ساكنة + عين", audioUrl: "AUDIO_IZHAR_3" },
+                        { arabic: "مِنْ حَكِيمٍ", keterangan: "نون ساكنة + حاء", audioUrl: "AUDIO_IZHAR_4" },
+                        { arabic: "مِنْ غِلٍّ", keterangan: "نون ساكنة + غين", audioUrl: "AUDIO_IZHAR_5" },
+                        { arabic: "مِنْ خَيْرٍ", keterangan: "نون ساكنة + خاء", audioUrl: "AUDIO_IZHAR_6" }
+                    ]
+                },
+                ikhfa: {
+                    definition: "الإخفاء لغة: الستر. واصطلاحاً: النطق بالحرف بصفة بين الإظهار والإدغام عارٍ عن التشديد مع بقاء الغنة",
+                    definitionIndo: "Ikhfa' secara bahasa berarti menyembunyikan. Secara istilah: mengucapkan huruf dengan sifat antara izhar dan idgham tanpa tasydid dengan tetap mempertahankan dengung",
+                    huruf: ["ص", "ذ", "ث", "ك", "ج", "ش", "ق", "س", "د", "ط", "ز", "ف", "ت", "ض", "ظ"],
+                    hurufCount: "15 حرفاً",
+                    contoh: [
+                        { arabic: "مِنْ صَالِحٍ", keterangan: "نون ساكنة + صاد", audioUrl: "AUDIO_IKHFA_1" },
+                        { arabic: "مِنْ ذَهَبٍ", keterangan: "نون ساكنة + ذال", audioUrl: "AUDIO_IKHFA_2" },
+                        { arabic: "مِنْ ثَمَرَةٍ", keterangan: "نون ساكنة + ثاء", audioUrl: "AUDIO_IKHFA_3" },
+                        { arabic: "مِنْ كُلِّ", keterangan: "نون ساكنة + كاف", audioUrl: "AUDIO_IKHFA_4" },
+                        { arabic: "مِنْ جَنَّةٍ", keterangan: "نون ساكنة + جيم", audioUrl: "AUDIO_IKHFA_5" },
+                        { arabic: "مِنْ شَيْءٍ", keterangan: "نون ساكنة + شين", audioUrl: "AUDIO_IKHFA_6" }
+                    ]
+                },
+                lessons: [
+                    "Izhar dilakukan pada 6 huruf: ء ه ع ح غ خ",
+                    "Ikhfa' dilakukan pada 15 huruf selain huruf izhar, idgham, dan iqlab",
+                    "Izhar dibaca jelas tanpa dengung",
+                    "Ikhfa' dibaca samar dengan dengung",
+                    "Penting untuk berlatih dengan audio yang benar",
+                    "Tajwid membuat bacaan Al-Qur'an menjadi indah"
+                ]
+            },
+            alashr: {
+                name: "سورة العصر",
+                nameIndo: "Surah Al-Ashr",
+                meaning: "Masa/Waktu",
+                type: "مكية",
+                verses: 3,
+                revelation: "Makkah",
+                order: 103,
+                fullAudioUrl: "https://archive.org/download/murotal-surah-at-takasur-bermegah-megahan-metode-ummi/MUROTAL%20SURAH%20AL-ASHR%20%28ASAR%29%20METODE%20UMMI.mp3",
+                mufradat: [
+                    { arabic: "وَالْعَصْرِ", meaning: "Demi masa", type: "Qasam (sumpah)" },
+                    { arabic: "إِنَّ", meaning: "Sesungguhnya", type: "Huruf taukid" },
+                    { arabic: "الْإِنسَانَ", meaning: "Manusia", type: "Isim" },
+                    { arabic: "لَفِي", meaning: "Benar-benar dalam", type: "Huruf jar + khabar" },
+                    { arabic: "خُسْرٍ", meaning: "Kerugian", type: "Isim" },
+                    { arabic: "إِلَّا", meaning: "Kecuali", type: "Huruf istitsna" },
+                    { arabic: "الَّذِينَ", meaning: "Orang-orang yang", type: "Isim maushul" },
+                    { arabic: "آمَنُوا", meaning: "Beriman", type: "Fi'il madhi" },
+                    { arabic: "عَمِلُوا", meaning: "Mengerjakan", type: "Fi'il madhi" },
+                    { arabic: "الصَّالِحَاتِ", meaning: "Amal saleh", type: "Isim" },
+                    { arabic: "تَوَاصَوْا", meaning: "Saling menasehati", type: "Fi'il madhi" },
+                    { arabic: "بِالْحَقِّ", meaning: "Dengan kebenaran", type: "Jar majrur" },
+                    { arabic: "الصَّبْرِ", meaning: "Kesabaran", type: "Isim" }
+                ],
+                content: [
+                    {
+                        arabic: "وَالْعَصْرِ",
+                        latin: "Wal 'ashr",
+                        translation: "Demi masa",
+                        explanation: "Allah bersumpah dengan waktu/masa untuk menunjukkan pentingnya waktu dalam kehidupan manusia. Waktu adalah amanah yang harus digunakan dengan baik.",
+                        audioUrl: "AUDIO_ALASHR_AYAT_1"
+                    },
+                    {
+                        arabic: "إِنَّ الْإِنسَانَ لَفِي خُسْرٍ",
+                        latin: "Innal insaana lafii khusr",
+                        translation: "Sesungguhnya manusia itu benar-benar dalam kerugian",
+                        explanation: "Semua manusia pada dasarnya dalam kerugian karena waktu terus berlalu dan hidup semakin berkurang. Ini adalah kondisi umum manusia kecuali yang dikecualikan di ayat berikutnya.",
+                        audioUrl: "AUDIO_ALASHR_AYAT_2"
+                    },
+                    {
+                        arabic: "إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَتَوَاصَوْا بِالْحَقِّ وَتَوَاصَوْا بِالصَّبْرِ",
+                        latin: "Illalladziina aamanuu wa 'amilus shaalihaati wa tawaashau bil haqqi wa tawaashau bish shabr",
+                        translation: "Kecuali orang-orang yang beriman dan mengerjakan amal saleh dan nasehat menasehati supaya mentaati kebenaran dan nasehat menasehati supaya menetapi kesabaran",
+                        explanation: "Hanya empat golongan yang tidak rugi: 1) Beriman kepada Allah, 2) Beramal saleh, 3) Saling menasehati dalam kebenaran, 4) Saling menasehati dalam kesabaran. Keempat hal ini harus ada semua.",
+                        audioUrl: "AUDIO_ALASHR_AYAT_3"
+                    }
+                ],
+                lessons: [
+                    "Waktu adalah amanah yang harus digunakan dengan baik",
+                    "Manusia harus beriman kepada Allah SWT",
+                    "Amal saleh harus dilakukan setiap hari",
+                    "Saling menasehati dalam kebaikan adalah kewajiban",
+                    "Sabar adalah kunci menghadapi cobaan",
+                    "Keempat syarat harus dipenuhi semua untuk tidak rugi"
+                ]
+            },
+            // Templates for other materials
+            quraisy: {
+                name: "سورة قريش",
+                nameIndo: "Surah Quraisy",
+                meaning: "Suku Quraisy",
+                type: "مكية",
+                verses: 4,
+                revelation: "Makkah",
+                order: 106,
+                fullAudioUrl: "https://archive.org/download/murotal-surah-at-takasur-bermegah-megahan-metode-ummi/MUROTAL%20SURAH%20QURAISY%20%28QURAISY%29%20METODE%20UMMI.mp3",
+                mufradat: [
+                    { arabic: "لِإِيلَافِ", meaning: "Karena kebiasaan", type: "Huruf jar + masdar" },
+                    { arabic: "قُرَيْشٍ", meaning: "Suku Quraisy", type: "Isim" },
+                    { arabic: "إِيلَافِهِمْ", meaning: "Kebiasaan mereka", type: "Masdar + dhamir" },
+                    { arabic: "رِحْلَةَ", meaning: "Perjalanan", type: "Isim" },
+                    { arabic: "الشِّتَاءِ", meaning: "Musim dingin", type: "Isim" },
+                    { arabic: "الصَّيْفِ", meaning: "Musim panas", type: "Isim" },
+                    { arabic: "فَلْيَعْبُدُوا", meaning: "Hendaklah mereka menyembah", type: "Fi'il amr" },
+                    { arabic: "رَبَّ", meaning: "Tuhan", type: "Isim" },
+                    { arabic: "هَٰذَا الْبَيْتِ", meaning: "Rumah ini (Ka'bah)", type: "Isim isyarah" },
+                    { arabic: "الَّذِي", meaning: "Yang", type: "Isim maushul" },
+                    { arabic: "أَطْعَمَهُم", meaning: "Memberi makan mereka", type: "Fi'il madhi" },
+                    { arabic: "مِّن جُوعٍ", meaning: "Dari kelaparan", type: "Jar majrur" },
+                    { arabic: "آمَنَهُم", meaning: "Mengamankan mereka", type: "Fi'il madhi" },
+                    { arabic: "مِّنْ خَوْفٍ", meaning: "Dari ketakutan", type: "Jar majrur" }
+                ],
+                content: [
+                    {
+                        arabic: "لِإِيلَافِ قُرَيْشٍ",
+                        latin: "Li ilaafi Quraisy",
+                        translation: "Karena kebiasaan orang-orang Quraisy",
+                        explanation: "Allah menyebutkan nikmat yang diberikan kepada suku Quraisy berupa kebiasaan dan kemudahan dalam berdagang. Ini adalah pembukaan yang menunjukkan bahwa ayat ini berkaitan dengan surah sebelumnya (Al-Fil).",
+                        audioUrl: "TEMPLATE_AUDIO_QURAISY_AYAT_1"
+                    },
+                    {
+                        arabic: "إِيلَافِهِمْ رِحْلَةَ الشِّتَاءِ وَالصَّيْفِ",
+                        latin: "Ilaafihim rihlatas syitaa'i wash shaif",
+                        translation: "(yaitu) kebiasaan mereka bepergian pada musim dingin dan musim panas",
+                        explanation: "Suku Quraisy memiliki kebiasaan berdagang ke Syam (Syiria) pada musim panas dan ke Yaman pada musim dingin. Perjalanan dagang ini memberikan mereka kemakmuran dan keamanan.",
+                        audioUrl: "TEMPLATE_AUDIO_QURAISY_AYAT_2"
+                    },
+                    {
+                        arabic: "فَلْيَعْبُدُوا رَبَّ هَٰذَا الْبَيْتِ",
+                        latin: "Falyabudu rabba haadzal bait",
+                        translation: "Maka hendaklah mereka menyembah Tuhan pemilik rumah ini (Ka'bah)",
+                        explanation: "Sebagai balasan atas nikmat yang telah diberikan Allah, suku Quraisy hendaknya menyembah Allah yang memiliki Ka'bah. Ka'bah adalah pusat ibadah dan juga sumber kemakmuran mereka.",
+                        audioUrl: "TEMPLATE_AUDIO_QURAISY_AYAT_3"
+                    },
+                    {
+                        arabic: "الَّذِي أَطْعَمَهُم مِّن جُوعٍ وَآمَنَهُم مِّنْ خَوْفٍ",
+                        latin: "Alladzii ath'amahum min juu'iw wa aamanahum min khauf",
+                        translation: "Yang telah memberi makanan kepada mereka untuk menghilangkan lapar dan mengamankan mereka dari ketakutan",
+                        explanation: "Allah telah memberikan dua nikmat besar kepada Quraisy: 1) Makanan yang cukup sehingga tidak kelaparan, 2) Keamanan dari rasa takut. Kedua nikmat ini sangat berharga dan wajib disyukuri.",
+                        audioUrl: "TEMPLATE_AUDIO_QURAISY_AYAT_4"
+                    }
+                ],
+                lessons: [
+                    "Nikmat Allah harus disyukuri dengan beribadah kepada-Nya",
+                    "Keamanan dan rezeki adalah nikmat besar dari Allah",
+                    "Ka'bah adalah pusat ibadah dan berkah bagi umat Islam",
+                    "Perdagangan yang halal mendatangkan berkah",
+                    "Suku Quraisy dipilih Allah sebagai penjaga Ka'bah",
+                    "Syukur nikmat dengan menyembah Allah semata"
+                ]
+            },
+            maun: {
+                name: "سورة الماعون",
+                nameIndo: "Surah Al-Ma'un",
+                meaning: "Barang-barang yang berguna",
+                type: "مكية",
+                verses: 7,
+                revelation: "Makkah",
+                order: 107,
+                fullAudioUrl: "https://archive.org/download/murotal-surah-at-takasur-bermegah-megahan-metode-ummi/MUROTAL%20SURAH%20AL-MAUN%20%28BANTUAN%29%20METODE%20UMMI.mp3",
+                content: [
+                    {
+                        arabic: "أَرَأَيْتَ الَّذِي يُكَذِّبُ بِالدِّينِ",
+                        latin: "Ara'aytalladziiy yukadzdzibu biddiin",
+                        translation: "Tahukah kamu (orang) yang mendustakan agama?",
+                        explanation: "Allah bertanya kepada Nabi Muhammad SAW dan umatnya tentang ciri-ciri orang yang mendustakan agama. Pertanyaan ini untuk menarik perhatian agar kita mengenali dan menghindari sifat-sifat tersebut.",
+                        audioUrl: "TEMPLATE_AUDIO_MAUN_AYAT_1"
+                    },
+                    {
+                        arabic: "فَذَٰلِكَ الَّذِي يَدُعُّ الْيَتِيمَ",
+                        latin: "Fadzaalikal ladziiy yadu'ul yatiim",
+                        translation: "Itulah orang yang menghardik anak yatim",
+                        explanation: "Ciri pertama orang yang mendustakan agama adalah menghardik, mengusir, atau berlaku kasar kepada anak yatim. Padahal Islam mengajarkan untuk berbuat baik kepada anak yatim.",
+                        audioUrl: "TEMPLATE_AUDIO_MAUN_AYAT_2"
+                    },
+                    {
+                        arabic: "وَلَا يَحُضُّ عَلَىٰ طَعَامِ الْمِسْكِينِ",
+                        translation: "dan tidak menganjurkan memberi makan orang miskin",
+                        latin: "Wa laa yahudhdhu 'alaa tha'aamil miskiin",
+                        explanation: "Ciri kedua adalah tidak peduli terhadap orang miskin. Mereka tidak hanya tidak memberi makan, tetapi juga tidak menganjurkan orang lain untuk membantu orang miskin.",
+                        audioUrl: "TEMPLATE_AUDIO_MAUN_AYAT_3"
+                    },
+                    {
+                        arabic: "فَوَيْلٌ لِّلْمُصَلِّينَ",
+                        latin: "Fawaylul lil mushalliin",
+                        translation: "Maka kecelakaanlah bagi orang-orang yang shalat",
+                        explanation: "Ayat ini tidak berarti semua orang yang shalat akan celaka, tetapi menunjuk pada orang-orang yang shalat namun memiliki sifat-sifat buruk yang disebutkan dalam ayat selanjutnya.",
+                        audioUrl: "TEMPLATE_AUDIO_MAUN_AYAT_4"
+                    },
+                    {
+                        arabic: "الَّذِينَ هُمْ عَن صَلَاتِهِمْ سَاهُونَ",
+                        latin: "Alladziina hum 'an shalaatihim saahuum",
+                        translation: "(yaitu) orang-orang yang lalai dari shalatnya",
+                        explanation: "Mereka shalat tetapi dengan lalai, tidak khusyuk, tidak tepat waktu, atau tidak memperhatikan rukun dan syarat shalat. Shalat mereka hanya gerakan tanpa makna.",
+                        audioUrl: "TEMPLATE_AUDIO_MAUN_AYAT_5"
+                    },
+                    {
+                        arabic: "الَّذِينَ هُمْ يُرَاءُونَ",
+                        latin: "Alladziina hum yuraa'uun",
+                        translation: "orang-orang yang berbuat riya (ingin dilihat orang)",
+                        explanation: "Mereka beribadah bukan karena Allah, tetapi ingin dipuji dan dilihat orang lain. Riya adalah syirik kecil yang dapat menghapus pahala amal ibadah.",
+                        audioUrl: "TEMPLATE_AUDIO_MAUN_AYAT_6"
+                    },
+                    {
+                        arabic: "وَيَمْنَعُونَ الْمَاعُونَ",
+                        latin: "Wa yamna'uunal maa'uun",
+                        translation: "dan enggan (menolong dengan) barang berguna",
+                        explanation: "Mereka pelit dan tidak mau membantu sesama dengan barang-barang yang berguna seperti alat-alat rumah tangga, makanan, atau bantuan lainnya yang dibutuhkan orang lain.",
+                        audioUrl: "TEMPLATE_AUDIO_MAUN_AYAT_7"
+                    }
+                ],
+                lessons: [
+                    "Agama Islam mengajarkan kepedulian sosial yang tinggi",
+                    "Berbuat baik kepada anak yatim adalah kewajiban muslim",
+                    "Membantu orang miskin adalah bagian dari iman",
+                    "Shalat harus dilakukan dengan khusyuk dan tepat waktu",
+                    "Riya dalam beribadah dapat menghapus pahala",
+                    "Berbagi dengan sesama adalah akhlak mulia",
+                    "Keimanan harus dibuktikan dengan amal perbuatan"
+                ]
+            },
+            takatsur: {
+                name: "سورة التكاثر",
+                nameIndo: "Surah At-Takatsur",
+                meaning: "Bermegah-megahan",
+                type: "مكية",
+                verses: 8,
+                revelation: "Makkah",
+                order: 102,
+                fullAudioUrl: "https://archive.org/download/murotal-surah-at-takasur-bermegah-megahan-metode-ummi/MUROTAL%20SURAH%20AT-TAKASUR%20%28BERMEGAH-MEGAHAN%29%20METODE%20UMMI.mp3",
+                content: [
+                    {
+                        arabic: "أَلْهَاكُمُ التَّكَاثُرُ",
+                        latin: "Alhaakumut takaatsur",
+                        translation: "Bermegah-megahan telah melalaikan kamu",
+                        explanation: "Allah menegur manusia yang terlalu sibuk bermegah-megahan dengan harta, anak, jabatan, atau hal duniawi lainnya sehingga melupakan tujuan hidup yang sebenarnya yaitu beribadah kepada Allah.",
+                        audioUrl: "TEMPLATE_AUDIO_TAKATSUR_AYAT_1"
+                    },
+                    {
+                        arabic: "حَتَّىٰ زُرْتُمُ الْمَقَابِرَ",
+                        latin: "Hattaa zurtumul maqaabir",
+                        translation: "sampai kamu masuk ke dalam kubur",
+                        explanation: "Manusia terus bermegah-megahan hingga ajal menjemput. 'Mengunjungi kubur' di sini berarti mati. Ketika mati, semua kemegahan dunia tidak ada artinya lagi.",
+                        audioUrl: "TEMPLATE_AUDIO_TAKATSUR_AYAT_2"
+                    },
+                    {
+                        arabic: "كَلَّا سَوْفَ تَعْلَمُونَ",
+                        latin: "Kallaa sawfa ta'lamuun",
+                        translation: "Jangan begitu, kelak kamu akan mengetahui (akibatnya)",
+                        explanation: "Allah memperingatkan bahwa sikap bermegah-megahan itu salah. Kelak di akhirat, manusia akan mengetahui akibat buruk dari sikapnya yang terlalu cinta dunia.",
+                        audioUrl: "TEMPLATE_AUDIO_TAKATSUR_AYAT_3"
+                    },
+                    {
+                        arabic: "ثُمَّ كَلَّا سَوْفَ تَعْلَمُونَ",
+                        latin: "Tsumma kallaa sawfa ta'lamuun",
+                        translation: "Kemudian jangan begitu, kelak kamu akan mengetahui",
+                        explanation: "Peringatan diulang untuk menekankan betapa seriusnya masalah ini. Pengulangan menunjukkan bahwa akibat dari bermegah-megahan sangat berat dan pasti akan terjadi.",
+                        audioUrl: "TEMPLATE_AUDIO_TAKATSUR_AYAT_4"
+                    },
+                    {
+                        arabic: "كَلَّا لَوْ تَعْلَمُونَ عِلْمَ الْيَقِينِ",
+                        latin: "Kallaa law ta'lamuuna 'ilmal yaqiin",
+                        translation: "Jangan begitu, jika kamu mengetahui dengan pengetahuan yang yakin",
+                        explanation: "Jika manusia benar-benar yakin dengan adanya akhirat, hisab, surga, dan neraka, maka mereka tidak akan terlalu sibuk dengan urusan dunia dan bermegah-megahan.",
+                        audioUrl: "TEMPLATE_AUDIO_TAKATSUR_AYAT_5"
+                    },
+                    {
+                        arabic: "لَتَرَوُنَّ الْجَحِيمَ",
+                        latin: "Latarawunnal jahiim",
+                        translation: "niscaya kamu benar-benar akan melihat neraka Jahim",
+                        explanation: "Orang yang bermegah-megahan dan melupakan akhirat akan melihat neraka Jahim. Ini adalah ancaman bagi mereka yang terlalu cinta dunia dan lupa kepada Allah.",
+                        audioUrl: "TEMPLATE_AUDIO_TAKATSUR_AYAT_6"
+                    },
+                    {
+                        arabic: "ثُمَّ لَتَرَوُنَّهَا عَيْنَ الْيَقِينِ",
+                        latin: "Tsumma latarawunnahaa 'aynal yaqiin",
+                        translation: "kemudian kamu benar-benar akan melihatnya dengan mata (kepala) sendiri",
+                        explanation: "Mereka akan melihat neraka dengan mata kepala sendiri, bukan hanya mendengar atau membayangkan. Ini adalah tingkat keyakinan tertinggi yaitu melihat langsung ('ainul yaqin).",
+                        audioUrl: "TEMPLATE_AUDIO_TAKATSUR_AYAT_7"
+                    },
+                    {
+                        arabic: "ثُمَّ لَتُسْأَلُنَّ يَوْمَئِذٍ عَنِ النَّعِيمِ",
+                        latin: "Tsumma latus'alunna yauma'idzin 'anin na'iim",
+                        translation: "kemudian kamu akan ditanya pada hari itu tentang kenikmatan (yang kamu peroleh di dunia)",
+                        explanation: "Di hari kiamat, manusia akan dimintai pertanggungjawaban tentang semua nikmat yang diberikan Allah di dunia. Bagaimana cara memperoleh dan menggunakannya akan dipertanyakan.",
+                        audioUrl: "TEMPLATE_AUDIO_TAKATSUR_AYAT_8"
+                    }
+                ],
+                lessons: [
+                    "Jangan terlalu sibuk bermegah-megahan dengan hal duniawi",
+                    "Ingatlah selalu bahwa hidup di dunia hanya sementara",
+                    "Kematian pasti datang dan mengakhiri semua kemegahan dunia",
+                    "Yakinlah dengan adanya akhirat, hisab, surga, dan neraka",
+                    "Gunakan nikmat Allah dengan bijak dan bertanggung jawab",
+                    "Jangan sampai cinta dunia melupakan kewajiban kepada Allah",
+                    "Persiapkan diri untuk menghadapi pertanyaan di akhirat",
+                    "Keseimbangan antara urusan dunia dan akhirat sangat penting"
+                ]
+            },
+            hadis_takwa: {
+                title: "حديث عن التقوى",
+                titleIndo: "Hadis tentang Takwa",
+                hadis: "[Teks hadis Arab - silakan lengkapi]",
+                latin: "[Bacaan latin hadis]",
+                translation: "[Terjemahan hadis]",
+                rawi: "[Perawi hadis]",
+                rawiIndo: "[Perawi dalam bahasa Indonesia]",
+                explanation: "[Penjelasan hadis]",
+                lessons: [
+                    "[Pelajaran 1 dari hadis takwa]",
+                    "[Pelajaran 2 dari hadis takwa]"
+                ],
+                audioUrl: "AUDIO_HADIS_TAKWA"
+            },
+            hadis_niat: {
+                title: "حديث عن النية",
+                titleIndo: "Hadis tentang Niat",
+                hadis: "[Teks hadis Arab - silakan lengkapi]",
+                latin: "[Bacaan latin hadis]",
+                translation: "[Terjemahan hadis]",
+                rawi: "[Perawi hadis]",
+                rawiIndo: "[Perawi dalam bahasa Indonesia]",
+                explanation: "[Penjelasan hadis]",
+                lessons: [
+                    "[Pelajaran 1 dari hadis niat]",
+                    "[Pelajaran 2 dari hadis niat]"
+                ],
+                audioUrl: "AUDIO_HADIS_NIAT"
+            }
+        };
+
+        // Game data templates
+        const gameData = {
+            tajweed: {
+                memory: [
+                    { arabic: "الإظهار", translation: "izhar (jelas)" },
+                    { arabic: "الإخفاء", translation: "ikhfa' (samar)" },
+                    { arabic: "الغنة", translation: "dengung" },
+                    { arabic: "النون الساكنة", translation: "nun sukun" },
+                    { arabic: "التنوين", translation: "tanwin" },
+                    { arabic: "المخرج", translation: "tempat keluar huruf" }
+                ],
+                quiz: [
+                    {
+                        question: "Berapa huruf izhar?",
+                        options: ["5", "6", "7", "8"],
+                        correct: 1,
+                        points: 10
+                    },
+                    {
+                        question: "Berapa huruf ikhfa'?",
+                        options: ["14", "15", "16", "17"],
+                        correct: 1,
+                        points: 10
+                    },
+                    {
+                        question: "Izhar dibaca dengan...",
+                        options: ["Dengung", "Jelas tanpa dengung", "Samar", "Panjang"],
+                        correct: 1,
+                        points: 15
+                    }
+                ]
+            },
+            alashr: {
+                memory: [
+                    { arabic: "وَالْعَصْرِ", translation: "Demi masa" },
+                    { arabic: "إِنَّ الْإِنسَانَ", translation: "Sesungguhnya manusia" },
+                    { arabic: "لَفِي خُسْرٍ", translation: "dalam kerugian" },
+                    { arabic: "آمَنُوا", translation: "beriman" },
+                    { arabic: "عَمِلُوا الصَّالِحَاتِ", translation: "beramal saleh" },
+                    { arabic: "تَوَاصَوْا بِالْحَقِّ", translation: "saling menasehati dengan kebenaran" }
+                ],
+                quiz: [
+                    {
+                        question: "Berapa jumlah ayat dalam Surah Al-Ashr?",
+                        options: ["2 ayat", "3 ayat", "4 ayat", "5 ayat"],
+                        correct: 1,
+                        points: 10
+                    },
+                    {
+                        question: "Apa arti kata 'العصر' dalam bahasa Indonesia?",
+                        options: ["Pagi", "Siang", "Masa/Waktu", "Malam"],
+                        correct: 2,
+                        points: 10
+                    },
+                    {
+                        question: "Siapa yang tidak rugi menurut Surah Al-Ashr?",
+                        options: ["Orang kaya", "Orang beriman dan beramal saleh", "Orang pintar", "Orang terkenal"],
+                        correct: 1,
+                        points: 15
+                    }
+                ]
+            },
+            // Templates for other games
+            quraisy: {
+                memory: [
+                    { arabic: "[Kata Arab 1]", translation: "[Terjemahan 1]" }
+                    // Template untuk memory game lainnya
+                ],
+                quiz: [
+                    {
+                        question: "[Pertanyaan quiz 1]",
+                        options: ["[Opsi A]", "[Opsi B]", "[Opsi C]", "[Opsi D]"],
+                        correct: 0,
+                        points: 10
+                    }
+                    // Template untuk quiz lainnya
+                ]
+            }
+            // Template untuk game materi lainnya...
+        };
+
+        // Evaluation data templates
+        const evaluationData = {
+            tajweed: [
+                {
+                    question: "Berapa huruf izhar?",
+                    options: ["5", "6", "7", "8"],
+                    correct: 1,
+                    explanation: "Huruf izhar ada 6: ء ه ع ح غ خ"
+                },
+                {
+                    question: "Izhar dibaca dengan...",
+                    options: ["Dengung", "Jelas tanpa dengung", "Samar", "Panjang"],
+                    correct: 1,
+                    explanation: "Izhar dibaca jelas tanpa dengung"
+                }
+                // Template untuk soal evaluasi lainnya
+            ],
+            alashr: [
+                {
+                    question: "Berapa jumlah ayat dalam Surah Al-Ashr?",
+                    options: ["2", "3", "4", "5"],
+                    correct: 1,
+                    explanation: "Surah Al-Ashr terdiri dari 3 ayat"
+                },
+                {
+                    question: "Apa arti kata 'العصر'?",
+                    options: ["Pagi", "Siang", "Masa/Waktu", "Malam"],
+                    correct: 2,
+                    explanation: "العصر berarti masa atau waktu"
+                }
+                // Template untuk soal evaluasi lainnya
+            ]
+            // Template untuk evaluasi materi lainnya...
+        };
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStudentData();
+            updatePointsDisplay();
+            updateStarsDisplay();
+        });
 
         // Navigation functions
         function showMainMenu() {
@@ -481,9 +1091,9 @@
             document.getElementById('contentArea').classList.remove('hidden');
             
             const titles = {
-                materi: 'Materi Pembelajaran',
-                game: 'Game Edukasi',
-                evaluasi: 'Evaluasi'
+                materi: 'مواد التعلم - Materi Pembelajaran',
+                game: 'الألعاب التعليمية - Game Edukasi',
+                evaluasi: 'التقييم - Evaluasi'
             };
             
             document.getElementById('contentTitle').textContent = titles[contentType];
@@ -509,66 +1119,469 @@
         }
 
         function loadMateriContent(topic, container) {
-            container.innerHTML = `
-                <div class="text-center">
-                    <h3 class="text-3xl font-bold text-gray-800 mb-4">
-                        <i class="fas fa-book-open mr-3 text-blue-600"></i>
-                        Materi Pembelajaran
-                    </h3>
-                    <p class="text-xl text-gray-600 mb-8">Materi untuk topik: ${topic}</p>
-                    
-                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-2xl border-2 border-blue-200">
-                        <h4 class="text-2xl font-bold text-blue-800 mb-4">
-                            <i class="fas fa-info-circle mr-2"></i>
-                            Template Materi Siap!
-                        </h4>
-                        <p class="text-blue-700 text-lg mb-4">
-                            Template untuk materi pembelajaran sudah disiapkan. Anda dapat mengisi konten sesuai kebutuhan.
-                        </p>
-                        <div class="bg-white p-4 rounded-lg">
-                            <h5 class="font-bold mb-2">Fitur yang tersedia:</h5>
-                            <ul class="text-left space-y-1">
-                                <li>• Teks Arab dengan audio</li>
-                                <li>• Terjemahan Indonesia</li>
-                                <li>• Penjelasan lengkap</li>
-                                <li>• Contoh-contoh</li>
-                            </ul>
+            const data = materiData[topic];
+            if (!data) {
+                container.innerHTML = `
+                    <div class="text-center py-16">
+                        <div class="text-6xl text-gray-400 mb-4">
+                            <i class="fas fa-construction"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-600 mb-4">Materi Sedang Dikembangkan</h3>
+                        <p class="text-gray-500 mb-6">Materi untuk topik ini sedang dalam tahap pengembangan. Silakan kembali lagi nanti.</p>
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 max-w-md mx-auto">
+                            <p class="text-yellow-800 text-sm">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                Anda dapat mengisi konten materi di bagian ini sesuai kebutuhan pembelajaran.
+                            </p>
                         </div>
                     </div>
+                `;
+                return;
+            }
+
+            if (topic === 'tajweed') {
+                loadTajweedMateri(container);
+            } else if (topic.startsWith('hadis_')) {
+                loadHadisMateri(topic, container);
+            } else {
+                loadSurahMateri(topic, container);
+            }
+        }
+
+        function loadSurahMateri(surahKey, container) {
+            const surah = materiData[surahKey];
+            if (!surah) return;
+
+            container.innerHTML = `
+                <div class="text-center mb-8">
+                    <h3 class="text-4xl font-bold text-gray-800 mb-4 arabic-text">${surah.name}</h3>
+                    <p class="text-2xl text-gray-600 font-semibold mb-2">${surah.nameIndo}</p>
+                    <p class="text-lg text-gray-500 mb-4">Artinya: ${surah.meaning}</p>
+                    <div class="flex justify-center space-x-4 mb-6">
+                        <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full font-semibold">
+                            <i class="fas fa-map-marker-alt mr-2"></i>${surah.type}
+                        </span>
+                        <span class="bg-green-100 text-green-800 px-4 py-2 rounded-full font-semibold">
+                            <i class="fas fa-list-ol mr-2"></i>${surah.verses} آيات
+                        </span>
+                        ${surah.order ? `<span class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full font-semibold">
+                            <i class="fas fa-sort-numeric-down mr-2"></i>No. ${surah.order}
+                        </span>` : ''}
+                    </div>
+                </div>
+
+                <!-- Complete Surah Text -->
+                <div class="bg-gradient-to-br from-emerald-50 to-teal-50 p-8 rounded-3xl border-3 border-emerald-200 shadow-xl mb-8">
+                    <div class="text-center mb-6">
+                        <h4 class="text-2xl font-bold text-emerald-800 mb-4 arabic-text">النص الكامل للسورة</h4>
+                        ${surah.fullAudioUrl ? `
+                        <button onclick="playFullSurahAudio('${surah.fullAudioUrl}', '${surah.nameIndo}')" class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:from-green-600 hover:to-emerald-700 transition-all transform hover:scale-105" id="fullSurahBtn">
+                            <i class="fas fa-play mr-3"></i>
+                            Dengarkan Surah Lengkap
+                        </button>
+                        <p class="text-gray-600 mt-2 text-sm">Audio murotal dengan metode Ummi</p>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="text-4xl arabic-large text-gray-800 mb-6 leading-loose text-center p-6 bg-white rounded-2xl shadow-inner">
+                        <div class="mb-4 text-emerald-600">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+                        ${surah.content.map(verse => verse.arabic).join(' ۝ ')}
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-2xl shadow-inner">
+                        <h5 class="text-lg font-bold text-emerald-800 mb-3">
+                            <i class="fas fa-language mr-2"></i>
+                            Terjemahan Lengkap:
+                        </h5>
+                        <p class="text-emerald-700 text-lg leading-relaxed">
+                            "Dengan nama Allah Yang Maha Pengasih, Maha Penyayang. ${surah.content.map(verse => verse.translation).join('. ')}"
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Mufradat (Vocabulary) -->
+                ${surah.mufradat ? `
+                <div class="bg-gradient-to-br from-purple-50 to-indigo-50 p-8 rounded-3xl border-3 border-purple-200 shadow-xl mb-8">
+                    <h4 class="text-2xl font-bold text-purple-800 mb-6 text-center">
+                        <i class="fas fa-book mr-2"></i>
+                        المفردات - Kosakata
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        ${surah.mufradat.map(vocab => `
+                            <div class="bg-white p-4 rounded-xl shadow-lg border border-purple-200">
+                                <div class="text-2xl arabic-text text-purple-800 font-bold mb-2 text-center">${vocab.arabic}</div>
+                                <div class="text-center">
+                                    <div class="text-purple-600 font-semibold">${vocab.meaning}</div>
+                                    ${vocab.type ? `<div class="text-xs text-gray-500 mt-1">(${vocab.type})</div>` : ''}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                ` : ''}
+
+                <!-- Audio Instructions -->
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-2xl border-2 border-blue-200 mb-8 text-center">
+                    <div class="text-blue-600 text-2xl mb-2">
+                        <i class="fas fa-hand-pointer"></i>
+                    </div>
+                    <p class="text-blue-800 font-semibold text-lg">
+                        💡 <strong>Tip:</strong> Tap ayatnya untuk mendengarkan audionya
+                    </p>
+                    <p class="text-blue-600 text-sm mt-1">اضغط على الآية لسماع الصوت</p>
+                </div>
+
+                <!-- Verses -->
+                <div class="space-y-6">
+                    ${surah.content.map((verse, index) => `
+                        <div class="verse-highlight p-6 rounded-2xl border border-gray-200 shadow-lg">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex-1">
+                                    <div class="flex items-start gap-4 mb-4">
+                                        <span class="bg-gradient-to-r from-blue-500 to-purple-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0 mt-2">
+                                            ${index + 1}
+                                        </span>
+                                        <div onclick="playVerseAudio('${verse.audioUrl}', ${index + 1})" class="text-3xl arabic-large text-gray-800 leading-loose text-right p-4 bg-gray-50 rounded-xl cursor-pointer hover:bg-blue-50 transition-colors border-2 border-transparent hover:border-blue-300 flex-1" id="verse_${index}" title="Klik untuk mendengarkan ayat ${index + 1}">
+                                            ${verse.arabic}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-blue-50 p-4 rounded-xl mb-3">
+                                        <p class="text-lg text-blue-800 font-semibold mb-2 indo-text">
+                                            <i class="fas fa-font mr-2"></i>
+                                            Bacaan Latin:
+                                        </p>
+                                        <p class="text-blue-700 italic latin-text">${verse.latin}</p>
+                                    </div>
+                                    
+                                    <div class="bg-green-50 p-4 rounded-xl mb-3">
+                                        <p class="text-lg text-green-800 font-semibold mb-2 indo-text">
+                                            <i class="fas fa-language mr-2"></i>
+                                            Terjemahan:
+                                        </p>
+                                        <p class="text-green-700 indo-text">${verse.translation}</p>
+                                    </div>
+                                    
+                                    <div class="bg-yellow-50 p-4 rounded-xl">
+                                        <p class="text-lg text-yellow-800 font-semibold mb-2 indo-text">
+                                            <i class="fas fa-lightbulb mr-2"></i>
+                                            Penjelasan:
+                                        </p>
+                                        <p class="text-yellow-700 indo-text">${verse.explanation}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <!-- Lessons Learned -->
+                <div class="mt-8 bg-gradient-to-r from-indigo-50 to-purple-50 p-6 rounded-2xl border-2 border-indigo-200">
+                    <h4 class="text-2xl font-bold text-indigo-800 mb-4">
+                        <i class="fas fa-graduation-cap mr-2"></i>
+                        Pelajaran yang Dapat Diambil
+                    </h4>
+                    <ul class="text-indigo-700 space-y-2">
+                        ${surah.lessons.map(lesson => `
+                            <li><i class="fas fa-check-circle mr-2 text-green-500"></i>${lesson}</li>
+                        `).join('')}
+                    </ul>
+                </div>
+
+                <!-- Study Tips -->
+                <div class="mt-8 bg-gradient-to-r from-yellow-50 to-orange-50 p-6 rounded-2xl border-2 border-yellow-200">
+                    <h4 class="text-xl font-bold text-orange-800 mb-4">
+                        <i class="fas fa-lightbulb mr-2"></i>
+                        Tips Belajar
+                    </h4>
+                    <ul class="text-orange-700 space-y-2">
+                        <li><i class="fas fa-star mr-2 text-yellow-500"></i>Dengarkan audio berulang-ulang</li>
+                        <li><i class="fas fa-star mr-2 text-yellow-500"></i>Hafalkan per ayat secara bertahap</li>
+                        <li><i class="fas fa-star mr-2 text-yellow-500"></i>Pahami arti setiap ayat</li>
+                        <li><i class="fas fa-star mr-2 text-yellow-500"></i>Praktikkan dalam shalat</li>
+                        <li><i class="fas fa-star mr-2 text-yellow-500"></i>Renungkan makna dan pelajarannya</li>
+                    </ul>
                 </div>
             `;
         }
 
-        function loadGameContent(topic, container) {
+        function loadHadisMateri(hadisKey, container) {
+            const hadis = materiData[hadisKey];
+            if (!hadis) return;
+
             container.innerHTML = `
-                <div class="text-center">
+                <div class="text-center mb-8">
+                    <h3 class="text-4xl font-bold text-gray-800 mb-4 arabic-text">${hadis.title}</h3>
+                    <p class="text-2xl text-gray-600 font-semibold mb-6">${hadis.titleIndo}</p>
+                </div>
+
+                <!-- Template Notice -->
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-8">
+                    <div class="flex items-center">
+                        <i class="fas fa-info-circle text-yellow-600 text-2xl mr-3"></i>
+                        <div>
+                            <h4 class="text-lg font-semibold text-yellow-800 mb-2">Template Materi Hadis</h4>
+                            <p class="text-yellow-700">Silakan lengkapi teks hadis, terjemahan, dan penjelasan sesuai kebutuhan pembelajaran.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hadis Text Template -->
+                <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-8 rounded-3xl border-3 border-green-200 shadow-xl mb-8">
+                    <div class="text-center mb-6">
+                        <h4 class="text-2xl font-bold text-green-800 mb-4 arabic-text">نص الحديث</h4>
+                        <button onclick="playHadisAudio('${hadis.audioUrl}')" class="audio-player" id="hadisAudioBtn">
+                            <i class="fas fa-volume-up mr-2"></i>
+                            استمع للحديث
+                        </button>
+                    </div>
+                    
+                    <div class="text-3xl arabic-large text-gray-800 mb-6 leading-loose text-center p-6 bg-white rounded-2xl shadow-inner">
+                        ${hadis.hadis}
+                    </div>
+                    
+                    <div class="bg-blue-50 p-6 rounded-2xl mb-4">
+                        <p class="text-lg text-blue-800 font-semibold mb-3 indo-text">
+                            <i class="fas fa-font mr-2"></i>
+                            Bacaan Latin:
+                        </p>
+                        <p class="text-blue-700 italic text-lg leading-relaxed latin-text">${hadis.latin}</p>
+                    </div>
+                    
+                    <div class="bg-purple-50 p-6 rounded-2xl mb-4">
+                        <p class="text-lg text-purple-800 font-semibold mb-3 indo-text">
+                            <i class="fas fa-language mr-2"></i>
+                            Terjemahan:
+                        </p>
+                        <p class="text-purple-700 text-lg leading-relaxed indo-text">${hadis.translation}</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-lg text-gray-600 arabic-text">${hadis.rawi}</p>
+                        <p class="text-gray-500">${hadis.rawiIndo}</p>
+                    </div>
+                </div>
+
+                <!-- Explanation Template -->
+                <div class="bg-gradient-to-r from-yellow-50 to-orange-50 p-8 rounded-2xl border-2 border-yellow-200 mb-8">
+                    <h4 class="text-2xl font-bold text-orange-800 mb-4">
+                        <i class="fas fa-book-open mr-2"></i>
+                        شرح الحديث
+                    </h4>
+                    <p class="text-orange-700 text-lg leading-relaxed mb-4">${hadis.explanation}</p>
+                    <ul class="text-orange-700 space-y-2">
+                        ${hadis.lessons.map(lesson => `
+                            <li><i class="fas fa-check-circle mr-2 text-green-500"></i>${lesson}</li>
+                        `).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
+        function loadTajweedMateri(container) {
+            const data = materiData.tajweed;
+            
+            container.innerHTML = `
+                <div class="text-center mb-8">
+                    <h3 class="text-4xl font-bold text-gray-800 mb-4 arabic-text">${data.title}</h3>
+                    <p class="text-2xl text-gray-600 font-semibold mb-6">${data.titleIndo}</p>
+                </div>
+
+                <!-- Izhar Section -->
+                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-3xl border-3 border-blue-200 shadow-xl mb-8">
+                    <h4 class="text-3xl font-bold text-blue-800 mb-6 arabic-text text-center">
+                        <i class="fas fa-eye mr-3"></i>
+                        الإظهار
+                    </h4>
+                    
+                    <div class="bg-white p-6 rounded-2xl mb-6 shadow-inner">
+                        <h5 class="text-xl font-bold text-gray-700 mb-3">التعريف:</h5>
+                        <p class="text-lg arabic-text text-gray-800 mb-3 leading-relaxed">${data.izhar.definition}</p>
+                        <p class="text-lg text-gray-700 leading-relaxed">${data.izhar.definitionIndo}</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-blue-100 to-indigo-100 p-6 rounded-2xl mb-6">
+                        <h5 class="text-xl font-bold text-blue-800 mb-4">حروف الإظهار (6 أحرف):</h5>
+                        <div class="grid grid-cols-3 md:grid-cols-6 gap-4 mb-4">
+                            ${data.izhar.huruf.map((huruf, index) => `
+                                <div class="bg-white p-4 rounded-xl text-center shadow-lg">
+                                    <div class="text-3xl arabic-text text-blue-600 font-bold mb-2">${huruf}</div>
+                                    <div class="text-sm text-gray-600">${data.izhar.hurufNames[index]}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-2xl">
+                        <h5 class="text-xl font-bold text-gray-700 mb-4">أمثلة الإظهار:</h5>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            ${data.izhar.contoh.map(contoh => `
+                                <div class="bg-blue-50 p-4 rounded-xl border border-blue-200">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="text-2xl arabic-text text-blue-800 font-bold">${contoh.arabic}</div>
+                                        <button onclick="playTajweedAudio('${contoh.audioUrl}')" class="audio-player text-xs">
+                                            <i class="fas fa-play mr-1"></i>
+                                            Dengar
+                                        </button>
+                                    </div>
+                                    <div class="text-sm text-gray-600">${contoh.keterangan}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ikhfa Section -->
+                <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-8 rounded-3xl border-3 border-green-200 shadow-xl mb-8">
+                    <h4 class="text-3xl font-bold text-green-800 mb-6 arabic-text text-center">
+                        <i class="fas fa-eye-slash mr-3"></i>
+                        الإخفاء
+                    </h4>
+                    
+                    <div class="bg-white p-6 rounded-2xl mb-6 shadow-inner">
+                        <h5 class="text-xl font-bold text-gray-700 mb-3">التعريف:</h5>
+                        <p class="text-lg arabic-text text-gray-800 mb-3 leading-relaxed">${data.ikhfa.definition}</p>
+                        <p class="text-lg text-gray-700 leading-relaxed">${data.ikhfa.definitionIndo}</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-green-100 to-emerald-100 p-6 rounded-2xl mb-6">
+                        <h5 class="text-xl font-bold text-green-800 mb-4">حروف الإخفاء (${data.ikhfa.hurufCount}):</h5>
+                        <div class="grid grid-cols-5 md:grid-cols-10 gap-3 mb-4">
+                            ${data.ikhfa.huruf.map(huruf => `
+                                <div class="bg-white p-3 rounded-xl text-center shadow-lg">
+                                    <div class="text-2xl arabic-text text-green-600 font-bold">${huruf}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-2xl">
+                        <h5 class="text-xl font-bold text-gray-700 mb-4">أمثلة الإخفاء:</h5>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            ${data.ikhfa.contoh.map(contoh => `
+                                <div class="bg-green-50 p-4 rounded-xl border border-green-200">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="text-2xl arabic-text text-green-800 font-bold">${contoh.arabic}</div>
+                                        <button onclick="playTajweedAudio('${contoh.audioUrl}')" class="audio-player text-xs">
+                                            <i class="fas fa-play mr-1"></i>
+                                            Dengar
+                                        </button>
+                                    </div>
+                                    <div class="text-sm text-gray-600">${contoh.keterangan}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-8 rounded-2xl border-2 border-purple-200 mb-8">
+                    <h4 class="text-2xl font-bold text-purple-800 mb-4">
+                        <i class="fas fa-lightbulb mr-2"></i>
+                        ملخص الدرس
+                    </h4>
+                    <ul class="text-purple-700 space-y-3 text-lg">
+                        ${data.lessons.map(lesson => `
+                            <li><i class="fas fa-check-circle mr-2 text-green-500"></i>${lesson}</li>
+                        `).join('')}
+                    </ul>
+                </div>
+
+                <!-- Practice Tips -->
+                <div class="bg-gradient-to-r from-yellow-50 to-orange-50 p-6 rounded-2xl border-2 border-yellow-200">
+                    <h4 class="text-xl font-bold text-orange-800 mb-4">
+                        <i class="fas fa-graduation-cap mr-2"></i>
+                        نصائح للتطبيق
+                    </h4>
+                    <ul class="text-orange-700 space-y-2">
+                        <li><i class="fas fa-star mr-2 text-yellow-500"></i>Dengarkan contoh audio dengan seksama</li>
+                        <li><i class="fas fa-star mr-2 text-yellow-500"></i>Latihan membaca dengan guru yang kompeten</li>
+                        <li><i class="fas fa-star mr-2 text-yellow-500"></i>Hafalkan huruf-huruf izhar dan ikhfa'</li>
+                        <li><i class="fas fa-star mr-2 text-yellow-500"></i>Praktikkan saat membaca Al-Qur'an</li>
+                        <li><i class="fas fa-star mr-2 text-yellow-500"></i>Bersabar dalam belajar tajwid</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        // Game functions
+        function loadGameContent(topic, container) {
+            const hasGameData = gameData[topic];
+            
+            if (!hasGameData) {
+                container.innerHTML = `
+                    <div class="text-center py-16">
+                        <div class="text-6xl text-gray-400 mb-4">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-600 mb-4">Game Sedang Dikembangkan</h3>
+                        <p class="text-gray-500 mb-6">Game untuk topik ini sedang dalam tahap pengembangan.</p>
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-md mx-auto">
+                            <p class="text-blue-800 text-sm">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                Anda dapat menambahkan game memory, quiz, dan matching sesuai materi pembelajaran.
+                            </p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="text-center mb-8">
                     <h3 class="text-3xl font-bold text-gray-800 mb-4">
                         <i class="fas fa-gamepad mr-3 text-purple-600"></i>
-                        Game Edukasi
+                        الألعاب التعليمية
                     </h3>
-                    <p class="text-xl text-gray-600 mb-8">Game untuk topik: ${topic}</p>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-2xl border-2 border-purple-200">
-                            <h4 class="text-xl font-bold text-purple-800 mb-3">
-                                <i class="fas fa-brain mr-2"></i>
-                                Memory Game
-                            </h4>
-                            <p class="text-purple-700 mb-4">Cocokkan pasangan kata Arab dengan terjemahannya</p>
-                            <button onclick="startGame('memory')" class="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors">
-                                Mulai Game
-                            </button>
+                    <p class="text-xl text-gray-600">اختر اللعبة التي تريد أن تلعبها</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                    <!-- Memory Game -->
+                    <div class="game-card text-white p-8 rounded-2xl shadow-xl cursor-pointer transform hover:scale-105 transition-all" onclick="startMemoryGame('${topic}')">
+                        <div class="text-center">
+                            <div class="text-5xl mb-4">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h4 class="text-2xl font-bold mb-3">لعبة الذاكرة</h4>
+                            <p class="text-lg opacity-90">اعثر على الأزواج المتطابقة</p>
+                            <div class="mt-4">
+                                <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
+                                    <i class="fas fa-star mr-1"></i>10-50 نقطة
+                                </span>
+                            </div>
                         </div>
-                        
-                        <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-2xl border-2 border-green-200">
-                            <h4 class="text-xl font-bold text-green-800 mb-3">
-                                <i class="fas fa-question-circle mr-2"></i>
-                                Quiz Game
-                            </h4>
-                            <p class="text-green-700 mb-4">Jawab pertanyaan dengan cepat dan tepat</p>
-                            <button onclick="startGame('quiz')" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors">
-                                Mulai Quiz
-                            </button>
+                    </div>
+
+                    <!-- Quiz Game -->
+                    <div class="bg-gradient-to-br from-green-500 to-emerald-600 text-white p-8 rounded-2xl shadow-xl cursor-pointer transform hover:scale-105 transition-all" onclick="startQuizGame('${topic}')">
+                        <div class="text-center">
+                            <div class="text-5xl mb-4">
+                                <i class="fas fa-question-circle"></i>
+                            </div>
+                            <h4 class="text-2xl font-bold mb-3">لعبة الأسئلة</h4>
+                            <p class="text-lg opacity-90">أجب على الأسئلة بسرعة</p>
+                            <div class="mt-4">
+                                <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
+                                    <i class="fas fa-trophy mr-1"></i>10-15 نقطة
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Matching Game -->
+                    <div class="bg-gradient-to-br from-orange-500 to-red-600 text-white p-8 rounded-2xl shadow-xl cursor-pointer transform hover:scale-105 transition-all" onclick="startMatchingGame('${topic}')">
+                        <div class="text-center">
+                            <div class="text-5xl mb-4">
+                                <i class="fas fa-link"></i>
+                            </div>
+                            <h4 class="text-2xl font-bold mb-3">لعبة المطابقة</h4>
+                            <p class="text-lg opacity-90">اربط النص بالمعنى</p>
+                            <div class="mt-4">
+                                <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
+                                    <i class="fas fa-puzzle-piece mr-1"></i>5-20 نقطة
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -576,94 +1589,488 @@
         }
 
         function loadEvaluasiContent(topic, container) {
-            container.innerHTML = `
-                <div class="text-center">
-                    <h3 class="text-3xl font-bold text-gray-800 mb-4">
-                        <i class="fas fa-clipboard-check mr-3 text-green-600"></i>
-                        Evaluasi
-                    </h3>
-                    <p class="text-xl text-gray-600 mb-8">Evaluasi untuk topik: ${topic}</p>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-8 rounded-2xl border-3 border-green-200">
-                            <div class="text-5xl mb-4 text-green-600">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                            <h4 class="text-2xl font-bold text-green-800 mb-3">Quiz Cepat</h4>
-                            <p class="text-gray-600 mb-4">5 pertanyaan dalam 3 menit</p>
-                            <button onclick="startEvaluation('quick')" class="bg-green-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-green-700 transition-colors">
-                                Mulai Quiz Cepat
-                            </button>
+            const hasEvaluationData = evaluationData[topic];
+            
+            if (!hasEvaluationData) {
+                container.innerHTML = `
+                    <div class="text-center py-16">
+                        <div class="text-6xl text-gray-400 mb-4">
+                            <i class="fas fa-clipboard-check"></i>
                         </div>
-
-                        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-2xl border-3 border-blue-200">
-                            <div class="text-5xl mb-4 text-blue-600">
-                                <i class="fas fa-graduation-cap"></i>
-                            </div>
-                            <h4 class="text-2xl font-bold text-blue-800 mb-3">Evaluasi Lengkap</h4>
-                            <p class="text-gray-600 mb-4">15 pertanyaan dalam 10 menit</p>
-                            <button onclick="startEvaluation('comprehensive')" class="bg-blue-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-blue-700 transition-colors">
-                                Mulai Evaluasi
-                            </button>
+                        <h3 class="text-2xl font-bold text-gray-600 mb-4">Evaluasi Sedang Dikembangkan</h3>
+                        <p class="text-gray-500 mb-6">Soal evaluasi untuk topik ini sedang dalam tahap pengembangan.</p>
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-4 max-w-md mx-auto">
+                            <p class="text-green-800 text-sm">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                Anda dapat menambahkan soal-soal evaluasi sesuai materi pembelajaran.
+                            </p>
                         </div>
                     </div>
-                </div>
-            `;
-        }
+                `;
+                return;
+            }
 
-        // Game functions
-        function startGame(gameType) {
-            Swal.fire({
-                title: 'Game ' + gameType,
-                text: 'Template game sudah siap! Silakan isi data game di dalam kode JavaScript.',
-                icon: 'info',
-                confirmButtonText: 'OK'
-            });
-        }
-
-        // Evaluation functions
-        function startEvaluation(type) {
-            Swal.fire({
-                title: 'Evaluasi ' + type,
-                text: 'Template evaluasi sudah siap! Silakan isi soal-soal di dalam kode JavaScript.',
-                icon: 'info',
-                confirmButtonText: 'OK'
-            });
+            startEvaluation(topic, container);
         }
 
         // Audio functions
+        function playVerseAudio(audioUrl, verseNumber) {
+            // Simulate audio playback
+            const verseElement = document.getElementById(`verse_${verseNumber - 1}`);
+            if (verseElement) {
+                // Add visual feedback
+                verseElement.classList.add('bg-blue-100', 'border-blue-400');
+                verseElement.style.transform = 'scale(1.02)';
+                
+                // Show audio placeholder message
+                Swal.fire({
+                    title: '🎵 Audio Player',
+                    text: `Audio untuk ayat ${verseNumber} akan diputar di sini. Silakan tambahkan file audio yang sesuai.`,
+                    icon: 'info',
+                    timer: 3000,
+                    showConfirmButton: false,
+                    toast: true,
+                    position: 'top-end'
+                });
+                
+                setTimeout(() => {
+                    verseElement.classList.remove('bg-blue-100', 'border-blue-400');
+                    verseElement.style.transform = 'scale(1)';
+                }, 3000);
+            }
+        }
+
+        function playTajweedAudio(audioUrl) {
+            // Simulate audio playback for tajweed examples
+            Swal.fire({
+                title: 'Audio Tajwid',
+                text: 'Audio contoh tajwid akan diputar di sini. Silakan tambahkan file audio yang sesuai.',
+                icon: 'info',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        }
+
+        function playHadisAudio(audioUrl) {
+            // Simulate audio playback for hadis
+            Swal.fire({
+                title: 'Audio Hadis',
+                text: 'Audio hadis akan diputar di sini. Silakan tambahkan file audio yang sesuai.',
+                icon: 'info',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        }
+
+        function playFullSurahAudio(audioUrl, surahName) {
+            const btn = document.getElementById('fullSurahBtn');
+            
+            // Stop current audio if playing
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+                isPlaying = false;
+            }
+            
+            if (btn) {
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-3"></i>Memuat Audio...';
+                btn.disabled = true;
+                
+                // Create new audio element
+                currentAudio = new Audio(audioUrl);
+                
+                currentAudio.addEventListener('loadstart', function() {
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-3"></i>Memuat Audio...';
+                });
+                
+                currentAudio.addEventListener('canplay', function() {
+                    btn.innerHTML = '<i class="fas fa-pause mr-3"></i>Sedang Diputar...';
+                    btn.disabled = false;
+                    isPlaying = true;
+                });
+                
+                currentAudio.addEventListener('play', function() {
+                    btn.innerHTML = '<i class="fas fa-pause mr-3"></i>Sedang Diputar...';
+                    btn.onclick = function() { pauseFullSurahAudio(); };
+                });
+                
+                currentAudio.addEventListener('pause', function() {
+                    btn.innerHTML = '<i class="fas fa-play mr-3"></i>Lanjutkan Audio';
+                    btn.onclick = function() { resumeFullSurahAudio(); };
+                    isPlaying = false;
+                });
+                
+                currentAudio.addEventListener('ended', function() {
+                    btn.innerHTML = '<i class="fas fa-play mr-3"></i>Dengarkan Surah Lengkap';
+                    btn.onclick = function() { playFullSurahAudio(audioUrl, surahName); };
+                    isPlaying = false;
+                    currentAudio = null;
+                    
+                    // Show completion message
+                    Swal.fire({
+                        title: 'Audio Selesai',
+                        text: `Murotal ${surahName} telah selesai diputar`,
+                        icon: 'success',
+                        timer: 3000,
+                        showConfirmButton: false
+                    });
+                    
+                    // Add points for listening
+                    addPoints(20);
+                });
+                
+                currentAudio.addEventListener('error', function(e) {
+                    btn.innerHTML = '<i class="fas fa-exclamation-triangle mr-3"></i>Error Audio';
+                    btn.disabled = false;
+                    
+                    Swal.fire({
+                        title: 'Error Audio',
+                        text: 'Tidak dapat memuat audio. Periksa koneksi internet Anda.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                });
+                
+                // Start playing
+                currentAudio.play().catch(function(error) {
+                    console.error('Error playing audio:', error);
+                    btn.innerHTML = '<i class="fas fa-play mr-3"></i>Dengarkan Surah Lengkap';
+                    btn.disabled = false;
+                    
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Tidak dapat memutar audio. Silakan coba lagi.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                });
+            }
+        }
+
+        function pauseFullSurahAudio() {
+            if (currentAudio && isPlaying) {
+                currentAudio.pause();
+            }
+        }
+
+        function resumeFullSurahAudio() {
+            if (currentAudio && !isPlaying) {
+                currentAudio.play();
+            }
+        }
+
         function stopAudio() {
             if (currentAudio) {
-                if (currentAudio instanceof Audio) {
-                    currentAudio.pause();
-                    currentAudio.currentTime = 0;
-                } else if (typeof currentAudio === 'object') {
-                    speechSynthesis.cancel();
-                }
+                currentAudio.pause();
                 currentAudio = null;
                 isPlaying = false;
             }
         }
 
-        // Student data functions
-        function clearStudentData() {
+        // Game implementations
+        function startMemoryGame(topic) {
+            const data = gameData[topic];
+            if (!data || !data.memory) {
+                Swal.fire('Info', 'Game memory untuk topik ini belum tersedia', 'info');
+                return;
+            }
+            
             Swal.fire({
-                title: 'Hapus Data?',
-                text: 'Semua progress akan dihapus!',
-                icon: 'warning',
+                title: 'Memory Game',
+                text: 'Game memory akan dimulai. Temukan pasangan yang cocok!',
+                icon: 'success',
+                timer: 2000,
+                showConfirmButton: false
+            });
+            
+            // Add points for starting game
+            addPoints(5);
+        }
+
+        function startQuizGame(topic) {
+            const data = gameData[topic];
+            if (!data || !data.quiz) {
+                Swal.fire('Info', 'Game quiz untuk topik ini belum tersedia', 'info');
+                return;
+            }
+            
+            Swal.fire({
+                title: 'Quiz Game',
+                text: 'Game quiz akan dimulai. Jawab pertanyaan dengan benar!',
+                icon: 'success',
+                timer: 2000,
+                showConfirmButton: false
+            });
+            
+            // Add points for starting game
+            addPoints(5);
+        }
+
+        function startMatchingGame(topic) {
+            Swal.fire({
+                title: 'Matching Game',
+                text: 'Game mencocokkan akan dimulai. Hubungkan kata dengan artinya!',
+                icon: 'success',
+                timer: 2000,
+                showConfirmButton: false
+            });
+            
+            // Add points for starting game
+            addPoints(5);
+        }
+
+        function startEvaluation(topic, container) {
+            const questions = evaluationData[topic];
+            if (!questions) return;
+            
+            let currentQuestion = 0;
+            let score = 0;
+            let answers = [];
+            
+            function showQuestion() {
+                const q = questions[currentQuestion];
+                container.innerHTML = `
+                    <div class="max-w-4xl mx-auto">
+                        <div class="flex items-center justify-between mb-8">
+                            <div class="text-lg font-semibold text-gray-600">
+                                Soal ${currentQuestion + 1} dari ${questions.length}
+                            </div>
+                            <div class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full font-semibold">
+                                Skor: ${score}
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-2xl border-2 border-blue-200 mb-8">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-6">${q.question}</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                ${q.options.map((option, index) => `
+                                    <button onclick="selectAnswer(${index})" class="quiz-option text-left">
+                                        <span class="font-bold mr-3">${String.fromCharCode(65 + index)}.</span>
+                                        ${option}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                        
+                        <div class="text-center">
+                            <div class="bg-gray-200 rounded-full h-2 mb-4">
+                                <div class="progress-bar" style="width: ${((currentQuestion + 1) / questions.length) * 100}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            window.selectAnswer = function(selectedIndex) {
+                const q = questions[currentQuestion];
+                const isCorrect = selectedIndex === q.correct;
+                
+                if (isCorrect) {
+                    score += 10;
+                    addPoints(10);
+                }
+                
+                answers.push({
+                    question: currentQuestion,
+                    selected: selectedIndex,
+                    correct: isCorrect
+                });
+                
+                // Show feedback
+                const options = document.querySelectorAll('.quiz-option');
+                options[selectedIndex].classList.add(isCorrect ? 'correct' : 'incorrect');
+                options[q.correct].classList.add('correct');
+                
+                setTimeout(() => {
+                    currentQuestion++;
+                    if (currentQuestion < questions.length) {
+                        showQuestion();
+                    } else {
+                        showResults();
+                    }
+                }, 2000);
+            };
+            
+            function showResults() {
+                const percentage = Math.round((score / (questions.length * 10)) * 100);
+                let grade = 'D';
+                if (percentage >= 90) grade = 'A';
+                else if (percentage >= 80) grade = 'B';
+                else if (percentage >= 70) grade = 'C';
+                
+                container.innerHTML = `
+                    <div class="max-w-2xl mx-auto text-center">
+                        <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-8 rounded-3xl border-2 border-green-200 mb-8">
+                            <div class="text-6xl text-green-600 mb-4">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <h3 class="text-3xl font-bold text-green-800 mb-4">Evaluasi Selesai!</h3>
+                            <div class="text-6xl font-bold text-green-600 mb-2">${percentage}%</div>
+                            <div class="text-2xl font-bold text-green-700 mb-4">Nilai: ${grade}</div>
+                            <div class="text-lg text-green-600">
+                                Skor: ${score} dari ${questions.length * 10}
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4 mb-8">
+                            <h4 class="text-xl font-bold text-gray-800">Ringkasan Jawaban:</h4>
+                            ${answers.map((answer, index) => `
+                                <div class="flex items-center justify-between p-4 rounded-lg ${answer.correct ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}">
+                                    <span class="font-semibold">Soal ${index + 1}</span>
+                                    <span class="${answer.correct ? 'text-green-600' : 'text-red-600'}">
+                                        <i class="fas fa-${answer.correct ? 'check' : 'times'} mr-2"></i>
+                                        ${answer.correct ? 'Benar' : 'Salah'}
+                                    </span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="flex justify-center space-x-4">
+                            <button onclick="sendResultToTeacher('${topic}', ${score}, ${questions.length * 10}, '${percentage}%', '${grade}')" class="bg-green-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-green-700 transition-colors">
+                                <i class="fab fa-whatsapp mr-2"></i>
+                                Kirim ke Guru
+                            </button>
+                            <button onclick="showSubMenu('${topic}')" class="bg-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-blue-700 transition-colors">
+                                <i class="fas fa-arrow-left mr-2"></i>
+                                Kembali ke Menu
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            showQuestion();
+        }
+
+        // Points and progress system
+        function addPoints(points) {
+            totalPoints += points;
+            localStorage.setItem('totalPoints', totalPoints.toString());
+            updatePointsDisplay();
+            updateStarsDisplay();
+            
+            // Show points animation
+            Swal.fire({
+                title: `+${points} Poin!`,
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false,
+                toast: true,
+                position: 'top-end'
+            });
+        }
+
+        function updatePointsDisplay() {
+            document.getElementById('totalPoints').textContent = totalPoints;
+            const mobilePointsEl = document.getElementById('totalPointsMobile');
+            if (mobilePointsEl) mobilePointsEl.textContent = totalPoints;
+        }
+
+        function updateStarsDisplay() {
+            const starsContainer = document.getElementById('stars');
+            const mobileStarsContainer = document.getElementById('starsMobile');
+            const newStars = Math.floor(totalPoints / 100);
+            
+            // Desktop stars
+            if (starsContainer) {
+                starsContainer.innerHTML = '';
+                for (let i = 0; i < Math.min(newStars, 5); i++) {
+                    const star = document.createElement('div');
+                    star.className = 'text-yellow-400 text-xl';
+                    star.innerHTML = '<i class="fas fa-star"></i>';
+                    starsContainer.appendChild(star);
+                }
+            }
+            
+            // Mobile stars
+            if (mobileStarsContainer) {
+                mobileStarsContainer.innerHTML = '';
+                for (let i = 0; i < Math.min(newStars, 5); i++) {
+                    const star = document.createElement('div');
+                    star.className = 'text-yellow-400 text-sm';
+                    star.innerHTML = '<i class="fas fa-star"></i>';
+                    mobileStarsContainer.appendChild(star);
+                }
+            }
+            
+            if (newStars > stars) {
+                Swal.fire({
+                    title: 'Bintang Baru!',
+                    text: `Selamat! Kamu mendapat bintang ke-${newStars}!`,
+                    icon: 'success',
+                    timer: 3000
+                });
+            }
+            
+            stars = newStars;
+        }
+
+        // Student data management
+        function loadStudentData() {
+            const savedName = localStorage.getItem('studentName');
+            const savedClass = localStorage.getItem('studentClass');
+            const savedPhoto = localStorage.getItem('studentPhoto');
+            
+            if (savedName) {
+                document.getElementById('studentName').textContent = savedName;
+                const mobileNameEl = document.getElementById('studentNameMobile');
+                if (mobileNameEl) mobileNameEl.textContent = savedName;
+            }
+            
+            if (savedClass) {
+                document.getElementById('studentClass').textContent = savedClass;
+                const mobileClassEl = document.getElementById('studentClassMobile');
+                if (mobileClassEl) mobileClassEl.textContent = savedClass;
+            }
+            
+            if (savedPhoto) {
+                // Desktop photo
+                const photoImg = document.getElementById('studentPhoto');
+                const defaultAvatar = document.getElementById('defaultAvatar');
+                if (photoImg && defaultAvatar) {
+                    photoImg.src = savedPhoto;
+                    photoImg.classList.remove('hidden');
+                    defaultAvatar.style.display = 'none';
+                }
+                
+                // Mobile photo
+                const mobilePhotoImg = document.getElementById('studentPhotoMobile');
+                const mobileDefaultAvatar = document.getElementById('defaultAvatarMobile');
+                if (mobilePhotoImg && mobileDefaultAvatar) {
+                    mobilePhotoImg.src = savedPhoto;
+                    mobilePhotoImg.classList.remove('hidden');
+                    mobileDefaultAvatar.style.display = 'none';
+                }
+            }
+        }
+
+        function editStudentName() {
+            const currentName = document.getElementById('studentName').textContent;
+            
+            Swal.fire({
+                title: 'Edit Nama Siswa',
+                input: 'text',
+                inputValue: currentName,
+                inputPlaceholder: 'Masukkan nama lengkap siswa',
                 showCancelButton: true,
-                confirmButtonText: 'Ya, Hapus',
-                cancelButtonText: 'Batal'
+                confirmButtonText: 'Simpan',
+                cancelButtonText: 'Batal',
+                inputValidator: (value) => {
+                    if (!value || value.trim().length < 2) {
+                        return 'Nama harus diisi minimal 2 karakter!';
+                    }
+                }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    totalPoints = 0;
-                    stars = 0;
-                    document.getElementById('totalPoints').textContent = '0';
-                    document.getElementById('stars').innerHTML = '';
+                    const newName = result.value.trim();
+                    document.getElementById('studentName').textContent = newName;
+                    const mobileNameEl = document.getElementById('studentNameMobile');
+                    if (mobileNameEl) mobileNameEl.textContent = newName;
+                    localStorage.setItem('studentName', newName);
                     
                     Swal.fire({
-                        title: 'Data Terhapus!',
-                        text: 'Semua progress telah direset.',
+                        title: 'Berhasil!',
+                        text: `Nama berhasil diubah menjadi "${newName}"`,
                         icon: 'success',
                         timer: 2000,
                         showConfirmButton: false
@@ -672,22 +2079,357 @@
             });
         }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize points display
-            document.getElementById('totalPoints').textContent = totalPoints;
+        function editStudentClass() {
+            const currentClass = document.getElementById('studentClass').textContent;
             
-            // Show welcome message
-            setTimeout(() => {
+            Swal.fire({
+                title: 'Edit Kelas Siswa',
+                input: 'select',
+                inputOptions: {
+                    'Kelas 1 MI': 'Kelas 1 MI',
+                    'Kelas 2 MI': 'Kelas 2 MI',
+                    'Kelas 3 MI': 'Kelas 3 MI',
+                    'Kelas 4 MI': 'Kelas 4 MI',
+                    'Kelas 5 MI': 'Kelas 5 MI',
+                    'Kelas 6 MI': 'Kelas 6 MI',
+                    'Kelas 1 SD': 'Kelas 1 SD',
+                    'Kelas 2 SD': 'Kelas 2 SD',
+                    'Kelas 3 SD': 'Kelas 3 SD',
+                    'Kelas 4 SD': 'Kelas 4 SD',
+                    'Kelas 5 SD': 'Kelas 5 SD',
+                    'Kelas 6 SD': 'Kelas 6 SD'
+                },
+                inputValue: currentClass,
+                showCancelButton: true,
+                confirmButtonText: 'Simpan',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const newClass = result.value;
+                    document.getElementById('studentClass').textContent = newClass;
+                    const mobileClassEl = document.getElementById('studentClassMobile');
+                    if (mobileClassEl) mobileClassEl.textContent = newClass;
+                    localStorage.setItem('studentClass', newClass);
+                    
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: `Kelas berhasil diubah menjadi "${newClass}"`,
+                        icon: 'success',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+
+        function changeStudentPhoto() {
+            Swal.fire({
+                title: 'Ganti Foto Siswa',
+                html: `
+                    <div class="text-left mb-4">
+                        <p class="text-gray-600 mb-3">Pilih cara mengganti foto:</p>
+                        <div class="space-y-3">
+                            <button onclick="uploadPhotoFromDevice()" class="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition-colors">
+                                <i class="fas fa-upload mr-2"></i>
+                                Upload dari Perangkat
+                            </button>
+                            <button onclick="takePhotoWithCamera()" class="w-full bg-green-500 text-white p-3 rounded-lg hover:bg-green-600 transition-colors">
+                                <i class="fas fa-camera mr-2"></i>
+                                Ambil Foto dengan Kamera
+                            </button>
+                            <button onclick="removeStudentPhoto()" class="w-full bg-red-500 text-white p-3 rounded-lg hover:bg-red-600 transition-colors">
+                                <i class="fas fa-trash mr-2"></i>
+                                Hapus Foto
+                            </button>
+                        </div>
+                    </div>
+                `,
+                showConfirmButton: false,
+                showCancelButton: true,
+                cancelButtonText: 'Tutup',
+                width: '400px'
+            });
+        }
+
+        function uploadPhotoFromDevice() {
+            // Create hidden file input
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.style.display = 'none';
+            
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    // Check file size (max 2MB)
+                    if (file.size > 2 * 1024 * 1024) {
+                        Swal.fire({
+                            title: 'File Terlalu Besar',
+                            text: 'Ukuran foto maksimal 2MB. Silakan pilih foto yang lebih kecil.',
+                            icon: 'error'
+                        });
+                        return;
+                    }
+                    
+                    // Check file type
+                    if (!file.type.startsWith('image/')) {
+                        Swal.fire({
+                            title: 'Format File Salah',
+                            text: 'Silakan pilih file gambar (JPG, PNG, GIF, dll.)',
+                            icon: 'error'
+                        });
+                        return;
+                    }
+                    
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const photoData = e.target.result;
+                        setStudentPhoto(photoData);
+                        
+                        Swal.fire({
+                            title: 'Berhasil!',
+                            text: 'Foto siswa berhasil diupload',
+                            icon: 'success',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            
+            document.body.appendChild(input);
+            input.click();
+            document.body.removeChild(input);
+            Swal.close();
+        }
+
+        function takePhotoWithCamera() {
+            // Check if camera is supported
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
                 Swal.fire({
-                    title: 'Selamat Datang!',
-                    text: 'Media Pembelajaran Al-Qur\'an Hadits Kelas 4 MI',
-                    icon: 'success',
-                    timer: 3000,
-                    showConfirmButton: false
+                    title: 'Kamera Tidak Didukung',
+                    text: 'Browser Anda tidak mendukung akses kamera. Silakan gunakan opsi upload foto.',
+                    icon: 'error'
                 });
-            }, 1000);
-        });
+                return;
+            }
+            
+            Swal.fire({
+                title: 'Ambil Foto',
+                html: `
+                    <div class="text-center">
+                        <video id="cameraVideo" width="300" height="225" autoplay class="rounded-lg mb-4 mx-auto"></video>
+                        <canvas id="cameraCanvas" width="300" height="225" style="display: none;"></canvas>
+                        <div class="space-x-3">
+                            <button onclick="capturePhoto()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                                <i class="fas fa-camera mr-2"></i>
+                                Ambil Foto
+                            </button>
+                            <button onclick="stopCamera()" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                                <i class="fas fa-times mr-2"></i>
+                                Batal
+                            </button>
+                        </div>
+                    </div>
+                `,
+                showConfirmButton: false,
+                showCancelButton: false,
+                allowOutsideClick: false,
+                width: '400px',
+                didOpen: () => {
+                    startCamera();
+                }
+            });
+        }
+
+        function startCamera() {
+            const video = document.getElementById('cameraVideo');
+            
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    video.srcObject = stream;
+                    window.currentCameraStream = stream;
+                })
+                .catch(function(error) {
+                    console.error('Error accessing camera:', error);
+                    Swal.fire({
+                        title: 'Error Kamera',
+                        text: 'Tidak dapat mengakses kamera. Pastikan Anda memberikan izin akses kamera.',
+                        icon: 'error'
+                    });
+                });
+        }
+
+        function capturePhoto() {
+            const video = document.getElementById('cameraVideo');
+            const canvas = document.getElementById('cameraCanvas');
+            const context = canvas.getContext('2d');
+            
+            // Draw video frame to canvas
+            context.drawImage(video, 0, 0, 300, 225);
+            
+            // Convert to data URL
+            const photoData = canvas.toDataURL('image/jpeg', 0.8);
+            
+            // Stop camera and close modal
+            stopCamera();
+            
+            // Set the photo
+            setStudentPhoto(photoData);
+            
+            Swal.fire({
+                title: 'Berhasil!',
+                text: 'Foto siswa berhasil diambil',
+                icon: 'success',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        }
+
+        function stopCamera() {
+            if (window.currentCameraStream) {
+                window.currentCameraStream.getTracks().forEach(track => track.stop());
+                window.currentCameraStream = null;
+            }
+            Swal.close();
+        }
+
+        function setStudentPhoto(photoData) {
+            // Desktop photo
+            const photoImg = document.getElementById('studentPhoto');
+            const defaultAvatar = document.getElementById('defaultAvatar');
+            if (photoImg && defaultAvatar) {
+                photoImg.src = photoData;
+                photoImg.classList.remove('hidden');
+                defaultAvatar.style.display = 'none';
+            }
+            
+            // Mobile photo
+            const mobilePhotoImg = document.getElementById('studentPhotoMobile');
+            const mobileDefaultAvatar = document.getElementById('defaultAvatarMobile');
+            if (mobilePhotoImg && mobileDefaultAvatar) {
+                mobilePhotoImg.src = photoData;
+                mobilePhotoImg.classList.remove('hidden');
+                mobileDefaultAvatar.style.display = 'none';
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('studentPhoto', photoData);
+        }
+
+        function removeStudentPhoto() {
+            Swal.fire({
+                title: 'Hapus Foto?',
+                text: 'Foto siswa akan dihapus dan kembali ke avatar default',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, Hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Desktop photo
+                    const photoImg = document.getElementById('studentPhoto');
+                    const defaultAvatar = document.getElementById('defaultAvatar');
+                    if (photoImg && defaultAvatar) {
+                        photoImg.src = '';
+                        photoImg.classList.add('hidden');
+                        defaultAvatar.style.display = 'flex';
+                    }
+                    
+                    // Mobile photo
+                    const mobilePhotoImg = document.getElementById('studentPhotoMobile');
+                    const mobileDefaultAvatar = document.getElementById('defaultAvatarMobile');
+                    if (mobilePhotoImg && mobileDefaultAvatar) {
+                        mobilePhotoImg.src = '';
+                        mobilePhotoImg.classList.add('hidden');
+                        mobileDefaultAvatar.style.display = 'flex';
+                    }
+                    
+                    // Remove from localStorage
+                    localStorage.removeItem('studentPhoto');
+                    
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: 'Foto siswa berhasil dihapus',
+                        icon: 'success',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+
+
+
+        function sendResultToTeacher(topic, score, maxScore, percentage, grade) {
+            const studentName = document.getElementById('studentName').textContent;
+            const studentClass = document.getElementById('studentClass').textContent;
+            const currentDate = new Date().toLocaleDateString('id-ID', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            const currentTime = new Date().toLocaleTimeString('id-ID');
+            
+            const topicNames = {
+                tajweed: 'Hukum Izhar dan Ikhfa\'',
+                alashr: 'Surah Al-Ashr',
+                quraisy: 'Surah Quraisy',
+                maun: 'Surah Al-Ma\'un',
+                takatsur: 'Surah At-Takatsur',
+                hadis_takwa: 'Hadis tentang Takwa',
+                hadis_niat: 'Hadis tentang Niat'
+            };
+            
+            const message = `*LAPORAN HASIL EVALUASI SISWA*
+📚 *Media Pembelajaran Al-Qur'an Hadits*
+
+👤 *Identitas Siswa:*
+• Nama: ${studentName}
+• Kelas: ${studentClass}
+📅 *Tanggal:* ${currentDate}
+🕐 *Waktu:* ${currentTime}
+
+📖 *Materi:* ${topicNames[topic] || topic}
+📊 *Hasil Evaluasi:*
+• Skor: ${score}/${maxScore}
+• Persentase: ${percentage}
+• Nilai: ${grade}
+⭐ *Total Poin Siswa:* ${totalPoints}
+
+${grade === 'A' ? '🎉 *Excellent!* Siswa menguasai materi dengan sangat baik!' :
+  grade === 'B' ? '👍 *Good!* Siswa menguasai materi dengan baik!' :
+  grade === 'C' ? '📚 *Fair!* Siswa perlu belajar lebih giat!' :
+  '⚠️ *Needs Improvement!* Siswa perlu bimbingan tambahan!'}
+
+_Dikirim otomatis dari Media Pembelajaran Interaktif Al-Qur'an Hadits_`;
+
+            const encodedMessage = encodeURIComponent(message);
+            const teacherWhatsApp = "6289619760801"; // Ganti dengan nomor WhatsApp guru yang sebenarnya
+            const whatsappUrl = `https://wa.me/${teacherWhatsApp}?text=${encodedMessage}`;
+            
+            Swal.fire({
+                title: 'Kirim Hasil ke Guru?',
+                text: 'Hasil evaluasi akan dikirim melalui WhatsApp',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, Kirim!',
+                cancelButtonText: 'Batal',
+                confirmButtonColor: '#25D366'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.open(whatsappUrl, '_blank');
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: 'WhatsApp telah dibuka. Silakan pilih kontak guru dan kirim pesan.',
+                        icon: 'success',
+                        timer: 3000
+                    });
+                }
+            });
+        }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9762176564eac189',t:'MTc1NjM2NjEwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'976384bfb2fcfd98',t:'MTc1NjM4MTA2Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
