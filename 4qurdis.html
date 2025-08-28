@@ -2991,7 +2991,7 @@
                             <div class="text-6xl font-bold text-green-600 mb-2">${percentage}%</div>
                             <div class="text-2xl font-bold text-green-700 mb-4">Nilai: ${grade}</div>
                             <div class="text-lg text-green-600">
-                                Skor: ${score} dari ${questions.length * 10}
+                                Skor: ${score} dari ${questions.length * 5}
                             </div>
                         </div>
                         
@@ -3009,7 +3009,7 @@
                         </div>
                         
                         <div class="flex justify-center space-x-4">
-                            <button onclick="sendResultToTeacher('${topic}', ${score}, ${questions.length * 10}, '${percentage}%', '${grade}')" class="bg-green-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-green-700 transition-colors">
+                            <button onclick="sendResultToTeacher('${topic}', ${score}, ${questions.length * 5}, '${percentage}%', '${grade}')" class="bg-green-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-green-700 transition-colors">
                                 <i class="fab fa-whatsapp mr-2"></i>
                                 Kirim ke Guru
                             </button>
