@@ -2992,7 +2992,7 @@
 }
            
 function showResults() {
-    // hitung total poin dari soal
+    // total poin semua soal
     const totalPoints = questions.reduce((sum, q) => sum + q.points, 0);
 
     // hitung persentase & grade
@@ -3001,7 +3001,12 @@ function showResults() {
     if (percentage >= 90) grade = 'A';
     else if (percentage >= 80) grade = 'B';
     else if (percentage >= 70) grade = 'C';
-    
+
+    // ambil identitas siswa langsung dari elemen DOM
+    const studentName = (document.getElementById('studentName') || {}).textContent || '';
+    const studentClass = (document.getElementById('studentClass') || {}).textContent || '';
+
+    // tampilkan hasil di layar
     container.innerHTML = `
         <div class="max-w-2xl mx-auto text-center">
             <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-8 rounded-3xl border-2 border-green-200 mb-8">
@@ -3030,11 +3035,13 @@ function showResults() {
             </div>
             
             <div class="flex justify-center space-x-4">
-                <button onclick="sendResultToTeacher('${topic}', ${score}, ${totalPoints}, '${percentage}%', '${grade}')" class="bg-green-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-green-700 transition-colors">
+                <button onclick="sendResultToTeacher('${topic}', ${score}, ${totalPoints}, '${percentage}%', '${grade}')" 
+                        class="bg-green-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-green-700 transition-colors">
                     <i class="fab fa-whatsapp mr-2"></i>
                     Kirim ke Guru
                 </button>
-                <button onclick="showSubMenu('${topic}')" class="bg-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-blue-700 transition-colors">
+                <button onclick="showSubMenu('${topic}')" 
+                        class="bg-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-blue-700 transition-colors">
                     <i class="fas fa-arrow-left mr-2"></i>
                     Kembali ke Menu
                 </button>
@@ -3042,7 +3049,7 @@ function showResults() {
         </div>
     `;
 
-    // 🔵 Tambahan: kirim ke Google Sheets juga
+    // daftar nama materi
     const materiNames = {
         tajweed: "Hukum Izhar dan Ikhfa'",
         alashr: "Surah Al-Ashr",
@@ -3053,16 +3060,17 @@ function showResults() {
         hadis_niat: "Hadis tentang Niat"
     };
 
+    // otomatis kirim hasil ke Google Sheet
     sendResultToSheet(
-        siswaNama,
-        siswaKelas,
+        studentName,
+        studentClass,
         topic,
         materiNames[topic],
         score,
         totalPoints
     );
 }
-            
+           
             showQuestion();
         }
 
