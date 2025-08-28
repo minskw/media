@@ -2972,14 +2972,16 @@ function prepareQuiz(quiz) {
                 `;
             }
             
-            window.selectAnswer = function(selectedIndex) {
-                const q = questions[currentQuestion];
-                const isCorrect = selectedIndex === q.correct;
-                
-                if (isCorrect) {
-                    score += 10;
-                    addPoints(10);
-                }
+window.selectAnswer = function(selectedIndex) {
+    const q = questions[currentQuestion];
+    const isCorrect = selectedIndex === q.correct;
+    
+    if (isCorrect) {
+        score += q.points;     // ✅ pakai nilai points dari soal
+        addPoints(q.points);   // ✅ pakai nilai points dari soal
+    }
+}
+
                 
                 answers.push({
                     question: currentQuestion,
