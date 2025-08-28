@@ -313,6 +313,15 @@
         .verse-audio-btn.paused {
             background: linear-gradient(135deg, #6b7280, #4b5563);
         }
+        
+        .verse-audio-btn.disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+        
+        .verse-audio-btn.disabled:hover {
+            transform: none;
+        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 min-h-screen">
@@ -413,7 +422,7 @@
                     Belajar menghafal Al-Qur'an dengan mudah dan menyenangkan untuk adik-adik kelas 1
                 </p>
                 <p class="text-gray-400 text-xs sm:text-sm">
-                    © 2025 Karya <i class="fas fa-heart text-red-500"></i> Emes Creative
+                    © 2025 Dibuat dengan <i class="fas fa-heart text-red-500"></i> Emes Creative
                 </p>
             </div>
         </div>
@@ -451,16 +460,16 @@
                     'مَالِكِ يَوْمِ الدِّينِ',
                     'إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ',
                     'اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ',
-                    'صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ'
+                    'صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِмْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ'
                 ],
                 verseAudios: [
-					'https://archive.org/download/114-5/BASMALAH.mp3', 
-                    'https://archive.org/download/1-7_20250827_202508/1-2.mp3', 
-                    'https://archive.org/download/1-7_20250827_202508/1-3.mp3', 
-                    'https://archive.org/download/1-7_20250827_202508/1-4.mp3', 
-                    'https://archive.org/download/1-7_20250827_202508/1-5.mp3', 
-                    'https://archive.org/download/1-7_20250827_202508/1-6.mp3', 
-                    'https://archive.org/download/1-7_20250827_202508/1-7.mp3', 
+                    'https://archive.org/download/basmalah_202508/Basmalah.mp3', // Ayat 1 (Basmalah)
+                    'https://archive.org/download/1-7_20250827_202508/1-2.mp3', // Ayat 2
+                    'https://archive.org/download/1-7_20250827_202508/1-3.mp3', // Ayat 3
+                    'https://archive.org/download/1-7_20250827_202508/1-4.mp3', // Ayat 4
+                    'https://archive.org/download/1-7_20250827_202508/1-5.mp3', // Ayat 5
+                    'https://archive.org/download/1-7_20250827_202508/1-6.mp3', // Ayat 6
+                    'https://archive.org/download/1-7_20250827_202508/1-7.mp3'  // Ayat 7
                 ]
             },
             {
@@ -516,6 +525,13 @@
                     'وَمِنْ شَرِّ غَاسِقٍ إِذَا وَقَبَ',
                     'وَمِنْ شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ',
                     'وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ'
+                ],
+                verseAudios: [
+                    null, // Ayat 1 - belum tersedia
+                    null, // Ayat 2 - belum tersedia
+                    null, // Ayat 3 - belum tersedia
+                    null, // Ayat 4 - belum tersedia
+                    null  // Ayat 5 - belum tersedia
                 ]
             },
             {
@@ -537,7 +553,13 @@
                     'قُلْ هُوَ اللَّهُ أَحَدٌ',
                     'اللَّهُ الصَّمَدُ',
                     'لَمْ يَلِدْ وَلَمْ يُولَدْ',
-                    'وَلَمْ يَكُنْ لَهُ كُفُوًا أَحدٌ'
+                    'وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ'
+                ],
+                verseAudios: [
+                    null, // Ayat 1 - belum tersedia
+                    null, // Ayat 2 - belum tersedia
+                    null, // Ayat 3 - belum tersedia
+                    null  // Ayat 4 - belum tersedia
                 ]
             },
             {
@@ -561,6 +583,13 @@
                     'سَيَصْلَى نَارًا ذَاتَ لَهَبٍ',
                     'وَامْرَأَتُهُ حَمَّالَةَ الْحَطَبِ',
                     'فِي جِيدِهَا حَبْلٌ مِنْ مَسَدٍ'
+                ],
+                verseAudios: [
+                    null, // Ayat 1 - belum tersedia
+                    null, // Ayat 2 - belum tersedia
+                    null, // Ayat 3 - belum tersedia
+                    null, // Ayat 4 - belum tersedia
+                    null  // Ayat 5 - belum tersedia
                 ]
             }
         ];
@@ -775,45 +804,34 @@
                     <!-- Surah cards will be loaded here -->
                 </div>
             `;
-
+            
             const surahGrid = document.getElementById('surahGrid');
-            surahGrid.innerHTML = '';
-
-            grade1SurahData.forEach(surah => {
-                const progress = userProgress[surah.id] || { memorized: false, progress: 0 };
-                const progressPercentage = progress.progress || 0;
-                const isMemorized = progress.memorized || false;
-
-                surahGrid.innerHTML += `
-                    <div class="surah-card grade1-card rounded-2xl shadow-lg p-4 sm:p-6 border-2 border-emerald-300" onclick="showSurahDetail(${surah.id})">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center space-x-2">
-                                <div class="big-number text-emerald-800">${surah.id === 1 ? '١' : surah.id}</div>
-                                <div>
-                                    <h4 class="text-lg sm:text-xl font-bold text-gray-800 title-font">${surah.name}</h4>
-                                    <p class="text-sm text-gray-600">${surah.transliteration}</p>
+            
+            surahGrid.innerHTML = grade1SurahData.map((surah, index) => {
+                const progress = userProgress[surah.id] || { memorized: false, score: 0, attempts: 0 };
+                const isMemorized = progress.memorized;
+                
+                return `
+                    <div class="surah-card bg-gradient-to-br ${surah.color} text-white rounded-xl p-4 sm:p-6 ${isMemorized ? 'ring-4 ring-yellow-400' : ''}" 
+                         onclick="showSurahDetail(${surah.id})">
+                        <div class="text-center">
+                            <div class="text-4xl sm:text-5xl mb-3 font-bold">${index + 1}</div>
+                            <h4 class="arabic-text text-lg sm:text-2xl font-bold mb-2">${surah.name}</h4>
+                            <p class="text-sm sm:text-lg font-semibold mb-1">${surah.transliteration}</p>
+                            <p class="text-xs sm:text-sm opacity-90 mb-2">${surah.translation}</p>
+                            <p class="text-xs opacity-80">${surah.verses} ayat</p>
+                            
+                            ${isMemorized ? `
+                                <div class="mt-3">
+                                    <div class="bg-yellow-400 text-yellow-900 px-3 py-1 rounded-full text-xs font-bold">
+                                        ⭐ SUDAH HAFAL!
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="text-right">
-                                <span class="difficulty-badge difficulty-${surah.difficulty}">Mudah</span>
-                                <div class="star-rating mt-1">
-                                    ${isMemorized ? '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>' : '<i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>'}
-                                </div>
-                            </div>
-                        </div>
-                        <p class="text-gray-700 mb-4 text-sm sm:text-base">${surah.translation} (${surah.verses} Ayat)</p>
-                        <div class="w-full bg-gray-200 rounded-full h-2.5">
-                            <div class="memorization-progress rounded-full" style="width: ${progressPercentage}%"></div>
-                        </div>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="text-xs text-gray-600">${Math.round(progressPercentage)}% dihafal</span>
-                            <button class="bg-emerald-500 hover:bg-emerald-600 text-white text-xs px-3 py-1 rounded-full transition duration-200" onclick="event.stopPropagation(); playSurahAudio(${surah.id})">
-                                <i class="fas fa-play mr-1"></i> Dengarkan
-                            </button>
+                            ` : ''}
                         </div>
                     </div>
                 `;
-            });
+            }).join('');
         }
 
         // Show Surah Detail
@@ -822,346 +840,527 @@
             if (!surah) return;
 
             currentSurah = surah;
-            const progress = userProgress[surah.id] || { memorized: false, progress: 0, verses: {} };
-            
-            // Create the surah detail content
-            const contentArea = document.getElementById('contentArea');
-            contentArea.innerHTML = `
-                <div class="mb-6">
-                    <button class="home-btn mb-4" onclick="showSurahList()">
-                        <i class="fas fa-arrow-left"></i>
+            const progress = userProgress[surahId] || { memorized: false, score: 0, attempts: 0 };
+
+            const content = `
+                <div class="mb-4 sm:mb-6">
+                    <button onclick="showSurahList(); return false;" class="home-btn mb-4" title="Kembali ke Beranda">
+                        <i class="fas fa-home text-xl"></i>
                     </button>
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 title-font">${surah.name}</h2>
-                            <p class="text-gray-600">${surah.transliteration} - ${surah.translation}</p>
+                    
+                    <div class="text-center mb-4 sm:mb-6">
+                        <div class="bg-gradient-to-br ${surah.color} text-white rounded-2xl p-6 mb-4">
+                            <h2 class="arabic-text text-2xl sm:text-4xl font-bold mb-2">${surah.name}</h2>
+                            <h3 class="text-lg sm:text-2xl font-semibold mb-2">${surah.transliteration}</h3>
+                            <p class="text-sm sm:text-lg opacity-90 mb-4">${surah.translation}</p>
+                            
+                            <div class="flex flex-wrap justify-center items-center gap-2 sm:gap-4 mb-4">
+                                <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm">
+                                    ${surah.verses} ayat
+                                </span>
+                                <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm">
+                                    Mudah
+                                </span>
+                                ${progress.memorized ? '<span class="bg-yellow-400 text-yellow-900 px-3 py-1 rounded-full text-sm font-bold">⭐ Sudah Hafal</span>' : ''}
+                            </div>
+                            
+                            ${!progress.memorized ? `
+                                <button onclick="markAsMemorized(${surah.id})" class="btn-islamic text-white px-6 py-3 rounded-full font-bold text-lg shadow-lg">
+                                    <i class="fas fa-check-circle mr-2"></i>Saya Sudah Hafal!
+                                </button>
+                            ` : ''}
                         </div>
-                        <div class="text-right">
-                            <span class="difficulty-badge difficulty-${surah.difficulty}">Mudah</span>
-                            <div class="star-rating mt-1">
-                                ${progress.memorized ? '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>' : '<i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>'}
+                    </div>
+                </div>
+
+                <div class="max-w-4xl mx-auto">
+                    <h4 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 text-center">
+                        <i class="fas fa-book-open text-emerald-600 mr-2"></i>Surat ${surah.transliteration}
+                    </h4>
+                    
+                    <!-- Memorization Instructions -->
+                    <div class="bg-gradient-to-r from-emerald-100 to-green-100 border-l-4 border-emerald-500 p-4 mb-6 rounded-lg">
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-lightbulb text-emerald-600 text-xl mr-3"></i>
+                            <h5 class="text-lg font-bold text-emerald-800">Cara Menghafal:</h5>
+                        </div>
+                        <p class="text-emerald-700 font-semibold text-base">
+                            🎧 Klik tombol play di sebelah kiri setiap ayat untuk mendengarkan! 
+                            <br>📖 Baca sambil mendengarkan audionya untuk hasil terbaik.
+                        </p>
+                    </div>
+                    
+                    <!-- Full Surah Text Container -->
+                    <div class="verses-container">
+                        <div class="text-center mb-6">
+                            <div class="arabic-text text-2xl sm:text-4xl font-bold text-gray-800 leading-loose space-y-4">
+                                <!-- Ta'awudz Section -->
+                                ${surah.taawudz ? `
+                                    <div class="mb-6 p-4 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg border border-purple-200 shadow-sm">
+                                        <div class="flex items-center justify-between">
+                                            <!-- Audio Player di Kiri -->
+                                            <div class="flex items-center">
+                                                <button id="playTaawudzBtn-${surah.id}" onclick="playTaawudzAudioInline(${surah.id})" class="verse-audio-btn mr-3">
+                                                    <i class="fas fa-play text-sm"></i>
+                                                </button>
+                                                <button id="pauseTaawudzBtn-${surah.id}" onclick="pauseTaawudzAudioInline(${surah.id})" class="verse-audio-btn paused mr-3" style="display: none;">
+                                                    <i class="fas fa-pause text-sm"></i>
+                                                </button>
+                                            </div>
+                                            
+                                            <!-- Teks Ta'awudz di Tengah -->
+                                            <div class="flex-1 text-center">
+                                                <div class="bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-bold mb-3">Ta'awudz</div>
+                                                <div class="text-xl sm:text-3xl leading-loose mb-3">${surah.taawudz.text}</div>
+                                                <div class="text-sm text-purple-700 font-semibold mb-1">${surah.taawudz.transliteration}</div>
+                                                <div class="text-xs text-purple-600">${surah.taawudz.translation}</div>
+                                            </div>
+                                            
+                                            <!-- Spacer di Kanan -->
+                                            <div class="w-10 ml-3"></div>
+                                        </div>
+                                    </div>
+                                ` : ''}
+                                
+                                <!-- Verses -->
+                                ${surah.arabic.map((ayah, index) => `
+                                    <div class="mb-6 p-4 bg-white rounded-lg border border-emerald-200 shadow-sm">
+                                        <div class="flex items-center justify-between">
+                                            <!-- Nomor Ayat di Kiri -->
+                                            <div class="flex items-center">
+                                                <div class="verse-number mr-3">${index + 1}</div>
+                                            </div>
+                                            
+                                            <!-- Teks Ayat di Tengah -->
+                                            <div class="flex-1 text-center">
+                                                <div class="text-xl sm:text-3xl leading-loose arabic-text">${ayah}</div>
+                                            </div>
+                                            
+                                            <!-- Audio Player di Kanan -->
+                                            <div class="flex items-center">
+                                                ${surah.verseAudios && surah.verseAudios[index] ? `
+                                                    <button id="playVerseBtn-${surah.id}-${index}" onclick="playVerseAudioInline(${surah.id}, ${index})" class="verse-audio-btn ml-3">
+                                                        <i class="fas fa-play text-sm"></i>
+                                                    </button>
+                                                    <button id="pauseVerseBtn-${surah.id}-${index}" onclick="pauseVerseAudioInline(${surah.id}, ${index})" class="verse-audio-btn paused ml-3" style="display: none;">
+                                                        <i class="fas fa-pause text-sm"></i>
+                                                    </button>
+                                                ` : `
+                                                    <button onclick="audioNotAvailable()" class="verse-audio-btn disabled ml-3">
+                                                        <i class="fas fa-play text-sm"></i>
+                                                    </button>
+                                                `}
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Audio Player -->
-                <div class="youtube-audio-player mb-6">
-                    <h3 class="text-lg font-bold text-gray-800 mb-4">
-                        <i class="fas fa-music text-emerald-600 mr-2"></i>Dengarkan Surat
-                    </h3>
-                    <div class="audio-controls">
-                        <button class="audio-btn" onclick="playSurahAudio(${surah.id})">
-                            <i class="fas fa-play"></i>
-                        </button>
-                        <button class="audio-btn" onclick="pauseSurahAudio()">
-                            <i class="fas fa-pause"></i>
-                        </button>
-                        <button class="audio-btn" onclick="stopSurahAudio()">
-                            <i class="fas fa-stop"></i>
-                        </button>
-                    </div>
-                    <div class="audio-progress">
-                        <div id="audioProgressBar" class="audio-progress-bar"></div>
-                    </div>
-                    <div class="audio-time">
-                        <span id="currentTime">00:00</span>
-                        <span id="duration">00:00</span>
-                    </div>
-                </div>
-
-                <!-- Taawudz Section -->
-                <div class="verses-container mb-6">
-                    <h3 class="text-lg font-bold text-gray-800 mb-4">
-                        <i class="fas fa-star text-emerald-600 mr-2"></i>Ta'awwudz
-                    </h3>
-                    <div class="verse-item">
-                        <div class="flex items-start justify-between">
-                            <div class="flex-1">
-                                <p class="arabic-text text-2xl mb-2">${surah.taawudz.text}</p>
-                                <p class="text-gray-700 italic mb-1">${surah.taawudz.transliteration}</p>
-                                <p class="text-gray-600">${surah.taawudz.translation}</p>
+                        
+                        <!-- Audio Player -->
+                        <div class="youtube-audio-player">
+                            <div class="text-center mb-4">
+                                <div class="text-2xl mb-2">🎧</div>
+                                <p class="text-emerald-700 font-semibold">Audio Murottal Anak</p>
+                                <p class="text-sm text-emerald-600">Metode Ummi - Cocok untuk Kelas 1</p>
                             </div>
-                            <button class="verse-audio-btn ml-4" onclick="playVerseAudio('${surah.taawudz.audioUrl}', this)">
-                                <i class="fas fa-play"></i>
-                            </button>
+                            
+                            <div class="audio-controls">
+                                <button id="playBtn-${surah.id}" onclick="playAudio(${surah.id})" class="audio-btn">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <button id="pauseBtn-${surah.id}" onclick="pauseAudio(${surah.id})" class="audio-btn" style="display: none;">
+                                    <i class="fas fa-pause"></i>
+                                </button>
+                                <button id="stopBtn-${surah.id}" onclick="stopAudio(${surah.id})" class="audio-btn">
+                                    <i class="fas fa-stop"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="audio-progress">
+                                <div id="progressBar-${surah.id}" class="audio-progress-bar"></div>
+                            </div>
+                            
+                            <div class="audio-time">
+                                <span id="currentTime-${surah.id}">0:00</span>
+                                <span id="duration-${surah.id}">0:00</span>
+                            </div>
+                            
+                            <div id="audioStatus-${surah.id}" class="text-center mt-3 text-sm text-emerald-700">
+                                <i class="fas fa-info-circle mr-1"></i>Klik tombol play untuk mendengarkan
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Verses Section -->
-                <div class="verses-container">
-                    <h3 class="text-lg font-bold text-gray-800 mb-4">
-                        <i class="fas fa-book text-emerald-600 mr-2"></i>Ayat-ayat (${surah.verses} Ayat)
-                    </h3>
-                    <div id="versesList">
-                        <!-- Verses will be loaded here -->
                     </div>
                 </div>
             `;
 
-            // Load verses
-            const versesList = document.getElementById('versesList');
-            versesList.innerHTML = '';
+            document.getElementById('contentArea').innerHTML = content;
+        }
 
-            surah.arabic.forEach((verse, index) => {
-                const verseNumber = index + 1;
-                const verseProgress = progress.verses && progress.verses[verseNumber] || { memorized: false };
-                
-                versesList.innerHTML += `
-                    <div class="verse-item ${verseProgress.memorized ? 'bg-green-50' : ''}" id="verse-${verseNumber}">
-                        <div class="flex items-start justify-between">
-                            <div class="flex-1">
-                                <div class="flex items-center mb-2">
-                                    <div class="verse-number">${verseNumber}</div>
-                                    <span class="ml-3 text-sm text-gray-500">${verseProgress.memorized ? '<i class="fas fa-check text-green-500"></i> Terhafal' : 'Belum dihafal'}</span>
-                                </div>
-                                <p class="arabic-text text-xl sm:text-2xl mb-2">${verse}</p>
-                                <button class="text-emerald-600 text-sm font-semibold mt-2" onclick="toggleMemorized(${verseNumber})">
-                                    ${verseProgress.memorized ? '<i class="fas fa-check-circle"></i> Tandai Belum Dihafal' : '<i class="far fa-circle"></i> Tandai Sudah Dihafal'}
-                                </button>
-                            </div>
-                            ${surah.verseAudios && surah.verseAudios[index] ? 
-                            `<button class="verse-audio-btn ml-4" onclick="playVerseAudio('${surah.verseAudios[index]}', this)">
-                                <i class="fas fa-play"></i>
-                            </button>` : ''}
-                        </div>
-                    </div>
-                `;
+        // Alert for unavailable audio
+        function audioNotAvailable() {
+            Swal.fire({
+                title: '⚠️ Audio Belum Tersedia',
+                text: 'Audio untuk ayat ini sedang dalam proses persiapan. Silakan coba lagi nanti.',
+                icon: 'info',
+                confirmButtonColor: '#059669',
+                confirmButtonText: 'Mengerti'
             });
-
-            // Initialize audio for the surah
-            initSurahAudio(surah);
         }
 
-        // Initialize surah audio
-        function initSurahAudio(surah) {
-            // This function would set up the audio player for the surah
-            // For now, we'll just set the audio URL
-        }
-
-        // Play surah audio
-        function playSurahAudio(surahId) {
+        // Inline Audio Functions for Verses
+        function playVerseAudioInline(surahId, index) {
             const surah = grade1SurahData.find(s => s.id === surahId);
-            if (!surah) return;
+            if (!surah || !surah.verseAudios || !surah.verseAudios[index]) return;
 
             // Stop any currently playing audio
-            stopSurahAudio();
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+                // Reset all other buttons
+                document.querySelectorAll('[id^="playVerseBtn-"]').forEach(btn => btn.style.display = 'flex');
+                document.querySelectorAll('[id^="pauseVerseBtn-"]').forEach(btn => btn.style.display = 'none');
+                document.querySelectorAll('[id^="playTaawudzBtn-"]').forEach(btn => btn.style.display = 'flex');
+                document.querySelectorAll('[id^="pauseTaawudzBtn-"]').forEach(btn => btn.style.display = 'none');
+            }
 
             // Create new audio element
-            currentAudio = new Audio(surah.audioUrl);
+            currentAudio = new Audio(surah.verseAudios[index]);
+            currentAudio.surahId = surahId;
+            currentAudio.verseIndex = index;
+            currentAudio.type = 'verse';
+
+            // Update UI
+            const playBtn = document.getElementById(`playVerseBtn-${surahId}-${index}`);
+            const pauseBtn = document.getElementById(`pauseVerseBtn-${surahId}-${index}`);
             
-            // Set up event listeners
-            currentAudio.addEventListener('loadedmetadata', function() {
-                document.getElementById('duration').textContent = formatTime(currentAudio.duration);
-            });
-            
-            currentAudio.addEventListener('timeupdate', function() {
-                const progress = (currentAudio.currentTime / currentAudio.duration) * 100;
-                document.getElementById('audioProgressBar').style.width = progress + '%';
-                document.getElementById('currentTime').textContent = formatTime(currentAudio.currentTime);
-            });
-            
+            if (playBtn) playBtn.style.display = 'none';
+            if (pauseBtn) pauseBtn.style.display = 'flex';
+
+            // Audio event listeners
             currentAudio.addEventListener('ended', function() {
-                document.getElementById('audioProgressBar').style.width = '0%';
-                document.getElementById('currentTime').textContent = '00:00';
+                if (playBtn) playBtn.style.display = 'flex';
+                if (pauseBtn) pauseBtn.style.display = 'none';
                 currentAudio = null;
             });
-            
-            // Play the audio
+
+            currentAudio.addEventListener('error', function() {
+                if (playBtn) playBtn.style.display = 'flex';
+                if (pauseBtn) pauseBtn.style.display = 'none';
+                currentAudio = null;
+                audioNotAvailable();
+            });
+
+            // Start playing
             currentAudio.play().catch(error => {
-                console.error('Error playing audio:', error);
-                Swal.fire({
-                    title: '⚠️ Perhatian',
-                    text: 'Tidak dapat memutar audio. Pastikan koneksi internet Anda stabil.',
-                    icon: 'warning',
-                    confirmButtonColor: '#059669'
-                });
+                console.error('Error playing verse audio:', error);
+                if (playBtn) playBtn.style.display = 'flex';
+                if (pauseBtn) pauseBtn.style.display = 'none';
+                audioNotAvailable();
             });
         }
 
-        // Pause surah audio
-        function pauseSurahAudio() {
-            if (currentAudio && !currentAudio.paused) {
+        function pauseVerseAudioInline(surahId, index) {
+            if (currentAudio && currentAudio.surahId === surahId && currentAudio.verseIndex === index && currentAudio.type === 'verse') {
                 currentAudio.pause();
+                currentAudio = null;
+                
+                const playBtn = document.getElementById(`playVerseBtn-${surahId}-${index}`);
+                const pauseBtn = document.getElementById(`pauseVerseBtn-${surahId}-${index}`);
+                
+                if (playBtn) playBtn.style.display = 'flex';
+                if (pauseBtn) pauseBtn.style.display = 'none';
             }
         }
 
-        // Stop surah audio
-        function stopSurahAudio() {
+        function playTaawudzAudioInline(surahId) {
+            const surah = grade1SurahData.find(s => s.id === surahId);
+            if (!surah || !surah.taawudz || !surah.taawudz.audioUrl) return;
+
+            // Stop any currently playing audio
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+                // Reset all other buttons
+                document.querySelectorAll('[id^="playVerseBtn-"]').forEach(btn => btn.style.display = 'flex');
+                document.querySelectorAll('[id^="pauseVerseBtn-"]').forEach(btn => btn.style.display = 'none');
+                document.querySelectorAll('[id^="playTaawudzBtn-"]').forEach(btn => btn.style.display = 'flex');
+                document.querySelectorAll('[id^="pauseTaawudzBtn-"]').forEach(btn => btn.style.display = 'none');
+            }
+
+            // Create new audio element
+            currentAudio = new Audio(surah.taawudz.audioUrl);
+            currentAudio.surahId = surahId;
+            currentAudio.type = 'taawudz';
+
+            // Update UI
+            const playBtn = document.getElementById(`playTaawudzBtn-${surahId}`);
+            const pauseBtn = document.getElementById(`pauseTaawudzBtn-${surahId}`);
+            
+            if (playBtn) playBtn.style.display = 'none';
+            if (pauseBtn) pauseBtn.style.display = 'flex';
+
+            // Audio event listeners
+            currentAudio.addEventListener('ended', function() {
+                if (playBtn) playBtn.style.display = 'flex';
+                if (pauseBtn) pauseBtn.style.display = 'none';
+                currentAudio = null;
+            });
+
+            currentAudio.addEventListener('error', function() {
+                if (playBtn) playBtn.style.display = 'flex';
+                if (pauseBtn) pauseBtn.style.display = 'none';
+                currentAudio = null;
+                audioNotAvailable();
+            });
+
+            // Start playing
+            currentAudio.play().catch(error => {
+                console.error('Error playing Ta\'awudz audio:', error);
+                if (playBtn) playBtn.style.display = 'flex';
+                if (pauseBtn) pauseBtn.style.display = 'none';
+                audioNotAvailable();
+            });
+        }
+
+        function pauseTaawudzAudioInline(surahId) {
+            if (currentAudio && currentAudio.surahId === surahId && currentAudio.type === 'taawudz') {
+                currentAudio.pause();
+                currentAudio = null;
+                
+                const playBtn = document.getElementById(`playTaawudzBtn-${surahId}`);
+                const pauseBtn = document.getElementById(`pauseTaawudzBtn-${surahId}`);
+                
+                if (playBtn) playBtn.style.display = 'flex';
+                if (pauseBtn) pauseBtn.style.display = 'none';
+            }
+        }
+
+        // Audio Functions
+        function playAudio(surahId) {
+            const surah = grade1SurahData.find(s => s.id === surahId);
+            if (!surah || !surah.audioUrl) return;
+
+            // Stop any currently playing audio
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+
+            // Create new audio element
+            currentAudio = new Audio(surah.audioUrl);
+            currentAudio.surahId = surahId;
+
+            // Update UI
+            const playBtn = document.getElementById(`playBtn-${surahId}`);
+            const pauseBtn = document.getElementById(`pauseBtn-${surahId}`);
+            const statusElement = document.getElementById(`audioStatus-${surahId}`);
+            
+            if (playBtn) playBtn.style.display = 'none';
+            if (pauseBtn) pauseBtn.style.display = 'flex';
+            if (statusElement) {
+                statusElement.innerHTML = `
+                    <i class="fas fa-spinner fa-spin mr-1"></i>Memuat audio...
+                `;
+            }
+
+            // Audio event listeners
+            currentAudio.addEventListener('loadedmetadata', function() {
+                const durationElement = document.getElementById(`duration-${surahId}`);
+                if (durationElement) {
+                    durationElement.textContent = formatTime(this.duration);
+                }
+            });
+
+            currentAudio.addEventListener('canplay', function() {
+                if (statusElement) {
+                    statusElement.innerHTML = `
+                        <i class="fas fa-play-circle text-emerald-600 mr-1"></i>
+                        <span class="text-emerald-600">Sedang memutar audio...</span>
+                    `;
+                }
+            });
+
+            currentAudio.addEventListener('timeupdate', function() {
+                updateAudioProgress(surahId);
+            });
+
+            currentAudio.addEventListener('ended', function() {
+                stopAudio(surahId);
+            });
+
+            currentAudio.addEventListener('error', function() {
+                if (statusElement) {
+                    statusElement.innerHTML = `
+                        <i class="fas fa-exclamation-triangle text-red-600 mr-1"></i>
+                        <span class="text-red-600">Error memuat audio</span>
+                    `;
+                }
+                const playBtn = document.getElementById(`playBtn-${surahId}`);
+                const pauseBtn = document.getElementById(`pauseBtn-${surahId}`);
+                if (playBtn) playBtn.style.display = 'flex';
+                if (pauseBtn) pauseBtn.style.display = 'none';
+                audioNotAvailable();
+            });
+
+            // Start playing
+            currentAudio.play().catch(error => {
+                console.error('Error playing audio:', error);
+                if (statusElement) {
+                    statusElement.innerHTML = `
+                        <i class="fas fa-exclamation-triangle text-red-600 mr-1"></i>
+                        <span class="text-red-600">Gagal memutar audio</span>
+                    `;
+                }
+                audioNotAvailable();
+            });
+        }
+
+        function pauseAudio(surahId) {
+            if (currentAudio && !currentAudio.paused) {
+                currentAudio.pause();
+                
+                const playBtn = document.getElementById(`playBtn-${surahId}`);
+                const pauseBtn = document.getElementById(`pauseBtn-${surahId}`);
+                const statusElement = document.getElementById(`audioStatus-${surahId}`);
+                
+                if (playBtn) playBtn.style.display = 'flex';
+                if (pauseBtn) pauseBtn.style.display = 'none';
+                
+                if (statusElement) {
+                    statusElement.innerHTML = `
+                        <i class="fas fa-pause-circle text-yellow-600 mr-1"></i>
+                        <span class="text-yellow-600">Audio dijeda</span>
+                    `;
+                }
+            } else if (currentAudio && currentAudio.paused) {
+                // Resume playing
+                currentAudio.play();
+                
+                const playBtn = document.getElementById(`playBtn-${surahId}`);
+                const pauseBtn = document.getElementById(`pauseBtn-${surahId}`);
+                const statusElement = document.getElementById(`audioStatus-${surahId}`);
+                
+                if (playBtn) playBtn.style.display = 'none';
+                if (pauseBtn) pauseBtn.style.display = 'flex';
+                
+                if (statusElement) {
+                    statusElement.innerHTML = `
+                        <i class="fas fa-play-circle text-emerald-600 mr-1"></i>
+                        <span class="text-emerald-600">Sedang memutar audio...</span>
+                    `;
+                }
+            }
+        }
+
+        function stopAudio(surahId) {
             if (currentAudio) {
                 currentAudio.pause();
                 currentAudio.currentTime = 0;
                 currentAudio = null;
-                document.getElementById('audioProgressBar').style.width = '0%';
-                document.getElementById('currentTime').textContent = '00:00';
+            }
+            
+            const playBtn = document.getElementById(`playBtn-${surahId}`);
+            const pauseBtn = document.getElementById(`pauseBtn-${surahId}`);
+            const progressBar = document.getElementById(`progressBar-${surahId}`);
+            const currentTimeElement = document.getElementById(`currentTime-${surahId}`);
+            const statusElement = document.getElementById(`audioStatus-${surahId}`);
+            
+            if (playBtn) playBtn.style.display = 'flex';
+            if (pauseBtn) pauseBtn.style.display = 'none';
+            
+            if (progressBar) progressBar.style.width = '0%';
+            if (currentTimeElement) currentTimeElement.textContent = '0:00';
+            
+            if (statusElement) {
+                statusElement.innerHTML = `
+                    <i class="fas fa-info-circle mr-1"></i>Klik tombol play untuk mendengarkan
+                `;
             }
         }
 
-        // Format time for audio player
+        function updateAudioProgress(surahId) {
+            const progressBar = document.getElementById(`progressBar-${surahId}`);
+            const currentTimeElement = document.getElementById(`currentTime-${surahId}`);
+            const durationElement = document.getElementById(`duration-${surahId}`);
+            
+            if (currentAudio && progressBar && !isNaN(currentAudio.duration)) {
+                const progress = (currentAudio.currentTime / currentAudio.duration) * 100;
+                progressBar.style.width = progress + '%';
+            }
+            
+            if (currentTimeElement && currentAudio && !isNaN(currentAudio.currentTime)) {
+                currentTimeElement.textContent = formatTime(currentAudio.currentTime);
+            }
+            
+            if (durationElement && currentAudio && !isNaN(currentAudio.duration)) {
+                durationElement.textContent = formatTime(currentAudio.duration);
+            }
+        }
+
         function formatTime(seconds) {
-            const mins = Math.floor(seconds / 60);
-            const secs = Math.floor(seconds % 60);
-            return mins.toString().padStart(2, '0') + ':' + secs.toString().padStart(2, '0');
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = Math.floor(seconds % 60);
+            return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
         }
 
-        // Play verse audio
-        function playVerseAudio(audioUrl, buttonElement) {
-            // Stop any currently playing verse audio
-            const allVerseButtons = document.querySelectorAll('.verse-audio-btn');
-            allVerseButtons.forEach(btn => {
-                if (btn !== buttonElement) {
-                    btn.classList.remove('playing', 'paused');
-                    btn.innerHTML = '<i class="fas fa-play"></i>';
-                }
-            });
-
-            // If this verse is already playing, pause it
-            if (buttonElement.classList.contains('playing')) {
-                if (currentAudio) {
-                    currentAudio.pause();
-                    buttonElement.classList.remove('playing');
-                    buttonElement.classList.add('paused');
-                    buttonElement.innerHTML = '<i class="fas fa-play"></i>';
-                }
-                return;
-            }
-
-            // If this verse is paused, resume it
-            if (buttonElement.classList.contains('paused')) {
-                if (currentAudio) {
-                    currentAudio.play();
-                    buttonElement.classList.remove('paused');
-                    buttonElement.classList.add('playing');
-                    buttonElement.innerHTML = '<i class="fas fa-pause"></i>';
-                }
-                return;
-            }
-
-            // Stop any surah audio that might be playing
-            stopSurahAudio();
-
-            // Create new audio for the verse
-            currentAudio = new Audio(audioUrl);
+        function markAsMemorized(surahId) {
+            const progress = userProgress[surahId] || { memorized: false, score: 0, attempts: 0 };
             
-            // Update button state
-            buttonElement.classList.add('playing');
-            buttonElement.innerHTML = '<i class="fas fa-pause"></i>';
-            
-            // Set up event listeners
-            currentAudio.addEventListener('ended', function() {
-                buttonElement.classList.remove('playing', 'paused');
-                buttonElement.innerHTML = '<i class="fas fa-play"></i>';
-                currentAudio = null;
-            });
-            
-            // Play the audio
-            currentAudio.play().catch(error => {
-                console.error('Error playing verse audio:', error);
-                buttonElement.classList.remove('playing', 'paused');
-                buttonElement.innerHTML = '<i class="fas fa-play"></i>';
-                
+            if (progress.memorized) {
                 Swal.fire({
-                    title: '⚠️ Perhatian',
-                    text: 'Tidak dapat memutar audio. Pastikan koneksi internet Anda stabil.',
-                    icon: 'warning',
-                    confirmButtonColor: '#059669'
+                    title: '✅ Sudah Dihafal!',
+                    text: 'Surat ini sudah ditandai sebagai hafal.',
+                    icon: 'info',
+                    confirmButtonColor: '#f59e0b'
                 });
-            });
-        }
-
-        // Toggle memorized status for a verse
-        function toggleMemorized(verseNumber) {
-            if (!currentSurah) return;
-            
-            const progress = userProgress[currentSurah.id] || { memorized: false, progress: 0, verses: {} };
-            const verseProgress = progress.verses[verseNumber] || { memorized: false };
-            
-            // Toggle the memorized status
-            verseProgress.memorized = !verseProgress.memorized;
-            progress.verses[verseNumber] = verseProgress;
-            
-            // Calculate overall progress for this surah
-            const totalVerses = currentSurah.arabic.length;
-            const memorizedVerses = Object.values(progress.verses).filter(v => v.memorized).length;
-            progress.progress = (memorizedVerses / totalVerses) * 100;
-            
-            // Check if the entire surah is memorized
-            progress.memorized = memorizedVerses === totalVerses;
-            
-            // Update user progress
-            userProgress[currentSurah.id] = progress;
-            saveToLocalStorage('grade1Progress', userProgress);
-            
-            // Award points for memorizing a verse
-            if (verseProgress.memorized) {
-                currentUser.points += 10;
-                
-                // Award bonus for completing a surah
-                if (progress.memorized) {
-                    currentUser.points += 50;
-                    
-                    // Check for achievements
-                    const totalMemorizedSurahs = Object.values(userProgress).filter(p => p.memorized).length;
-                    if (totalMemorizedSurahs === 1) {
-                        if (!currentUser.achievements.includes('first_surah')) {
-                            currentUser.achievements.push('first_surah');
-                            showAchievement('Pencapaian Pertama!', 'Selamat! Anda telah menghafal surat pertama Anda.');
-                        }
-                    }
-                    
-                    if (totalMemorizedSurahs === 5) {
-                        if (!currentUser.achievements.includes('all_surahs')) {
-                            currentUser.achievements.push('all_surahs');
-                            showAchievement('Ahli Hafalan!', 'Luar biasa! Anda telah menghafal semua 5 surat pendek.');
-                        }
-                    }
-                }
-                
-                saveToLocalStorage('grade1User', currentUser);
+                return;
             }
-            
-            // Update the UI
-            updateStatistics();
-            
-            // Update the verse item
-            const verseItem = document.getElementById(`verse-${verseNumber}`);
-            if (verseItem) {
-                if (verseProgress.memorized) {
-                    verseItem.classList.add('bg-green-50');
-                } else {
-                    verseItem.classList.remove('bg-green-50');
-                }
-                
-                const statusText = verseItem.querySelector('.text-sm');
-                if (statusText) {
-                    statusText.innerHTML = verseProgress.memorized ? '<i class="fas fa-check text-green-500"></i> Terhafal' : 'Belum dihafal';
-                }
-                
-                const toggleButton = verseItem.querySelector('button');
-                if (toggleButton) {
-                    toggleButton.innerHTML = verseProgress.memorized ? '<i class="fas fa-check-circle"></i> Tandai Belum Dihafal' : '<i class="far fa-circle"></i> Tandai Sudah Dihafal';
-                }
-            }
-        }
 
-        // Show achievement notification
-        function showAchievement(title, message) {
             Swal.fire({
-                title: title,
-                text: message,
-                icon: 'success',
-                confirmButtonColor: '#059669',
-                confirmButtonText: 'Mantap!',
-                imageUrl: 'https://cdn-icons-png.flaticon.com/128/1047/1047711.png',
-                imageWidth: 100,
-                imageHeight: 100,
-                imageAlt: 'Achievement Badge'
+                title: '🎉 Selamat!',
+                text: 'Apakah kamu sudah benar-benar hafal surat ini?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, Sudah Hafal!',
+                cancelButtonText: 'Belum',
+                confirmButtonColor: '#10b981',
+                cancelButtonColor: '#6b7280'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    progress.memorized = true;
+                    progress.score = 100;
+                    userProgress[surahId] = progress;
+                    
+                    const surah = grade1SurahData.find(s => s.id === surahId);
+                    currentUser.points += surah.verses * 20; // 20 points per verse
+                    
+                    saveToLocalStorage('grade1Progress', userProgress);
+                    saveToLocalStorage('grade1User', currentUser);
+                    updateStatistics();
+                    
+                    Swal.fire({
+                        title: '🌟 Luar Biasa!',
+                        html: `
+                            <div class="text-center">
+                                <div class="text-6xl mb-4">🏆</div>
+                                <p class="text-lg mb-2">Kamu berhasil menghafal ${surah.transliteration}!</p>
+                                <p class="text-sm text-gray-600">+${surah.verses * 20} poin</p>
+                            </div>
+                        `,
+                        icon: 'success',
+                        confirmButtonColor: '#f59e0b'
+                    }).then(() => {
+                        showSurahDetail(surahId); // Refresh the detail view
+                    });
+                }
             });
         }
 
-        // Initialize the app when the page loads
-        document.addEventListener('DOMContentLoaded', initializeApp);
+        // Initialize the app when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
     </script>
 </body>
 </html>
