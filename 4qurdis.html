@@ -2913,19 +2913,9 @@ function prepareQuiz(quiz) {
             addPoints(5);
         }
 
-        function startEvaluation(topic, container) {
+          function startEvaluation(topic, container) {
             const questions = evaluationData[topic];
             if (!questions) return;
-            
-            const topicNames = {
-                tajweed: 'Hukum Izhar dan Ikhfa\'',
-                alashr: 'Surah Al-Ashr',
-                quraisy: 'Surah Quraisy',
-                maun: 'Surah Al-Ma\'un',
-                takatsur: 'Surah At-Takatsur',
-                hadis_takwa: 'Hadis tentang Takwa',
-                hadis_niat: 'Hadis tentang Niat'
-            };
             
             let currentQuestion = 0;
             let score = 0;
@@ -2935,12 +2925,6 @@ function prepareQuiz(quiz) {
                 const q = questions[currentQuestion];
                 container.innerHTML = `
                     <div class="max-w-4xl mx-auto">
-                        <div class="text-center mb-6">
-                            <div class="bg-gradient-to-r from-green-100 to-emerald-100 px-6 py-3 rounded-full inline-block border-2 border-green-200">
-                                <p class="text-green-800 font-bold text-lg">📝 Evaluasi: ${topicNames[topic] || topic}</p>
-                            </div>
-                        </div>
-                        
                         <div class="flex items-center justify-between mb-8">
                             <div class="text-lg font-semibold text-gray-600">
                                 Soal ${currentQuestion + 1} dari ${questions.length}
@@ -2976,8 +2960,8 @@ function prepareQuiz(quiz) {
                 const isCorrect = selectedIndex === q.correct;
                 
                 if (isCorrect) {
-                   score += q.points;
-                    addPoints(q.points);
+                    score += 10;
+                    addPoints(10);
                 }
                 
                 answers.push({
@@ -3000,6 +2984,7 @@ function prepareQuiz(quiz) {
                     }
                 }, 2000);
             };
+            
 function sendResultToSheet(nama, kelas, mapel, materi, skor, total) {
   // URL Web App milikmu
   const baseUrl = "https://script.google.com/macros/s/AKfycbzalkIZVHeleRFybqBY2j4e8WVXOLnFUwDH9Xe5aScg7Z_O2pkGJzcKBpSt5nAmyug/exec";
