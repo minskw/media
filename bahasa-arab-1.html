@@ -337,7 +337,7 @@
                 © 2025 تعليم اللغة العربية. جميع الحقوق محفوظة | All Rights Reserved
             </div>
             <div class="text-emerald-300 text-xs mt-1">
-               Karya ❤️ Emes Media Creativa
+                Karya ❤️ Emes Media Creativa
             </div>
         </div>
     </footer>
@@ -591,8 +591,8 @@
                                 </div>
                                 
                                 <div class="text-center">
-                                    <div class="w-20 h-20 bg-gradient-to-br from-green-500 to-teal-600 rounded-full flex items-center justify-center text-white text-3xl mb-3 shadow-lg" id="studentAvatarSpeaking">
-                                        ${studentAvatar}
+                                    <div class="w-20 h-20 bg-gradient-to-br from-green-500 to-teal-600 rounded-full flex items-center justify-center text-white text-3xl mb-3 shadow-lg overflow-hidden border-3 border-white" id="studentAvatarSpeaking">
+                                        ${studentPhoto ? `<img src="${studentPhoto}" alt="Foto Siswa" class="w-full h-full object-cover rounded-full">` : studentAvatar}
                                     </div>
                                     <p class="text-sm text-gray-600 font-semibold">${studentName}</p>
                                 </div>
@@ -627,8 +627,8 @@
                                         <div class="text-2xl arabic-text text-green-800 mb-2" id="studentResponse">وعليكم السلام</div>
                                         <div class="text-sm text-gray-600" id="studentResponseTranslation">Wa'alaikumussalam</div>
                                     </div>
-                                    <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-sm">
-                                        ${studentAvatar}
+                                    <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-sm overflow-hidden border border-white" id="studentResponseAvatar">
+                                        ${studentPhoto ? `<img src="${studentPhoto}" alt="Foto Siswa" class="w-full h-full object-cover rounded-full">` : studentAvatar}
                                     </div>
                                 </div>
                             </div>
@@ -706,7 +706,9 @@
                         <h3 class="text-3xl font-bold mb-8 text-center arabic-text">اكتب الكلمة</h3>
                         <div class="text-center">
                             <div id="writingPrompt" class="text-3xl mb-6 p-6 bg-purple-50 rounded-2xl border-4 border-purple-200"></div>
-                            <canvas id="writingCanvas" class="writing-canvas mx-auto mb-6" width="500" height="250"></canvas>
+                            <div class="flex justify-center mb-6">
+                                <canvas id="writingCanvas" class="writing-canvas max-w-full" width="400" height="200"></canvas>
+                            </div>
                             <div class="space-x-4">
                                 <button onclick="clearCanvas()" class="bg-red-500 text-white px-8 py-4 rounded-full hover:bg-red-600 transition-colors text-lg shadow-lg">
                                     <i class="fas fa-eraser mr-2"></i> Hapus
@@ -1130,6 +1132,18 @@
             // Update expected response (hidden initially)
             document.getElementById('studentResponse').textContent = conv.expected.arabic;
             document.getElementById('studentResponseTranslation').textContent = conv.expected.translation;
+            
+            // Update student avatars with current photo
+            const studentAvatarSpeaking = document.getElementById('studentAvatarSpeaking');
+            const studentResponseAvatar = document.getElementById('studentResponseAvatar');
+            
+            if (studentPhoto) {
+                studentAvatarSpeaking.innerHTML = `<img src="${studentPhoto}" alt="Foto Siswa" class="w-full h-full object-cover rounded-full">`;
+                studentResponseAvatar.innerHTML = `<img src="${studentPhoto}" alt="Foto Siswa" class="w-full h-full object-cover rounded-full">`;
+            } else {
+                studentAvatarSpeaking.textContent = studentAvatar;
+                studentResponseAvatar.textContent = studentAvatar;
+            }
             
             // Show visual question for family topic
             if (currentTopic === 'family' && conv.visual) {
@@ -2175,5 +2189,5 @@
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97618705f6e25f41',t:'MTc1NjM2MDE4OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9761979ce656a110',t:'MTc1NjM2MDg2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
