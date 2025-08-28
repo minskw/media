@@ -2949,8 +2949,8 @@
                 const isCorrect = selectedIndex === q.correct;
                 
                 if (isCorrect) {
-                    score += 10;
-                    addPoints(10);
+                   score += q.points;
+                    addPoints(q.points);
                 }
                 
                 answers.push({
