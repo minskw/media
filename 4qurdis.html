@@ -2973,23 +2973,36 @@
                     }
                 }, 2000);
             };
- function sendResultToSheet(nama, kelas, mapel, materi, skor, total) {
-  fetch("https://script.google.com/macros/s/AKfycbxUsKQeuVyZQR1EjolyXBNYMCLLOVb1iGdjp8QkWKLUXiz0HqG8nshuqqXJIIkUUmxk/exec", {
-    method: "POST",
-    body: JSON.stringify({
-      nama: nama,
-      kelas: kelas,
-      mapel: mapel,
-      materi: materi,
-      skor: skor,
-      total: total
-    }),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(r => r.text())
-  .then(t => console.log("Data terkirim:", t))
-  .catch(err => console.error("Error:", err));
+function sendResultToSheet(nama, kelas, mapel, materi, skor, total) {
+  // URL Web App milikmu
+  const baseUrl = "https://script.google.com/macros/s/AKfycbzalkIZVHeleRFybqBY2j4e8WVXOLnFUwDH9Xe5aScg7Z_O2pkGJzcKBpSt5nAmyug/exec";
+
+  // bikin nama callback unik untuk JSONP
+  const callbackName = "jsonp_callback_" + Math.round(100000 * Math.random());
+
+  // definisikan callback global
+  window[callbackName] = function(response) {
+    console.log("✅ Hasil terkirim:", response);
+    // bersihkan setelah dipanggil
+    document.body.removeChild(script);
+    delete window[callbackName];
+  };
+
+  // susun query string
+  const url = `${baseUrl}?callback=${callbackName}`
+            + `&nama=${encodeURIComponent(nama)}`
+            + `&kelas=${encodeURIComponent(kelas)}`
+            + `&mapel=${encodeURIComponent(mapel)}`
+            + `&materi=${encodeURIComponent(materi)}`
+            + `&skor=${encodeURIComponent(skor)}`
+            + `&total=${encodeURIComponent(total)}`;
+
+  // buat <script> untuk JSONP
+  const script = document.createElement('script');
+  script.src = url;
+  document.body.appendChild(script);
 }
+
            
 function showResults() {
     // hitung total poin dari soal
