@@ -2406,34 +2406,7 @@
 
             let questions = prepareQuiz(evaluationData[topic]);
         }
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
 
-function prepareQuiz(quiz) {
-  // acak urutan soal
-  let shuffledQuiz = shuffleArray([...quiz]);
-
-  // acak opsi tiap soal
-  shuffledQuiz = shuffledQuiz.map(q => {
-    const options = q.options.map((opt, idx) => ({ text: opt, index: idx }));
-    const shuffledOptions = shuffleArray(options);
-    const newCorrect = shuffledOptions.findIndex(o => o.index === q.correct);
-
-    return {
-      question: q.question,
-      options: shuffledOptions.map(o => o.text),
-      correct: newCorrect,
-      points: q.points
-    };
-  });
-
-  return shuffledQuiz;
-}
         // Audio functions
         function playVerseAudio(audioUrl, verseNumber) {
             const verseElement = document.getElementById(`verse_${verseNumber - 1}`);
@@ -2913,7 +2886,7 @@ function prepareQuiz(quiz) {
             addPoints(5);
         }
 
-          function startEvaluation(topic, container) {
+        function startEvaluation(topic, container) {
             const questions = evaluationData[topic];
             if (!questions) return;
             
