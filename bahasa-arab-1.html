@@ -12,9 +12,60 @@
         body {
             font-family: 'Amiri', serif;
             background: linear-gradient(135deg, #0f766e 0%, #065f46 50%, #1e40af 100%);
+            background-size: 400% 400%;
+            background-attachment: fixed;
+            animation: islamicGradient 15s ease infinite;
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-image: 
-                radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, rgba(255,255,255,0.05) 0%, transparent 50%);
+                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.08) 0%, transparent 40%),
+                radial-gradient(circle at 40% 60%, rgba(255,255,255,0.05) 0%, transparent 30%),
+                url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Cpath d='M40 40m-15 0a15 15 0 1 1 30 0a15 15 0 1 1 -30 0'/%3E%3Cpath d='M40 25v30M25 40h30'/%3E%3Cpath d='M29.29 29.29l21.42 21.42M50.71 29.29l-21.42 21.42'/%3E%3Cpolygon points='40,20 45,30 55,30 47,38 50,48 40,42 30,48 33,38 25,30 35,30'/%3E%3C/g%3E%3C/svg%3E");
+            background-size: 80px 80px, 120px 120px, 60px 60px, 80px 80px;
+            animation: islamicPattern 25s linear infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        @keyframes islamicGradient {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes islamicPattern {
+            0% { 
+                background-position: 0px 0px, 0px 0px, 0px 0px, 0px 0px;
+                transform: rotate(0deg);
+            }
+            25% { 
+                background-position: 40px 40px, -60px 60px, 30px -30px, 40px 40px;
+                transform: rotate(0.5deg);
+            }
+            50% { 
+                background-position: 80px 0px, -120px 0px, 60px 0px, 80px 0px;
+                transform: rotate(0deg);
+            }
+            75% { 
+                background-position: 40px -40px, -60px -60px, 30px 30px, 40px -40px;
+                transform: rotate(-0.5deg);
+            }
+            100% { 
+                background-position: 0px 0px, 0px 0px, 0px 0px, 0px 0px;
+                transform: rotate(0deg);
+            }
         }
         
         .arabic-text {
@@ -130,18 +181,8 @@
                 </button>
             </div>
             
-            <!-- Bottom Row: Profile and Stats -->
-            <div class="flex items-center justify-between">
-                <!-- Student Profile -->
-                <div id="studentProfile" class="flex items-center bg-white bg-opacity-20 px-3 py-2 rounded-full shadow-lg">
-                    <div id="studentPhoto" class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-lg font-bold mr-2">
-                        👤
-                    </div>
-                    <div>
-                        <div class="text-white font-semibold text-sm" id="studentName">Siswa</div>
-                    </div>
-                </div>
-                
+            <!-- Bottom Row: Points and Stars -->
+            <div class="flex items-center justify-end">
                 <!-- Points and Stars -->
                 <div class="flex items-center space-x-2">
                     <div class="bg-yellow-400 px-3 py-2 rounded-full shadow-lg">
@@ -152,6 +193,19 @@
             </div>
         </div>
     </header>
+
+    <!-- Student Profile Section -->
+    <div class="container mx-auto px-4 py-2">
+        <div id="studentProfile" class="flex items-center justify-center bg-white bg-opacity-20 backdrop-blur-sm px-4 py-3 rounded-2xl shadow-lg border border-white border-opacity-30 max-w-sm mx-auto">
+            <div id="studentPhoto" class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-lg font-bold mr-3">
+                👤
+            </div>
+            <div class="text-center">
+                <div class="text-white font-bold text-lg" id="studentName">Siswa</div>
+                <div class="text-emerald-100 text-sm">طالب مجتهد</div>
+            </div>
+        </div>
+    </div>
 
     <!-- Main Container -->
     <div class="container mx-auto p-4">
@@ -276,10 +330,10 @@
                 Aplikasi Pembelajaran Bahasa Arab untuk Kelas 1 MI
             </div>
             <div class="text-emerald-200 text-xs">
-                © 2025 تعلم العربية. جميع الحقوق محفوظة | All Rights Reserved
+                © 2024 تعلم العربية. جميع الحقوق محفوظة | All Rights Reserved
             </div>
             <div class="text-emerald-300 text-xs mt-1">
-                Made with ❤️ for Islamic Education
+                Made with ❤️ by Emes Creative
             </div>
         </div>
     </footer>
@@ -1028,14 +1082,14 @@
         function renderMemoryGrid() {
             const grid = document.getElementById('memoryGrid');
             grid.innerHTML = memoryCards.map(card => `
-                <div class="memory-card bg-gradient-to-br from-purple-400 to-purple-600 rounded-xl p-4 cursor-pointer transition-all duration-300 hover:scale-105 shadow-lg" 
+                <div class="memory-card bg-gradient-to-br from-purple-400 to-purple-600 rounded-xl p-2 cursor-pointer transition-all duration-300 hover:scale-105 shadow-lg" 
                      onclick="flipCard(${card.id})" 
                      id="card-${card.id}">
                     <div class="card-front h-20 flex items-center justify-center">
                         <i class="fas fa-question text-white text-3xl"></i>
                     </div>
-                    <div class="card-back h-20 flex items-center justify-center text-center hidden">
-                        <span class="text-white font-bold ${card.type === 'arabic' ? 'arabic-text text-lg' : 'text-sm'}">${card.text}</span>
+                    <div class="card-back h-20 flex items-center justify-center text-center hidden px-1">
+                        <span class="text-white font-bold ${card.type === 'arabic' ? 'arabic-text text-sm' : 'text-xs'} leading-tight break-words">${card.text}</span>
                     </div>
                 </div>
             `).join('');
@@ -1551,10 +1605,10 @@
             
             if (selectedAvatar === 'photo' && studentPhoto) {
                 document.getElementById('studentPhoto').innerHTML = `<img src="${studentPhoto}" alt="Foto Siswa" class="w-full h-full object-cover rounded-full">`;
-                document.getElementById('studentPhoto').className = "w-10 h-10 rounded-full mr-2 overflow-hidden border-2 border-white";
+                document.getElementById('studentPhoto').className = "w-12 h-12 rounded-full mr-3 overflow-hidden border-2 border-white";
             } else {
                 document.getElementById('studentPhoto').textContent = studentAvatar;
-                document.getElementById('studentPhoto').className = "w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-lg font-bold mr-2";
+                document.getElementById('studentPhoto').className = "w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-lg font-bold mr-3";
             }
             
             // Save to localStorage
@@ -1598,7 +1652,7 @@
                     }
                 } else {
                     document.getElementById('studentPhoto').textContent = studentAvatar;
-                    document.getElementById('studentPhoto').className = "w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-xl font-bold mr-3";
+                    document.getElementById('studentPhoto').className = "w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-lg font-bold mr-3";
                 }
             }
         }
@@ -1616,5 +1670,5 @@
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97612f10c577fda7',t:'MTc1NjM1NjU4NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'976142fb865efd18',t:'MTc1NjM1NzQwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
