@@ -1158,12 +1158,6 @@
                     { arabic: "تَوَاصَوْا بِالْحَقِّ", translation: "saling menasehati dengan kebenaran" }
                 ],
                 quiz: [
-                    {
-                        question: "Berapa jumlah ayat dalam Surah Al-Ashr?",
-                        options: ["2 ayat", "3 ayat", "4 ayat", "5 ayat"],
-                        correct: 1,
-                        points: 10
-                    },
     {
         question: "Surah Al-'Asr adalah surah yang ke-berapa dalam Al-Qur'an?",
         options: ["Ke-103", "Ke-107", "Ke-110", "Ke-114"],
@@ -1421,21 +1415,372 @@
         // Evaluation data templates
         const evaluationData = {
             tajweed: [
-                {
-                    question: "Berapa huruf izhar?",
-                    options: ["5", "6", "7", "8"],
-                    correct: 1,
-                    explanation: "Huruf izhar ada 6: ء ه ع ح غ خ"
-                },
-                {
-                    question: "Izhar dibaca dengan...",
-                    options: ["Dengung", "Jelas tanpa dengung", "Samar", "Panjang"],
-                    correct: 1,
-                    explanation: "Izhar dibaca jelas tanpa dengung"
-                }
-                // Template untuk soal evaluasi lainnya
+    {
+        question: "Apa yang dimaksud dengan hukum bacaan Izhar?",
+        options: ["Menyamarkan bacaan huruf nun mati atau tanwin", "Membaca dengan jelas huruf nun mati atau tanwin", "Menyembunyikan bacaan huruf nun mati atau tanwin", "Memanjangkan bacaan huruf nun mati atau tanwin"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Bagaimana cara membaca Izhar?",
+        options: ["Dengan dengung", "Dengan jelas dan tegas tanpa dengung", "Dengan samar-samar", "Dengan memantul"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Huruf Izhar berjumlah...",
+        options: ["4 huruf", "6 huruf", "10 huruf", "15 huruf"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Berikut ini yang merupakan huruf Izhar adalah...",
+        options: ["Ba' (ب)", "Jim (ج)", "Kha' (خ)", "Ta' (ت)"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Apabila nun mati (نْ) bertemu dengan huruf 'Ain (ع), maka hukum bacaannya adalah...",
+        options: ["Ikhfa'", "Idgham", "Iqlab", "Izhar"],
+        correct: 3,
+        points: 5
+    },
+    {
+        question: "Apa yang dimaksud dengan hukum bacaan Ikhfa'?",
+        options: ["Membaca dengan jelas", "Membaca dengan dengung", "Membaca dengan samar-samar dan berdengung", "Membaca dengan memantul"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Huruf Ikhfa' berjumlah...",
+        options: ["6 huruf", "10 huruf", "15 huruf", "20 huruf"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Berikut ini yang merupakan huruf Ikhfa' adalah...",
+        options: ["Alif (ا)", "Ha' (ح)", "Kha' (خ)", "Qaf (ق)"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Apabila tanwin fathah bertemu dengan huruf Ta' (ت), maka hukum bacaannya adalah...",
+        options: ["Izhar", "Ikhfa'", "Idgham", "Iqlab"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Contoh bacaan Izhar dalam Al-Qur'an terdapat pada lafaz...",
+        options: ["مِنْ خَيْرٍ", "مِنْ تَحْتِهَا", "مِنْ بَعْدِ", "أَنْصَارٌ حَمِيدٌ"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Contoh bacaan Ikhfa' dalam Al-Qur'an terdapat pada lafaz...",
+        options: ["أَنْعَمْتَ", "صِرَاطٌ مُسْتَقِيمٌ", "عَلِيمٌ حَكِيمٌ", "يَنْصُرُكُمْ"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Perhatikan penggalan ayat: مِنْ غَسَّاقٍ. Hukum bacaan pada kalimat bergaris bawah adalah...",
+        options: ["Izhar", "Ikhfa'", "Idgham", "Iqlab"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Perhatikan penggalan ayat: مِنْ قَبْلُ. Hukum bacaan pada kalimat bergaris bawah adalah...",
+        options: ["Ikhfa'", "Izhar", "Idgham Bigunnah", "Iqlab"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Perbedaan utama antara Izhar dan Ikhfa' adalah...",
+        options: ["Panjang pendeknya bacaan", "Ada tidaknya dengung", "Keras lemahnya suara", "Tinggi rendahnya nada"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Huruf mana saja yang termasuk dalam kelompok huruf Izhar?",
+        options: ["ا, ج, غ", "ء, هـ, ع, ح, غ, خ", "ت, ث, ج, د, ذ, ز, س, ش, ص, ض, ط, ظ, ف, ق, ك", "ب"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Hukum bacaan nun mati atau tanwin dibagi menjadi...",
+        options: ["2 macam", "4 macam", "6 macam", "8 macam"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Ketika nun mati bertemu dengan huruf Kha' (خ), hukum bacaannya menjadi...",
+        options: ["Izhar", "Ikhfa'", "Idgham", "Iqlab"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Lafaz 'unẓur' (اُنْظُرْ) mengandung hukum bacaan...",
+        options: ["Izhar karena nun mati bertemu Zha'", "Ikhfa' karena nun mati bertemu Zha'", "Idgham karena nun mati bertemu Zha'", "Iqlab karena nun mati bertemu Zha'"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Bunyi dengung pada Ikhfa' dibaca selama...",
+        options: ["1 harakat", "2 harakat", "3 harakat", "Tidak ada ketentuan"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Tanda baca yang menunjukan tanwin adalah...",
+        options: ["Fathah, Kasrah, Dhammah yang ditulis double", "Sukun", "Tasydid", "Mad"],
+        correct: 0,
+        points: 5
+    }
             ],
             alashr: [
+    {
+        question: "Surah Al-'Asr adalah surah yang ke-berapa dalam Al-Qur'an?",
+        options: ["Ke-103", "Ke-107", "Ke-110", "Ke-114"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Jumlah ayat dalam Surah Al-'Asr adalah...",
+        options: ["2 ayat", "3 ayat", "4 ayat", "5 ayat"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Arti dari kata 'Al-'Asr' dalam surah tersebut adalah...",
+        options: ["Waktu Dhuha", "Waktu Ashar", "Waktu", "Masa"],
+        correct: 3,
+        points: 5
+    },
+    {
+        question: "Surah Al-'Asr tergolong ke dalam surah...",
+        options: ["Madaniyah", "Makkiyah", "Syamiyah", "Hijriyah"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Pokok kandungan Surah Al-'Asr adalah tentang...",
+        options: ["Kisah Nabi", "Hukum Waris", "Ciri-ciri Orang yang Beruntung", "Hari Kiamat"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Allah bersumpah dengan waktu 'Asr untuk menunjukkan bahwa...",
+        options: ["Waktu Ashar sangat penting", "Manusia selalu merugi", "Waktu adalah pedang", "Waktu adalah kehidupan"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Siapakah yang termasuk dalam golongan orang yang tidak merugi menurut Surah Al-'Asr?",
+        options: ["Orang yang kaya raya", "Orang yang berilmu", "Orang yang beriman dan beramal shaleh", "Orang yang berkuasa"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Lafaz 'wa tawāshaụ bil-ḥaqqi' mengandung arti...",
+        options: ["Dan saling menasihati dalam kesabaran", "Dan saling menasihati dalam kebenaran", "Dan saling tolong-menolong dalam kebaikan", "Dan saling mengingatkan dalam ibadah"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Lafaz 'wa tawāshaụ biṣ-ṣabr' mengandung arti...",
+        options: ["Dan saling menasihati dalam kesabaran", "Dan saling menasihati dalam kebenaran", "Dan saling tolong-menolong dalam kebaikan", "Dan saling mengingatkan dalam ibadah"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Surah Al-'Asr diturunkan setelah surah...",
+        options: ["Al-Qadr", "Al-Ikhlas", "An-Nasr", "Al-Quraisy"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Menurut surah ini, manusia berada dalam keadaan...",
+        options: ["Beruntung", "Bersedih", "Merugi", "Bingung"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Amal shaleh dalam Surah Al-'Asr adalah perbuatan baik yang dilakukan berdasarkan...",
+        options: ["Kebiasaan", "Perintah orang tua", "Ilmu dan keimanan", "Keinginan sendiri"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Saling menasihati dalam kebenaran dan kesabaran adalah cara untuk...",
+        options: ["Mendapatkan pujian", "Menghindari kerugian", "Mencari kekayaan", "Mendapatkan jabatan"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Imam Syafi'i pernah berkata bahwa seandainya Allah hanya menurunkan surah Al-'Asr, maka itu sudah...",
+        options: ["Cukup untuk manusia", "Membingungkan manusia", "Menjadi dasar hukum", "Menjadi bukti kenabian"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Surah Al-'Asr mengajarkan kepada kita untuk memanfaatkan...",
+        options: ["Kekayaan", "Waktu", "Kekuasaan", "Ilmu"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Orang yang beriman dan beramal shaleh akan saling menasihati dalam...",
+        options: ["Bersedih dan menangis", "Kebenaran dan kesabaran", "Bersenang-senang", "Bermain dan tidur"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Berikut ini yang bukan merupakan isi Surah Al-'Asr adalah...",
+        options: ["Manusia berada dalam kerugian", "Pentingnya waktu", "Orang yang beruntung memiliki 4 sifat", "Perintah shalat 5 waktu"],
+        correct: 3,
+        points: 5
+    },
+    {
+        question: "Nasihat yang terkandung dalam Surah Al-'Asr sangat cocok untuk diterapkan dalam...",
+        options: ["Kehidupan sehari-hari", "Acara formal saja", "Di masjid saja", "Saat sendiri saja"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Surah Al-'Asr mengajarkan bahwa kesabaran diperlukan dalam...",
+        options: ["Menghadapi ujian dan godaan", "Mengerjakan ujian sekolah", "Menunggu antrian", "Semua benar"],
+        correct: 3,
+        points: 5
+    },
+    {
+        question: "Dengan memahami Surah Al-'Asr, kita menjadi tahu bahwa untuk selamat dari kerugian, kita harus...",
+        options: ["Banyak harta", "Beriman, beramal shaleh, dan saling menasihati", "Pandai bersembunyi", "Selalu menghindari masalah"],
+        correct: 1,
+        points: 5
+    }
+            ]
+            quraisy: [
+    {
+        question: "Surah Quraisy adalah surah yang ke-berapa dalam Al-Qur'an?",
+        options: ["Ke-104", "Ke-105", "Ke-106", "Ke-107"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Jumlah ayat dalam Surah Quraisy adalah...",
+        options: ["3 ayat", "4 ayat", "5 ayat", "6 ayat"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Surah Quraisy tergolong ke dalam surah...",
+        options: ["Madaniyah", "Makkiyah", "Syamiyah", "Hijriyah"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Arti dari 'Quraisy' adalah...",
+        options: ["Nama sebuah kabilah", "Nama sebuah kota", "Nama seorang Nabi", "Nama sebuah sungai"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Surah Quraisy diturunkan setelah surah...",
+        options: ["Al-Fiil", "At-Takatsur", "Al-Kautsar", "Al-Ma'un"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Pokok kandungan Surah Quraisy adalah tentang...",
+        options: ["Kisah pasukan gajah", "Nikmat Allah kepada suku Quraisy", "Hari Kiamat", "Ciri-ciri orang munafik"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Nikmat apa yang disebutkan dalam surah ini yang diberikan Allah kepada suku Quraisy?",
+        options: ["Kemampuan berperang", "Kecerdasan berdagang", "Keamanan dalam perjalanan dan kecukupan rezeki", "Kekuatan fisik yang hebat"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Lafaz 'ilāfihim' dalam Surah Quraisy berarti...",
+        options: ["Kebiasaan mereka", "Kekayaan mereka", "Perjalanan mereka", "Keselamatan mereka"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Kebiasaan suku Quraisy yang disebutkan dalam surah ini adalah...",
+        options: ["Berdagang ke Yaman dan Syam", "Berkebun dan beternak", "Berperang dan berburu", "Membaca dan menulis"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Aman dari rasa takut adalah nikmat Allah yang diberikan kepada suku Quraisy, sehingga mereka bisa...",
+        options: ["Berdagang dengan tenang", "Berperang dengan gagah", "Bermalas-malasan", "Pamer kekayaan"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Surah Quraisy memiliki hubungan yang sangat erat dengan surah sebelumnya, yaitu...",
+        options: ["Al-Kafirun", "Al-Ma'un", "Al-Fiil", "Al-Humazah"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Apa perintah Allah di akhir Surah Quraisy?",
+        options: ["Maka hendaklah mereka menyembah Tuhan pemilik rumah ini (Ka'bah)", "Maka hendaklah mereka bersyukur", "Maka hendaklah mereka berhijrah", "Maka hendaklah mereka berdagang"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "'Rumah' yang dimaksud dalam ayat 'Rabba hāżal-bait' adalah...",
+        options: ["Baitul Mal", "Baitullah (Ka'bah)", "Rumah Nabi", "Rumah mereka sendiri"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Allah memberikan kecukupan rezeki kepada suku Quraisy berupa...",
+        options: ["Kekayaan yang melimpah ruah", "Makanan untuk mengenyangkan (dari lapar) dan keamanan (dari ketakutan)", "Kemewahan dan harta benda", "Ketenangan dan kemewahan"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Sikap yang diajarkan dari Surah Quraisy setelah menerima nikmat adalah...",
+        options: ["Sombong dan berbangga diri", "Bersyukur dan beribadah hanya kepada Allah", "Diam dan menyendiri", "Bersedih dan menangis"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Kata 'asy-syitā`i' dalam surah ini berarti...",
+        options: ["Musim semi", "Musim panas", "Musim dingin", "Musim gugur"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Kata 'waṣ-ṣaif' dalam surah ini berarti...",
+        options: ["Musim semi", "Musim panas", "Musim dingin", "Musim gugur"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Perjalanan dagang musim dingin suku Quraisy biasanya menuju ke...",
+        options: ["Syam (Syria)", "Yaman", "Irak", "Mesir"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Perjalanan dagang musim panas suku Quraisy biasanya menuju ke...",
+        options: ["Syam (Syria)", "Yaman", "Irak", "Mesir"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Inti pesan dari Surah Quraisy adalah...",
+        options: ["Harta adalah segalanya", "Bersyukurlah atas nikmat Allah dengan menyembah-Nya", "Berdaganglah ke mana saja", "Jadilah suku yang paling kuat"],
+        correct: 1,
+        points: 5
+    }
+            ]
+            maun: [
                 {
                     question: "Berapa jumlah ayat dalam Surah Al-Ashr?",
                     options: ["2", "3", "4", "5"],
