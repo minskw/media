@@ -1,596 +1,1620 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ayo Belajar Bahasa Arab - Perkenalan</title>
+    <title>تعلم العربية - الصف الأول</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
         
         body {
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: #333;
-            min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            font-family: 'Amiri', serif;
+            background: linear-gradient(135deg, #0f766e 0%, #065f46 50%, #1e40af 100%);
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(255,255,255,0.05) 0%, transparent 50%);
         }
         
-        .container {
-            background-color: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 500px;
-            overflow: hidden;
-            position: relative;
+        .arabic-text {
+            font-family: 'Amiri', serif;
+            font-size: 1.5em;
         }
         
-        header {
-            background: linear-gradient(to right, #4CAF50, #8BC34A);
-            color: white;
-            padding: 20px;
-            text-align: center;
-            position: relative;
+        .islamic-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M30 30c0-11.046-8.954-20-20-20s-20 8.954-20 20 8.954 20 20 20 20-8.954 20-20zm0 0c0 11.046 8.954 20 20 20s20-8.954 20-20-8.954-20-20-20-20 8.954-20 20z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
         
-        .header-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .conversation-animation {
+            animation: conversation 3s infinite;
         }
         
-        .logo {
-            font-size: 2.5rem;
-            margin-right: 15px;
+        @keyframes conversation {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.05); }
+        }
+        
+        .bounce {
             animation: bounce 2s infinite;
         }
         
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-        }
-        
-        .subtitle {
-            font-size: 1rem;
-            opacity: 0.9;
-        }
-        
-        .content {
-            padding: 20px;
-        }
-        
-        .section {
-            margin-bottom: 25px;
-        }
-        
-        h2 {
-            color: #4CAF50;
-            border-bottom: 2px solid #4CAF50;
-            padding-bottom: 8px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
-        
-        h2 i {
-            margin-right: 10px;
-        }
-        
-        .vocabulary-card {
-            background-color: #f9f9f9;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        .vocabulary-card:active {
-            transform: scale(0.98);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        .arabic {
-            font-family: 'Amiri', serif;
-            font-size: 2rem;
-            margin-right: 15px;
-            color: #4CAF50;
-            min-width: 90px;
-            text-align: center;
-            line-height: 1.4;
-        }
-        
-        .meaning {
-            flex-grow: 1;
-        }
-        
-        .audio-btn {
-            background-color: #4CAF50;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-        
-        .animation-container {
-            background-color: #e8f5e9;
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            margin-bottom: 25px;
-            position: relative;
-            height: 200px;
-            overflow: hidden;
-        }
-        
-        .character {
-            position: absolute;
-            transition: transform 0.5s;
-        }
-        
-        .boy {
-            bottom: 20px;
-            left: 25%;
-            transform: translateX(-50%);
-            font-size: 4rem;
-            color: #2196F3;
-        }
-        
-        .girl {
-            bottom: 20px;
-            left: 75%;
-            transform: translateX(-50%);
-            font-size: 4rem;
-            color: #E91E63;
-        }
-        
-        .speech-bubble {
-            position: absolute;
-            background-color: white;
-            border-radius: 20px;
-            padding: 10px 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            transition: opacity 0.5s;
-            width: 80%;
-            text-align: center;
-            font-family: 'Amiri', serif;
-            font-size: 1.4rem;
-            line-height: 1.6;
-        }
-        
-        .boy-bubble {
-            top: 30px;
-            left: 25%;
-            transform: translateX(-50%);
-        }
-        
-        .girl-bubble {
-            top: 30px;
-            left: 75%;
-            transform: translateX(-50%);
-        }
-        
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .btn {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        .btn:active {
-            transform: scale(0.95);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-        
-        .btn i {
-            margin-right: 8px;
-        }
-        
-        .practice-section {
-            background-color: #e8f5e9;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-        }
-        
-        .practice-btn {
-            background-color: #FF9800;
-            margin-top: 15px;
-        }
-        
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-            margin-left: 10px;
-            display: none;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 15px;
-            background-color: #f5f5f5;
-            color: #777;
-            font-size: 0.9rem;
-        }
-        
-        /* Animations */
         @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .pulse {
+            animation: pulse 2s infinite;
         }
         
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
         
-        .fade-in {
-            animation: fadeIn 1s forwards;
+        .star {
+            color: #ffd700;
+            animation: twinkle 1.5s infinite;
         }
         
-        .audio-status {
-            font-size: 0.8rem;
-            color: #4CAF50;
-            margin-top: 5px;
-            text-align: center;
-            display: none;
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .game-card {
+            transition: all 0.3s ease;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .writing-canvas {
+            border: 3px dashed #4f46e5;
+            background: white;
+            cursor: crosshair;
+        }
+        
+        .correct-answer {
+            background: #10b981 !important;
+            color: white;
+            animation: correctPulse 0.5s ease;
+        }
+        
+        .wrong-answer {
+            background: #ef4444 !important;
+            color: white;
+            animation: shake 0.5s ease;
+        }
+        
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <header>
-            <div class="header-content">
-                <div class="logo">📘</div>
-                <div>
-                    <h1>Ayo Belajar Bahasa Arab</h1>
-                    <div class="subtitle">Materi Perkenalan untuk Kelas 1 MI</div>
-                </div>
-            </div>
-        </header>
-        
-        <div class="content">
-            <div class="section">
-                <h2><i class="fas fa-star"></i> Kosakata Perkenalan</h2>
-                
-                <div class="vocabulary-card" onclick="speakText('as-salamu alaykum')">
-                    <div class="arabic">السَّلَامُ عَلَيْكُمْ</div>
-                    <div class="meaning">
-                        <div><strong>Assalamu'alaikum</strong></div>
-                        <div>Semoga keselamatan untukmu</div>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-emerald-800 to-teal-700 shadow-2xl p-4 islamic-pattern">
+        <div class="container mx-auto">
+            <!-- Top Row: Title and Settings -->
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-white to-gray-100 rounded-full flex items-center justify-center shadow-lg border-2 border-white border-opacity-50">
+                        <img src="https://cdn-icons-png.flaticon.com/128/12277/12277320.png" alt="Logo" class="w-8 h-8" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <div class="text-2xl text-emerald-600 hidden">
+                            <i class="fas fa-mosque"></i>
+                        </div>
                     </div>
-                    <div class="audio-btn">
-                        <i class="fas fa-volume-up"></i>
+                    <div>
+                        <h1 class="text-xl font-bold text-white arabic-text">تعلم العربية</h1>
+                        <p class="text-sm text-emerald-100">Kelas 1 MI</p>
                     </div>
                 </div>
-                <div class="audio-status" id="status1">Memuat audio...</div>
-                
-                <div class="vocabulary-card" onclick="speakText('kaifa haluka')">
-                    <div class="arabic">كَيْفَ حَالُكَ؟</div>
-                    <div class="meaning">
-                        <div><strong>Kaifa haaluka?</strong></div>
-                        <div>Apa kabarmu? (laki-laki)</div>
-                    </div>
-                    <div class="audio-btn">
-                        <i class="fas fa-volume-up"></i>
-                    </div>
-                </div>
-                <div class="audio-status" id="status2">Memuat audio...</div>
-                
-                <div class="vocabulary-card" onclick="speakText('kaifa haluki')">
-                    <div class="arabic">كَيْفَ حَالُكِ؟</div>
-                    <div class="meaning">
-                        <div><strong>Kaifa haaluki?</strong></div>
-                        <div>Apa kabarmu? (perempuan)</div>
-                    </div>
-                    <div class="audio-btn">
-                        <i class="fas fa-volume-up"></i>
-                    </div>
-                </div>
-                <div class="audio-status" id="status3">Memuat audio...</div>
-                
-                <div class="vocabulary-card" onclick="speakText('ma ismuka')">
-                    <div class="arabic">مَا اسْمُكَ؟</div>
-                    <div class="meaning">
-                        <div><strong>Ma ismuka?</strong></div>
-                        <div>Siapa namamu? (laki-laki)</div>
-                    </div>
-                    <div class="audio-btn">
-                        <i class="fas fa-volume-up"></i>
-                    </div>
-                </div>
-                <div class="audio-status" id="status4">Memuat audio...</div>
-                
-                <div class="vocabulary-card" onclick="speakText('ma ismuki')">
-                    <div class="arabic">مَا اسْمُكِ؟</div>
-                    <div class="meaning">
-                        <div><strong>Ma ismuki?</strong></div>
-                        <div>Siapa namamu? (perempuan)</div>
-                    </div>
-                    <div class="audio-btn">
-                        <i class="fas fa-volume-up"></i>
-                    </div>
-                </div>
-                <div class="audio-status" id="status5">Memuat audio...</div>
-                
-                <div class="vocabulary-card" onclick="speakText('ana bikhair alhamdulillah')">
-                    <div class="arabic">أَنَا بِخَيْرٍ الْحَمْدُ لِلَّهِ</div>
-                    <div class="meaning">
-                        <div><strong>Ana bikhairin alhamdulillah</strong></div>
-                        <div>Saya baik-baik saja, puji Tuhan</div>
-                    </div>
-                    <div class="audio-btn">
-                        <i class="fas fa-volume-up"></i>
-                    </div>
-                </div>
-                <div class="audio-status" id="status6">Memuat audio...</div>
+                <button onclick="showProfileModal()" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white p-3 rounded-full transition-colors">
+                    <i class="fas fa-cog text-lg"></i>
+                </button>
             </div>
             
-            <div class="section">
-                <h2><i class="fas fa-theater-masks"></i> Animasi Percakapan</h2>
-                
-                <div class="animation-container">
-                    <div class="character boy">👦</div>
-                    <div class="character girl">👧</div>
-                    
-                    <div class="speech-bubble boy-bubble" id="boy-bubble">السَّلَامُ عَلَيْكُمْ</div>
-                    <div class="speech-bubble girl-bubble" id="girl-bubble">وَعَلَيْكُمُ السَّلَامُ</div>
+            <!-- Bottom Row: Profile and Stats -->
+            <div class="flex items-center justify-between">
+                <!-- Student Profile -->
+                <div id="studentProfile" class="flex items-center bg-white bg-opacity-20 px-3 py-2 rounded-full shadow-lg">
+                    <div id="studentPhoto" class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-lg font-bold mr-2">
+                        👤
+                    </div>
+                    <div>
+                        <div class="text-white font-semibold text-sm" id="studentName">Siswa</div>
+                    </div>
                 </div>
                 
-                <div class="controls">
-                    <button class="btn" onclick="playConversation()">
-                        <i class="fas fa-play"></i> Putar Percakapan
-                    </button>
-                    <button class="btn" onclick="resetConversation()">
-                        <i class="fas fa-redo"></i> Ulangi
-                    </button>
-                </div>
-            </div>
-            
-            <div class="section">
-                <h2><i class="fas fa-practice"></i> Latihan Percakapan</h2>
-                
-                <div class="practice-section">
-                    <p>Praktekkan percakapan sederhana dengan menekan tombol di bawah dan mengucapkan kata-kata dalam bahasa Arab!</p>
-                    
-                    <button class="btn practice-btn" onclick="startPractice()">
-                        <i class="fas fa-microphone"></i> Mulai Latihan
-                    </button>
-                    
-                    <div id="practice-result" style="margin-top: 15px; font-weight: bold; color: #4CAF50;"></div>
+                <!-- Points and Stars -->
+                <div class="flex items-center space-x-2">
+                    <div class="bg-yellow-400 px-3 py-2 rounded-full shadow-lg">
+                        <span class="text-yellow-900 font-bold text-sm">النقاط: <span id="totalPoints">0</span></span>
+                    </div>
+                    <div id="stars" class="flex space-x-1"></div>
                 </div>
             </div>
         </div>
-        
-        <footer>
-            <p>Media Pembelajaran Bahasa Arab untuk Kelas 1 MI</p>
-            <p>© 2023 Madrasah Ibtidaiyah</p>
-        </footer>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container mx-auto p-4">
+        <!-- Main Menu -->
+        <div id="mainMenu" class="text-center">
+            <h2 class="text-3xl font-bold text-white mb-8 arabic-text bounce">اختر الموضوع</h2>
+            <div class="grid grid-cols-1 gap-6 max-w-md mx-auto">
+                <!-- التعارف Menu -->
+                <div class="bg-gradient-to-br from-white to-emerald-50 rounded-2xl p-6 shadow-2xl game-card cursor-pointer border-3 border-emerald-200" onclick="showTopicMenu('introduction')">
+                    <div class="text-5xl mb-4 text-emerald-600">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-emerald-800 mb-3 arabic-text">التعارف</h3>
+                    <p class="text-lg text-gray-700 mb-2 font-semibold">Perkenalan</p>
+                    <div class="text-sm text-gray-600">تعلم كيف تعرف بنفسك</div>
+                </div>
+                
+                <!-- أسرتي Menu -->
+                <div class="bg-gradient-to-br from-white to-blue-50 rounded-2xl p-6 shadow-2xl game-card cursor-pointer border-3 border-blue-200" onclick="showTopicMenu('family')">
+                    <div class="text-5xl mb-4 text-blue-600">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-blue-800 mb-3 arabic-text">أسرتي</h3>
+                    <p class="text-lg text-gray-700 mb-2 font-semibold">Keluargaku</p>
+                    <div class="text-sm text-gray-600">تعلم عن أفراد الأسرة</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Topic Menu -->
+        <div id="topicMenu" class="hidden">
+            <div class="flex items-center mb-6">
+                <button onclick="showMainMenu()" class="bg-white text-emerald-800 px-4 py-2 rounded-full shadow-lg hover:bg-gray-100 transition-colors text-sm font-semibold">
+                    <i class="fas fa-arrow-left mr-1"></i> Kembali
+                </button>
+                <h2 id="topicTitle" class="text-2xl font-bold text-white mx-auto arabic-text"></h2>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <!-- Listening Skill -->
+                <div class="bg-gradient-to-br from-white to-blue-50 rounded-xl p-4 shadow-xl game-card cursor-pointer border-2 border-blue-200" onclick="showSkill('listening')">
+                    <div class="text-3xl mb-2 text-blue-600">
+                        <i class="fas fa-ear-listen"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-blue-800 mb-1 arabic-text">استماع</h3>
+                    <p class="text-gray-700 text-sm font-semibold">Menyimak</p>
+                </div>
+                
+                <!-- Speaking Skill -->
+                <div class="bg-gradient-to-br from-white to-green-50 rounded-xl p-4 shadow-xl game-card cursor-pointer border-2 border-green-200" onclick="showSkill('speaking')">
+                    <div class="text-3xl mb-2 text-green-600">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-green-800 mb-1 arabic-text">تحدث</h3>
+                    <p class="text-gray-700 text-sm font-semibold">Berbicara</p>
+                </div>
+                
+                <!-- Reading Skill -->
+                <div class="bg-gradient-to-br from-white to-orange-50 rounded-xl p-4 shadow-xl game-card cursor-pointer border-2 border-orange-200" onclick="showSkill('reading')">
+                    <div class="text-3xl mb-2 text-orange-600">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-orange-800 mb-1 arabic-text">قراءة</h3>
+                    <p class="text-gray-700 text-sm font-semibold">Membaca</p>
+                </div>
+                
+                <!-- Writing Skill -->
+                <div class="bg-gradient-to-br from-white to-purple-50 rounded-xl p-4 shadow-xl game-card cursor-pointer border-2 border-purple-200" onclick="showSkill('writing')">
+                    <div class="text-3xl mb-2 text-purple-600">
+                        <i class="fas fa-pen-fancy"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-purple-800 mb-1 arabic-text">كتابة</h3>
+                    <p class="text-gray-700 text-sm font-semibold">Menulis</p>
+                </div>
+            </div>
+            
+            <!-- Games Section -->
+            <div class="mt-6">
+                <h3 class="text-xl font-bold text-white mb-4 text-center arabic-text">الألعاب التعليمية</h3>
+                <div id="gamesContainer" class="grid grid-cols-1 gap-4"></div>
+            </div>
+        </div>
+
+        <!-- Skill Content -->
+        <div id="skillContent" class="hidden">
+            <div class="flex items-center mb-4">
+                <button onclick="showTopicMenu(currentTopic)" class="bg-white text-emerald-800 px-4 py-2 rounded-full shadow-lg hover:bg-gray-100 transition-colors text-sm font-semibold">
+                    <i class="fas fa-arrow-left mr-1"></i> Kembali
+                </button>
+                <h2 id="skillTitle" class="text-xl font-bold text-white mx-auto arabic-text"></h2>
+            </div>
+            
+            <div id="skillActivity" class="bg-white rounded-xl p-4 shadow-2xl"></div>
+        </div>
+
+        <!-- Game Content -->
+        <div id="gameContent" class="hidden">
+            <div class="flex items-center mb-4">
+                <button onclick="showTopicMenu(currentTopic)" class="bg-white text-emerald-800 px-4 py-2 rounded-full shadow-lg hover:bg-gray-100 transition-colors text-sm font-semibold">
+                    <i class="fas fa-arrow-left mr-1"></i> Kembali
+                </button>
+                <h2 id="gameTitle" class="text-xl font-bold text-white mx-auto arabic-text"></h2>
+            </div>
+            
+            <div id="gameActivity" class="bg-white rounded-xl p-4 shadow-2xl"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-emerald-900 to-teal-800 text-white py-6 mt-12 islamic-pattern">
+        <div class="container mx-auto text-center">
+            <div class="flex items-center justify-center mb-3">
+                <div class="w-8 h-8 bg-gradient-to-br from-white to-gray-100 rounded-full flex items-center justify-center shadow-lg border border-white border-opacity-50 mr-3">
+                    <img src="https://cdn-icons-png.flaticon.com/128/12277/12277320.png" alt="Logo" class="w-5 h-5" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="text-sm text-emerald-600 hidden">
+                        <i class="fas fa-mosque"></i>
+                    </div>
+                </div>
+                <h3 class="text-lg font-bold arabic-text">تعلم العربية</h3>
+            </div>
+            <div class="text-emerald-100 text-sm mb-2">
+                Aplikasi Pembelajaran Bahasa Arab untuk Kelas 1 MI
+            </div>
+            <div class="text-emerald-200 text-xs">
+                © 2025 تعلم العربية. جميع الحقوق محفوظة | All Rights Reserved
+            </div>
+            <div class="text-emerald-300 text-xs mt-1">
+                Made with ❤️ for Islamic Education
+            </div>
+        </div>
+    </footer>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-gradient-to-br from-white to-blue-50 rounded-2xl p-6 text-center w-full max-w-sm border-3 border-blue-200 shadow-2xl">
+            <div class="text-4xl mb-4 text-blue-600">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-blue-700 mb-4">Profil Siswa</h3>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Nama Siswa:</label>
+                <input type="text" id="studentNameInput" class="w-full px-3 py-2 border-2 border-blue-200 rounded-lg focus:border-blue-500 focus:outline-none text-base text-center" placeholder="Masukkan nama...">
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Foto Profil:</label>
+                
+                <!-- Photo Upload Area -->
+                <div class="text-center mb-3">
+                    <div id="photoPreview" class="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-xl font-bold mb-2 overflow-hidden border-3 border-blue-200">
+                        👤
+                    </div>
+                    <input type="file" id="photoInput" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)">
+                    <button onclick="document.getElementById('photoInput').click()" class="bg-blue-500 text-white px-3 py-2 rounded-full hover:bg-blue-600 transition-colors text-xs">
+                        <i class="fas fa-camera mr-1"></i> Upload Foto
+                    </button>
+                </div>
+                
+                <!-- Avatar Options -->
+                <div class="text-center">
+                    <p class="text-xs text-gray-600 mb-2">Atau pilih avatar:</p>
+                    <div class="grid grid-cols-4 gap-2">
+                        <div class="avatar-option w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-lg cursor-pointer hover:scale-110 transition-transform" onclick="selectAvatar('👦')">👦</div>
+                        <div class="avatar-option w-10 h-10 rounded-full bg-gradient-to-br from-pink-400 to-red-500 flex items-center justify-center text-white text-lg cursor-pointer hover:scale-110 transition-transform" onclick="selectAvatar('👧')">👧</div>
+                        <div class="avatar-option w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-teal-500 flex items-center justify-center text-white text-lg cursor-pointer hover:scale-110 transition-transform" onclick="selectAvatar('🧒')">🧒</div>
+                        <div class="avatar-option w-10 h-10 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-white text-lg cursor-pointer hover:scale-110 transition-transform" onclick="selectAvatar('👤')">👤</div>
+                        <div class="avatar-option w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-indigo-500 flex items-center justify-center text-white text-lg cursor-pointer hover:scale-110 transition-transform" onclick="selectAvatar('🎓')">🎓</div>
+                        <div class="avatar-option w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-green-500 flex items-center justify-center text-white text-lg cursor-pointer hover:scale-110 transition-transform" onclick="selectAvatar('📚')">📚</div>
+                        <div class="avatar-option w-10 h-10 rounded-full bg-gradient-to-br from-red-400 to-pink-500 flex items-center justify-center text-white text-lg cursor-pointer hover:scale-110 transition-transform" onclick="selectAvatar('⭐')">⭐</div>
+                        <div class="avatar-option w-10 h-10 rounded-full bg-gradient-to-br from-indigo-400 to-blue-500 flex items-center justify-center text-white text-lg cursor-pointer hover:scale-110 transition-transform" onclick="selectAvatar('🌟')">🌟</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex space-x-3">
+                <button onclick="closeProfileModal()" class="bg-gray-500 text-white px-4 py-2 rounded-full hover:bg-gray-600 transition-colors text-sm">
+                    <i class="fas fa-times mr-1"></i> Batal
+                </button>
+                <button onclick="saveProfile()" class="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition-colors text-sm">
+                    <i class="fas fa-save mr-1"></i> Simpan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-gradient-to-br from-white to-emerald-50 rounded-2xl p-6 text-center w-full max-w-sm border-3 border-emerald-200 shadow-2xl">
+            <div class="text-5xl mb-4 text-emerald-600">
+                <i class="fas fa-star"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-emerald-700 mb-4 arabic-text">أحسنت!</h3>
+            <p id="successMessage" class="text-gray-700 mb-6 text-base">Jawaban benar! Kamu mendapat 10 poin!</p>
+            <button onclick="closeSuccessModal()" class="bg-emerald-500 text-white px-6 py-3 rounded-full hover:bg-emerald-600 transition-colors text-base font-semibold">
+                <i class="fas fa-arrow-right mr-2"></i> Lanjutkan
+            </button>
+        </div>
     </div>
 
     <script>
-        // Daftar frasa Arab dan pengucapannya
-        const arabicPhrases = [
-            { text: "السَّلَامُ عَلَيْكُمْ", utterance: "as-salamu alaykum" },
-            { text: "كَيْفَ حَالُكَ؟", utterance: "kaifa haluka" },
-            { text: "كَيْفَ حَالُكِ؟", utterance: "kaifa haluki" },
-            { text: "مَا اسْمُكَ؟", utterance: "ma ismuka" },
-            { text: "مَا اسْمُكِ؟", utterance: "ma ismuki" },
-            { text: "أَنَا بِخَيْرٍ الْحَمْدُ لِلَّهِ", utterance: "ana bikhair alhamdulillah" },
-            { text: "وَعَلَيْكُمُ السَّلَامُ", utterance: "wa alaykum as-salam" },
-            { text: "اِسْمِي أَحْمَدُ", utterance: "ismi ahmad" },
-            { text: "اِسْمِي فَاطِمَةُ", utterance: "ismi fatimah" },
-            { text: "تَشَرَّفْنَا", utterance: "tasharrafna" }
-        ];
+        let currentTopic = '';
+        let currentSkill = '';
+        let totalPoints = 0;
+        let stars = 0;
+        let studentName = 'Siswa';
+        let studentAvatar = '👤';
+        let selectedAvatar = '👤';
+        let studentPhoto = null;
+
+        // Vocabulary data
+        const vocabulary = {
+            introduction: {
+                arabic: ['اسمي', 'عمري', 'أنا من', 'السلام عليكم', 'وعليكم السلام', 'صباح الخير', 'مساء الخير'],
+                indonesian: ['Namaku', 'Umurku', 'Saya dari', 'Assalamu\'alaikum', 'Wa\'alaikumussalam', 'Selamat pagi', 'Selamat sore'],
+                phonetic: ['ismi', 'umri', 'ana min', 'assalamu alaikum', 'wa alaikumussalam', 'sabah al-khair', 'masa al-khair']
+            },
+            family: {
+                arabic: ['أبي', 'أمي', 'أخي', 'أختي', 'جدي', 'جدتي', 'عمي', 'عمتي'],
+                indonesian: ['Ayahku', 'Ibuku', 'Saudaraku (lk)', 'Saudaraku (pr)', 'Kakekku', 'Nenekku', 'Pamanku', 'Bibiku'],
+                phonetic: ['abi', 'ummi', 'akhi', 'ukhti', 'jaddi', 'jaddati', 'ammi', 'ammati']
+            }
+        };
+
+        // Text-to-Speech function (Demo - in real implementation, use Arabic TTS API)
+        function speakArabic(text) {
+            // Simulate TTS with Web Speech API (limited Arabic support)
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ar-SA';
+                utterance.rate = 0.8;
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Personalized feedback with student name
+        function speakPersonalizedFeedback(isCorrect, points = 10) {
+            let feedbackText = '';
+            
+            if (isCorrect) {
+                const praises = [
+                    `أحسنت يا ${studentName}!`,
+                    `ممتاز يا ${studentName}!`,
+                    `عظيم يا ${studentName}!`
+                ];
+                feedbackText = praises[Math.floor(Math.random() * praises.length)];
+            } else {
+                const encouragements = [
+                    `حاول مرة أخرى يا ${studentName}`,
+                    `لا بأس يا ${studentName}، حاول مرة أخرى`,
+                    `تستطيع أن تفعل ذلك يا ${studentName}`
+                ];
+                feedbackText = encouragements[Math.floor(Math.random() * encouragements.length)];
+            }
+            
+            // Speak the feedback
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(feedbackText);
+                utterance.lang = 'ar-SA';
+                utterance.rate = 0.8;
+                utterance.pitch = 1.2; // Slightly higher pitch for encouragement
+                speechSynthesis.speak(utterance);
+            }
+            
+            return feedbackText;
+        }
+
+        // Speech Recognition function (Demo)
+        function startSpeechRecognition(expectedText, callback) {
+            if ('webkitSpeechRecognition' in window) {
+                const recognition = new webkitSpeechRecognition();
+                recognition.lang = 'ar-SA';
+                recognition.onresult = function(event) {
+                    const spokenText = event.results[0][0].transcript;
+                    const isCorrect = spokenText.includes(expectedText) || expectedText.includes(spokenText);
+                    callback(isCorrect, spokenText);
+                };
+                recognition.start();
+            } else {
+                callback(true, expectedText); // Simulate success for demo
+            }
+        }
+
+        function showMainMenu() {
+            document.getElementById('mainMenu').classList.remove('hidden');
+            document.getElementById('topicMenu').classList.add('hidden');
+            document.getElementById('skillContent').classList.add('hidden');
+            document.getElementById('gameContent').classList.add('hidden');
+        }
+
+        function showTopicMenu(topic) {
+            currentTopic = topic;
+            document.getElementById('mainMenu').classList.add('hidden');
+            document.getElementById('topicMenu').classList.remove('hidden');
+            document.getElementById('skillContent').classList.add('hidden');
+            document.getElementById('gameContent').classList.add('hidden');
+            
+            const titles = {
+                introduction: 'التعارف - Perkenalan',
+                family: 'أسرتي - Keluargaku'
+            };
+            
+            document.getElementById('topicTitle').textContent = titles[topic];
+            loadGames(topic);
+        }
+
+        function showSkill(skill) {
+            currentSkill = skill;
+            document.getElementById('topicMenu').classList.add('hidden');
+            document.getElementById('skillContent').classList.remove('hidden');
+            
+            const skillTitles = {
+                listening: 'استماع - Menyimak',
+                speaking: 'تحدث - Mengucapkan',
+                reading: 'قراءة - Membaca',
+                writing: 'كتابة - Menulis'
+            };
+            
+            document.getElementById('skillTitle').textContent = skillTitles[skill];
+            loadSkillActivity(currentTopic, skill);
+        }
+
+        function loadSkillActivity(topic, skill) {
+            const container = document.getElementById('skillActivity');
+            const vocab = vocabulary[topic];
+            
+            switch(skill) {
+                case 'listening':
+                    container.innerHTML = `
+                        <h3 class="text-3xl font-bold mb-8 text-center arabic-text">استمع إلى الكلمة</h3>
+                        <div class="text-center mb-8">
+                            <div id="listeningText" class="text-6xl arabic-text mb-6 p-8 bg-blue-50 rounded-2xl border-4 border-blue-200 text-blue-800"></div>
+                            <button onclick="playRandomWord()" class="bg-blue-500 text-white px-10 py-5 rounded-full text-xl hover:bg-blue-600 transition-colors shadow-lg">
+                                <i class="fas fa-volume-up mr-3"></i> استمع
+                            </button>
+                        </div>
+                        <div class="text-center">
+                            <button onclick="nextListeningWord()" class="bg-emerald-500 text-white px-8 py-4 rounded-full text-lg hover:bg-emerald-600 transition-colors">
+                                <i class="fas fa-arrow-right mr-2"></i> الكلمة التالية
+                            </button>
+                        </div>
+                        <div id="listeningResult" class="mt-6 text-center"></div>
+                    `;
+                    loadListeningWord();
+                    break;
+                    
+                case 'speaking':
+                    container.innerHTML = `
+                        <h3 class="text-3xl font-bold mb-8 text-center arabic-text">تحدث مع الأصدقاء</h3>
+                        
+                        <!-- Conversation Animation -->
+                        <div class="flex justify-center items-center mb-8 space-x-8">
+                            <div class="text-center conversation-animation">
+                                <div class="text-6xl mb-2 text-blue-600">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="bg-blue-100 p-4 rounded-2xl border-2 border-blue-300">
+                                    <div class="text-2xl arabic-text text-blue-800" id="person1Text">السلام عليكم</div>
+                                </div>
+                                <p class="text-sm text-gray-600 mt-2">أحمد</p>
+                            </div>
+                            
+                            <div class="text-4xl text-green-600 pulse">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            
+                            <div class="text-center conversation-animation" style="animation-delay: 1.5s;">
+                                <div class="text-6xl mb-2 text-pink-600">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="bg-pink-100 p-4 rounded-2xl border-2 border-pink-300">
+                                    <div class="text-2xl arabic-text text-pink-800" id="person2Text">وعليكم السلام</div>
+                                </div>
+                                <p class="text-sm text-gray-600 mt-2">فاطمة</p>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center">
+                            <div class="bg-green-50 p-6 rounded-2xl border-4 border-green-200 mb-6">
+                                <p class="text-lg text-gray-700 mb-4">Sekarang giliranmu! Ucapkan:</p>
+                                <div id="speakingWord" class="text-5xl arabic-text text-green-800"></div>
+                            </div>
+                            <button onclick="startSpeaking()" class="bg-green-500 text-white px-10 py-5 rounded-full text-xl hover:bg-green-600 transition-colors shadow-lg">
+                                <i class="fas fa-microphone mr-3"></i> Mulai Bicara
+                            </button>
+                            <div id="speakingResult" class="mt-6"></div>
+                        </div>
+                    `;
+                    loadSpeakingWord();
+                    startConversationAnimation();
+                    break;
+                    
+                case 'reading':
+                    container.innerHTML = `
+                        <h3 class="text-3xl font-bold mb-8 text-center arabic-text">اقرأ الكلمات</h3>
+                        <div id="readingWords" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+                    `;
+                    loadReadingWords();
+                    break;
+                    
+                case 'writing':
+                    container.innerHTML = `
+                        <h3 class="text-3xl font-bold mb-8 text-center arabic-text">اكتب الكلمة</h3>
+                        <div class="text-center">
+                            <div id="writingPrompt" class="text-3xl mb-6 p-6 bg-purple-50 rounded-2xl border-4 border-purple-200"></div>
+                            <canvas id="writingCanvas" class="writing-canvas mx-auto mb-6" width="500" height="250"></canvas>
+                            <div class="space-x-4">
+                                <button onclick="clearCanvas()" class="bg-red-500 text-white px-8 py-4 rounded-full hover:bg-red-600 transition-colors text-lg shadow-lg">
+                                    <i class="fas fa-eraser mr-2"></i> Hapus
+                                </button>
+                                <button onclick="checkWriting()" class="bg-blue-500 text-white px-8 py-4 rounded-full hover:bg-blue-600 transition-colors text-lg shadow-lg">
+                                    <i class="fas fa-check mr-2"></i> Periksa
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    setupWritingCanvas();
+                    break;
+            }
+        }
+
+        function loadGames(topic) {
+            const container = document.getElementById('gamesContainer');
+            const games = {
+                introduction: [
+                    { id: 'memoryGame', title: 'ذاكرة', desc: 'Game Memori Teks & Arti', icon: 'fas fa-brain', color: 'from-emerald-400 to-teal-500' },
+                    { id: 'matchingGame', title: 'مطابقة', desc: 'Matching Teks & Arti', icon: 'fas fa-link', color: 'from-blue-400 to-indigo-500' },
+                    { id: 'voiceGuessGame', title: 'تخمين الصوت', desc: 'Tebak Jawaban Percakapan', icon: 'fas fa-volume-up', color: 'from-purple-400 to-pink-500' }
+                ],
+                family: [
+                    { id: 'memoryGame', title: 'ذاكرة', desc: 'Game Memori Teks & Arti', icon: 'fas fa-brain', color: 'from-orange-400 to-red-500' },
+                    { id: 'matchingGame', title: 'مطابقة', desc: 'Matching Teks & Arti', icon: 'fas fa-link', color: 'from-green-400 to-emerald-500' },
+                    { id: 'voiceGuessGame', title: 'تخمين الصوت', desc: 'Tebak Jawaban Percakapan', icon: 'fas fa-volume-up', color: 'from-yellow-400 to-orange-500' }
+                ]
+            };
+            
+            container.innerHTML = games[topic].map(game => `
+                <div class="bg-gradient-to-br ${game.color} rounded-2xl p-8 shadow-xl game-card cursor-pointer text-white border-2 border-white border-opacity-30" onclick="showGame('${game.id}')">
+                    <div class="text-5xl mb-4">
+                        <i class="${game.icon}"></i>
+                    </div>
+                    <h4 class="text-2xl font-bold mb-3 arabic-text">${game.title}</h4>
+                    <p class="text-lg opacity-90">${game.desc}</p>
+                </div>
+            `).join('');
+        }
+
+        function showGame(gameId) {
+            document.getElementById('topicMenu').classList.add('hidden');
+            document.getElementById('gameContent').classList.remove('hidden');
+            loadGame(gameId);
+        }
+
+        function loadGame(gameId) {
+            const container = document.getElementById('gameActivity');
+            const gameTitle = document.getElementById('gameTitle');
+            
+            switch(gameId) {
+                case 'memoryGame':
+                    gameTitle.textContent = 'لعبة الذاكرة - Game Memori';
+                    container.innerHTML = `
+                        <div class="text-center">
+                            <h3 class="text-3xl mb-8 arabic-text">اعثر على الأزواج المتطابقة</h3>
+                            <p class="text-lg mb-6 text-gray-600">Temukan pasangan teks Arab dan artinya!</p>
+                            <div class="mb-6">
+                                <span class="bg-blue-100 px-4 py-2 rounded-full text-blue-800 font-semibold">
+                                    Skor: <span id="memoryScore">0</span>
+                                </span>
+                                <span class="bg-green-100 px-4 py-2 rounded-full text-green-800 font-semibold ml-4">
+                                    Pasangan: <span id="memoryPairs">0</span>/4
+                                </span>
+                            </div>
+                            <div id="memoryGrid" class="grid grid-cols-4 gap-4 max-w-2xl mx-auto"></div>
+                            <button onclick="resetMemoryGame()" class="mt-6 bg-purple-500 text-white px-8 py-3 rounded-full hover:bg-purple-600 transition-colors">
+                                <i class="fas fa-redo mr-2"></i> Main Lagi
+                            </button>
+                        </div>
+                    `;
+                    initMemoryGame();
+                    break;
+                    
+                case 'matchingGame':
+                    gameTitle.textContent = 'لعبة المطابقة - Matching Game';
+                    container.innerHTML = `
+                        <div class="text-center">
+                            <h3 class="text-3xl mb-4 arabic-text">اربط الكلمة بمعناها</h3>
+                            <p class="text-lg mb-6 text-gray-600">🎯 Klik kata Arab, lalu klik artinya untuk mencocokkan!</p>
+                            
+                            <!-- Game Stats -->
+                            <div class="mb-6 flex justify-center space-x-4">
+                                <span class="bg-blue-100 px-4 py-2 rounded-full text-blue-800 font-semibold">
+                                    <i class="fas fa-bullseye mr-1"></i> Benar: <span id="matchingScore">0</span>/4
+                                </span>
+                                <span class="bg-yellow-100 px-4 py-2 rounded-full text-yellow-800 font-semibold">
+                                    <i class="fas fa-clock mr-1"></i> Waktu: <span id="matchingTimer">60</span>s
+                                </span>
+                                <span class="bg-purple-100 px-4 py-2 rounded-full text-purple-800 font-semibold">
+                                    <i class="fas fa-star mr-1"></i> Bonus: <span id="matchingBonus">0</span>
+                                </span>
+                            </div>
+                            
+                            <!-- Instructions -->
+                            <div class="bg-gradient-to-r from-blue-50 to-green-50 p-4 rounded-xl mb-6 border-2 border-blue-200">
+                                <div class="flex items-center justify-center space-x-4 text-lg">
+                                    <div class="flex items-center">
+                                        <div class="w-6 h-6 bg-blue-500 rounded mr-2"></div>
+                                        <span class="text-blue-700">1. Klik kata Arab</span>
+                                    </div>
+                                    <div class="text-2xl">➡️</div>
+                                    <div class="flex items-center">
+                                        <div class="w-6 h-6 bg-green-500 rounded mr-2"></div>
+                                        <span class="text-green-700">2. Klik artinya</span>
+                                    </div>
+                                    <div class="text-2xl">✨</div>
+                                    <span class="text-purple-700 font-bold">Cocok!</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Game Board -->
+                            <div class="grid grid-cols-2 gap-8 max-w-4xl mx-auto">
+                                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl border-3 border-blue-300 shadow-lg">
+                                    <h4 class="text-2xl font-bold mb-4 text-blue-800 flex items-center justify-center">
+                                        <i class="fas fa-language mr-2"></i> كلمات عربية
+                                    </h4>
+                                    <div id="arabicWords" class="space-y-3"></div>
+                                </div>
+                                <div class="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-2xl border-3 border-green-300 shadow-lg">
+                                    <h4 class="text-2xl font-bold mb-4 text-green-800 flex items-center justify-center">
+                                        <i class="fas fa-flag mr-2"></i> Arti Indonesia
+                                    </h4>
+                                    <div id="indonesianWords" class="space-y-3"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Game Controls -->
+                            <div class="mt-8 space-x-4">
+                                <button onclick="resetMatchingGame()" class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-3 rounded-full hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105 shadow-lg">
+                                    <i class="fas fa-redo mr-2"></i> Main Lagi
+                                </button>
+                                <button onclick="showMatchingHint()" class="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-8 py-3 rounded-full hover:from-yellow-600 hover:to-orange-600 transition-all transform hover:scale-105 shadow-lg">
+                                    <i class="fas fa-lightbulb mr-2"></i> Bantuan
+                                </button>
+                            </div>
+                            
+                            <div id="matchingResult" class="mt-6"></div>
+                        </div>
+                    `;
+                    initMatchingGame();
+                    break;
+                    
+                case 'voiceGuessGame':
+                    gameTitle.textContent = 'تخمين الصوت - Tebak Jawaban Percakapan';
+                    container.innerHTML = `
+                        <div class="text-center">
+                            <h3 class="text-3xl mb-8 arabic-text">استمع واختر الجواب الصحيح</h3>
+                            <p class="text-lg mb-6 text-gray-600">Dengarkan percakapan dan pilih jawaban yang tepat!</p>
+                            
+                            <!-- Conversation Display -->
+                            <div class="bg-gradient-to-r from-blue-50 to-green-50 p-8 rounded-2xl mb-8 border-2 border-blue-200">
+                                <div class="flex justify-center items-center space-x-8 mb-6">
+                                    <div class="text-center">
+                                        <div class="text-5xl mb-2 text-blue-600">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <p class="text-sm text-gray-600">أحمد</p>
+                                    </div>
+                                    <div class="text-3xl text-purple-600">
+                                        <i class="fas fa-comments"></i>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-5xl mb-2 text-pink-600">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <p class="text-sm text-gray-600">فاطمة</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-white p-6 rounded-xl border-2 border-gray-200 mb-4">
+                                    <div class="text-2xl arabic-text text-blue-800" id="conversationQuestion"></div>
+                                </div>
+                                
+                                <button onclick="playConversation()" class="bg-blue-500 text-white px-8 py-4 rounded-full text-lg hover:bg-blue-600 transition-colors shadow-lg">
+                                    <i class="fas fa-volume-up mr-3"></i> Dengarkan Percakapan
+                                </button>
+                            </div>
+                            
+                            <!-- Answer Options -->
+                            <div class="mb-6">
+                                <h4 class="text-xl font-bold mb-4 text-gray-700">Pilih jawaban yang tepat:</h4>
+                                <div id="voiceAnswerOptions" class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto"></div>
+                            </div>
+                            
+                            <div id="voiceResult" class="mt-6"></div>
+                            
+                            <button onclick="nextConversation()" class="mt-6 bg-green-500 text-white px-8 py-3 rounded-full hover:bg-green-600 transition-colors">
+                                <i class="fas fa-arrow-right mr-2"></i> Percakapan Berikutnya
+                            </button>
+                        </div>
+                    `;
+                    initVoiceGuessGame();
+                    break;
+            }
+        }
+
+        // Game functions
+        let currentNameAnswer = '';
+        let currentFamilyAnswer = '';
         
-        // Inisialisasi Web Speech API
-        const speechSynth = window.speechSynthesis;
-        let arabicVoice = null;
+        // Memory Game Variables
+        let memoryCards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let memoryScore = 0;
         
-        // Fungsi untuk memuat suara Arab
-        function loadArabicVoice() {
-            // Tampilkan status loading untuk semua audio
-            document.querySelectorAll('.audio-status').forEach(el => {
-                el.style.display = 'block';
+        // Matching Game Variables
+        let matchingPairs = {};
+        let matchingScore = 0;
+        
+        // Voice Guess Game Variables
+        let currentConversation = 0;
+        let voiceConversations = [];
+
+        function playNameAudio() {
+            const names = ['أحمد', 'فاطمة', 'محمد', 'عائشة'];
+            currentNameAnswer = names[Math.floor(Math.random() * names.length)];
+            speakArabic(currentNameAnswer);
+        }
+
+        function checkNameAnswer(answer) {
+            const result = document.getElementById('nameResult');
+            if (answer === currentNameAnswer) {
+                const feedbackText = speakPersonalizedFeedback(true, 10);
+                result.innerHTML = `<div class="text-green-600 text-xl">✅ ${feedbackText}</div>`;
+                addPoints(10);
+                showSuccessModal(10);
+            } else {
+                const feedbackText = speakPersonalizedFeedback(false);
+                result.innerHTML = `<div class="text-red-600 text-xl">❌ ${feedbackText}</div>`;
+            }
+        }
+
+        function playFamilyAudio() {
+            const family = ['أبي', 'أمي', 'أخي', 'أختي'];
+            currentFamilyAnswer = family[Math.floor(Math.random() * family.length)];
+            speakArabic(currentFamilyAnswer);
+        }
+
+        function checkFamilyAnswer(answer) {
+            const result = document.getElementById('familyResult');
+            if (answer === currentFamilyAnswer) {
+                result.innerHTML = '<div class="text-green-600 text-xl">✅ ممتاز! إجابة صحيحة</div>';
+                addPoints(10);
+                showSuccessModal();
+            } else {
+                result.innerHTML = '<div class="text-red-600 text-xl">❌ حاول مرة أخرى</div>';
+            }
+        }
+
+        // Skill activity functions
+        let currentListeningWord = '';
+        let currentListeningIndex = 0;
+
+        function loadListeningWord() {
+            const vocab = vocabulary[currentTopic];
+            currentListeningIndex = 0;
+            currentListeningWord = vocab.arabic[currentListeningIndex];
+            document.getElementById('listeningText').textContent = currentListeningWord;
+        }
+
+        function playRandomWord() {
+            speakArabic(currentListeningWord);
+            const result = document.getElementById('listeningResult');
+            result.innerHTML = '<div class="text-blue-600 text-xl"><i class="fas fa-volume-up mr-2"></i>Mendengarkan audio...</div>';
+            
+            setTimeout(() => {
+                result.innerHTML = '';
+            }, 2000);
+        }
+
+        function nextListeningWord() {
+            const vocab = vocabulary[currentTopic];
+            currentListeningIndex = (currentListeningIndex + 1) % vocab.arabic.length;
+            currentListeningWord = vocab.arabic[currentListeningIndex];
+            document.getElementById('listeningText').textContent = currentListeningWord;
+            addPoints(5);
+        }
+
+        function startConversationAnimation() {
+            const conversations = {
+                introduction: [
+                    { person1: 'السلام عليكم', person2: 'وعليكم السلام' },
+                    { person1: 'اسمي أحمد', person2: 'اسمي فاطمة' },
+                    { person1: 'صباح الخير', person2: 'صباح النور' }
+                ],
+                family: [
+                    { person1: 'هذا أبي', person2: 'هذه أمي' },
+                    { person1: 'أخي طالب', person2: 'أختي طالبة' },
+                    { person1: 'جدي كبير', person2: 'جدتي كبيرة' }
+                ]
+            };
+            
+            const topicConversations = conversations[currentTopic] || conversations.introduction;
+            let currentConv = 0;
+            
+            setInterval(() => {
+                const conv = topicConversations[currentConv];
+                document.getElementById('person1Text').textContent = conv.person1;
+                document.getElementById('person2Text').textContent = conv.person2;
+                currentConv = (currentConv + 1) % topicConversations.length;
+            }, 4000);
+        }
+
+        function checkListeningAnswer(answer) {
+            const result = document.getElementById('listeningResult');
+            const buttons = document.querySelectorAll('#listeningOptions button');
+            
+            buttons.forEach(btn => {
+                if (btn.textContent.trim() === answer) {
+                    if (answer === currentListeningWord) {
+                        btn.classList.add('correct-answer');
+                        result.innerHTML = '<div class="text-green-600 text-xl">✅ ممتاز! إجابة صحيحة</div>';
+                        addPoints(10);
+                    } else {
+                        btn.classList.add('wrong-answer');
+                        result.innerHTML = '<div class="text-red-600 text-xl">❌ حاول مرة أخرى</div>';
+                    }
+                }
+            });
+        }
+
+        function loadSpeakingWord() {
+            const vocab = vocabulary[currentTopic];
+            const randomIndex = Math.floor(Math.random() * vocab.arabic.length);
+            const word = vocab.arabic[randomIndex];
+            
+            document.getElementById('speakingWord').textContent = word;
+            window.currentSpeakingWord = word;
+        }
+
+        function startSpeaking() {
+            const word = window.currentSpeakingWord;
+            const result = document.getElementById('speakingResult');
+            
+            result.innerHTML = '<div class="text-blue-600">🎤 جاري التسجيل...</div>';
+            
+            startSpeechRecognition(word, (isCorrect, spokenText) => {
+                if (isCorrect) {
+                    const feedbackText = speakPersonalizedFeedback(true, 15);
+                    result.innerHTML = `<div class="text-green-600 text-xl">✅ ${feedbackText}</div>`;
+                    addPoints(15);
+                } else {
+                    const feedbackText = speakPersonalizedFeedback(false);
+                    result.innerHTML = `<div class="text-orange-600 text-xl">🔄 ${feedbackText}<br><small>سمعت: ${spokenText}</small></div>`;
+                }
+            });
+        }
+
+        function loadReadingWords() {
+            const vocab = vocabulary[currentTopic];
+            const container = document.getElementById('readingWords');
+            
+            container.innerHTML = vocab.arabic.map((word, index) => `
+                <div class="bg-gray-100 p-6 rounded-xl text-center">
+                    <div class="text-3xl arabic-text mb-3 cursor-pointer hover:text-blue-600 transition-colors" onclick="speakArabic('${word}')">
+                        ${word} 🔊
+                    </div>
+                    <div class="text-gray-600 mb-2">${vocab.indonesian[index]}</div>
+                    <div class="text-sm text-gray-500">[${vocab.phonetic[index]}]</div>
+                </div>
+            `).join('');
+        }
+
+        // Writing canvas setup
+        function setupWritingCanvas() {
+            const canvas = document.getElementById('writingCanvas');
+            const ctx = canvas.getContext('2d');
+            let isDrawing = false;
+            
+            // Set up canvas for drawing
+            ctx.strokeStyle = '#4f46e5';
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('touchstart', handleTouch);
+            canvas.addEventListener('touchmove', handleTouch);
+            canvas.addEventListener('touchend', stopDrawing);
+            
+            function startDrawing(e) {
+                isDrawing = true;
+                const rect = canvas.getBoundingClientRect();
+                ctx.beginPath();
+                ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+            }
+            
+            function draw(e) {
+                if (!isDrawing) return;
+                const rect = canvas.getBoundingClientRect();
+                ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+                ctx.stroke();
+            }
+            
+            function stopDrawing() {
+                isDrawing = false;
+            }
+            
+            function handleTouch(e) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const mouseEvent = new MouseEvent(e.type === 'touchstart' ? 'mousedown' : 
+                                                 e.type === 'touchmove' ? 'mousemove' : 'mouseup', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                });
+                canvas.dispatchEvent(mouseEvent);
+            }
+            
+            // Load writing prompt
+            const vocab = vocabulary[currentTopic];
+            const randomWord = vocab.arabic[Math.floor(Math.random() * vocab.arabic.length)];
+            document.getElementById('writingPrompt').innerHTML = `اكتب: <span class="arabic-text text-blue-600">${randomWord}</span>`;
+            window.currentWritingWord = randomWord;
+        }
+
+        function clearCanvas() {
+            const canvas = document.getElementById('writingCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function checkWriting() {
+            // In a real implementation, this would use AI to check the writing
+            // For demo, we'll just give positive feedback
+            speakPersonalizedFeedback(true, 20);
+            addPoints(20);
+            showSuccessModal(20);
+        }
+
+        // Memory Game Functions
+        function initMemoryGame() {
+            const vocab = vocabulary[currentTopic];
+            memoryCards = [];
+            flippedCards = [];
+            matchedPairs = 0;
+            memoryScore = 0;
+            
+            // Create pairs (Arabic word + Indonesian meaning)
+            for (let i = 0; i < 4; i++) {
+                memoryCards.push({
+                    id: i * 2,
+                    text: vocab.arabic[i],
+                    type: 'arabic',
+                    pairId: i,
+                    matched: false
+                });
+                memoryCards.push({
+                    id: i * 2 + 1,
+                    text: vocab.indonesian[i],
+                    type: 'indonesian',
+                    pairId: i,
+                    matched: false
+                });
+            }
+            
+            // Shuffle cards
+            memoryCards.sort(() => Math.random() - 0.5);
+            
+            renderMemoryGrid();
+            updateMemoryScore();
+        }
+        
+        function renderMemoryGrid() {
+            const grid = document.getElementById('memoryGrid');
+            grid.innerHTML = memoryCards.map(card => `
+                <div class="memory-card bg-gradient-to-br from-purple-400 to-purple-600 rounded-xl p-4 cursor-pointer transition-all duration-300 hover:scale-105 shadow-lg" 
+                     onclick="flipCard(${card.id})" 
+                     id="card-${card.id}">
+                    <div class="card-front h-20 flex items-center justify-center">
+                        <i class="fas fa-question text-white text-3xl"></i>
+                    </div>
+                    <div class="card-back h-20 flex items-center justify-center text-center hidden">
+                        <span class="text-white font-bold ${card.type === 'arabic' ? 'arabic-text text-lg' : 'text-sm'}">${card.text}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function flipCard(cardId) {
+            const card = memoryCards.find(c => c.id === cardId);
+            if (card.matched || flippedCards.includes(cardId) || flippedCards.length >= 2) return;
+            
+            const cardElement = document.getElementById(`card-${cardId}`);
+            const front = cardElement.querySelector('.card-front');
+            const back = cardElement.querySelector('.card-back');
+            
+            front.classList.add('hidden');
+            back.classList.remove('hidden');
+            cardElement.classList.add('bg-gradient-to-br', 'from-blue-400', 'to-blue-600');
+            cardElement.classList.remove('from-purple-400', 'to-purple-600');
+            
+            flippedCards.push(cardId);
+            
+            if (flippedCards.length === 2) {
+                setTimeout(checkMemoryMatch, 1000);
+            }
+        }
+        
+        function checkMemoryMatch() {
+            const [card1Id, card2Id] = flippedCards;
+            const card1 = memoryCards.find(c => c.id === card1Id);
+            const card2 = memoryCards.find(c => c.id === card2Id);
+            
+            if (card1.pairId === card2.pairId) {
+                // Match found
+                card1.matched = true;
+                card2.matched = true;
+                matchedPairs++;
+                memoryScore += 20;
+                
+                const card1Element = document.getElementById(`card-${card1Id}`);
+                const card2Element = document.getElementById(`card-${card2Id}`);
+                
+                card1Element.classList.add('bg-gradient-to-br', 'from-green-400', 'to-green-600');
+                card1Element.classList.remove('from-blue-400', 'to-blue-600');
+                card2Element.classList.add('bg-gradient-to-br', 'from-green-400', 'to-green-600');
+                card2Element.classList.remove('from-blue-400', 'to-blue-600');
+                
+                if (matchedPairs === 4) {
+                    setTimeout(() => {
+                        speakPersonalizedFeedback(true, 50);
+                        addPoints(50);
+                        showSuccessModal(50);
+                    }, 500);
+                }
+            } else {
+                // No match
+                setTimeout(() => {
+                    const card1Element = document.getElementById(`card-${card1Id}`);
+                    const card2Element = document.getElementById(`card-${card2Id}`);
+                    
+                    card1Element.querySelector('.card-front').classList.remove('hidden');
+                    card1Element.querySelector('.card-back').classList.add('hidden');
+                    card2Element.querySelector('.card-front').classList.remove('hidden');
+                    card2Element.querySelector('.card-back').classList.add('hidden');
+                    
+                    card1Element.classList.add('from-purple-400', 'to-purple-600');
+                    card1Element.classList.remove('from-blue-400', 'to-blue-600');
+                    card2Element.classList.add('from-purple-400', 'to-purple-600');
+                    card2Element.classList.remove('from-blue-400', 'to-blue-600');
+                }, 500);
+            }
+            
+            flippedCards = [];
+            updateMemoryScore();
+        }
+        
+        function updateMemoryScore() {
+            document.getElementById('memoryScore').textContent = memoryScore;
+            document.getElementById('memoryPairs').textContent = matchedPairs;
+        }
+        
+        function resetMemoryGame() {
+            initMemoryGame();
+        }
+        
+        // Matching Game Functions
+        let matchingTimer = 60;
+        let matchingTimerInterval = null;
+        let matchingBonus = 0;
+        let selectedArabicWord = null;
+        let selectedIndonesianWord = null;
+        let matchedWords = [];
+        
+        function initMatchingGame() {
+            const vocab = vocabulary[currentTopic];
+            matchingScore = 0;
+            matchingTimer = 60;
+            matchingBonus = 0;
+            selectedArabicWord = null;
+            selectedIndonesianWord = null;
+            matchedWords = [];
+            
+            const arabicContainer = document.getElementById('arabicWords');
+            const indonesianContainer = document.getElementById('indonesianWords');
+            
+            // Use only 4 words for easier gameplay
+            const gameWords = vocab.arabic.slice(0, 4);
+            const gameIndonesian = vocab.indonesian.slice(0, 4);
+            
+            // Shuffle Indonesian words
+            const shuffledIndonesian = [...gameIndonesian].sort(() => Math.random() - 0.5);
+            
+            arabicContainer.innerHTML = gameWords.map((word, index) => `
+                <div class="matching-word arabic-word bg-white p-4 rounded-xl border-3 border-blue-300 cursor-pointer hover:bg-blue-100 transition-all transform hover:scale-105 arabic-text text-2xl font-bold shadow-lg" 
+                     data-word="${word}" data-index="${index}" onclick="selectArabicWord(this)">
+                    <div class="flex items-center justify-center">
+                        <i class="fas fa-language text-blue-500 mr-2"></i>
+                        ${word}
+                    </div>
+                </div>
+            `).join('');
+            
+            indonesianContainer.innerHTML = shuffledIndonesian.map((word, index) => `
+                <div class="matching-word indonesian-word bg-white p-4 rounded-xl border-3 border-green-300 cursor-pointer hover:bg-green-100 transition-all transform hover:scale-105 text-xl font-bold shadow-lg" 
+                     data-word="${word}" data-index="${gameIndonesian.indexOf(word)}" onclick="selectIndonesianWord(this)">
+                    <div class="flex items-center justify-center">
+                        <i class="fas fa-flag text-green-500 mr-2"></i>
+                        ${word}
+                    </div>
+                </div>
+            `).join('');
+            
+            updateMatchingScore();
+            startMatchingTimer();
+        }
+        
+        function selectArabicWord(element) {
+            // Remove previous selection
+            document.querySelectorAll('.arabic-word').forEach(el => {
+                el.classList.remove('bg-blue-300', 'border-blue-600', 'ring-4', 'ring-blue-400');
             });
             
-            // Cari suara yang mendukung bahasa Arab
-            const voices = speechSynth.getVoices();
-            for (let voice of voices) {
-                if (voice.lang.startsWith('ar') || voice.name.includes('Arabic')) {
-                    arabicVoice = voice;
+            // Select new word
+            selectedArabicWord = element;
+            element.classList.add('bg-blue-300', 'border-blue-600', 'ring-4', 'ring-blue-400');
+            
+            // Speak the Arabic word
+            speakArabic(element.dataset.word);
+            
+            // Check if we can make a match
+            if (selectedIndonesianWord) {
+                checkMatch();
+            }
+        }
+        
+        function selectIndonesianWord(element) {
+            // Remove previous selection
+            document.querySelectorAll('.indonesian-word').forEach(el => {
+                el.classList.remove('bg-green-300', 'border-green-600', 'ring-4', 'ring-green-400');
+            });
+            
+            // Select new word
+            selectedIndonesianWord = element;
+            element.classList.add('bg-green-300', 'border-green-600', 'ring-4', 'ring-green-400');
+            
+            // Check if we can make a match
+            if (selectedArabicWord) {
+                checkMatch();
+            }
+        }
+        
+        function checkMatch() {
+            const arabicIndex = parseInt(selectedArabicWord.dataset.index);
+            const indonesianIndex = parseInt(selectedIndonesianWord.dataset.index);
+            
+            if (arabicIndex === indonesianIndex) {
+                // Correct match!
+                const points = 25 + matchingBonus;
+                speakPersonalizedFeedback(true, points);
+                addPoints(points);
+                matchingScore++;
+                matchingBonus += 5; // Bonus increases with each correct match
+                
+                // Mark as matched with celebration animation
+                selectedArabicWord.classList.add('bg-gradient-to-r', 'from-green-400', 'to-emerald-500', 'text-white', 'animate-pulse');
+                selectedArabicWord.innerHTML = `<div class="flex items-center justify-center"><i class="fas fa-check-circle mr-2"></i>${selectedArabicWord.dataset.word}</div>`;
+                selectedArabicWord.onclick = null;
+                
+                selectedIndonesianWord.classList.add('bg-gradient-to-r', 'from-green-400', 'to-emerald-500', 'text-white', 'animate-pulse');
+                selectedIndonesianWord.innerHTML = `<div class="flex items-center justify-center"><i class="fas fa-check-circle mr-2"></i>${selectedIndonesianWord.dataset.word}</div>`;
+                selectedIndonesianWord.onclick = null;
+                
+                // Add to matched words
+                matchedWords.push(arabicIndex);
+                
+                // Check if game is complete
+                if (matchingScore === 4) {
+                    setTimeout(() => {
+                        clearInterval(matchingTimerInterval);
+                        const timeBonus = matchingTimer * 2;
+                        addPoints(timeBonus);
+                        showSuccessModal(points + timeBonus);
+                        document.getElementById('matchingResult').innerHTML = `
+                            <div class="bg-gradient-to-r from-green-400 to-emerald-500 text-white p-6 rounded-2xl text-center">
+                                <div class="text-4xl mb-2">🎉</div>
+                                <div class="text-2xl font-bold mb-2">مبروك! Selamat!</div>
+                                <div class="text-lg">Semua kata berhasil dicocokkan!</div>
+                                <div class="text-sm mt-2">Bonus waktu: ${timeBonus} poin</div>
+                            </div>
+                        `;
+                    }, 1000);
+                }
+                
+            } else {
+                // Wrong match
+                speakPersonalizedFeedback(false);
+                
+                // Show wrong animation
+                selectedArabicWord.classList.add('animate-bounce', 'bg-red-200', 'border-red-500');
+                selectedIndonesianWord.classList.add('animate-bounce', 'bg-red-200', 'border-red-500');
+                
+                setTimeout(() => {
+                    selectedArabicWord.classList.remove('animate-bounce', 'bg-red-200', 'border-red-500', 'bg-blue-300', 'border-blue-600', 'ring-4', 'ring-blue-400');
+                    selectedIndonesianWord.classList.remove('animate-bounce', 'bg-red-200', 'border-red-500', 'bg-green-300', 'border-green-600', 'ring-4', 'ring-green-400');
+                }, 1000);
+            }
+            
+            // Reset selections
+            selectedArabicWord = null;
+            selectedIndonesianWord = null;
+            updateMatchingScore();
+        }
+        
+        function startMatchingTimer() {
+            clearInterval(matchingTimerInterval);
+            matchingTimerInterval = setInterval(() => {
+                matchingTimer--;
+                document.getElementById('matchingTimer').textContent = matchingTimer;
+                
+                if (matchingTimer <= 0) {
+                    clearInterval(matchingTimerInterval);
+                    document.getElementById('matchingResult').innerHTML = `
+                        <div class="bg-red-100 p-4 rounded-lg text-center border-2 border-red-300">
+                            <div class="text-xl font-bold text-red-800">⏰ Waktu Habis!</div>
+                            <div class="text-sm text-red-700 mb-2">Coba lagi untuk mendapat skor lebih baik!</div>
+                            <button onclick="resetMatchingGame()" class="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition-colors text-sm">
+                                Main Lagi
+                            </button>
+                        </div>
+                    `;
+                }
+            }, 1000);
+        }
+        
+        function showMatchingHint() {
+            if (matchedWords.length >= 4) {
+                return;
+            }
+            
+            const vocab = vocabulary[currentTopic];
+            let hintIndex = -1;
+            
+            // Find first unmatched word
+            for (let i = 0; i < 4; i++) {
+                if (!matchedWords.includes(i)) {
+                    hintIndex = i;
                     break;
                 }
             }
             
-            // Jika tidak ditemukan suara Arab, gunakan suara default
-            if (!arabicVoice && voices.length > 0) {
-                arabicVoice = voices[0];
+            if (hintIndex !== -1) {
+                const arabicWord = vocab.arabic[hintIndex];
+                const indonesianWord = vocab.indonesian[hintIndex];
+                
+                // Show hint in result area
+                document.getElementById('matchingResult').innerHTML = `
+                    <div class="bg-yellow-100 p-3 rounded-lg text-center border-2 border-yellow-300">
+                        <div class="text-lg font-bold text-yellow-800">💡 Bantuan</div>
+                        <div class="text-sm text-yellow-700">"${arabicWord}" artinya "${indonesianWord}"</div>
+                    </div>
+                `;
+                
+                speakArabic(arabicWord);
+                
+                // Reduce bonus for using hint
+                matchingBonus = Math.max(0, matchingBonus - 3);
+                updateMatchingScore();
+            }
+        }
+        
+        function updateMatchingScore() {
+            document.getElementById('matchingScore').textContent = matchingScore;
+            document.getElementById('matchingBonus').textContent = matchingBonus;
+        }
+        
+        function resetMatchingGame() {
+            clearInterval(matchingTimerInterval);
+            initMatchingGame();
+        }
+        
+        // Voice Guess Game Functions
+        function initVoiceGuessGame() {
+            voiceConversations = {
+                introduction: [
+                    {
+                        question: 'السلام عليكم',
+                        correctAnswer: 'وعليكم السلام',
+                        options: ['وعليكم السلام', 'صباح الخير', 'مساء الخير', 'شكرا لك']
+                    },
+                    {
+                        question: 'ما اسمك؟',
+                        correctAnswer: 'اسمي أحمد',
+                        options: ['اسمي أحمد', 'عمري عشر سنوات', 'أنا من إندونيسيا', 'أنا طالب']
+                    },
+                    {
+                        question: 'صباح الخير',
+                        correctAnswer: 'صباح النور',
+                        options: ['صباح النور', 'مساء الخير', 'تصبح على خير', 'السلام عليكم']
+                    }
+                ],
+                family: [
+                    {
+                        question: 'من هذا؟',
+                        correctAnswer: 'هذا أبي',
+                        options: ['هذا أبي', 'هذه أمي', 'هذا أخي', 'هذه أختي']
+                    },
+                    {
+                        question: 'كم عدد أفراد أسرتك؟',
+                        correctAnswer: 'أسرتي خمسة أفراد',
+                        options: ['أسرتي خمسة أفراد', 'أسرتي كبيرة', 'أحب أسرتي', 'أسرتي سعيدة']
+                    },
+                    {
+                        question: 'أين جدك؟',
+                        correctAnswer: 'جدي في البيت',
+                        options: ['جدي في البيت', 'جدي كبير', 'أحب جدي', 'جدي طيب']
+                    }
+                ]
+            };
+            
+            currentConversation = 0;
+            loadConversation();
+        }
+        
+        function loadConversation() {
+            const conversations = voiceConversations[currentTopic];
+            if (!conversations || currentConversation >= conversations.length) {
+                currentConversation = 0;
             }
             
-            // Sembunyikan status loading
-            document.querySelectorAll('.audio-status').forEach(el => {
-                el.style.display = 'none';
+            const conv = conversations[currentConversation];
+            document.getElementById('conversationQuestion').textContent = conv.question;
+            
+            const optionsContainer = document.getElementById('voiceAnswerOptions');
+            optionsContainer.innerHTML = conv.options.map(option => `
+                <button onclick="checkVoiceAnswer('${option}')" 
+                        class="bg-gradient-to-br from-gray-100 to-gray-200 hover:from-blue-100 hover:to-blue-200 p-4 rounded-xl text-lg arabic-text transition-colors border-2 border-gray-300 hover:border-blue-400">
+                    ${option}
+                </button>
+            `).join('');
+            
+            document.getElementById('voiceResult').innerHTML = '';
+        }
+        
+        function playConversation() {
+            const conversations = voiceConversations[currentTopic];
+            const conv = conversations[currentConversation];
+            speakArabic(conv.question);
+        }
+        
+        function checkVoiceAnswer(answer) {
+            const conversations = voiceConversations[currentTopic];
+            const conv = conversations[currentConversation];
+            const result = document.getElementById('voiceResult');
+            
+            if (answer === conv.correctAnswer) {
+                const feedbackText = speakPersonalizedFeedback(true, 20);
+                result.innerHTML = `<div class="text-green-600 text-xl"><i class="fas fa-check-circle mr-2"></i>${feedbackText}</div>`;
+                addPoints(20);
+                speakArabic(answer);
+            } else {
+                const feedbackText = speakPersonalizedFeedback(false);
+                result.innerHTML = `<div class="text-red-600 text-xl"><i class="fas fa-times-circle mr-2"></i>${feedbackText}<br><small>الإجابة الصحيحة: <span class="arabic-text">${conv.correctAnswer}</span></small></div>`;
+                speakArabic(conv.correctAnswer);
+            }
+        }
+        
+        function nextConversation() {
+            const conversations = voiceConversations[currentTopic];
+            currentConversation = (currentConversation + 1) % conversations.length;
+            loadConversation();
+        }
+
+        // Utility functions
+        function addPoints(points) {
+            totalPoints += points;
+            document.getElementById('totalPoints').textContent = totalPoints;
+            
+            // Add stars based on points
+            const newStars = Math.floor(totalPoints / 50);
+            if (newStars > stars) {
+                stars = newStars;
+                updateStars();
+            }
+        }
+
+        function updateStars() {
+            const container = document.getElementById('stars');
+            container.innerHTML = Array(Math.min(stars, 5)).fill(0).map(() => 
+                '<i class="fas fa-star text-yellow-400 text-2xl star"></i>'
+            ).join('');
+        }
+
+        function showSuccessModal(points = 10) {
+            const feedbackText = speakPersonalizedFeedback(true, points);
+            document.getElementById('successMessage').innerHTML = `
+                <div class="text-2xl arabic-text text-emerald-700 mb-2">${feedbackText}</div>
+                <div class="text-lg text-gray-600">Kamu mendapat ${points} poin!</div>
+            `;
+            document.getElementById('successModal').classList.remove('hidden');
+            document.getElementById('successModal').classList.add('flex');
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.add('hidden');
+            document.getElementById('successModal').classList.remove('flex');
+        }
+
+        function showNotification(message, type) {
+            // Notification disabled for mobile layout
+            return;
+        }
+
+        // Profile Management Functions
+        function showProfileModal() {
+            document.getElementById('profileModal').classList.remove('hidden');
+            document.getElementById('profileModal').classList.add('flex');
+            document.getElementById('studentNameInput').value = studentName;
+            
+            // Highlight current avatar
+            document.querySelectorAll('.avatar-option').forEach(option => {
+                option.classList.remove('ring-4', 'ring-blue-500');
+                if (option.textContent === studentAvatar) {
+                    option.classList.add('ring-4', 'ring-blue-500');
+                }
             });
         }
-        
-        // Panggil fungsi saat halaman dimuat dan ketika voices changed
-        window.addEventListener('DOMContentLoaded', () => {
-            loadArabicVoice();
-            if (speechSynthesis.onvoiceschanged !== undefined) {
-                speechSynthesis.onvoiceschanged = loadArabicVoice;
+
+        function closeProfileModal() {
+            document.getElementById('profileModal').classList.add('hidden');
+            document.getElementById('profileModal').classList.remove('flex');
+        }
+
+        function selectAvatar(avatar) {
+            selectedAvatar = avatar;
+            
+            // Update visual selection
+            document.querySelectorAll('.avatar-option').forEach(option => {
+                option.classList.remove('ring-4', 'ring-blue-500');
+            });
+            
+            event.target.classList.add('ring-4', 'ring-blue-500');
+        }
+
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    studentPhoto = e.target.result;
+                    selectedAvatar = 'photo';
+                    
+                    // Update preview
+                    const preview = document.getElementById('photoPreview');
+                    preview.innerHTML = `<img src="${studentPhoto}" alt="Foto Siswa" class="w-full h-full object-cover rounded-full">`;
+                    
+                    // Clear avatar selections
+                    document.querySelectorAll('.avatar-option').forEach(option => {
+                        option.classList.remove('ring-4', 'ring-blue-500');
+                    });
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function selectAvatar(avatar) {
+            selectedAvatar = avatar;
+            studentPhoto = null;
+            
+            // Update preview to show selected avatar
+            const preview = document.getElementById('photoPreview');
+            preview.innerHTML = avatar;
+            preview.className = "w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-2xl font-bold mb-3 overflow-hidden border-4 border-blue-200";
+            
+            // Update visual selection
+            document.querySelectorAll('.avatar-option').forEach(option => {
+                option.classList.remove('ring-4', 'ring-blue-500');
+            });
+            
+            event.target.classList.add('ring-4', 'ring-blue-500');
+        }
+
+        function saveProfile() {
+            const nameInput = document.getElementById('studentNameInput').value.trim();
+            
+            if (nameInput === '') {
+                alert('Nama tidak boleh kosong!');
+                return;
+            }
+            
+            studentName = nameInput;
+            studentAvatar = selectedAvatar;
+            
+            // Update profile display
+            document.getElementById('studentName').textContent = studentName;
+            
+            if (selectedAvatar === 'photo' && studentPhoto) {
+                document.getElementById('studentPhoto').innerHTML = `<img src="${studentPhoto}" alt="Foto Siswa" class="w-full h-full object-cover rounded-full">`;
+                document.getElementById('studentPhoto').className = "w-10 h-10 rounded-full mr-2 overflow-hidden border-2 border-white";
+            } else {
+                document.getElementById('studentPhoto').textContent = studentAvatar;
+                document.getElementById('studentPhoto').className = "w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-lg font-bold mr-2";
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('studentName', studentName);
+            localStorage.setItem('studentAvatar', studentAvatar);
+            if (studentPhoto) {
+                localStorage.setItem('studentPhoto', studentPhoto);
+            }
+            
+            closeProfileModal();
+            
+            // Welcome message with audio
+            setTimeout(() => {
+                speakPersonalizedFeedback(true, 0);
+            }, 1000);
+        }
+
+        function loadProfile() {
+            const savedName = localStorage.getItem('studentName');
+            const savedAvatar = localStorage.getItem('studentAvatar');
+            const savedPhoto = localStorage.getItem('studentPhoto');
+            
+            if (savedName) {
+                studentName = savedName;
+                document.getElementById('studentName').textContent = studentName;
+            }
+            
+            if (savedAvatar) {
+                studentAvatar = savedAvatar;
+                selectedAvatar = savedAvatar;
+                
+                if (savedAvatar === 'photo' && savedPhoto) {
+                    studentPhoto = savedPhoto;
+                    document.getElementById('studentPhoto').innerHTML = `<img src="${studentPhoto}" alt="Foto Siswa" class="w-full h-full object-cover rounded-full">`;
+                    document.getElementById('studentPhoto').className = "w-12 h-12 rounded-full mr-3 overflow-hidden border-2 border-white";
+                    
+                    // Update modal preview
+                    const preview = document.getElementById('photoPreview');
+                    if (preview) {
+                        preview.innerHTML = `<img src="${studentPhoto}" alt="Foto Siswa" class="w-full h-full object-cover rounded-full">`;
+                    }
+                } else {
+                    document.getElementById('studentPhoto').textContent = studentAvatar;
+                    document.getElementById('studentPhoto').className = "w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-xl font-bold mr-3";
+                }
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStars();
+            loadProfile();
+            
+            // Show profile modal on first visit
+            if (!localStorage.getItem('studentName')) {
+                setTimeout(() => {
+                    showProfileModal();
+                }, 1000);
             }
         });
-        
-        // Fungsi untuk mengucapkan teks dalam bahasa Arab
-        function speakText(text) {
-            if (speechSynth.speaking) {
-                speechSynth.cancel();
-            }
-            
-            const utterance = new SpeechSynthesisUtterance(text);
-            
-            if (arabicVoice) {
-                utterance.voice = arabicVoice;
-                utterance.lang = arabicVoice.lang;
-            } else {
-                utterance.lang = 'ar';
-            }
-            
-            utterance.rate = 0.8; // Kecepatan bicara sedikit lebih lambat
-            
-            speechSynth.speak(utterance);
-        }
-        
-        // Function to play conversation animation
-        function playConversation() {
-            const boyBubble = document.getElementById('boy-bubble');
-            const girlBubble = document.getElementById('girl-bubble');
-            const boy = document.querySelector('.boy');
-            const girl = document.querySelector('.girl');
-            
-            // Reset first
-            resetConversation();
-            
-            // Animate conversation with delays
-            setTimeout(() => {
-                boyBubble.textContent = "السَّلَامُ عَلَيْكُمْ";
-                boyBubble.classList.add('fade-in');
-                boy.style.transform = 'translateX(-50%) scale(1.1)';
-                speakText("as-salamu alaykum");
-            }, 1000);
-            
-            setTimeout(() => {
-                boyBubble.classList.remove('fade-in');
-                girlBubble.textContent = "وَعَلَيْكُمُ السَّلَامُ";
-                girlBubble.classList.add('fade-in');
-                girl.style.transform = 'translateX(-50%) scale(1.1)';
-                speakText("wa alaykum as-salam");
-            }, 3000);
-            
-            setTimeout(() => {
-                girlBubble.classList.remove('fade-in');
-                boyBubble.textContent = "كَيْفَ حَالُكِ؟";
-                boyBubble.classList.add('fade-in');
-                speakText("kaifa haluki");
-            }, 5000);
-            
-            setTimeout(() => {
-                boyBubble.classList.remove('fade-in');
-                girlBubble.textContent = "أَنَا بِخَيْرٍ الْحَمْدُ لِلَّهِ";
-                girlBubble.classList.add('fade-in');
-                speakText("ana bikhair alhamdulillah");
-            }, 7000);
-            
-            setTimeout(() => {
-                girlBubble.classList.remove('fade-in');
-                boyBubble.textContent = "مَا اسْمُكِ؟";
-                boyBubble.classList.add('fade-in');
-                speakText("ma ismuki");
-            }, 9000);
-            
-            setTimeout(() => {
-                boyBubble.classList.remove('fade-in');
-                girlBubble.textContent = "اِسْمِي فَاطِمَةُ";
-                girlBubble.classList.add('fade-in');
-                speakText("ismi fatimah");
-            }, 11000);
-            
-            setTimeout(() => {
-                girlBubble.classList.remove('fade-in');
-                boyBubble.textContent = "تَشَرَّفْنَا";
-                boyBubble.classList.add('fade-in');
-                speakText("tasharrafna");
-            }, 13000);
-            
-            setTimeout(() => {
-                resetConversation();
-            }, 15000);
-        }
-        
-        // Function to reset conversation
-        function resetConversation() {
-            const boyBubble = document.getElementById('boy-bubble');
-            const girlBubble = document.getElementById('girl-bubble');
-            const boy = document.querySelector('.boy');
-            const girl = document.querySelector('.girl');
-            
-            boyBubble.classList.remove('fade-in');
-            girlBubble.classList.remove('fade-in');
-            boy.style.transform = 'translateX(-50%) scale(1)';
-            girl.style.transform = 'translateX(-50%) scale(1)';
-            
-            // Hentikan ucapan jika sedang berbicara
-            if (speechSynth.speaking) {
-                speechSynth.cancel();
-            }
-        }
-        
-        // Function to start practice
-        function startPractice() {
-            const resultDiv = document.getElementById('practice-result');
-            resultDiv.textContent = "Sekarang coba ucapkan: 'السَّلَامُ عَلَيْكُمْ'";
-            speakText("as-salamu alaykum");
-            
-            // Simulate practice feedback after a delay
-            setTimeout(() => {
-                resultDiv.innerHTML = "Bagus! Sekarang coba ucapkan: '<strong>كَيْفَ حَالُكَ؟</strong>'";
-                speakText("kaifa haluka");
-            }, 4000);
-            
-            setTimeout(() => {
-                resultDiv.innerHTML = "Luar biasa! Terus berlatih! <i class='fas fa-smile' style='color: #FFC107;'></i>";
-            }, 8000);
-        }
-        
-        // Initialize with a slight delay for better UX
-        setTimeout(() => {
-            document.querySelector('.logo').style.animation = 'bounce 2s infinite';
-        }, 500);
     </script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97612f10c577fda7',t:'MTc1NjM1NjU4NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
