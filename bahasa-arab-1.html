@@ -352,32 +352,38 @@
             </div>
             
             <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Jenis Kelamin:</label>
+                <div class="flex justify-center space-x-4 mb-4">
+                    <label class="flex items-center cursor-pointer">
+                        <input type="radio" name="gender" value="male" id="genderMale" class="mr-2" onchange="selectGender('male')">
+                        <div class="flex items-center bg-blue-100 px-4 py-2 rounded-full border-2 border-blue-300 hover:bg-blue-200 transition-colors">
+                            <span class="text-2xl mr-2">👦</span>
+                            <span class="text-blue-700 font-semibold">Laki-laki</span>
+                        </div>
+                    </label>
+                    <label class="flex items-center cursor-pointer">
+                        <input type="radio" name="gender" value="female" id="genderFemale" class="mr-2" onchange="selectGender('female')">
+                        <div class="flex items-center bg-pink-100 px-4 py-2 rounded-full border-2 border-pink-300 hover:bg-pink-200 transition-colors">
+                            <span class="text-2xl mr-2">👧</span>
+                            <span class="text-pink-700 font-semibold">Perempuan</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Foto Profil:</label>
                 
                 <!-- Photo Upload Area -->
-                <div class="text-center mb-3">
-                    <div id="photoPreview" class="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-xl font-bold mb-2 overflow-hidden border-3 border-blue-200">
+                <div class="text-center">
+                    <div id="photoPreview" class="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-xl font-bold mb-3 overflow-hidden border-3 border-blue-200">
                         👤
                     </div>
                     <input type="file" id="photoInput" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)">
-                    <button onclick="document.getElementById('photoInput').click()" class="bg-blue-500 text-white px-3 py-2 rounded-full hover:bg-blue-600 transition-colors text-xs">
-                        <i class="fas fa-camera mr-1"></i> Upload Foto
+                    <button onclick="document.getElementById('photoInput').click()" class="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition-colors text-sm">
+                        <i class="fas fa-camera mr-2"></i> Upload Foto
                     </button>
-                </div>
-                
-                <!-- Avatar Options -->
-                <div class="text-center">
-                    <p class="text-xs text-gray-600 mb-2">Atau pilih avatar:</p>
-                    <div class="grid grid-cols-4 gap-2">
-                        <div class="avatar-option w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-lg cursor-pointer hover:scale-110 transition-transform" onclick="selectAvatar('👦')">👦</div>
-                        <div class="avatar-option w-10 h-10 rounded-full bg-gradient-to-br from-pink-400 to-red-500 flex items-center justify-center text-white text-lg cursor-pointer hover:scale-110 transition-transform" onclick="selectAvatar('👧')">👧</div>
-                        <div class="avatar-option w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-teal-500 flex items-center justify-center text-white text-lg cursor-pointer hover:scale-110 transition-transform" onclick="selectAvatar('🧒')">🧒</div>
-                        <div class="avatar-option w-10 h-10 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-white text-lg cursor-pointer hover:scale-110 transition-transform" onclick="selectAvatar('👤')">👤</div>
-                        <div class="avatar-option w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-indigo-500 flex items-center justify-center text-white text-lg cursor-pointer hover:scale-110 transition-transform" onclick="selectAvatar('🎓')">🎓</div>
-                        <div class="avatar-option w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-green-500 flex items-center justify-center text-white text-lg cursor-pointer hover:scale-110 transition-transform" onclick="selectAvatar('📚')">📚</div>
-                        <div class="avatar-option w-10 h-10 rounded-full bg-gradient-to-br from-red-400 to-pink-500 flex items-center justify-center text-white text-lg cursor-pointer hover:scale-110 transition-transform" onclick="selectAvatar('⭐')">⭐</div>
-                        <div class="avatar-option w-10 h-10 rounded-full bg-gradient-to-br from-indigo-400 to-blue-500 flex items-center justify-center text-white text-lg cursor-pointer hover:scale-110 transition-transform" onclick="selectAvatar('🌟')">🌟</div>
-                    </div>
+                    <p class="text-xs text-gray-500 mt-2">Opsional - bisa dikosongkan</p>
                 </div>
             </div>
             
@@ -412,8 +418,8 @@
         let totalPoints = 0;
         let stars = 0;
         let studentName = 'Siswa';
+        let studentGender = 'male'; // 'male' or 'female'
         let studentAvatar = '👤';
-        let selectedAvatar = '👤';
         let studentPhoto = null;
 
         // Vocabulary data
@@ -441,22 +447,30 @@
             }
         }
 
-        // Personalized feedback with student name
+        // Personalized feedback with student name and gender
         function speakPersonalizedFeedback(isCorrect, points = 10) {
             let feedbackText = '';
             
             if (isCorrect) {
-                const praises = [
+                const praises = studentGender === 'male' ? [
                     `أحسنت يا ${studentName}!`,
                     `ممتاز يا ${studentName}!`,
                     `عظيم يا ${studentName}!`
+                ] : [
+                    `أحسنت يا ${studentName}!`,
+                    `ممتازة يا ${studentName}!`,
+                    `عظيمة يا ${studentName}!`
                 ];
                 feedbackText = praises[Math.floor(Math.random() * praises.length)];
             } else {
-                const encouragements = [
+                const encouragements = studentGender === 'male' ? [
                     `حاول مرة أخرى يا ${studentName}`,
                     `لا بأس يا ${studentName}، حاول مرة أخرى`,
                     `تستطيع أن تفعل ذلك يا ${studentName}`
+                ] : [
+                    `حاولي مرة أخرى يا ${studentName}`,
+                    `لا بأس يا ${studentName}، حاولي مرة أخرى`,
+                    `تستطيعين أن تفعلي ذلك يا ${studentName}`
                 ];
                 feedbackText = encouragements[Math.floor(Math.random() * encouragements.length)];
             }
@@ -554,48 +568,125 @@
                     
                 case 'speaking':
                     container.innerHTML = `
-                        <h3 class="text-3xl font-bold mb-8 text-center arabic-text">تحدث مع الأصدقاء</h3>
+                        <h3 class="text-3xl font-bold mb-8 text-center arabic-text">محادثة تفاعلية</h3>
+                        <p class="text-lg text-center text-gray-600 mb-8">Sistem akan berbicara, lalu kamu menjawab dengan suara!</p>
                         
-                        <!-- Conversation Animation -->
-                        <div class="flex justify-center items-center mb-8 space-x-8">
-                            <div class="text-center conversation-animation">
-                                <div class="text-6xl mb-2 text-blue-600">
-                                    <i class="fas fa-user"></i>
+                        <!-- Interactive Conversation Display -->
+                        <div class="bg-gradient-to-br from-blue-50 to-green-50 p-8 rounded-3xl border-3 border-blue-200 mb-8 shadow-xl">
+                            <!-- System Speaker -->
+                            <div class="flex items-center justify-center mb-8">
+                                <div class="text-center">
+                                    <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-3xl mb-3 shadow-lg" id="systemAvatar">
+                                        🤖
+                                    </div>
+                                    <p class="text-sm text-gray-600 font-semibold">Sistem</p>
                                 </div>
-                                <div class="bg-blue-100 p-4 rounded-2xl border-2 border-blue-300">
-                                    <div class="text-2xl arabic-text text-blue-800" id="person1Text">السلام عليكم</div>
+                                
+                                <div class="mx-8 text-4xl text-purple-600 pulse">
+                                    <i class="fas fa-exchange-alt"></i>
                                 </div>
-                                <p class="text-sm text-gray-600 mt-2">أحمد</p>
+                                
+                                <div class="text-center">
+                                    <div class="w-20 h-20 bg-gradient-to-br from-green-500 to-teal-600 rounded-full flex items-center justify-center text-white text-3xl mb-3 shadow-lg" id="studentAvatarSpeaking">
+                                        ${studentAvatar}
+                                    </div>
+                                    <p class="text-sm text-gray-600 font-semibold">${studentName}</p>
+                                </div>
                             </div>
                             
-                            <div class="text-4xl text-green-600 pulse">
-                                <i class="fas fa-comments"></i>
+                            <!-- Visual Question Display -->
+                            <div class="text-center mb-6" id="visualQuestionArea" style="display: none;">
+                                <div class="bg-gradient-to-br from-yellow-100 to-orange-100 p-6 rounded-3xl border-3 border-yellow-300 shadow-lg">
+                                    <div class="text-6xl mb-4 animate-bounce" id="questionEmoji">👨‍💼</div>
+                                    <div class="text-3xl arabic-text text-orange-800 mb-2" id="questionArabicLabel">أب</div>
+                                    <div class="text-lg text-orange-600 font-semibold" id="questionIndonesianLabel">Ayah</div>
+                                    <div class="text-sm text-orange-500 mt-2">👆 Yang ditanyakan sistem</div>
+                                </div>
                             </div>
                             
-                            <div class="text-center conversation-animation" style="animation-delay: 1.5s;">
-                                <div class="text-6xl mb-2 text-pink-600">
-                                    <i class="fas fa-user"></i>
+                            <!-- Conversation Bubbles -->
+                            <div class="space-y-4 mb-6">
+                                <!-- System Message -->
+                                <div class="flex items-start">
+                                    <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm mr-3">
+                                        🤖
+                                    </div>
+                                    <div class="bg-blue-100 p-4 rounded-2xl rounded-tl-none border-2 border-blue-300 max-w-md">
+                                        <div class="text-2xl arabic-text text-blue-800 mb-2" id="systemMessage">السلام عليكم</div>
+                                        <div class="text-sm text-gray-600" id="systemTranslation">Assalamu'alaikum</div>
+                                    </div>
                                 </div>
-                                <div class="bg-pink-100 p-4 rounded-2xl border-2 border-pink-300">
-                                    <div class="text-2xl arabic-text text-pink-800" id="person2Text">وعليكم السلام</div>
+                                
+                                <!-- Student Response Area -->
+                                <div class="flex items-start justify-end" id="studentResponseArea" style="display: none;">
+                                    <div class="bg-green-100 p-4 rounded-2xl rounded-tr-none border-2 border-green-300 max-w-md mr-3">
+                                        <div class="text-2xl arabic-text text-green-800 mb-2" id="studentResponse">وعليكم السلام</div>
+                                        <div class="text-sm text-gray-600" id="studentResponseTranslation">Wa'alaikumussalam</div>
+                                    </div>
+                                    <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-sm">
+                                        ${studentAvatar}
+                                    </div>
                                 </div>
-                                <p class="text-sm text-gray-600 mt-2">فاطمة</p>
+                            </div>
+                            
+                            <!-- Audio Controls -->
+                            <div class="text-center">
+                                <button onclick="playSystemMessage()" class="bg-blue-500 text-white px-6 py-3 rounded-full text-lg hover:bg-blue-600 transition-colors shadow-lg mr-4" id="playButton">
+                                    <i class="fas fa-volume-up mr-2"></i> Dengar Sistem
+                                </button>
+                                <button onclick="startRecording()" class="bg-green-500 text-white px-6 py-3 rounded-full text-lg hover:bg-green-600 transition-colors shadow-lg" id="recordButton">
+                                    <i class="fas fa-microphone mr-2"></i> Rekam Jawaban
+                                </button>
                             </div>
                         </div>
                         
-                        <div class="text-center">
-                            <div class="bg-green-50 p-6 rounded-2xl border-4 border-green-200 mb-6">
-                                <p class="text-lg text-gray-700 mb-4">Sekarang giliranmu! Ucapkan:</p>
-                                <div id="speakingWord" class="text-5xl arabic-text text-green-800"></div>
+                        <!-- Recording Status -->
+                        <div id="recordingStatus" class="text-center mb-6 hidden">
+                            <div class="bg-red-100 p-4 rounded-xl border-2 border-red-300 inline-block">
+                                <div class="flex items-center justify-center">
+                                    <div class="w-4 h-4 bg-red-500 rounded-full animate-pulse mr-3"></div>
+                                    <span class="text-red-700 font-semibold">🎤 Sedang Merekam... Ucapkan jawabanmu!</span>
+                                </div>
+                                <div class="mt-2">
+                                    <button onclick="stopRecording()" class="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition-colors text-sm">
+                                        <i class="fas fa-stop mr-1"></i> Berhenti
+                                    </button>
+                                </div>
                             </div>
-                            <button onclick="startSpeaking()" class="bg-green-500 text-white px-10 py-5 rounded-full text-xl hover:bg-green-600 transition-colors shadow-lg">
-                                <i class="fas fa-microphone mr-3"></i> Mulai Bicara
-                            </button>
-                            <div id="speakingResult" class="mt-6"></div>
+                        </div>
+                        
+                        <!-- Result Display -->
+                        <div id="speakingResult" class="text-center mb-6"></div>
+                        
+                        <!-- Progress and Controls -->
+                        <div class="bg-white p-6 rounded-2xl shadow-lg border-2 border-gray-200">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="text-lg font-semibold text-gray-700">
+                                    Percakapan: <span id="conversationProgress">1</span>/5
+                                </div>
+                                <div class="text-lg font-semibold text-green-600">
+                                    <i class="fas fa-star mr-1"></i> Skor: <span id="speakingScore">0</span>
+                                </div>
+                            </div>
+                            
+                            <div class="w-full bg-gray-200 rounded-full h-3 mb-4">
+                                <div class="bg-gradient-to-r from-blue-500 to-green-500 h-3 rounded-full transition-all duration-500" id="progressBar" style="width: 20%"></div>
+                            </div>
+                            
+                            <div class="flex justify-center space-x-4">
+                                <button onclick="skipConversation()" class="bg-yellow-500 text-white px-6 py-2 rounded-full hover:bg-yellow-600 transition-colors">
+                                    <i class="fas fa-forward mr-2"></i> Lewati
+                                </button>
+                                <button onclick="nextSpeakingConversation()" class="bg-purple-500 text-white px-6 py-2 rounded-full hover:bg-purple-600 transition-colors" id="nextButton" style="display: none;">
+                                    <i class="fas fa-arrow-right mr-2"></i> Lanjut
+                                </button>
+                                <button onclick="resetSpeakingActivity()" class="bg-gray-500 text-white px-6 py-2 rounded-full hover:bg-gray-600 transition-colors">
+                                    <i class="fas fa-redo mr-2"></i> Ulang
+                                </button>
+                            </div>
                         </div>
                     `;
-                    loadSpeakingWord();
-                    startConversationAnimation();
+                    initInteractiveSpeaking();
                     break;
                     
                 case 'reading':
@@ -765,6 +856,16 @@
                             
                             <!-- Conversation Display -->
                             <div class="bg-gradient-to-r from-blue-50 to-green-50 p-8 rounded-2xl mb-8 border-2 border-blue-200">
+                                <!-- Visual Question Display for Family Topic -->
+                                <div class="text-center mb-6" id="voiceVisualArea" style="display: none;">
+                                    <div class="bg-gradient-to-br from-yellow-100 to-orange-100 p-6 rounded-3xl border-3 border-yellow-300 shadow-lg">
+                                        <div class="text-6xl mb-4 animate-bounce" id="voiceQuestionEmoji">👨‍💼</div>
+                                        <div class="text-3xl arabic-text text-orange-800 mb-2" id="voiceQuestionArabicLabel">أب</div>
+                                        <div class="text-lg text-orange-600 font-semibold" id="voiceQuestionIndonesianLabel">Ayah</div>
+                                        <div class="text-sm text-orange-500 mt-2">👆 Yang ditanyakan</div>
+                                    </div>
+                                </div>
+                                
                                 <div class="flex justify-center items-center space-x-8 mb-6">
                                     <div class="text-center">
                                         <div class="text-5xl mb-2 text-blue-600">
@@ -800,9 +901,14 @@
                             
                             <div id="voiceResult" class="mt-6"></div>
                             
-                            <button onclick="nextConversation()" class="mt-6 bg-green-500 text-white px-8 py-3 rounded-full hover:bg-green-600 transition-colors">
-                                <i class="fas fa-arrow-right mr-2"></i> Percakapan Berikutnya
-                            </button>
+                            <div class="mt-6 space-x-4">
+                                <button onclick="nextConversation()" class="bg-green-500 text-white px-8 py-3 rounded-full hover:bg-green-600 transition-colors">
+                                    <i class="fas fa-arrow-right mr-2"></i> Percakapan Berikutnya
+                                </button>
+                                <button onclick="resetVoiceGuessGame()" class="bg-purple-500 text-white px-8 py-3 rounded-full hover:bg-purple-600 transition-colors">
+                                    <i class="fas fa-shuffle mr-2"></i> Soal Baru
+                                </button>
+                            </div>
                         </div>
                     `;
                     initVoiceGuessGame();
@@ -936,31 +1042,339 @@
             });
         }
 
-        function loadSpeakingWord() {
-            const vocab = vocabulary[currentTopic];
-            const randomIndex = Math.floor(Math.random() * vocab.arabic.length);
-            const word = vocab.arabic[randomIndex];
+        // Interactive Speaking Variables
+        let currentSpeakingConversation = 0;
+        let speakingScore = 0;
+        let isRecording = false;
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let speakingConversations = [];
+
+        function initInteractiveSpeaking() {
+            speakingConversations = {
+                introduction: [
+                    {
+                        system: { arabic: 'السلام عليكم', translation: 'Assalamu\'alaikum', phonetic: 'Assalamu alaikum' },
+                        expected: { arabic: 'وعليكم السلام', translation: 'Wa\'alaikumussalam', phonetic: 'Wa alaikumussalam' }
+                    },
+                    {
+                        system: { arabic: 'ما اسمك؟', translation: 'Siapa namamu?', phonetic: 'Ma ismuka?' },
+                        expected: { arabic: 'اسمي أحمد', translation: 'Namaku Ahmad', phonetic: 'Ismi Ahmad' }
+                    },
+                    {
+                        system: { arabic: 'كيف حالك؟', translation: 'Apa kabarmu?', phonetic: 'Kaifa haluka?' },
+                        expected: { arabic: 'بخير الحمد لله', translation: 'Baik alhamdulillah', phonetic: 'Bikhair alhamdulillah' }
+                    },
+                    {
+                        system: { arabic: 'صباح الخير', translation: 'Selamat pagi', phonetic: 'Sabah al-khair' },
+                        expected: { arabic: 'صباح النور', translation: 'Selamat pagi (balasan)', phonetic: 'Sabah an-nur' }
+                    },
+                    {
+                        system: { arabic: 'مع السلامة', translation: 'Selamat jalan', phonetic: 'Ma\'a as-salamah' },
+                        expected: { arabic: 'وعليكم السلام', translation: 'Wa\'alaikumussalam', phonetic: 'Wa alaikumussalam' }
+                    }
+                ],
+                family: [
+                    {
+                        system: { arabic: 'مَن هَذَا؟', translation: 'Siapa ini?', phonetic: 'Man hadha?' },
+                        expected: { arabic: 'هذا أبي', translation: 'Ini ayahku', phonetic: 'Hadha abi' },
+                        visual: { emoji: '👨‍💼', arabicLabel: 'أب', indonesianLabel: 'Ayah' }
+                    },
+                    {
+                        system: { arabic: 'مَن هَذِهِ؟', translation: 'Siapa ini?', phonetic: 'Man hadhihi?' },
+                        expected: { arabic: 'هذه أمي', translation: 'Ini ibuku', phonetic: 'Hadhihi ummi' },
+                        visual: { emoji: '👩‍🍳', arabicLabel: 'أم', indonesianLabel: 'Ibu' }
+                    },
+                    {
+                        system: { arabic: 'مَن هَذَا؟', translation: 'Siapa ini?', phonetic: 'Man hadha?' },
+                        expected: { arabic: 'هذا أخي', translation: 'Ini saudaraku', phonetic: 'Hadha akhi' },
+                        visual: { emoji: '👦', arabicLabel: 'أخ', indonesianLabel: 'Saudara Laki-laki' }
+                    },
+                    {
+                        system: { arabic: 'مَن هَذِهِ؟', translation: 'Siapa ini?', phonetic: 'Man hadhihi?' },
+                        expected: { arabic: 'هذه أختي', translation: 'Ini saudariku', phonetic: 'Hadhihi ukhti' },
+                        visual: { emoji: '👧', arabicLabel: 'أخت', indonesianLabel: 'Saudara Perempuan' }
+                    },
+                    {
+                        system: { arabic: 'مَن هَذَا؟', translation: 'Siapa ini?', phonetic: 'Man hadha?' },
+                        expected: { arabic: 'هذا جدي', translation: 'Ini kakekku', phonetic: 'Hadha jaddi' },
+                        visual: { emoji: '👴', arabicLabel: 'جد', indonesianLabel: 'Kakek' }
+                    }
+                ]
+            };
             
-            document.getElementById('speakingWord').textContent = word;
-            window.currentSpeakingWord = word;
+            currentSpeakingConversation = 0;
+            speakingScore = 0;
+            loadCurrentConversation();
+            updateSpeakingProgress();
         }
 
-        function startSpeaking() {
-            const word = window.currentSpeakingWord;
+        function loadCurrentConversation() {
+            const conversations = speakingConversations[currentTopic];
+            if (!conversations || currentSpeakingConversation >= conversations.length) {
+                // Completed all conversations
+                showSpeakingCompletion();
+                return;
+            }
+            
+            const conv = conversations[currentSpeakingConversation];
+            
+            // Update system message
+            document.getElementById('systemMessage').textContent = conv.system.arabic;
+            document.getElementById('systemTranslation').textContent = conv.system.translation;
+            
+            // Update expected response (hidden initially)
+            document.getElementById('studentResponse').textContent = conv.expected.arabic;
+            document.getElementById('studentResponseTranslation').textContent = conv.expected.translation;
+            
+            // Show visual question for family topic
+            if (currentTopic === 'family' && conv.visual) {
+                document.getElementById('visualQuestionArea').style.display = 'block';
+                document.getElementById('questionEmoji').textContent = conv.visual.emoji;
+                document.getElementById('questionArabicLabel').textContent = conv.visual.arabicLabel;
+                document.getElementById('questionIndonesianLabel').textContent = conv.visual.indonesianLabel;
+            } else {
+                document.getElementById('visualQuestionArea').style.display = 'none';
+            }
+            
+            // Hide student response initially
+            document.getElementById('studentResponseArea').style.display = 'none';
+            document.getElementById('nextButton').style.display = 'none';
+            
+            // Clear previous results
+            document.getElementById('speakingResult').innerHTML = '';
+            
+            // Auto-play system message
+            setTimeout(() => {
+                playSystemMessage();
+            }, 1000);
+        }
+
+        function playSystemMessage() {
+            const conversations = speakingConversations[currentTopic];
+            const conv = conversations[currentSpeakingConversation];
+            
+            // Visual feedback
+            const systemAvatar = document.getElementById('systemAvatar');
+            systemAvatar.classList.add('animate-pulse', 'ring-4', 'ring-blue-400');
+            
+            // Play audio
+            speakArabic(conv.system.arabic);
+            
+            // Remove visual feedback after 3 seconds
+            setTimeout(() => {
+                systemAvatar.classList.remove('animate-pulse', 'ring-4', 'ring-blue-400');
+            }, 3000);
+        }
+
+        async function startRecording() {
+            if (isRecording) return;
+            
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+                
+                mediaRecorder.ondataavailable = (event) => {
+                    audioChunks.push(event.data);
+                };
+                
+                mediaRecorder.onstop = () => {
+                    processRecording();
+                };
+                
+                mediaRecorder.start();
+                isRecording = true;
+                
+                // Update UI
+                document.getElementById('recordingStatus').classList.remove('hidden');
+                document.getElementById('recordButton').innerHTML = '<i class="fas fa-stop mr-2"></i> Berhenti Rekam';
+                document.getElementById('recordButton').classList.add('bg-red-500', 'hover:bg-red-600');
+                document.getElementById('recordButton').classList.remove('bg-green-500', 'hover:bg-green-600');
+                
+                // Visual feedback on student avatar
+                const studentAvatar = document.getElementById('studentAvatarSpeaking');
+                studentAvatar.classList.add('animate-pulse', 'ring-4', 'ring-green-400');
+                
+            } catch (error) {
+                console.error('Error accessing microphone:', error);
+                // Fallback to speech recognition
+                startSpeechRecognitionFallback();
+            }
+        }
+
+        function stopRecording() {
+            if (!isRecording) return;
+            
+            mediaRecorder.stop();
+            mediaRecorder.stream.getTracks().forEach(track => track.stop());
+            isRecording = false;
+            
+            // Update UI
+            document.getElementById('recordingStatus').classList.add('hidden');
+            document.getElementById('recordButton').innerHTML = '<i class="fas fa-microphone mr-2"></i> Rekam Jawaban';
+            document.getElementById('recordButton').classList.remove('bg-red-500', 'hover:bg-red-600');
+            document.getElementById('recordButton').classList.add('bg-green-500', 'hover:bg-green-600');
+            
+            // Remove visual feedback
+            const studentAvatar = document.getElementById('studentAvatarSpeaking');
+            studentAvatar.classList.remove('animate-pulse', 'ring-4', 'ring-green-400');
+        }
+
+        function processRecording() {
+            // In a real implementation, this would process the audio
+            // For demo purposes, we'll simulate speech recognition
+            const conversations = speakingConversations[currentTopic];
+            const conv = conversations[currentSpeakingConversation];
+            
+            // Simulate processing delay
+            document.getElementById('speakingResult').innerHTML = `
+                <div class="bg-blue-100 p-4 rounded-xl border-2 border-blue-300 inline-block">
+                    <div class="flex items-center">
+                        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mr-3"></div>
+                        <span class="text-blue-700 font-semibold">Memproses rekaman...</span>
+                    </div>
+                </div>
+            `;
+            
+            setTimeout(() => {
+                // Simulate random success (80% chance for demo)
+                const isCorrect = Math.random() > 0.2;
+                showRecordingResult(isCorrect, conv);
+            }, 2000);
+        }
+
+        function startSpeechRecognitionFallback() {
+            const conversations = speakingConversations[currentTopic];
+            const conv = conversations[currentSpeakingConversation];
+            
+            document.getElementById('speakingResult').innerHTML = `
+                <div class="bg-blue-100 p-4 rounded-xl border-2 border-blue-300 inline-block">
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-blue-500 rounded-full animate-pulse mr-3"></div>
+                        <span class="text-blue-700 font-semibold">🎤 Mendengarkan... Ucapkan jawabanmu!</span>
+                    </div>
+                </div>
+            `;
+            
+            // Use Web Speech API as fallback
+            startSpeechRecognition(conv.expected.arabic, (isCorrect, spokenText) => {
+                showRecordingResult(isCorrect, conv, spokenText);
+            });
+        }
+
+        function showRecordingResult(isCorrect, conv, spokenText = '') {
             const result = document.getElementById('speakingResult');
             
-            result.innerHTML = '<div class="text-blue-600">🎤 جاري التسجيل...</div>';
+            if (isCorrect) {
+                const points = 25;
+                const feedbackText = speakPersonalizedFeedback(true, points);
+                speakingScore += points;
+                addPoints(points);
+                
+                // Show student response bubble
+                document.getElementById('studentResponseArea').style.display = 'flex';
+                
+                result.innerHTML = `
+                    <div class="bg-gradient-to-r from-green-400 to-emerald-500 text-white p-6 rounded-2xl shadow-lg">
+                        <div class="text-3xl mb-2">🎉</div>
+                        <div class="text-2xl font-bold mb-2 arabic-text">${feedbackText}</div>
+                        <div class="text-lg">Pengucapan sempurna! +${points} poin</div>
+                        ${spokenText ? `<div class="text-sm mt-2 opacity-90">Terdeteksi: "${spokenText}"</div>` : ''}
+                    </div>
+                `;
+                
+                // Show next button
+                document.getElementById('nextButton').style.display = 'inline-block';
+                
+                // Play the correct response
+                setTimeout(() => {
+                    speakArabic(conv.expected.arabic);
+                }, 1000);
+                
+            } else {
+                const feedbackText = speakPersonalizedFeedback(false);
+                
+                result.innerHTML = `
+                    <div class="bg-gradient-to-r from-orange-400 to-red-400 text-white p-6 rounded-2xl shadow-lg">
+                        <div class="text-3xl mb-2">🔄</div>
+                        <div class="text-xl font-bold mb-2 arabic-text">${feedbackText}</div>
+                        <div class="text-lg mb-3">Coba lagi! Jawaban yang benar:</div>
+                        <div class="bg-white bg-opacity-20 p-3 rounded-xl">
+                            <div class="text-2xl arabic-text mb-1">${conv.expected.arabic}</div>
+                            <div class="text-sm opacity-90">${conv.expected.translation}</div>
+                        </div>
+                        ${spokenText ? `<div class="text-sm mt-2 opacity-75">Terdeteksi: "${spokenText}"</div>` : ''}
+                    </div>
+                `;
+                
+                // Play the correct response
+                setTimeout(() => {
+                    speakArabic(conv.expected.arabic);
+                }, 1500);
+            }
             
-            startSpeechRecognition(word, (isCorrect, spokenText) => {
-                if (isCorrect) {
-                    const feedbackText = speakPersonalizedFeedback(true, 15);
-                    result.innerHTML = `<div class="text-green-600 text-xl">✅ ${feedbackText}</div>`;
-                    addPoints(15);
-                } else {
-                    const feedbackText = speakPersonalizedFeedback(false);
-                    result.innerHTML = `<div class="text-orange-600 text-xl">🔄 ${feedbackText}<br><small>سمعت: ${spokenText}</small></div>`;
-                }
-            });
+            updateSpeakingProgress();
+        }
+
+        function nextSpeakingConversation() {
+            currentSpeakingConversation++;
+            loadCurrentConversation();
+            updateSpeakingProgress();
+        }
+
+        function skipConversation() {
+            // Show the correct answer and move to next
+            const conversations = speakingConversations[currentTopic];
+            const conv = conversations[currentSpeakingConversation];
+            
+            document.getElementById('studentResponseArea').style.display = 'flex';
+            document.getElementById('speakingResult').innerHTML = `
+                <div class="bg-yellow-100 p-4 rounded-xl border-2 border-yellow-300">
+                    <div class="text-lg font-bold text-yellow-800 mb-2">⏭️ Dilewati</div>
+                    <div class="text-yellow-700">Jawaban yang benar: <span class="arabic-text font-bold">${conv.expected.arabic}</span></div>
+                    <div class="text-sm text-yellow-600">${conv.expected.translation}</div>
+                </div>
+            `;
+            
+            speakArabic(conv.expected.arabic);
+            document.getElementById('nextButton').style.display = 'inline-block';
+        }
+
+        function resetSpeakingActivity() {
+            currentSpeakingConversation = 0;
+            speakingScore = 0;
+            loadCurrentConversation();
+            updateSpeakingProgress();
+        }
+
+        function updateSpeakingProgress() {
+            const totalConversations = speakingConversations[currentTopic].length;
+            const progress = ((currentSpeakingConversation + 1) / totalConversations) * 100;
+            
+            document.getElementById('conversationProgress').textContent = currentSpeakingConversation + 1;
+            document.getElementById('speakingScore').textContent = speakingScore;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function showSpeakingCompletion() {
+            const congratsText = studentGender === 'male' ? `مبروك يا ${studentName}!` : `مبروك يا ${studentName}!`;
+            
+            document.getElementById('speakingResult').innerHTML = `
+                <div class="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-8 rounded-3xl shadow-2xl text-center">
+                    <div class="text-6xl mb-4">🏆</div>
+                    <div class="text-3xl font-bold mb-4 arabic-text">${congratsText}</div>
+                    <div class="text-xl mb-4">Kamu telah menyelesaikan semua percakapan!</div>
+                    <div class="text-lg mb-6">Total Skor: <span class="font-bold">${speakingScore}</span> poin</div>
+                    <button onclick="resetSpeakingActivity()" class="bg-white text-purple-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition-colors">
+                        <i class="fas fa-redo mr-2"></i> Ulangi Latihan
+                    </button>
+                </div>
+            `;
+            
+            // Bonus points for completion
+            addPoints(50);
+            showSuccessModal(50);
         }
 
         function loadReadingWords() {
@@ -1408,27 +1822,100 @@
                         options: ['صباح النور', 'مساء الخير', 'تصبح على خير', 'السلام عليكم']
                     }
                 ],
-                family: [
-                    {
-                        question: 'من هذا؟',
-                        correctAnswer: 'هذا أبي',
-                        options: ['هذا أبي', 'هذه أمي', 'هذا أخي', 'هذه أختي']
-                    },
-                    {
-                        question: 'كم عدد أفراد أسرتك؟',
-                        correctAnswer: 'أسرتي خمسة أفراد',
-                        options: ['أسرتي خمسة أفراد', 'أسرتي كبيرة', 'أحب أسرتي', 'أسرتي سعيدة']
-                    },
-                    {
-                        question: 'أين جدك؟',
-                        correctAnswer: 'جدي في البيت',
-                        options: ['جدي في البيت', 'جدي كبير', 'أحب جدي', 'جدي طيب']
-                    }
-                ]
+                family: []
             };
             
+            // Generate random family conversations
+            generateRandomFamilyConversations();
             currentConversation = 0;
             loadConversation();
+        }
+        
+        function generateRandomFamilyConversations() {
+            const familyMembers = [
+                {
+                    arabic: 'أب',
+                    question: 'مَن هَذَا؟',
+                    answer: 'هذا أبي',
+                    emoji: '👨‍💼',
+                    indonesian: 'Ayah'
+                },
+                {
+                    arabic: 'أم',
+                    question: 'مَن هَذِهِ؟',
+                    answer: 'هذه أمي',
+                    emoji: '👩‍🍳',
+                    indonesian: 'Ibu'
+                },
+                {
+                    arabic: 'أخ',
+                    question: 'مَن هَذَا؟',
+                    answer: 'هذا أخي',
+                    emoji: '👦',
+                    indonesian: 'Saudara Laki-laki'
+                },
+                {
+                    arabic: 'أخت',
+                    question: 'مَن هَذِهِ؟',
+                    answer: 'هذه أختي',
+                    emoji: '👧',
+                    indonesian: 'Saudara Perempuan'
+                },
+                {
+                    arabic: 'جد',
+                    question: 'مَن هَذَا؟',
+                    answer: 'هذا جدي',
+                    emoji: '👴',
+                    indonesian: 'Kakek'
+                },
+                {
+                    arabic: 'جدة',
+                    question: 'مَن هَذِهِ؟',
+                    answer: 'هذه جدتي',
+                    emoji: '👵',
+                    indonesian: 'Nenek'
+                },
+                {
+                    arabic: 'عم',
+                    question: 'مَن هَذَا؟',
+                    answer: 'هذا عمي',
+                    emoji: '👨‍🦱',
+                    indonesian: 'Paman'
+                },
+                {
+                    arabic: 'عمة',
+                    question: 'مَن هَذِهِ؟',
+                    answer: 'هذه عمتي',
+                    emoji: '👩‍🦱',
+                    indonesian: 'Bibi'
+                }
+            ];
+            
+            // Shuffle and select 5 random family members
+            const shuffledMembers = [...familyMembers].sort(() => Math.random() - 0.5);
+            const selectedMembers = shuffledMembers.slice(0, 5);
+            
+            voiceConversations.family = selectedMembers.map(member => {
+                // Create wrong options by selecting other family members
+                const wrongOptions = familyMembers
+                    .filter(m => m.answer !== member.answer)
+                    .sort(() => Math.random() - 0.5)
+                    .slice(0, 3)
+                    .map(m => m.answer);
+                
+                const allOptions = [member.answer, ...wrongOptions].sort(() => Math.random() - 0.5);
+                
+                return {
+                    question: member.question,
+                    correctAnswer: member.answer,
+                    options: allOptions,
+                    visual: {
+                        emoji: member.emoji,
+                        arabicLabel: member.arabic,
+                        indonesianLabel: member.indonesian
+                    }
+                };
+            });
         }
         
         function loadConversation() {
@@ -1439,6 +1926,16 @@
             
             const conv = conversations[currentConversation];
             document.getElementById('conversationQuestion').textContent = conv.question;
+            
+            // Show visual question for family topic
+            if (currentTopic === 'family' && conv.visual) {
+                document.getElementById('voiceVisualArea').style.display = 'block';
+                document.getElementById('voiceQuestionEmoji').textContent = conv.visual.emoji;
+                document.getElementById('voiceQuestionArabicLabel').textContent = conv.visual.arabicLabel;
+                document.getElementById('voiceQuestionIndonesianLabel').textContent = conv.visual.indonesianLabel;
+            } else {
+                document.getElementById('voiceVisualArea').style.display = 'none';
+            }
             
             const optionsContainer = document.getElementById('voiceAnswerOptions');
             optionsContainer.innerHTML = conv.options.map(option => `
@@ -1477,6 +1974,14 @@
         function nextConversation() {
             const conversations = voiceConversations[currentTopic];
             currentConversation = (currentConversation + 1) % conversations.length;
+            loadConversation();
+        }
+        
+        function resetVoiceGuessGame() {
+            if (currentTopic === 'family') {
+                generateRandomFamilyConversations();
+            }
+            currentConversation = 0;
             loadConversation();
         }
 
@@ -1526,13 +2031,28 @@
             document.getElementById('profileModal').classList.add('flex');
             document.getElementById('studentNameInput').value = studentName;
             
-            // Highlight current avatar
-            document.querySelectorAll('.avatar-option').forEach(option => {
-                option.classList.remove('ring-4', 'ring-blue-500');
-                if (option.textContent === studentAvatar) {
-                    option.classList.add('ring-4', 'ring-blue-500');
-                }
-            });
+            // Set current gender
+            if (studentGender === 'male') {
+                document.getElementById('genderMale').checked = true;
+            } else {
+                document.getElementById('genderFemale').checked = true;
+            }
+        }
+        
+        function selectGender(gender) {
+            studentGender = gender;
+            
+            // Update avatar based on gender
+            if (gender === 'male') {
+                studentAvatar = '👦';
+            } else {
+                studentAvatar = '👧';
+            }
+            
+            // Update preview
+            if (!studentPhoto) {
+                document.getElementById('photoPreview').textContent = studentAvatar;
+            }
         }
 
         function closeProfileModal() {
@@ -1557,36 +2077,13 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     studentPhoto = e.target.result;
-                    selectedAvatar = 'photo';
                     
                     // Update preview
                     const preview = document.getElementById('photoPreview');
                     preview.innerHTML = `<img src="${studentPhoto}" alt="Foto Siswa" class="w-full h-full object-cover rounded-full">`;
-                    
-                    // Clear avatar selections
-                    document.querySelectorAll('.avatar-option').forEach(option => {
-                        option.classList.remove('ring-4', 'ring-blue-500');
-                    });
                 };
                 reader.readAsDataURL(file);
             }
-        }
-
-        function selectAvatar(avatar) {
-            selectedAvatar = avatar;
-            studentPhoto = null;
-            
-            // Update preview to show selected avatar
-            const preview = document.getElementById('photoPreview');
-            preview.innerHTML = avatar;
-            preview.className = "w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-2xl font-bold mb-3 overflow-hidden border-4 border-blue-200";
-            
-            // Update visual selection
-            document.querySelectorAll('.avatar-option').forEach(option => {
-                option.classList.remove('ring-4', 'ring-blue-500');
-            });
-            
-            event.target.classList.add('ring-4', 'ring-blue-500');
         }
 
         function saveProfile() {
@@ -1597,13 +2094,17 @@
                 return;
             }
             
+            if (!studentGender) {
+                alert('Pilih jenis kelamin terlebih dahulu!');
+                return;
+            }
+            
             studentName = nameInput;
-            studentAvatar = selectedAvatar;
             
             // Update profile display
             document.getElementById('studentName').textContent = studentName;
             
-            if (selectedAvatar === 'photo' && studentPhoto) {
+            if (studentPhoto) {
                 document.getElementById('studentPhoto').innerHTML = `<img src="${studentPhoto}" alt="Foto Siswa" class="w-full h-full object-cover rounded-full">`;
                 document.getElementById('studentPhoto').className = "w-12 h-12 rounded-full mr-3 overflow-hidden border-2 border-white";
             } else {
@@ -1613,6 +2114,7 @@
             
             // Save to localStorage
             localStorage.setItem('studentName', studentName);
+            localStorage.setItem('studentGender', studentGender);
             localStorage.setItem('studentAvatar', studentAvatar);
             if (studentPhoto) {
                 localStorage.setItem('studentPhoto', studentPhoto);
@@ -1628,6 +2130,7 @@
 
         function loadProfile() {
             const savedName = localStorage.getItem('studentName');
+            const savedGender = localStorage.getItem('studentGender');
             const savedAvatar = localStorage.getItem('studentAvatar');
             const savedPhoto = localStorage.getItem('studentPhoto');
             
@@ -1636,24 +2139,22 @@
                 document.getElementById('studentName').textContent = studentName;
             }
             
+            if (savedGender) {
+                studentGender = savedGender;
+                studentAvatar = savedGender === 'male' ? '👦' : '👧';
+            }
+            
             if (savedAvatar) {
                 studentAvatar = savedAvatar;
-                selectedAvatar = savedAvatar;
-                
-                if (savedAvatar === 'photo' && savedPhoto) {
-                    studentPhoto = savedPhoto;
-                    document.getElementById('studentPhoto').innerHTML = `<img src="${studentPhoto}" alt="Foto Siswa" class="w-full h-full object-cover rounded-full">`;
-                    document.getElementById('studentPhoto').className = "w-12 h-12 rounded-full mr-3 overflow-hidden border-2 border-white";
-                    
-                    // Update modal preview
-                    const preview = document.getElementById('photoPreview');
-                    if (preview) {
-                        preview.innerHTML = `<img src="${studentPhoto}" alt="Foto Siswa" class="w-full h-full object-cover rounded-full">`;
-                    }
-                } else {
-                    document.getElementById('studentPhoto').textContent = studentAvatar;
-                    document.getElementById('studentPhoto').className = "w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-lg font-bold mr-3";
-                }
+            }
+            
+            if (savedPhoto) {
+                studentPhoto = savedPhoto;
+                document.getElementById('studentPhoto').innerHTML = `<img src="${studentPhoto}" alt="Foto Siswa" class="w-full h-full object-cover rounded-full">`;
+                document.getElementById('studentPhoto').className = "w-12 h-12 rounded-full mr-3 overflow-hidden border-2 border-white";
+            } else {
+                document.getElementById('studentPhoto').textContent = studentAvatar;
+                document.getElementById('studentPhoto').className = "w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-lg font-bold mr-3";
             }
         }
 
@@ -1670,5 +2171,5 @@
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'976142fb865efd18',t:'MTc1NjM1NzQwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9761686bf2d2a459',t:'MTc1NjM1ODkzNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
