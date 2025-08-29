@@ -389,7 +389,7 @@
         <div class="container mx-auto px-3 sm:px-4 py-6">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                 <div>
-                    <h4 class="font-bold mb-3 text-sm sm:text-base">Media Pembelajaran Interaktif</h4>
+                    <h4 class="font-bold mb-3 text-sm sm:text-base">Media Pembelajaran</h4>
                     <p class="text-xs sm:text-sm opacity-90">Fikih Kelas 5 MI - Semester Ganjil</p>
                     <p class="text-xs sm:text-sm opacity-90 mt-1">Materi: Zakat, Infak, Sedekah, Kurban</p>
                 </div>
@@ -414,9 +414,9 @@
                 <div>
                     <h4 class="font-bold mb-3 text-sm sm:text-base">Kontak</h4>
                     <div class="text-xs sm:text-sm opacity-90 space-y-1">
-                        <p><i class="fas fa-envelope mr-2"></i>mr.mahfudsidik@gmail.com</p>
-                        <p><i class="fas fa-phone mr-2"></i>+62 896 1976 0801</p>
-                        <p><i class="fas fa-globe mr-2"></i>www.minsingkawang.sch.id</p>
+                        <p><i class="fas fa-envelope mr-2"></i>admin@fikih.edu</p>
+                        <p><i class="fas fa-phone mr-2"></i>+62 123 456 789</p>
+                        <p><i class="fas fa-globe mr-2"></i>www.fikih-mi.edu</p>
                     </div>
                 </div>
             </div>
@@ -1759,7 +1759,7 @@
             
             let questionHtml = '';
             
-            if (currentQuizType === 'pilgan' || currentQuizType === 'menjodohkan') {
+            if (currentQuizType === 'pilgan') {
                 questionHtml = `
                     <h3 class="text-xl font-bold mb-4">${question.soal}</h3>
                     <div class="space-y-3">
@@ -1771,6 +1771,29 @@
                                 <span>${pilihan}</span>
                             </label>
                         `).join('')}
+                    </div>
+                `;
+            } else if (currentQuizType === 'menjodohkan') {
+                questionHtml = `
+                    <h3 class="text-xl font-bold mb-4">${question.soal}</h3>
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                        <p class="text-sm text-blue-700 mb-2">
+                            <i class="fas fa-info-circle mr-1"></i>
+                            Pilih jawaban yang tepat dari dropdown di bawah:
+                        </p>
+                        <p class="font-semibold text-lg">${question.kiri}</p>
+                    </div>
+                    <div class="space-y-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Pilih jawaban:</label>
+                        <select class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-base" 
+                                onchange="saveAnswer(this.value)">
+                            <option value="">-- Pilih Jawaban --</option>
+                            ${question.pilihan.map((pilihan, index) => `
+                                <option value="${index}" ${userAnswers[currentQuestionIndex] == index ? 'selected' : ''}>
+                                    ${pilihan}
+                                </option>
+                            `).join('')}
+                        </select>
                     </div>
                 `;
             } else if (currentQuizType === 'uraian') {
@@ -1924,5 +1947,5 @@
             initializeStudentIdentity();
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'976b6e7b94419fe9',t:'MTc1NjQ2NDA0MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'976b81e996728817',t:'MTc1NjQ2NDgzNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
