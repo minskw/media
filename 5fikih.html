@@ -325,14 +325,14 @@
                     <h4 class="font-bold mb-3 text-sm sm:text-base">Kontak</h4>
                     <div class="text-xs sm:text-sm opacity-90 space-y-1">
                         <p><i class="fas fa-envelope mr-2"></i>mr.mahfudsidik@gmail.com</p>
-                        <p><i class="fas fa-phone mr-2"></i>+62 89619760801</p>
+                        <p><i class="fas fa-phone mr-2"></i>+62 896 1976 0801</p>
                         <p><i class="fas fa-globe mr-2"></i>www.minsingkawang.sch.id</p>
                     </div>
                 </div>
             </div>
             <div class="border-t border-white border-opacity-20 mt-6 pt-4 text-center">
                 <p class="text-xs sm:text-sm opacity-90">
-                    © 2025 Emes Media Creativa. Dibuat dengan ❤️ untuk pendidikan Islam.
+                    © 2025 Emes Media Creativa<br>Dibuat dengan ❤️ untuk pendidikan Islam.
                 </p>
                 <p class="text-xs opacity-75 mt-1">
                     <i class="fas fa-code mr-1"></i>Powered by AI Technology & Google Sheets Integration
@@ -357,6 +357,22 @@
 
         // Google Sheets Configuration (Demo - replace with your actual sheet)
         const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbws2qvF_LtwGOJDP9Gt1Lv4Y_s8rubFdOgjPb8I0XPNOiTpr3Tv1FlmfBvszJsLH3hrKQ/exec';
+        
+        // Load student data from localStorage
+        function loadStudentData() {
+            const savedData = localStorage.getItem('fikih_student_data');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                return data;
+            }
+            return null;
+        }
+
+        // Save student data to localStorage
+        function saveStudentData(name, kelas) {
+            const data = { name, class: kelas };
+            localStorage.setItem('fikih_student_data', JSON.stringify(data));
+        }
         
         // Function to save results to Google Sheets
         async function saveToGoogleSheets(data) {
@@ -707,7 +723,7 @@
             }
         };
 
-        // Data soal untuk setiap topik
+        // Data soal untuk setiap topik - LENGKAP 20 PILGAN, 10 MENJODOHKAN, 5 URAIAN
         const soalData = {
             zakatFitrah: {
                 pilgan: [
@@ -867,18 +883,109 @@
                         soal: "Infak sebaiknya dari harta yang...",
                         pilihan: ["Halal dan baik", "Banyak", "Sisa", "Pinjaman"],
                         jawaban: 0
+                    },
+                    {
+                        soal: "Dalil infak dalam Al-Quran adalah...",
+                        pilihan: ["QS. Saba': 39", "QS. Al-Baqarah: 2", "QS. Al-Fatihah: 1", "QS. An-Nas: 6"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Infak yang paling utama adalah untuk...",
+                        pilihan: ["Keluarga", "Tetangga", "Teman", "Orang asing"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Manfaat infak bagi pemberi adalah...",
+                        pilihan: ["Harta bertambah berkah", "Harta berkurang", "Menjadi miskin", "Tidak ada manfaat"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Infak sebaiknya dilakukan dengan...",
+                        pilihan: ["Ikhlas", "Riya", "Sombong", "Terpaksa"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Yang berhak menerima infak adalah...",
+                        pilihan: ["Siapa saja yang membutuhkan", "Hanya keluarga", "Hanya tetangga", "Hanya orang kaya"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Infak untuk pembangunan masjid hukumnya...",
+                        pilihan: ["Sunnah", "Wajib", "Makruh", "Haram"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Perbedaan infak dengan zakat adalah...",
+                        pilihan: ["Infak sunnah, zakat wajib", "Infak wajib, zakat sunnah", "Keduanya wajib", "Keduanya sunnah"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Infak yang dilakukan secara sembunyi...",
+                        pilihan: ["Lebih utama", "Kurang utama", "Tidak boleh", "Haram"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Waktu yang dianjurkan untuk berinfak adalah...",
+                        pilihan: ["Setiap saat", "Hanya Jumat", "Hanya Ramadan", "Hanya pagi"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Infak dapat berupa...",
+                        pilihan: ["Harta dan tenaga", "Hanya harta", "Hanya tenaga", "Hanya doa"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Syarat harta untuk infak adalah...",
+                        pilihan: ["Halal", "Haram", "Hasil mencuri", "Pinjaman"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Infak untuk pendidikan Islam termasuk...",
+                        pilihan: ["Infak fi sabilillah", "Infak biasa", "Bukan infak", "Haram"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Balasan Allah untuk orang yang berinfak adalah...",
+                        pilihan: ["Diganti berlipat ganda", "Dikurangi hartanya", "Tidak ada balasan", "Dimiskinkan"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Infak yang paling dicintai Allah adalah...",
+                        pilihan: ["Yang kontinyu meski sedikit", "Yang banyak sekali", "Yang jarang tapi besar", "Yang dipamerkan"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Orang yang berinfak disebut...",
+                        pilihan: ["Munfiq", "Mustahiq", "Amil", "Gharim"],
+                        jawaban: 0
                     }
                 ],
                 menjodohkan: [
                     {
-                        kiri: ["Infak", "Anfaqa", "Sunnah", "Halal", "Niat"],
-                        kanan: ["Karena Allah", "Hukum infak", "Syarat harta", "Mengeluarkan", "Pemberian sukarela"]
+                        kiri: ["Infak", "Anfaqa", "Sunnah", "Halal", "Niat", "Munfiq", "Fi sabilillah", "Berkah", "Ikhlas", "Kontinyu"],
+                        kanan: ["Karena Allah", "Hukum infak", "Syarat harta", "Mengeluarkan", "Pemberian sukarela", "Pemberi infak", "Di jalan Allah", "Manfaat infak", "Syarat niat", "Sifat infak terbaik"]
                     }
                 ],
                 uraian: [
                     {
                         soal: "Jelaskan perbedaan antara infak dan sedekah!",
-                        kunci: "Infak lebih umum mencakup semua pengeluaran di jalan Allah, sedangkan sedekah lebih khusus untuk pemberian kepada yang membutuhkan."
+                        kunci: "Infak lebih umum mencakup semua pengeluaran di jalan Allah termasuk untuk keluarga, sedangkan sedekah lebih khusus untuk pemberian kepada yang membutuhkan. Infak bisa untuk siapa saja, sedekah biasanya untuk fakir miskin."
+                    },
+                    {
+                        soal: "Sebutkan adab-adab berinfak yang baik!",
+                        kunci: "Adab berinfak: niat karena Allah, dari harta yang halal, tidak menyakiti penerima, tidak riya, dilakukan dengan ikhlas, sebaiknya dirahasiakan, kontinyu meski sedikit."
+                    },
+                    {
+                        soal: "Apa saja manfaat infak bagi pemberi dan masyarakat?",
+                        kunci: "Manfaat bagi pemberi: harta bertambah berkah, mendapat pahala, jiwa menjadi bersih. Manfaat bagi masyarakat: mengurangi kemiskinan, mempererat persaudaraan, pembangunan fasilitas umum."
+                    },
+                    {
+                        soal: "Jelaskan dalil Al-Quran tentang infak dan maknanya!",
+                        kunci: "QS. Saba': 39 'Dan apa saja yang kamu infakkan, maka Allah akan menggantinya.' Makna: Allah menjamin mengganti apa yang diinfakkan dengan yang lebih baik, baik di dunia maupun akhirat."
+                    },
+                    {
+                        soal: "Sebutkan jenis-jenis infak dan berikan contohnya!",
+                        kunci: "Jenis infak: 1) Infak harta (uang, makanan), 2) Infak tenaga (membantu orang), 3) Infak ilmu (mengajar), 4) Infak untuk keluarga, 5) Infak fi sabilillah (masjid, dakwah)."
                     }
                 ]
             },
@@ -908,18 +1015,109 @@
                         soal: "Manfaat sedekah bagi pemberi adalah...",
                         pilihan: ["Membersihkan harta", "Mengurangi harta", "Memamerkan kekayaan", "Mencari pujian"],
                         jawaban: 0
+                    },
+                    {
+                        soal: "Sedekah yang dilakukan secara sembunyi...",
+                        pilihan: ["Lebih utama", "Kurang utama", "Tidak boleh", "Sama saja"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Dalil tentang sedekah senyuman terdapat dalam...",
+                        pilihan: ["Hadits Tirmidzi", "Al-Quran", "Ijma ulama", "Qiyas"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Sedekah dapat berupa...",
+                        pilihan: ["Harta, tenaga, dan akhlak", "Hanya harta", "Hanya tenaga", "Hanya doa"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Syarat utama dalam bersedekah adalah...",
+                        pilihan: ["Niat karena Allah", "Jumlah besar", "Dipamerkan", "Dengan paksaan"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Sedekah yang paling dicintai Allah adalah...",
+                        pilihan: ["Yang kontinyu", "Yang besar sekali", "Yang jarang", "Yang dipamerkan"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Membantu orang lain termasuk sedekah...",
+                        pilihan: ["Tenaga", "Harta", "Akhlak", "Ilmu"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Mengajar anak-anak mengaji termasuk sedekah...",
+                        pilihan: ["Ilmu", "Tenaga", "Harta", "Akhlak"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Berkata baik kepada orang lain termasuk sedekah...",
+                        pilihan: ["Akhlak", "Harta", "Tenaga", "Ilmu"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Waktu yang sangat dianjurkan untuk bersedekah adalah...",
+                        pilihan: ["Bulan Ramadan", "Bulan Syawal", "Bulan Muharram", "Bulan Rajab"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Sedekah dapat menghapus...",
+                        pilihan: ["Dosa-dosa kecil", "Semua dosa", "Dosa besar", "Tidak menghapus dosa"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Orang yang paling berhak menerima sedekah adalah...",
+                        pilihan: ["Fakir miskin", "Orang kaya", "Keluarga sendiri", "Tetangga"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Sedekah sebaiknya dari harta yang...",
+                        pilihan: ["Halal dan baik", "Sisa-sisa", "Rusak", "Pinjaman"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Balasan sedekah di akhirat adalah...",
+                        pilihan: ["Pahala berlipat ganda", "Tidak ada balasan", "Dikurangi dosanya", "Masuk neraka"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Sedekah dapat mencegah...",
+                        pilihan: ["Bala dan musibah", "Kematian", "Sakit", "Kemiskinan"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Arti kata 'shadaqa' adalah...",
+                        pilihan: ["Benar/jujur", "Berbohong", "Ragu-ragu", "Sombong"],
+                        jawaban: 0
                     }
                 ],
                 menjodohkan: [
                     {
-                        kiri: ["Sedekah", "Senyuman", "Tangan kanan", "Shadaqa", "Rahasia"],
-                        kanan: ["Benar/jujur", "Adab sedekah", "Cara memberi", "Sedekah mudah", "Pemberian sukarela"]
+                        kiri: ["Sedekah", "Senyuman", "Tangan kanan", "Shadaqa", "Rahasia", "Kontinyu", "Fakir miskin", "Ramadan", "Pahala", "Bala"],
+                        kanan: ["Benar/jujur", "Adab sedekah", "Cara memberi", "Sedekah mudah", "Pemberian sukarela", "Sifat terbaik", "Penerima utama", "Waktu utama", "Balasan sedekah", "Yang dicegah"]
                     }
                 ],
                 uraian: [
                     {
                         soal: "Sebutkan jenis-jenis sedekah dan berikan contohnya!",
-                        kunci: "Jenis sedekah: 1) Sedekah harta (uang, makanan), 2) Sedekah tenaga (membantu orang), 3) Sedekah ilmu (mengajar), 4) Sedekah akhlak (senyum, kata baik)."
+                        kunci: "Jenis sedekah: 1) Sedekah harta (uang, makanan, pakaian), 2) Sedekah tenaga (membantu orang lain), 3) Sedekah ilmu (mengajar, memberi nasihat), 4) Sedekah akhlak (senyum, kata baik, menjenguk orang sakit)."
+                    },
+                    {
+                        soal: "Jelaskan adab-adab bersedekah yang baik!",
+                        kunci: "Adab bersedekah: niat karena Allah, dengan tangan kanan, tidak menyakiti penerima, merahasiakan jika memungkinkan, dari harta yang halal, dilakukan dengan ikhlas, kontinyu meski sedikit."
+                    },
+                    {
+                        soal: "Apa manfaat sedekah bagi pemberi dan penerima?",
+                        kunci: "Manfaat bagi pemberi: membersihkan harta, menambah kebahagiaan, mendapat pahala, mencegah bala. Manfaat bagi penerima: terbantu kebutuhannya, merasa diperhatikan, termotivasi berbuat baik."
+                    },
+                    {
+                        soal: "Mengapa sedekah senyuman disebut sedekah termudah?",
+                        kunci: "Sedekah senyuman disebut termudah karena tidak memerlukan harta, dapat dilakukan siapa saja, kapan saja, dan dapat membahagiakan orang lain tanpa mengurangi apa pun dari diri kita."
+                    },
+                    {
+                        soal: "Jelaskan perbedaan sedekah dengan zakat!",
+                        kunci: "Sedekah: sunnah, tidak ada ketentuan khusus, dapat diberikan kapan saja dan kepada siapa saja. Zakat: wajib, ada ketentuan nisab dan kadar, waktu tertentu, penerima khusus 8 golongan mustahik."
                     }
                 ]
             },
@@ -949,18 +1147,109 @@
                         soal: "Kurban hukumnya adalah...",
                         pilihan: ["Sunnah muakkad", "Wajib", "Mubah", "Makruh"],
                         jawaban: 0
+                    },
+                    {
+                        soal: "Umur minimal sapi untuk kurban adalah...",
+                        pilihan: ["2 tahun", "1 tahun", "3 tahun", "4 tahun"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Umur minimal unta untuk kurban adalah...",
+                        pilihan: ["5 tahun", "3 tahun", "4 tahun", "6 tahun"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Waktu penyembelihan kurban adalah...",
+                        pilihan: ["Setelah shalat Idul Adha", "Sebelum shalat Idul Adha", "Kapan saja", "Malam hari"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Dalil kurban dalam Al-Quran adalah...",
+                        pilihan: ["QS. Al-Kautsar: 2", "QS. Al-Baqarah: 2", "QS. Al-Fatihah: 1", "QS. An-Nas: 6"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Kurban mengikuti sunnah Nabi...",
+                        pilihan: ["Ibrahim AS", "Muhammad SAW", "Musa AS", "Isa AS"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Syarat hewan kurban adalah...",
+                        pilihan: ["Sehat dan tidak cacat", "Besar dan gemuk", "Mahal harganya", "Berwarna putih"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Pembagian daging kurban: 1/3 untuk keluarga, 1/3 untuk...",
+                        pilihan: ["Tetangga", "Masjid", "Pemerintah", "Dijual"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Pembagian daging kurban: 1/3 untuk keluarga, 1/3 untuk tetangga, 1/3 untuk...",
+                        pilihan: ["Fakir miskin", "Dijual", "Disimpan", "Dibuang"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Hari-hari penyembelihan kurban disebut...",
+                        pilihan: ["Hari tasyriq", "Hari raya", "Hari libur", "Hari besar"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Hikmah kurban adalah...",
+                        pilihan: ["Mendekatkan diri kepada Allah", "Memamerkan kekayaan", "Mencari pujian", "Mengurangi hewan"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Kurban dapat dilakukan secara...",
+                        pilihan: ["Individu atau berkelompok", "Hanya individu", "Hanya berkelompok", "Tidak boleh"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Satu ekor sapi dapat untuk berapa orang?",
+                        pilihan: ["7 orang", "5 orang", "10 orang", "1 orang"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Satu ekor unta dapat untuk berapa orang?",
+                        pilihan: ["7 orang", "5 orang", "10 orang", "1 orang"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Kulit hewan kurban sebaiknya...",
+                        pilihan: ["Disedekahkan", "Dijual", "Dibuang", "Disimpan"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Arti kata 'qurban' adalah...",
+                        pilihan: ["Mendekatkan diri", "Menjauhkan diri", "Menyembelih", "Memberi makan"],
+                        jawaban: 0
                     }
                 ],
                 menjodohkan: [
                     {
-                        kiri: ["Kurban", "10 Dzulhijjah", "Kambing", "3 bagian", "Qurban"],
-                        kanan: ["Mendekatkan diri", "Hari raya Idul Adha", "Hewan terkecil", "Pembagian daging", "Penyembelihan hewan"]
+                        kiri: ["Kurban", "10 Dzulhijjah", "Kambing", "3 bagian", "Qurban", "Ibrahim AS", "Tasyriq", "7 orang", "Sunnah muakkad", "Sehat"],
+                        kanan: ["Mendekatkan diri", "Hari raya Idul Adha", "Hewan terkecil", "Pembagian daging", "Penyembelihan hewan", "Sunnah yang diikuti", "Hari penyembelihan", "Kapasitas sapi/unta", "Hukum kurban", "Syarat hewan"]
                     }
                 ],
                 uraian: [
                     {
                         soal: "Jelaskan hikmah ibadah kurban bagi umat Islam!",
-                        kunci: "Hikmah kurban: 1) Mendekatkan diri kepada Allah, 2) Melatih ketaatan, 3) Berbagi dengan sesama, 4) Mengikuti sunnah Nabi Ibrahim AS, 5) Mempererat silaturahmi."
+                        kunci: "Hikmah kurban: 1) Mendekatkan diri kepada Allah, 2) Melatih ketaatan dan keikhlasan, 3) Berbagi dengan sesama, 4) Mengikuti sunnah Nabi Ibrahim AS, 5) Mempererat silaturahmi, 6) Melatih sifat dermawan."
+                    },
+                    {
+                        soal: "Sebutkan syarat-syarat hewan kurban yang sah!",
+                        kunci: "Syarat hewan kurban: 1) Jenis: kambing/domba (1 tahun), sapi/kerbau (2 tahun), unta (5 tahun), 2) Sehat dan tidak cacat, 3) Tidak buta, pincang, sakit, atau kurus kering, 4) Telinga dan ekor tidak terpotong sebagian besar."
+                    },
+                    {
+                        soal: "Bagaimana tata cara pembagian daging kurban yang benar?",
+                        kunci: "Pembagian daging kurban: 1/3 untuk keluarga sendiri, 1/3 untuk tetangga dan teman, 1/3 untuk fakir miskin. Kulit dan jeroan juga sebaiknya disedekahkan, tidak boleh dijual untuk membayar upah penyembelihan."
+                    },
+                    {
+                        soal: "Kapan waktu yang tepat untuk melaksanakan kurban?",
+                        kunci: "Waktu kurban: dimulai setelah selesai shalat Idul Adha pada tanggal 10 Dzulhijjah, berlanjut hingga tanggal 13 Dzulhijjah (hari-hari tasyriq). Waktu penyembelihan dari terbit fajar hingga terbenam matahari."
+                    },
+                    {
+                        soal: "Apa perbedaan kurban dengan aqiqah? Jelaskan!",
+                        kunci: "Kurban: dilakukan pada Idul Adha, sunnah muakkad, untuk mendekatkan diri kepada Allah, mengikuti Ibrahim AS. Aqiqah: dilakukan saat kelahiran anak, sunnah, untuk syukur atas kelahiran, waktu fleksibel (7, 14, 21 hari atau kapan saja)."
                     }
                 ]
             }
@@ -978,12 +1267,32 @@
                     soal: "Kapan batas akhir membayar zakat fitrah?",
                     pilihan: ["Sebelum shalat Id", "Setelah shalat Id", "Malam takbiran", "Siang hari raya"],
                     jawaban: 0
+                },
+                {
+                    soal: "Siapa yang wajib mengeluarkan zakat fitrah?",
+                    pilihan: ["Setiap muslim", "Hanya orang kaya", "Hanya dewasa", "Hanya laki-laki"],
+                    jawaban: 0
+                },
+                {
+                    soal: "Zakat fitrah bertujuan untuk?",
+                    pilihan: ["Mensucikan diri", "Menambah harta", "Pamer kekayaan", "Mengurangi pajak"],
+                    jawaban: 0
                 }
             ],
             infak: [
                 {
                     soal: "Apa arti kata 'anfaqa'?",
                     pilihan: ["Mengeluarkan", "Menyimpan", "Mengumpulkan", "Membagi"],
+                    jawaban: 0
+                },
+                {
+                    soal: "Hukum infak adalah?",
+                    pilihan: ["Sunnah", "Wajib", "Makruh", "Haram"],
+                    jawaban: 0
+                },
+                {
+                    soal: "Infak sebaiknya dari harta yang?",
+                    pilihan: ["Halal", "Haram", "Pinjaman", "Sisa"],
                     jawaban: 0
                 }
             ],
@@ -992,12 +1301,32 @@
                     soal: "Sedekah termudah menurut hadits adalah?",
                     pilihan: ["Senyuman", "Uang", "Makanan", "Doa"],
                     jawaban: 0
+                },
+                {
+                    soal: "Sedekah sebaiknya dilakukan dengan?",
+                    pilihan: ["Tangan kanan", "Tangan kiri", "Kedua tangan", "Kaki"],
+                    jawaban: 0
+                },
+                {
+                    soal: "Arti kata 'shadaqa' adalah?",
+                    pilihan: ["Benar/jujur", "Bohong", "Ragu", "Sombong"],
+                    jawaban: 0
                 }
             ],
             kurban: [
                 {
                     soal: "Berapa bagian pembagian daging kurban?",
                     pilihan: ["3 bagian", "2 bagian", "4 bagian", "5 bagian"],
+                    jawaban: 0
+                },
+                {
+                    soal: "Umur minimal kambing kurban?",
+                    pilihan: ["1 tahun", "2 tahun", "6 bulan", "3 tahun"],
+                    jawaban: 0
+                },
+                {
+                    soal: "Kurban dilaksanakan pada tanggal?",
+                    pilihan: ["10-13 Dzulhijjah", "1-10 Dzulhijjah", "1-10 Syawal", "15-20 Dzulhijjah"],
                     jawaban: 0
                 }
             ]
@@ -1017,6 +1346,7 @@
                             <li>Game interaktif</li>
                             <li>Evaluasi dengan AI</li>
                             <li>Soal teracak</li>
+                            <li>Data siswa tersimpan otomatis</li>
                         </ul>
                     </div>
                 `,
@@ -1163,6 +1493,9 @@
         }
 
         function startEvaluasi(type) {
+            // Load existing student data
+            const savedData = loadStudentData();
+            
             // Collect student information first
             Swal.fire({
                 title: 'Informasi Siswa',
@@ -1170,18 +1503,19 @@
                     <div class="text-left space-y-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap:</label>
-                            <input type="text" id="studentName" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Masukkan nama lengkap">
+                            <input type="text" id="studentName" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Masukkan nama lengkap" value="${savedData ? savedData.name : ''}">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Kelas:</label>
                             <select id="studentClass" class="w-full p-2 border border-gray-300 rounded-lg">
                                 <option value="">Pilih Kelas</option>
-                                <option value="5A">5A</option>
-                                <option value="5B">5B</option>
-                                <option value="5C">5C</option>
-                                <option value="5D">5D</option>
+                                <option value="5A" ${savedData && savedData.class === '5A' ? 'selected' : ''}>5A</option>
+                                <option value="5B" ${savedData && savedData.class === '5B' ? 'selected' : ''}>5B</option>
+                                <option value="5C" ${savedData && savedData.class === '5C' ? 'selected' : ''}>5C</option>
+                                <option value="5D" ${savedData && savedData.class === '5D' ? 'selected' : ''}>5D</option>
                             </select>
                         </div>
+                        ${savedData ? '<p class="text-xs text-green-600"><i class="fas fa-info-circle mr-1"></i>Data tersimpan otomatis dari quiz sebelumnya</p>' : ''}
                     </div>
                 `,
                 showCancelButton: true,
@@ -1203,6 +1537,9 @@
                 if (result.isConfirmed) {
                     studentName = result.value.name;
                     studentClass = result.value.kelas;
+                    
+                    // Save student data for future use
+                    saveStudentData(studentName, studentClass);
                     
                     currentQuizType = type;
                     
@@ -1490,5 +1827,5 @@
         // Initialize app
         showMainMenu();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'976a56eab5aaf8c4',t:'MTc1NjQ1MjU5MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'976af8a5619a4685',t:'MTc1NjQ1OTIxMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
