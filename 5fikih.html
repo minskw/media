@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Fikih Kelas 5</title>
+    <link rel="icon" href="https://archive.org/download/logo-fikih/logo%20fikih.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    screens: {
+                        'xs': '475px',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .arabic-text { font-family: 'Amiri', serif; }
+        .islamic-green { background: linear-gradient(135deg, #065f46, #047857, #059669); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
+        @media (max-width: 640px) {
+            .card-hover:hover { transform: none; }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-green-50 to-emerald-100 min-h-screen">
+    <!-- Header -->
+    <header class="islamic-green text-white p-3 sm:p-4 shadow-lg">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-2 sm:space-x-3">
+                <img src="https://archive.org/download/logo-fikih/logo%20fikih.png" alt="Logo Fikih" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white p-1" onerror="this.src=''; this.innerHTML='<div class=\'w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center text-green-600 font-bold text-sm sm:text-base\'>F</div>'">
+                <div>
+                    <p class="text-xs sm:text-sm opacity-90">Media Pembelajaran Interaktif</p>
+                    <h1 class="text-lg sm:text-2xl font-bold">Fikih Kelas 5</h1>
+                    <p class="text-xs sm:text-sm opacity-90">Semester Ganjil</p>
+                </div>
+            </div>
+            <button onclick="showInfo()" class="bg-white bg-opacity-20 hover:bg-opacity-30 p-2 rounded-full transition-all">
+                <i class="fas fa-info-circle text-lg sm:text-xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-3 sm:p-4 pb-20" id="mainContent">
+        <!-- Menu Utama -->
+        <div id="mainMenu" class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-4 sm:mt-6">
+            <div class="bg-white rounded-lg sm:rounded-xl shadow-lg p-4 sm:p-6 card-hover cursor-pointer" onclick="showSubMenu('zakatFitrah')">
+                <div class="text-center">
+                    <div class="bg-green-100 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                        <i class="fas fa-hand-holding-heart text-lg sm:text-2xl text-green-600"></i>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-2">Zakat Fitrah</h3>
+                    <p class="text-gray-600 text-xs sm:text-sm">Pelajari tentang zakat fitrah dan ketentuannya</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg sm:rounded-xl shadow-lg p-4 sm:p-6 card-hover cursor-pointer" onclick="showSubMenu('infak')">
+                <div class="text-center">
+                    <div class="bg-green-100 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                        <i class="fas fa-donate text-lg sm:text-2xl text-green-600"></i>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-2">Infak</h3>
+                    <p class="text-gray-600 text-xs sm:text-sm">Memahami infak dalam Islam</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg sm:rounded-xl shadow-lg p-4 sm:p-6 card-hover cursor-pointer" onclick="showSubMenu('sedekah')">
+                <div class="text-center">
+                    <div class="bg-green-100 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                        <i class="fas fa-hands-helping text-lg sm:text-2xl text-green-600"></i>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-2">Sedekah</h3>
+                    <p class="text-gray-600 text-xs sm:text-sm">Belajar tentang sedekah dan manfaatnya</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg sm:rounded-xl shadow-lg p-4 sm:p-6 card-hover cursor-pointer" onclick="showSubMenu('kurban')">
+                <div class="text-center">
+                    <div class="bg-green-100 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                        <svg class="w-6 h-6 sm:w-8 sm:h-8 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                            <!-- Sheep body with wool texture -->
+                            <ellipse cx="12" cy="15" rx="7" ry="4.5" fill="currentColor" opacity="0.9"/>
+                            <!-- Wool bumps on body -->
+                            <circle cx="8" cy="13" r="1.2" fill="currentColor" opacity="0.7"/>
+                            <circle cx="10" cy="12" r="1" fill="currentColor" opacity="0.7"/>
+                            <circle cx="14" cy="12" r="1" fill="currentColor" opacity="0.7"/>
+                            <circle cx="16" cy="13" r="1.2" fill="currentColor" opacity="0.7"/>
+                            <!-- Head -->
+                            <ellipse cx="12" cy="8" rx="2.5" ry="3" fill="currentColor"/>
+                            <!-- Snout -->
+                            <ellipse cx="12" cy="9.5" rx="1" ry="0.8" fill="currentColor" opacity="0.8"/>
+                            <!-- Ears -->
+                            <ellipse cx="10.2" cy="6.5" rx="0.8" ry="1.8" fill="currentColor" opacity="0.9"/>
+                            <ellipse cx="13.8" cy="6.5" rx="0.8" ry="1.8" fill="currentColor" opacity="0.9"/>
+                            <!-- Horns (small) -->
+                            <rect x="10.8" y="4.5" width="0.4" height="1.5" fill="currentColor" opacity="0.6"/>
+                            <rect x="12.8" y="4.5" width="0.4" height="1.5" fill="currentColor" opacity="0.6"/>
+                            <!-- Legs -->
+                            <rect x="8.5" y="18.5" width="1.2" height="3" fill="currentColor"/>
+                            <rect x="10.5" y="18.5" width="1.2" height="3" fill="currentColor"/>
+                            <rect x="12.3" y="18.5" width="1.2" height="3" fill="currentColor"/>
+                            <rect x="14.3" y="18.5" width="1.2" height="3" fill="currentColor"/>
+                            <!-- Hooves -->
+                            <ellipse cx="9.1" cy="21.8" rx="0.8" ry="0.4" fill="currentColor" opacity="0.8"/>
+                            <ellipse cx="11.1" cy="21.8" rx="0.8" ry="0.4" fill="currentColor" opacity="0.8"/>
+                            <ellipse cx="12.9" cy="21.8" rx="0.8" ry="0.4" fill="currentColor" opacity="0.8"/>
+                            <ellipse cx="14.9" cy="21.8" rx="0.8" ry="0.4" fill="currentColor" opacity="0.8"/>
+                            <!-- Eyes -->
+                            <circle cx="11.2" cy="7.5" r="0.4" fill="white"/>
+                            <circle cx="12.8" cy="7.5" r="0.4" fill="white"/>
+                            <circle cx="11.2" cy="7.5" r="0.2" fill="black"/>
+                            <circle cx="12.8" cy="7.5" r="0.2" fill="black"/>
+                            <!-- Tail -->
+                            <ellipse cx="18.5" cy="15" rx="0.8" ry="1.5" fill="currentColor" opacity="0.7"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-2">Kurban</h3>
+                    <p class="text-gray-600 text-xs sm:text-sm">Memahami ibadah kurban</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sub Menu -->
+        <div id="subMenu" class="hidden">
+            <div class="flex items-center mb-4 sm:mb-6">
+                <button onclick="showMainMenu()" class="bg-green-600 hover:bg-green-700 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg mr-3 sm:mr-4 transition-all text-sm sm:text-base">
+                    <i class="fas fa-arrow-left mr-1 sm:mr-2"></i>Kembali
+                </button>
+                <h2 id="subMenuTitle" class="text-lg sm:text-2xl font-bold text-gray-800"></h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover cursor-pointer" onclick="showMateri()">
+                    <div class="text-center">
+                        <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-book-open text-2xl text-blue-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Materi</h3>
+                        <p class="text-gray-600 text-sm">Pelajari materi lengkap</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover cursor-pointer" onclick="showGame()">
+                    <div class="text-center">
+                        <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-gamepad text-2xl text-purple-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Game</h3>
+                        <p class="text-gray-600 text-sm">Bermain sambil belajar</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover cursor-pointer" onclick="showEvaluasi()">
+                    <div class="text-center">
+                        <div class="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-clipboard-check text-2xl text-red-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Evaluasi</h3>
+                        <p class="text-gray-600 text-sm">Uji pemahaman materi</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Materi Content -->
+        <div id="materiContent" class="hidden">
+            <div class="flex items-center mb-6">
+                <button onclick="showSubMenu(currentTopic)" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg mr-4 transition-all">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali
+                </button>
+                <h2 class="text-2xl font-bold text-gray-800">Materi <span id="materiTitle"></span></h2>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <button onclick="showMateriSection('pengertian')" class="materi-tab bg-green-600 text-white px-4 py-2 rounded-lg transition-all">Pengertian</button>
+                    <button onclick="showMateriSection('dalil')" class="materi-tab bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-all">Dalil</button>
+                    <button onclick="showMateriSection('ketentuan')" class="materi-tab bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-all">Ketentuan</button>
+                    <button onclick="showMateriSection('tataCara')" class="materi-tab bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-all">Tata Cara</button>
+                    <button onclick="showMateriSection('hikmah')" class="materi-tab bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-all">Hikmah</button>
+                </div>
+
+                <div id="materiSection" class="prose max-w-none">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Content -->
+        <div id="gameContent" class="hidden">
+            <div class="flex items-center mb-6">
+                <button onclick="showSubMenu(currentTopic)" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg mr-4 transition-all">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali
+                </button>
+                <h2 class="text-2xl font-bold text-gray-800">Game <span id="gameTitle"></span></h2>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="text-center mb-6">
+                    <h3 class="text-xl font-bold mb-4">Tebak Kata</h3>
+                    <p class="text-gray-600 mb-4">Pilih jawaban yang benar!</p>
+                    <div class="bg-green-100 p-4 rounded-lg mb-4">
+                        <p id="gameQuestion" class="text-lg font-semibold"></p>
+                    </div>
+                    <div id="gameOptions" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Options will be loaded here -->
+                    </div>
+                    <div class="mt-6">
+                        <p class="text-lg">Skor: <span id="gameScore" class="font-bold text-green-600">0</span></p>
+                        <button onclick="nextGameQuestion()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg mt-4 transition-all">
+                            Soal Berikutnya
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Evaluasi Content -->
+        <div id="evaluasiContent" class="hidden">
+            <div class="flex items-center mb-6">
+                <button onclick="showSubMenu(currentTopic)" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg mr-4 transition-all">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali
+                </button>
+                <h2 class="text-2xl font-bold text-gray-800">Evaluasi <span id="evaluasiTitle"></span></h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover cursor-pointer" onclick="startEvaluasi('pilgan')">
+                    <div class="text-center">
+                        <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-list-ul text-2xl text-blue-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Pilihan Ganda</h3>
+                        <p class="text-gray-600 text-sm">20 Soal</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover cursor-pointer" onclick="startEvaluasi('menjodohkan')">
+                    <div class="text-center">
+                        <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-link text-2xl text-purple-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Menjodohkan</h3>
+                        <p class="text-gray-600 text-sm">10 Soal</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover cursor-pointer" onclick="startEvaluasi('uraian')">
+                    <div class="text-center">
+                        <div class="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-edit text-2xl text-red-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Uraian</h3>
+                        <p class="text-gray-600 text-sm">5 Soal</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Content -->
+        <div id="quizContent" class="hidden">
+            <div class="flex items-center justify-between mb-6">
+                <button onclick="showEvaluasi()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-all">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali
+                </button>
+                <div class="text-right">
+                    <p class="text-lg">Soal <span id="currentQuestionNumber">1</span> dari <span id="totalQuestions">20</span></p>
+                    <p class="text-sm text-gray-600">Waktu: <span id="timer" class="font-bold">30:00</span></p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div id="questionContent">
+                    <!-- Question content will be loaded here -->
+                </div>
+                
+                <div class="flex justify-between mt-6">
+                    <button onclick="previousQuestion()" id="prevBtn" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-all" disabled>
+                        <i class="fas fa-chevron-left mr-2"></i>Sebelumnya
+                    </button>
+                    <button onclick="nextQuestion()" id="nextBtn" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-all">
+                        Selanjutnya<i class="fas fa-chevron-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="islamic-green text-white mt-8">
+        <div class="container mx-auto px-3 sm:px-4 py-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                <div>
+                    <h4 class="font-bold mb-3 text-sm sm:text-base">Media Pembelajaran</h4>
+                    <p class="text-xs sm:text-sm opacity-90">Fikih Kelas 5 MI - Semester Ganjil</p>
+                    <p class="text-xs sm:text-sm opacity-90 mt-1">Materi: Zakat, Infak, Sedekah, Kurban</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-3 text-sm sm:text-base">Fitur</h4>
+                    <ul class="text-xs sm:text-sm opacity-90 space-y-1">
+                        <li><i class="fas fa-check-circle mr-2"></i>Materi Lengkap</li>
+                        <li><i class="fas fa-check-circle mr-2"></i>Game Interaktif</li>
+                        <li><i class="fas fa-check-circle mr-2"></i>Evaluasi AI</li>
+                        <li><i class="fas fa-check-circle mr-2"></i>Laporan Otomatis</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-3 text-sm sm:text-base">Teknologi</h4>
+                    <ul class="text-xs sm:text-sm opacity-90 space-y-1">
+                        <li><i class="fas fa-mobile-alt mr-2"></i>Mobile First</li>
+                        <li><i class="fas fa-brain mr-2"></i>AI Grading</li>
+                        <li><i class="fas fa-random mr-2"></i>Soal Teracak</li>
+                        <li><i class="fas fa-chart-line mr-2"></i>Google Sheets</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-3 text-sm sm:text-base">Kontak</h4>
+                    <div class="text-xs sm:text-sm opacity-90 space-y-1">
+                        <p><i class="fas fa-envelope mr-2"></i>mr.mahfudsidik@gmail.com</p>
+                        <p><i class="fas fa-phone mr-2"></i>+62 89619760801</p>
+                        <p><i class="fas fa-globe mr-2"></i>www.minsingkawang.sch.id</p>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-white border-opacity-20 mt-6 pt-4 text-center">
+                <p class="text-xs sm:text-sm opacity-90">
+                    © 2025 Emes Media Creativa. Dibuat dengan ❤️ untuk pendidikan Islam.
+                </p>
+                <p class="text-xs opacity-75 mt-1">
+                    <i class="fas fa-code mr-1"></i>Powered by AI Technology & Google Sheets Integration
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentTopic = '';
+        let currentQuizType = '';
+        let currentQuestionIndex = 0;
+        let quizQuestions = [];
+        let userAnswers = [];
+        let gameScore = 0;
+        let gameQuestions = [];
+        let currentGameQuestion = 0;
+        let timer;
+        let timeLeft = 1800; // 30 minutes
+        let studentName = '';
+        let studentClass = '';
+
+        // Google Sheets Configuration (Demo - replace with your actual sheet)
+        const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbws2qvF_LtwGOJDP9Gt1Lv4Y_s8rubFdOgjPb8I0XPNOiTpr3Tv1FlmfBvszJsLH3hrKQ/exec';
+        
+        // Function to save results to Google Sheets
+        async function saveToGoogleSheets(data) {
+            try {
+                const response = await fetch(GOOGLE_SHEETS_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                console.log('Data saved to Google Sheets');
+                return true;
+            } catch (error) {
+                console.error('Error saving to Google Sheets:', error);
+                // Save to localStorage as backup
+                const backupData = JSON.parse(localStorage.getItem('fikih_results') || '[]');
+                backupData.push(data);
+                localStorage.setItem('fikih_results', JSON.stringify(backupData));
+                return false;
+            }
+        }
+
+        // Data materi untuk setiap topik
+        const materiData = {
+            zakatFitrah: {
+                pengertian: `
+                    <h3 class="text-xl font-bold mb-4">Pengertian Zakat Fitrah</h3>
+                    <p class="mb-4">Zakat fitrah adalah zakat yang wajib dikeluarkan oleh setiap muslim pada bulan Ramadan sebelum shalat Idul Fitri. Zakat ini bertujuan untuk mensucikan diri dari dosa-dosa kecil selama berpuasa dan membantu fakir miskin agar dapat merayakan Idul Fitri dengan gembira.</p>
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <p class="font-semibold">Kata "fitrah" berasal dari bahasa Arab yang berarti "kesucian" atau "kembali kepada fitrah".</p>
+                    </div>
+                `,
+                dalil: `
+                    <h3 class="text-xl font-bold mb-4">Dalil Zakat Fitrah</h3>
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                        <p class="arabic-text text-xl mb-2 text-right">عَنِ ابْنِ عُمَرَ رَضِيَ اللهُ عَنْهُمَا قَالَ: فَرَضَ رَسُولُ اللهِ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ زَكَاةَ الْفِطْرِ</p>
+                        <p class="text-sm italic">"Dari Ibnu Umar ra, ia berkata: Rasulullah SAW mewajibkan zakat fitrah..."</p>
+                    </div>
+                    <p>Hadits ini menunjukkan bahwa zakat fitrah adalah kewajiban yang ditetapkan langsung oleh Rasulullah SAW.</p>
+                `,
+                ketentuan: `
+                    <h3 class="text-xl font-bold mb-4">Ketentuan Zakat Fitrah</h3>
+                    <div class="space-y-4">
+                        <div class="bg-yellow-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Wajib bagi:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Setiap muslim (laki-laki dan perempuan)</li>
+                                <li>Anak-anak dan orang dewasa</li>
+                                <li>Yang memiliki kelebihan makanan untuk sehari semalam</li>
+                            </ul>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Kadar zakat fitrah:</h4>
+                            <p>1 sha' (sekitar 2,5 kg) makanan pokok atau senilai uangnya</p>
+                        </div>
+                    </div>
+                `,
+                tataCara: `
+                    <h3 class="text-xl font-bold mb-4">Tata Cara Zakat Fitrah</h3>
+                    <div class="space-y-4">
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Waktu pembayaran:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Mulai awal bulan Ramadan</li>
+                                <li>Paling lambat sebelum shalat Idul Fitri</li>
+                                <li>Diutamakan pada malam atau pagi hari raya</li>
+                            </ul>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Cara pembayaran:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Diserahkan langsung kepada mustahik</li>
+                                <li>Melalui amil zakat yang terpercaya</li>
+                                <li>Dapat berupa beras, uang, atau makanan pokok lainnya</li>
+                            </ul>
+                        </div>
+                    </div>
+                `,
+                hikmah: `
+                    <h3 class="text-xl font-bold mb-4">Hikmah Zakat Fitrah</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-red-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Bagi Pemberi:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Mensucikan jiwa dari sifat kikir</li>
+                                <li>Melengkapi ibadah puasa</li>
+                                <li>Melatih kepedulian sosial</li>
+                            </ul>
+                        </div>
+                        <div class="bg-orange-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Bagi Penerima:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Dapat merayakan Idul Fitri</li>
+                                <li>Tercukupi kebutuhan pokok</li>
+                                <li>Merasa diperhatikan umat</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            infak: {
+                pengertian: `
+                    <h3 class="text-xl font-bold mb-4">Pengertian Infak</h3>
+                    <p class="mb-4">Infak adalah mengeluarkan sebagian harta yang dimiliki untuk kepentingan yang diperintahkan Allah SWT. Infak bersifat sunnah dan tidak ada ketentuan khusus mengenai jumlah, waktu, dan jenisnya.</p>
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <p class="font-semibold">Kata "infak" berasal dari bahasa Arab "anfaqa" yang berarti mengeluarkan atau membelanjakan.</p>
+                    </div>
+                `,
+                dalil: `
+                    <h3 class="text-xl font-bold mb-4">Dalil Infak</h3>
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                        <p class="arabic-text text-xl mb-2 text-right">وَمَا أَنفَقْتُم مِّن شَيْءٍ فَهُوَ يُخْلِفُهُ</p>
+                        <p class="text-sm italic">"Dan apa saja yang kamu infakkan, maka Allah akan menggantinya." (QS. Saba': 39)</p>
+                    </div>
+                    <p>Ayat ini menunjukkan jaminan Allah untuk mengganti apa yang diinfakkan di jalan-Nya.</p>
+                `,
+                ketentuan: `
+                    <h3 class="text-xl font-bold mb-4">Ketentuan Infak</h3>
+                    <div class="space-y-4">
+                        <div class="bg-yellow-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Sifat infak:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Sunnah (tidak wajib)</li>
+                                <li>Tidak ada batasan minimal</li>
+                                <li>Dapat dilakukan kapan saja</li>
+                            </ul>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Syarat pemberi infak:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Muslim</li>
+                                <li>Baligh dan berakal</li>
+                                <li>Memiliki harta yang halal</li>
+                            </ul>
+                        </div>
+                    </div>
+                `,
+                tataCara: `
+                    <h3 class="text-xl font-bold mb-4">Tata Cara Infak</h3>
+                    <div class="space-y-4">
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Adab berinfak:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Niat karena Allah SWT</li>
+                                <li>Dari harta yang halal dan baik</li>
+                                <li>Tidak menyakiti perasaan penerima</li>
+                                <li>Tidak riya atau sombong</li>
+                            </ul>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Sasaran infak:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Fakir miskin</li>
+                                <li>Pembangunan masjid</li>
+                                <li>Pendidikan Islam</li>
+                                <li>Dakwah Islam</li>
+                            </ul>
+                        </div>
+                    </div>
+                `,
+                hikmah: `
+                    <h3 class="text-xl font-bold mb-4">Hikmah Infak</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-red-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Manfaat Dunia:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Harta bertambah berkah</li>
+                                <li>Mendapat doa dari penerima</li>
+                                <li>Mempererat tali silaturahmi</li>
+                            </ul>
+                        </div>
+                        <div class="bg-orange-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Manfaat Akhirat:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Pahala yang berlipat ganda</li>
+                                <li>Menghapus dosa-dosa</li>
+                                <li>Menjadi tabungan akhirat</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            sedekah: {
+                pengertian: `
+                    <h3 class="text-xl font-bold mb-4">Pengertian Sedekah</h3>
+                    <p class="mb-4">Sedekah adalah pemberian yang dilakukan secara sukarela kepada orang lain tanpa mengharapkan imbalan, semata-mata karena Allah SWT. Sedekah dapat berupa harta, tenaga, atau bahkan senyuman.</p>
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <p class="font-semibold">Sedekah berasal dari kata "shadaqa" yang berarti benar atau jujur dalam keimanan.</p>
+                    </div>
+                `,
+                dalil: `
+                    <h3 class="text-xl font-bold mb-4">Dalil Sedekah</h3>
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                        <p class="arabic-text text-xl mb-2 text-right">تَبَسُّمُكَ فِي وَجْهِ أَخِيكَ صَدَقَةٌ</p>
+                        <p class="text-sm italic">"Senyumanmu di hadapan saudaramu adalah sedekah." (HR. Tirmidzi)</p>
+                    </div>
+                    <p>Hadits ini menunjukkan bahwa sedekah tidak hanya berupa harta, tetapi juga perbuatan baik.</p>
+                `,
+                ketentuan: `
+                    <h3 class="text-xl font-bold mb-4">Ketentuan Sedekah</h3>
+                    <div class="space-y-4">
+                        <div class="bg-yellow-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Jenis sedekah:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Sedekah harta (uang, makanan, pakaian)</li>
+                                <li>Sedekah tenaga (membantu orang lain)</li>
+                                <li>Sedekah ilmu (mengajar, memberi nasihat)</li>
+                                <li>Sedekah akhlak (senyum, kata baik)</li>
+                            </ul>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Syarat sedekah:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Niat karena Allah</li>
+                                <li>Dari yang halal</li>
+                                <li>Tidak merugikan diri sendiri</li>
+                            </ul>
+                        </div>
+                    </div>
+                `,
+                tataCara: `
+                    <h3 class="text-xl font-bold mb-4">Tata Cara Sedekah</h3>
+                    <div class="space-y-4">
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Adab bersedekah:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Segera dilakukan</li>
+                                <li>Dengan tangan kanan</li>
+                                <li>Tidak menyakiti penerima</li>
+                                <li>Merahasiakan jika memungkinkan</li>
+                            </ul>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Waktu utama:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Setiap hari (sedekah harian)</li>
+                                <li>Hari Jumat</li>
+                                <li>Bulan Ramadan</li>
+                                <li>Saat ada rezeki</li>
+                            </ul>
+                        </div>
+                    </div>
+                `,
+                hikmah: `
+                    <h3 class="text-xl font-bold mb-4">Hikmah Sedekah</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-red-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Bagi Pemberi:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Membersihkan harta</li>
+                                <li>Menambah kebahagiaan</li>
+                                <li>Melatih sifat dermawan</li>
+                            </ul>
+                        </div>
+                        <div class="bg-orange-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Bagi Masyarakat:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Mengurangi kesenjangan</li>
+                                <li>Mempererat persaudaraan</li>
+                                <li>Menciptakan kedamaian</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            kurban: {
+                pengertian: `
+                    <h3 class="text-xl font-bold mb-4">Pengertian Kurban</h3>
+                    <p class="mb-4">Kurban adalah ibadah menyembelih hewan ternak (kambing, domba, sapi, atau unta) pada hari raya Idul Adha dan hari-hari tasyriq sebagai bentuk ketaatan kepada Allah SWT, mengikuti sunnah Nabi Ibrahim AS.</p>
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <p class="font-semibold">Kurban berasal dari kata "qurban" yang berarti dekat atau mendekatkan diri kepada Allah.</p>
+                    </div>
+                `,
+                dalil: `
+                    <h3 class="text-xl font-bold mb-4">Dalil Kurban</h3>
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                        <p class="arabic-text text-xl mb-2 text-right">فَصَلِّ لِرَبِّكَ وَانْحَرْ</p>
+                        <p class="text-sm italic">"Maka dirikanlah shalat karena Tuhanmu dan berkurbanlah." (QS. Al-Kautsar: 2)</p>
+                    </div>
+                    <p>Ayat ini memerintahkan untuk melaksanakan shalat dan berkurban sebagai bentuk ibadah kepada Allah.</p>
+                `,
+                ketentuan: `
+                    <h3 class="text-xl font-bold mb-4">Ketentuan Kurban</h3>
+                    <div class="space-y-4">
+                        <div class="bg-yellow-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Syarat hewan kurban:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Kambing/domba: minimal 1 tahun</li>
+                                <li>Sapi/kerbau: minimal 2 tahun</li>
+                                <li>Unta: minimal 5 tahun</li>
+                                <li>Sehat dan tidak cacat</li>
+                            </ul>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Syarat orang yang berkurban:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Muslim</li>
+                                <li>Baligh dan berakal</li>
+                                <li>Mampu secara finansial</li>
+                            </ul>
+                        </div>
+                    </div>
+                `,
+                tataCara: `
+                    <h3 class="text-xl font-bold mb-4">Tata Cara Kurban</h3>
+                    <div class="space-y-4">
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Waktu penyembelihan:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Setelah shalat Idul Adha</li>
+                                <li>Tanggal 10, 11, 12, 13 Dzulhijjah</li>
+                                <li>Dari terbit fajar hingga terbenam matahari</li>
+                            </ul>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Pembagian daging:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>1/3 untuk keluarga</li>
+                                <li>1/3 untuk tetangga</li>
+                                <li>1/3 untuk fakir miskin</li>
+                            </ul>
+                        </div>
+                    </div>
+                `,
+                hikmah: `
+                    <h3 class="text-xl font-bold mb-4">Hikmah Kurban</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-red-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Hikmah Spiritual:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Mendekatkan diri kepada Allah</li>
+                                <li>Melatih ketaatan</li>
+                                <li>Mengikuti sunnah Ibrahim AS</li>
+                            </ul>
+                        </div>
+                        <div class="bg-orange-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Hikmah Sosial:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Berbagi dengan sesama</li>
+                                <li>Mempererat silaturahmi</li>
+                                <li>Membantu yang membutuhkan</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        // Data soal untuk setiap topik
+        const soalData = {
+            zakatFitrah: {
+                pilgan: [
+                    {
+                        soal: "Zakat fitrah wajib dikeluarkan pada bulan...",
+                        pilihan: ["Ramadan", "Syawal", "Dzulhijjah", "Muharram"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Kadar zakat fitrah adalah...",
+                        pilihan: ["1 sha'", "2 sha'", "3 sha'", "4 sha'"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Zakat fitrah paling lambat dibayar...",
+                        pilihan: ["Sebelum shalat Idul Fitri", "Setelah shalat Idul Fitri", "Saat berbuka puasa", "Saat sahur"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Yang wajib mengeluarkan zakat fitrah adalah...",
+                        pilihan: ["Setiap muslim", "Hanya orang kaya", "Hanya orang dewasa", "Hanya laki-laki"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Tujuan utama zakat fitrah adalah...",
+                        pilihan: ["Mensucikan diri", "Menambah harta", "Mengurangi pajak", "Membanggakan diri"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "1 sha' setara dengan berapa kilogram beras?",
+                        pilihan: ["2,5 kg", "3 kg", "2 kg", "1,5 kg"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Zakat fitrah dapat dibayar dengan...",
+                        pilihan: ["Makanan pokok atau uang", "Hanya uang", "Hanya beras", "Hanya gandum"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Waktu terbaik membayar zakat fitrah adalah...",
+                        pilihan: ["Malam atau pagi hari raya", "Siang hari raya", "Setelah shalat Id", "Kapan saja"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Zakat fitrah diberikan kepada...",
+                        pilihan: ["8 golongan mustahik", "Hanya fakir miskin", "Siapa saja", "Keluarga sendiri"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Hikmah zakat fitrah bagi si pemberi adalah...",
+                        pilihan: ["Mensucikan jiwa dari kikir", "Mengurangi harta", "Memamerkan kekayaan", "Mencari pujian"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Zakat fitrah wajib bagi anak kecil yang...",
+                        pilihan: ["Memiliki harta", "Sudah baligh", "Bisa berbicara", "Sudah sekolah"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Jika terlambat membayar zakat fitrah, maka...",
+                        pilihan: ["Tetap wajib dibayar", "Tidak perlu dibayar", "Diganti puasa", "Diganti sedekah"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Zakat fitrah mulai wajib sejak...",
+                        pilihan: ["Terbenam matahari akhir Ramadan", "Awal Ramadan", "Pertengahan Ramadan", "Fajar hari raya"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Yang tidak boleh menerima zakat fitrah adalah...",
+                        pilihan: ["Orang kaya", "Fakir miskin", "Amil zakat", "Muallaf"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Zakat fitrah dapat diwakilkan kepada...",
+                        pilihan: ["Orang yang dipercaya", "Siapa saja", "Hanya keluarga", "Tidak boleh diwakilkan"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Manfaat zakat fitrah bagi masyarakat adalah...",
+                        pilihan: ["Mengurangi kesenjangan sosial", "Menambah kemiskinan", "Membuat iri", "Tidak ada manfaat"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Zakat fitrah berbeda dengan zakat mal karena...",
+                        pilihan: ["Waktunya khusus Ramadan", "Jumlahnya lebih besar", "Hanya untuk orang kaya", "Tidak ada perbedaan"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Dalil kewajiban zakat fitrah terdapat dalam...",
+                        pilihan: ["Hadits Rasulullah", "Al-Quran saja", "Ijma ulama", "Qiyas"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Zakat fitrah disebut juga dengan...",
+                        pilihan: ["Zakat badan", "Zakat harta", "Zakat tanaman", "Zakat perdagangan"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Orang yang bertugas mengumpulkan zakat disebut...",
+                        pilihan: ["Amil", "Mustahik", "Muzakki", "Gharim"],
+                        jawaban: 0
+                    }
+                ],
+                menjodohkan: [
+                    {
+                        kiri: ["Zakat fitrah", "1 sha'", "Mustahik", "Ramadan", "Fitrah", "Amil", "Muzakki", "Gharim", "Muallaf", "Riqab"],
+                        kanan: ["Kesucian", "Bulan puasa", "Penerima zakat", "2,5 kg", "Zakat wajib", "Pengumpul zakat", "Pemberi zakat", "Orang berhutang", "Mualaf", "Budak"]
+                    }
+                ],
+                uraian: [
+                    {
+                        soal: "Jelaskan pengertian zakat fitrah dan sebutkan hikmahnya!",
+                        kunci: "Zakat fitrah adalah zakat yang wajib dikeluarkan setiap muslim pada bulan Ramadan sebelum shalat Idul Fitri. Hikmahnya: mensucikan diri dari dosa-dosa kecil, membantu fakir miskin, melengkapi ibadah puasa, menumbuhkan rasa solidaritas sosial."
+                    },
+                    {
+                        soal: "Sebutkan ketentuan waktu dan kadar zakat fitrah!",
+                        kunci: "Waktu: mulai awal Ramadan sampai sebelum shalat Idul Fitri. Kadar: 1 sha' (2,5 kg) makanan pokok atau senilai uangnya untuk setiap jiwa muslim."
+                    },
+                    {
+                        soal: "Siapa saja yang wajib mengeluarkan zakat fitrah dan kepada siapa diberikan?",
+                        kunci: "Wajib bagi: setiap muslim yang memiliki kelebihan makanan sehari semalam. Diberikan kepada: 8 golongan mustahik zakat terutama fakir miskin."
+                    },
+                    {
+                        soal: "Apa perbedaan zakat fitrah dengan zakat mal? Jelaskan!",
+                        kunci: "Zakat fitrah: wajib bagi setiap muslim, kadar tetap 1 sha', waktu khusus Ramadan. Zakat mal: wajib bagi yang memiliki harta mencapai nisab, kadar bervariasi, waktu setiap tahun."
+                    },
+                    {
+                        soal: "Mengapa zakat fitrah penting dalam Islam? Jelaskan manfaatnya!",
+                        kunci: "Penting karena: melengkapi ibadah puasa, mensucikan jiwa, membantu sesama. Manfaat: mengurangi kesenjangan sosial, menumbuhkan empati, memperkuat persaudaraan, membersihkan harta."
+                    }
+                ]
+            },
+            infak: {
+                pilgan: [
+                    {
+                        soal: "Infak hukumnya adalah...",
+                        pilihan: ["Sunnah", "Wajib", "Mubah", "Haram"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Infak berasal dari kata Arab...",
+                        pilihan: ["Anfaqa", "Shadaqa", "Zakka", "Qurban"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Infak dapat dilakukan...",
+                        pilihan: ["Kapan saja", "Hanya Ramadan", "Hanya Jumat", "Hanya Idul Fitri"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Syarat utama berinfak adalah...",
+                        pilihan: ["Niat karena Allah", "Jumlah besar", "Di depan orang", "Dengan paksaan"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Infak sebaiknya dari harta yang...",
+                        pilihan: ["Halal dan baik", "Banyak", "Sisa", "Pinjaman"],
+                        jawaban: 0
+                    }
+                ],
+                menjodohkan: [
+                    {
+                        kiri: ["Infak", "Anfaqa", "Sunnah", "Halal", "Niat"],
+                        kanan: ["Karena Allah", "Hukum infak", "Syarat harta", "Mengeluarkan", "Pemberian sukarela"]
+                    }
+                ],
+                uraian: [
+                    {
+                        soal: "Jelaskan perbedaan antara infak dan sedekah!",
+                        kunci: "Infak lebih umum mencakup semua pengeluaran di jalan Allah, sedangkan sedekah lebih khusus untuk pemberian kepada yang membutuhkan."
+                    }
+                ]
+            },
+            sedekah: {
+                pilgan: [
+                    {
+                        soal: "Sedekah yang paling mudah adalah...",
+                        pilihan: ["Senyuman", "Uang", "Makanan", "Pakaian"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Sedekah berasal dari kata...",
+                        pilihan: ["Shadaqa", "Anfaqa", "Zakka", "Qurban"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Waktu terbaik untuk bersedekah adalah...",
+                        pilihan: ["Setiap saat", "Hanya Jumat", "Hanya Ramadan", "Hanya pagi"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Sedekah sebaiknya dilakukan dengan...",
+                        pilihan: ["Tangan kanan", "Tangan kiri", "Kedua tangan", "Tidak ada aturan"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Manfaat sedekah bagi pemberi adalah...",
+                        pilihan: ["Membersihkan harta", "Mengurangi harta", "Memamerkan kekayaan", "Mencari pujian"],
+                        jawaban: 0
+                    }
+                ],
+                menjodohkan: [
+                    {
+                        kiri: ["Sedekah", "Senyuman", "Tangan kanan", "Shadaqa", "Rahasia"],
+                        kanan: ["Benar/jujur", "Adab sedekah", "Cara memberi", "Sedekah mudah", "Pemberian sukarela"]
+                    }
+                ],
+                uraian: [
+                    {
+                        soal: "Sebutkan jenis-jenis sedekah dan berikan contohnya!",
+                        kunci: "Jenis sedekah: 1) Sedekah harta (uang, makanan), 2) Sedekah tenaga (membantu orang), 3) Sedekah ilmu (mengajar), 4) Sedekah akhlak (senyum, kata baik)."
+                    }
+                ]
+            },
+            kurban: {
+                pilgan: [
+                    {
+                        soal: "Kurban dilaksanakan pada tanggal...",
+                        pilihan: ["10-13 Dzulhijjah", "1-10 Dzulhijjah", "1-10 Syawal", "10-13 Syawal"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Hewan kurban yang paling kecil adalah...",
+                        pilihan: ["Kambing", "Sapi", "Unta", "Ayam"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Umur minimal kambing untuk kurban adalah...",
+                        pilihan: ["1 tahun", "2 tahun", "6 bulan", "3 tahun"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Daging kurban dibagi menjadi...",
+                        pilihan: ["3 bagian", "2 bagian", "4 bagian", "5 bagian"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Kurban hukumnya adalah...",
+                        pilihan: ["Sunnah muakkad", "Wajib", "Mubah", "Makruh"],
+                        jawaban: 0
+                    }
+                ],
+                menjodohkan: [
+                    {
+                        kiri: ["Kurban", "10 Dzulhijjah", "Kambing", "3 bagian", "Qurban"],
+                        kanan: ["Mendekatkan diri", "Hari raya Idul Adha", "Hewan terkecil", "Pembagian daging", "Penyembelihan hewan"]
+                    }
+                ],
+                uraian: [
+                    {
+                        soal: "Jelaskan hikmah ibadah kurban bagi umat Islam!",
+                        kunci: "Hikmah kurban: 1) Mendekatkan diri kepada Allah, 2) Melatih ketaatan, 3) Berbagi dengan sesama, 4) Mengikuti sunnah Nabi Ibrahim AS, 5) Mempererat silaturahmi."
+                    }
+                ]
+            }
+        };
+
+        // Game questions
+        const gameQuestionsData = {
+            zakatFitrah: [
+                {
+                    soal: "Apa yang dimaksud dengan 1 sha'?",
+                    pilihan: ["2,5 kg", "1 kg", "3 kg", "5 kg"],
+                    jawaban: 0
+                },
+                {
+                    soal: "Kapan batas akhir membayar zakat fitrah?",
+                    pilihan: ["Sebelum shalat Id", "Setelah shalat Id", "Malam takbiran", "Siang hari raya"],
+                    jawaban: 0
+                }
+            ],
+            infak: [
+                {
+                    soal: "Apa arti kata 'anfaqa'?",
+                    pilihan: ["Mengeluarkan", "Menyimpan", "Mengumpulkan", "Membagi"],
+                    jawaban: 0
+                }
+            ],
+            sedekah: [
+                {
+                    soal: "Sedekah termudah menurut hadits adalah?",
+                    pilihan: ["Senyuman", "Uang", "Makanan", "Doa"],
+                    jawaban: 0
+                }
+            ],
+            kurban: [
+                {
+                    soal: "Berapa bagian pembagian daging kurban?",
+                    pilihan: ["3 bagian", "2 bagian", "4 bagian", "5 bagian"],
+                    jawaban: 0
+                }
+            ]
+        };
+
+        function showInfo() {
+            Swal.fire({
+                title: 'Media Pembelajaran Fikih',
+                html: `
+                    <div class="text-left">
+                        <p class="mb-2"><strong>Kelas:</strong> 5 MI</p>
+                        <p class="mb-2"><strong>Semester:</strong> Ganjil</p>
+                        <p class="mb-2"><strong>Materi:</strong> Zakat Fitrah, Infak, Sedekah, Kurban</p>
+                        <p class="mb-2"><strong>Fitur:</strong></p>
+                        <ul class="list-disc list-inside text-sm">
+                            <li>Materi lengkap dengan dalil</li>
+                            <li>Game interaktif</li>
+                            <li>Evaluasi dengan AI</li>
+                            <li>Soal teracak</li>
+                        </ul>
+                    </div>
+                `,
+                icon: 'info',
+                confirmButtonColor: '#059669'
+            });
+        }
+
+        function showMainMenu() {
+            document.getElementById('mainMenu').classList.remove('hidden');
+            document.getElementById('subMenu').classList.add('hidden');
+            document.getElementById('materiContent').classList.add('hidden');
+            document.getElementById('gameContent').classList.add('hidden');
+            document.getElementById('evaluasiContent').classList.add('hidden');
+            document.getElementById('quizContent').classList.add('hidden');
+        }
+
+        function showSubMenu(topic) {
+            currentTopic = topic;
+            const titles = {
+                zakatFitrah: 'Zakat Fitrah',
+                infak: 'Infak',
+                sedekah: 'Sedekah',
+                kurban: 'Kurban'
+            };
+            
+            document.getElementById('subMenuTitle').textContent = titles[topic];
+            document.getElementById('mainMenu').classList.add('hidden');
+            document.getElementById('subMenu').classList.remove('hidden');
+            document.getElementById('materiContent').classList.add('hidden');
+            document.getElementById('gameContent').classList.add('hidden');
+            document.getElementById('evaluasiContent').classList.add('hidden');
+            document.getElementById('quizContent').classList.add('hidden');
+        }
+
+        function showMateri() {
+            const titles = {
+                zakatFitrah: 'Zakat Fitrah',
+                infak: 'Infak',
+                sedekah: 'Sedekah',
+                kurban: 'Kurban'
+            };
+            
+            document.getElementById('materiTitle').textContent = titles[currentTopic];
+            document.getElementById('subMenu').classList.add('hidden');
+            document.getElementById('materiContent').classList.remove('hidden');
+            showMateriSection('pengertian');
+        }
+
+        function showMateriSection(section) {
+            // Update tab active state
+            document.querySelectorAll('.materi-tab').forEach(tab => {
+                tab.classList.remove('bg-green-600', 'text-white');
+                tab.classList.add('bg-gray-200', 'text-gray-700');
+            });
+            event.target.classList.remove('bg-gray-200', 'text-gray-700');
+            event.target.classList.add('bg-green-600', 'text-white');
+
+            // Load content
+            const content = materiData[currentTopic][section];
+            document.getElementById('materiSection').innerHTML = content;
+        }
+
+        function showGame() {
+            const titles = {
+                zakatFitrah: 'Zakat Fitrah',
+                infak: 'Infak',
+                sedekah: 'Sedekah',
+                kurban: 'Kurban'
+            };
+            
+            document.getElementById('gameTitle').textContent = titles[currentTopic];
+            document.getElementById('subMenu').classList.add('hidden');
+            document.getElementById('gameContent').classList.remove('hidden');
+            
+            gameQuestions = [...gameQuestionsData[currentTopic]];
+            currentGameQuestion = 0;
+            gameScore = 0;
+            document.getElementById('gameScore').textContent = gameScore;
+            loadGameQuestion();
+        }
+
+        function loadGameQuestion() {
+            if (currentGameQuestion >= gameQuestions.length) {
+                Swal.fire({
+                    title: 'Game Selesai!',
+                    text: `Skor akhir: ${gameScore}/${gameQuestions.length}`,
+                    icon: 'success',
+                    confirmButtonColor: '#059669'
+                });
+                return;
+            }
+
+            const question = gameQuestions[currentGameQuestion];
+            document.getElementById('gameQuestion').textContent = question.soal;
+            
+            const optionsHtml = question.pilihan.map((pilihan, index) => 
+                `<button onclick="checkGameAnswer(${index})" class="bg-blue-100 hover:bg-blue-200 p-4 rounded-lg transition-all text-left">
+                    ${pilihan}
+                </button>`
+            ).join('');
+            
+            document.getElementById('gameOptions').innerHTML = optionsHtml;
+        }
+
+        function checkGameAnswer(selectedIndex) {
+            const question = gameQuestions[currentGameQuestion];
+            if (selectedIndex === question.jawaban) {
+                gameScore++;
+                document.getElementById('gameScore').textContent = gameScore;
+                Swal.fire({
+                    title: 'Benar!',
+                    icon: 'success',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+            } else {
+                Swal.fire({
+                    title: 'Salah!',
+                    text: `Jawaban yang benar: ${question.pilihan[question.jawaban]}`,
+                    icon: 'error',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+        }
+
+        function nextGameQuestion() {
+            currentGameQuestion++;
+            loadGameQuestion();
+        }
+
+        function showEvaluasi() {
+            const titles = {
+                zakatFitrah: 'Zakat Fitrah',
+                infak: 'Infak',
+                sedekah: 'Sedekah',
+                kurban: 'Kurban'
+            };
+            
+            document.getElementById('evaluasiTitle').textContent = titles[currentTopic];
+            document.getElementById('subMenu').classList.add('hidden');
+            document.getElementById('evaluasiContent').classList.remove('hidden');
+        }
+
+        function startEvaluasi(type) {
+            // Collect student information first
+            Swal.fire({
+                title: 'Informasi Siswa',
+                html: `
+                    <div class="text-left space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap:</label>
+                            <input type="text" id="studentName" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Masukkan nama lengkap">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Kelas:</label>
+                            <select id="studentClass" class="w-full p-2 border border-gray-300 rounded-lg">
+                                <option value="">Pilih Kelas</option>
+                                <option value="5A">5A</option>
+                                <option value="5B">5B</option>
+                                <option value="5C">5C</option>
+                                <option value="5D">5D</option>
+                            </select>
+                        </div>
+                    </div>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Mulai Quiz',
+                cancelButtonText: 'Batal',
+                confirmButtonColor: '#059669',
+                preConfirm: () => {
+                    const name = document.getElementById('studentName').value;
+                    const kelas = document.getElementById('studentClass').value;
+                    
+                    if (!name || !kelas) {
+                        Swal.showValidationMessage('Mohon lengkapi nama dan kelas!');
+                        return false;
+                    }
+                    
+                    return { name, kelas };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    studentName = result.value.name;
+                    studentClass = result.value.kelas;
+                    
+                    currentQuizType = type;
+                    
+                    // Generate questions based on type
+                    if (type === 'pilgan') {
+                        quizQuestions = generatePilganQuestions();
+                    } else if (type === 'menjodohkan') {
+                        quizQuestions = generateMenjodohkanQuestions();
+                    } else if (type === 'uraian') {
+                        quizQuestions = generateUraianQuestions();
+                    }
+
+                    currentQuestionIndex = 0;
+                    userAnswers = new Array(quizQuestions.length).fill(null);
+                    
+                    document.getElementById('totalQuestions').textContent = quizQuestions.length;
+                    document.getElementById('evaluasiContent').classList.add('hidden');
+                    document.getElementById('quizContent').classList.remove('hidden');
+                    
+                    startTimer();
+                    loadQuestion();
+                }
+            });
+        }
+
+        function generatePilganQuestions() {
+            const allQuestions = soalData[currentTopic].pilgan;
+            // Shuffle and take up to 20 questions
+            const shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
+            return shuffled.slice(0, Math.min(20, shuffled.length)).map(q => ({
+                ...q,
+                pilihan: [...q.pilihan].sort(() => Math.random() - 0.5) // Shuffle options
+            }));
+        }
+
+        function generateMenjodohkanQuestions() {
+            const data = soalData[currentTopic].menjodohkan[0];
+            const questions = [];
+            
+            for (let i = 0; i < Math.min(10, data.kiri.length); i++) {
+                questions.push({
+                    type: 'menjodohkan',
+                    soal: `Jodohkan: ${data.kiri[i]}`,
+                    kiri: data.kiri[i],
+                    pilihan: [...data.kanan].sort(() => Math.random() - 0.5),
+                    jawaban: data.kanan.indexOf(data.kanan[i])
+                });
+            }
+            
+            return questions;
+        }
+
+        function generateUraianQuestions() {
+            const allQuestions = soalData[currentTopic].uraian;
+            return allQuestions.slice(0, Math.min(5, allQuestions.length));
+        }
+
+        function startTimer() {
+            timeLeft = 1800; // 30 minutes
+            timer = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                document.getElementById('timer').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    finishQuiz();
+                }
+            }, 1000);
+        }
+
+        function loadQuestion() {
+            const question = quizQuestions[currentQuestionIndex];
+            document.getElementById('currentQuestionNumber').textContent = currentQuestionIndex + 1;
+            
+            let questionHtml = '';
+            
+            if (currentQuizType === 'pilgan' || currentQuizType === 'menjodohkan') {
+                questionHtml = `
+                    <h3 class="text-xl font-bold mb-4">${question.soal}</h3>
+                    <div class="space-y-3">
+                        ${question.pilihan.map((pilihan, index) => `
+                            <label class="flex items-center p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100">
+                                <input type="radio" name="answer" value="${index}" class="mr-3" 
+                                    ${userAnswers[currentQuestionIndex] == index ? 'checked' : ''}
+                                    onchange="saveAnswer(${index})">
+                                <span>${pilihan}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (currentQuizType === 'uraian') {
+                questionHtml = `
+                    <h3 class="text-xl font-bold mb-4">${question.soal}</h3>
+                    <textarea 
+                        class="w-full h-32 p-3 border border-gray-300 rounded-lg resize-none"
+                        placeholder="Tulis jawaban Anda di sini..."
+                        onchange="saveAnswer(this.value)"
+                    >${userAnswers[currentQuestionIndex] || ''}</textarea>
+                `;
+            }
+            
+            document.getElementById('questionContent').innerHTML = questionHtml;
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
+            document.getElementById('nextBtn').textContent = 
+                currentQuestionIndex === quizQuestions.length - 1 ? 'Selesai' : 'Selanjutnya';
+        }
+
+        function saveAnswer(answer) {
+            userAnswers[currentQuestionIndex] = answer;
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < quizQuestions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            clearInterval(timer);
+            
+            let score = 0;
+            let totalQuestions = quizQuestions.length;
+            let detailedAnswers = [];
+            
+            if (currentQuizType === 'pilgan' || currentQuizType === 'menjodohkan') {
+                for (let i = 0; i < quizQuestions.length; i++) {
+                    const isCorrect = userAnswers[i] == quizQuestions[i].jawaban;
+                    if (isCorrect) score++;
+                    
+                    detailedAnswers.push({
+                        soal: quizQuestions[i].soal,
+                        jawaban_user: quizQuestions[i].pilihan[userAnswers[i]] || 'Tidak dijawab',
+                        jawaban_benar: quizQuestions[i].pilihan[quizQuestions[i].jawaban],
+                        benar: isCorrect
+                    });
+                }
+            } else if (currentQuizType === 'uraian') {
+                // Enhanced AI-like scoring for essay questions
+                for (let i = 0; i < quizQuestions.length; i++) {
+                    const userAnswer = (userAnswers[i] || '').toLowerCase();
+                    const keyAnswer = quizQuestions[i].kunci.toLowerCase();
+                    
+                    // Advanced keyword matching with weights
+                    const keywords = keyAnswer.split(/[.,!?;:\s]+/).filter(word => word.length > 3);
+                    let matchCount = 0;
+                    let totalWeight = keywords.length;
+                    
+                    keywords.forEach(keyword => {
+                        if (userAnswer.includes(keyword)) {
+                            matchCount++;
+                        }
+                    });
+                    
+                    // Score based on keyword matches with more nuanced scoring
+                    const percentage = matchCount / totalWeight;
+                    let questionScore = 0;
+                    if (percentage >= 0.8) questionScore = 1;
+                    else if (percentage >= 0.6) questionScore = 0.8;
+                    else if (percentage >= 0.4) questionScore = 0.6;
+                    else if (percentage >= 0.2) questionScore = 0.4;
+                    
+                    score += questionScore;
+                    
+                    detailedAnswers.push({
+                        soal: quizQuestions[i].soal,
+                        jawaban_user: userAnswers[i] || 'Tidak dijawab',
+                        jawaban_kunci: quizQuestions[i].kunci,
+                        skor: Math.round(questionScore * 100),
+                        keyword_match: `${matchCount}/${totalWeight}`
+                    });
+                }
+            }
+            
+            const finalScore = Math.round((score / totalQuestions) * 100);
+            const timeUsed = 1800 - timeLeft; // seconds
+            const timeUsedMinutes = Math.floor(timeUsed / 60);
+            const timeUsedSeconds = timeUsed % 60;
+            
+            // Prepare data for Google Sheets
+            const resultData = {
+                timestamp: new Date().toISOString(),
+                nama: studentName,
+                kelas: studentClass,
+                materi: currentTopic,
+                jenis_soal: currentQuizType,
+                skor: finalScore,
+                benar: Math.round(score),
+                total_soal: totalQuestions,
+                waktu_pengerjaan: `${timeUsedMinutes}:${timeUsedSeconds.toString().padStart(2, '0')}`,
+                detail_jawaban: JSON.stringify(detailedAnswers)
+            };
+            
+            // Save to Google Sheets
+            saveToGoogleSheets(resultData).then(success => {
+                const saveMessage = success ? 
+                    '<p class="text-xs text-green-600 mt-2"><i class="fas fa-check-circle mr-1"></i>Hasil tersimpan ke Google Sheets</p>' :
+                    '<p class="text-xs text-orange-600 mt-2"><i class="fas fa-exclamation-triangle mr-1"></i>Hasil tersimpan lokal (backup)</p>';
+                
+                Swal.fire({
+                    title: 'Quiz Selesai!',
+                    html: `
+                        <div class="text-center">
+                            <div class="mb-4">
+                                <p class="text-sm text-gray-600">Nama: ${studentName}</p>
+                                <p class="text-sm text-gray-600">Kelas: ${studentClass}</p>
+                            </div>
+                            <p class="text-3xl font-bold mb-2 text-green-600">${finalScore}%</p>
+                            <p class="text-lg mb-2">Benar: ${Math.round(score)} dari ${totalQuestions} soal</p>
+                            <p class="text-sm text-gray-600 mb-2">Waktu: ${timeUsedMinutes}:${timeUsedSeconds.toString().padStart(2, '0')}</p>
+                            <div class="text-2xl mb-2">
+                                ${finalScore >= 90 ? '🏆 Luar Biasa!' : 
+                                  finalScore >= 80 ? '🎉 Excellent!' : 
+                                  finalScore >= 70 ? '👍 Good Job!' : 
+                                  finalScore >= 60 ? '👌 Not Bad!' : '📚 Keep Learning!'}
+                            </div>
+                            ${saveMessage}
+                        </div>
+                    `,
+                    icon: finalScore >= 70 ? 'success' : 'info',
+                    confirmButtonColor: '#059669',
+                    confirmButtonText: 'Kembali ke Menu',
+                    showCancelButton: true,
+                    cancelButtonText: 'Lihat Detail'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        showEvaluasi();
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        showDetailResults(detailedAnswers, finalScore);
+                    }
+                });
+            });
+        }
+        
+        function showDetailResults(detailedAnswers, finalScore) {
+            let detailHtml = '<div class="text-left max-h-96 overflow-y-auto">';
+            
+            detailedAnswers.forEach((answer, index) => {
+                const isCorrect = currentQuizType === 'uraian' ? answer.skor >= 60 : answer.benar;
+                const bgColor = isCorrect ? 'bg-green-50' : 'bg-red-50';
+                const textColor = isCorrect ? 'text-green-800' : 'text-red-800';
+                
+                detailHtml += `
+                    <div class="mb-4 p-3 ${bgColor} rounded-lg">
+                        <p class="font-semibold text-sm mb-2">${index + 1}. ${answer.soal}</p>
+                        <p class="text-xs mb-1"><strong>Jawaban Anda:</strong> ${answer.jawaban_user}</p>
+                        ${currentQuizType === 'uraian' ? 
+                            `<p class="text-xs mb-1"><strong>Skor:</strong> ${answer.skor}% (${answer.keyword_match} kata kunci)</p>` :
+                            `<p class="text-xs mb-1"><strong>Jawaban Benar:</strong> ${answer.jawaban_benar}</p>`
+                        }
+                        <p class="text-xs ${textColor}">
+                            <i class="fas fa-${isCorrect ? 'check' : 'times'} mr-1"></i>
+                            ${isCorrect ? 'Benar' : 'Salah'}
+                        </p>
+                    </div>
+                `;
+            });
+            
+            detailHtml += '</div>';
+            
+            Swal.fire({
+                title: `Detail Hasil (${finalScore}%)`,
+                html: detailHtml,
+                confirmButtonColor: '#059669',
+                confirmButtonText: 'Tutup',
+                width: '90%',
+                maxWidth: '600px'
+            });
+        }
+
+        // Initialize app
+        showMainMenu();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'976a56eab5aaf8c4',t:'MTc1NjQ1MjU5MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
