@@ -422,7 +422,7 @@
             </div>
             <div class="border-t border-white border-opacity-20 mt-6 pt-4 text-center">
                 <p class="text-xs sm:text-sm opacity-90">
-                    © 2025 Karya ❤️ Emes Media Interaktif
+                    © 2025 Karya ❤️ Emes Learning Media
                 </p>
                 <p class="text-xs opacity-75 mt-1">
                     <i class="fas fa-code mr-1"></i>Powered by AI Technology & Google Sheets Integration
@@ -445,6 +445,12 @@
         let studentName = '';
         let studentClass = '';
         let studentPhoto = '';
+        let studentProgress = {
+            zakatFitrah: { materi: 0, game: 0, evaluasi: 0 },
+            infak: { materi: 0, game: 0, evaluasi: 0 },
+            sedekah: { materi: 0, game: 0, evaluasi: 0 },
+            kurban: { materi: 0, game: 0, evaluasi: 0 }
+        };
 
         // Google Sheets Configuration (Demo - replace with your actual sheet)
         const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbws2qvF_LtwGOJDP9Gt1Lv4Y_s8rubFdOgjPb8I0XPNOiTpr3Tv1FlmfBvszJsLH3hrKQ/exec';
@@ -461,8 +467,111 @@
 
         // Save student data to localStorage
         function saveStudentData(name, kelas, photo = '') {
-            const data = { name, class: kelas, photo };
+            const data = { name, class: kelas, photo, progress: studentProgress };
             localStorage.setItem('fikih_student_data', JSON.stringify(data));
+        }
+
+        // Load progress from localStorage
+        function loadProgress() {
+            const savedData = localStorage.getItem('fikih_student_data');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                if (data.progress) {
+                    studentProgress = data.progress;
+                }
+            }
+            updateProgressDisplay();
+        }
+
+        // Save progress to localStorage
+        function saveProgress() {
+            const savedData = loadStudentData();
+            if (savedData) {
+                savedData.progress = studentProgress;
+                localStorage.setItem('fikih_student_data', JSON.stringify(savedData));
+            }
+            updateProgressDisplay();
+        }
+
+        // Update progress for specific activity
+        function updateProgress(topic, activity, percentage = 100) {
+            if (studentProgress[topic] && studentProgress[topic][activity] !== undefined) {
+                studentProgress[topic][activity] = Math.max(studentProgress[topic][activity], percentage);
+                saveProgress();
+            }
+        }
+
+        // Calculate overall progress percentage
+        function calculateOverallProgress() {
+            const topics = Object.keys(studentProgress);
+            let totalActivities = 0;
+            let completedActivities = 0;
+
+            topics.forEach(topic => {
+                const activities = Object.keys(studentProgress[topic]);
+                activities.forEach(activity => {
+                    totalActivities++;
+                    if (studentProgress[topic][activity] >= 100) {
+                        completedActivities++;
+                    } else if (studentProgress[topic][activity] > 0) {
+                        completedActivities += studentProgress[topic][activity] / 100;
+                    }
+                });
+            });
+
+            return totalActivities > 0 ? Math.round((completedActivities / totalActivities) * 100) : 0;
+        }
+
+        // Update progress display
+        function updateProgressDisplay() {
+            const overallProgress = calculateOverallProgress();
+            
+            // Update mobile progress
+            const progressText = document.getElementById('progressText');
+            const progressBar = document.getElementById('progressBar');
+            
+            if (progressText) progressText.textContent = `${overallProgress}%`;
+            if (progressBar) progressBar.style.width = `${overallProgress}%`;
+
+            // Update topic completion indicators
+            updateTopicIndicators();
+        }
+
+        // Update topic completion indicators
+        function updateTopicIndicators() {
+            const topics = ['zakatFitrah', 'infak', 'sedekah', 'kurban'];
+            
+            topics.forEach(topic => {
+                const topicProgress = studentProgress[topic];
+                const completed = Object.values(topicProgress).filter(val => val >= 100).length;
+                const total = Object.keys(topicProgress).length;
+                
+                // Add completion indicator to topic cards
+                const topicCard = document.querySelector(`[onclick="showSubMenu('${topic}')"]`);
+                if (topicCard) {
+                    // Remove existing indicator
+                    const existingIndicator = topicCard.querySelector('.completion-indicator');
+                    if (existingIndicator) existingIndicator.remove();
+                    
+                    // Add new indicator
+                    const indicator = document.createElement('div');
+                    indicator.className = 'completion-indicator absolute top-2 right-2 text-xs px-2 py-1 rounded-full';
+                    
+                    if (completed === total) {
+                        indicator.className += ' bg-green-500 text-white';
+                        indicator.innerHTML = '<i class="fas fa-check mr-1"></i>Selesai';
+                    } else if (completed > 0) {
+                        indicator.className += ' bg-yellow-500 text-white';
+                        indicator.textContent = `${completed}/${total}`;
+                    } else {
+                        indicator.className += ' bg-gray-300 text-gray-600';
+                        indicator.textContent = `0/${total}`;
+                    }
+                    
+                    topicCard.style.position = 'relative';
+                    topicCard.appendChild(indicator);
+                }
+            });
         }
 
         // Update student identity display
@@ -487,6 +596,7 @@
                 studentPhoto = savedData.photo || '';
                 updateStudentIdentity(studentName, studentClass, studentPhoto);
                 document.getElementById('studentForm').style.display = 'none';
+                loadProgress(); // Load progress after identity
             } else {
                 document.getElementById('studentForm').style.display = 'flex';
             }
@@ -1000,32 +1110,32 @@
                 ],
                 menjodohkan: [
                     {
-                        kiri: ["Zakat fitrah", "1 sha'", "Mustahik", "Ramadan", "Fitrah", "Amil", "Muzakki", "Gharim", "Muallaf", "Riqab"],
-                        kanan: ["Kesucian", "Bulan puasa", "Penerima zakat", "2,5 kg", "Zakat wajib", "Pengumpul zakat", "Pemberi zakat", "Orang berhutang", "Mualaf", "Budak"]
+                        kiri: ["Fitrah", "1 sha'", "Mustahik", "Ramadan", "Zakat Fitrah", "Amil", "Muzakki", "Gharim", "Muallaf", "Riqab"],
+                        kanan: ["Kesucian", "Bulan puasa", "Penerima zakat", "2,5 kg", "Zakat wajib", "Pengumpul zakat", "Pemberi zakat", "Orang berhutang", "Baru masuk Islam", "Budak"]
                     }
                 ],
                 uraian: [
-                    {
-                        soal: "Jelaskan pengertian zakat fitrah dan sebutkan hikmahnya!",
-                        kunci: "Zakat fitrah adalah zakat yang wajib dikeluarkan setiap muslim pada bulan Ramadan sebelum shalat Idul Fitri. Hikmahnya: mensucikan diri dari dosa-dosa kecil, membantu fakir miskin, melengkapi ibadah puasa, menumbuhkan rasa solidaritas sosial."
-                    },
-                    {
-                        soal: "Sebutkan ketentuan waktu dan kadar zakat fitrah!",
-                        kunci: "Waktu: mulai awal Ramadan sampai sebelum shalat Idul Fitri. Kadar: 1 sha' (2,5 kg) makanan pokok atau senilai uangnya untuk setiap jiwa muslim."
-                    },
-                    {
-                        soal: "Siapa saja yang wajib mengeluarkan zakat fitrah dan kepada siapa diberikan?",
-                        kunci: "Wajib bagi: setiap muslim yang memiliki kelebihan makanan sehari semalam. Diberikan kepada: 8 golongan mustahik zakat terutama fakir miskin."
-                    },
-                    {
-                        soal: "Apa perbedaan zakat fitrah dengan zakat mal? Jelaskan!",
-                        kunci: "Zakat fitrah: wajib bagi setiap muslim, kadar tetap 1 sha', waktu khusus Ramadan. Zakat mal: wajib bagi yang memiliki harta mencapai nisab, kadar bervariasi, waktu setiap tahun."
-                    },
-                    {
-                        soal: "Mengapa zakat fitrah penting dalam Islam? Jelaskan manfaatnya!",
-                        kunci: "Penting karena: melengkapi ibadah puasa, mensucikan jiwa, membantu sesama. Manfaat: mengurangi kesenjangan sosial, menumbuhkan empati, memperkuat persaudaraan, membersihkan harta."
-                    }
-                ]
+                            {
+                                soal: "Apa itu zakat fitrah? Sebutkan 2 hikmahnya!",
+                                kunci: "Zakat fitrah adalah zakat wajib yang dikeluarkan setiap muslim saat bulan Ramadan. Hikmahnya: 1) Mensucikan diri dari dosa, 2) Membantu orang miskin."
+                            },
+                            {
+                                soal: "Kapan waktu membayar zakat fitrah dan berapa kadarnya?",
+                                kunci: "Waktu: bulan Ramadan sampai sebelum shalat Idul Fitri. Kadar: 1 sha' atau 2,5 kg beras untuk setiap orang."
+                            },
+                            {
+                                soal: "Siapa yang wajib bayar zakat fitrah? Kepada siapa diberikan?",
+                                kunci: "Yang wajib: setiap muslim yang punya makanan lebih. Diberikan kepada: orang miskin dan yang membutuhkan."
+                            },
+                            {
+                                soal: "Mengapa zakat fitrah penting? Sebutkan 2 manfaatnya!",
+                                kunci: "Penting karena perintah Allah. Manfaat: 1) Melengkapi puasa Ramadan, 2) Membantu orang miskin bisa merayakan Idul Fitri."
+                            },
+                            {
+                                soal: "Apa bedanya zakat fitrah dengan sedekah biasa?",
+                                kunci: "Zakat fitrah: wajib, waktu tertentu (Ramadan), kadar tetap. Sedekah biasa: sunnah, kapan saja, berapa saja."
+                            }
+                        ]
             },
             infak: {
                 pilgan: [
@@ -1131,11 +1241,11 @@
                     }
                 ],
                 menjodohkan: [
-                    {
-                        kiri: ["Infak", "Anfaqa", "Sunnah", "Halal", "Niat", "Munfiq", "Fi sabilillah", "Berkah", "Ikhlas", "Kontinyu"],
-                        kanan: ["Karena Allah", "Hukum infak", "Syarat harta", "Mengeluarkan", "Pemberian sukarela", "Pemberi infak", "Di jalan Allah", "Manfaat infak", "Syarat niat", "Sifat infak terbaik"]
-                    }
-                ],
+                        {
+                            kiri: ["Infak", "Anfaqa", "Sunnah", "Halal", "Niat", "Munfiq", "Fi sabilillah", "Berkah", "Ikhlas", "Kontinyu"],
+                            kanan: ["Pemberian sukarela", "Mengeluarkan", "Hukum infak", "Syarat harta", "Karena Allah", "Pemberi infak", "Di jalan Allah", "Manfaat infak", "Syarat niat", "Sifat infak terbaik"]
+                        }
+                    ],
                 uraian: [
                     {
                         soal: "Jelaskan perbedaan antara infak dan sedekah!",
@@ -1263,11 +1373,11 @@
                     }
                 ],
                 menjodohkan: [
-                    {
-                        kiri: ["Sedekah", "Senyuman", "Tangan kanan", "Shadaqa", "Rahasia", "Kontinyu", "Fakir miskin", "Ramadan", "Pahala", "Bala"],
-                        kanan: ["Benar/jujur", "Adab sedekah", "Cara memberi", "Sedekah mudah", "Pemberian sukarela", "Sifat terbaik", "Penerima utama", "Waktu utama", "Balasan sedekah", "Yang dicegah"]
-                    }
-                ],
+                                {
+                                    kiri: ["Sedekah", "Senyuman", "Tangan kanan", "Shadaqa", "Rahasia", "Kontinyu", "Fakir miskin", "Ramadan", "Pahala", "Bala"],
+                                    kanan: ["Pemberian sukarela", "Sedekah mudah", "Cara memberi", "Benar/jujur", "Adab sedekah", "Sifat terbaik", "Penerima utama", "Waktu utama", "Balasan sedekah", "Yang dicegah"]
+                                }
+                            ],
                 uraian: [
                     {
                         soal: "Sebutkan jenis-jenis sedekah dan berikan contohnya!",
@@ -1503,6 +1613,8 @@
         };
 
         function showInfo() {
+            const overallProgress = calculateOverallProgress();
+            
             Swal.fire({
                 title: 'Media Pembelajaran Fikih',
                 html: `
@@ -1510,18 +1622,61 @@
                         <p class="mb-2"><strong>Kelas:</strong> 5 MI</p>
                         <p class="mb-2"><strong>Semester:</strong> Ganjil</p>
                         <p class="mb-2"><strong>Materi:</strong> Zakat Fitrah, Infak, Sedekah, Kurban</p>
+                        <p class="mb-2"><strong>Progress Belajar:</strong> ${overallProgress}%</p>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-3">
+                            <div class="bg-green-600 h-2 rounded-full" style="width: ${overallProgress}%"></div>
+                        </div>
                         <p class="mb-2"><strong>Fitur:</strong></p>
                         <ul class="list-disc list-inside text-sm">
                             <li>Materi lengkap dengan dalil</li>
                             <li>Game interaktif</li>
                             <li>Evaluasi dengan AI</li>
                             <li>Soal teracak</li>
+                            <li>Progress tracking otomatis</li>
                             <li>Data siswa tersimpan otomatis</li>
                         </ul>
                     </div>
                 `,
                 icon: 'info',
-                confirmButtonColor: '#059669'
+                confirmButtonColor: '#059669',
+                showCancelButton: true,
+                cancelButtonText: 'Reset Progress',
+                cancelButtonColor: '#dc2626'
+            }).then((result) => {
+                if (result.dismiss === Swal.DismissReason.cancel) {
+                    resetProgress();
+                }
+            });
+        }
+
+        function resetProgress() {
+            Swal.fire({
+                title: 'Reset Progress?',
+                text: 'Semua progress belajar akan dihapus dan dimulai dari awal.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Ya, Reset!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Reset all progress to 0
+                    studentProgress = {
+                        zakatFitrah: { materi: 0, game: 0, evaluasi: 0 },
+                        infak: { materi: 0, game: 0, evaluasi: 0 },
+                        sedekah: { materi: 0, game: 0, evaluasi: 0 },
+                        kurban: { materi: 0, game: 0, evaluasi: 0 }
+                    };
+                    saveProgress();
+                    
+                    Swal.fire({
+                        title: 'Progress Direset!',
+                        text: 'Semua progress telah dikembalikan ke 0%',
+                        icon: 'success',
+                        confirmButtonColor: '#059669'
+                    });
+                }
             });
         }
 
@@ -1585,6 +1740,9 @@
             // Load content
             const content = materiData[currentTopic][section];
             document.getElementById('materiSection').innerHTML = content;
+            
+            // Update progress - reading material counts as 20% per section (5 sections = 100%)
+            updateProgress(currentTopic, 'materi', 20);
         }
 
         function showGame() {
@@ -1649,10 +1807,25 @@
                     showConfirmButton: false
                 });
             }
+            
+            // Update game progress based on questions answered
+            const progressPercentage = Math.round(((currentGameQuestion + 1) / gameQuestions.length) * 100);
+            updateProgress(currentTopic, 'game', progressPercentage);
         }
 
         function nextGameQuestion() {
             currentGameQuestion++;
+            if (currentGameQuestion >= gameQuestions.length) {
+                // Game completed - ensure 100% progress
+                updateProgress(currentTopic, 'game', 100);
+                Swal.fire({
+                    title: 'Game Selesai!',
+                    text: `Skor akhir: ${gameScore}/${gameQuestions.length}`,
+                    icon: 'success',
+                    confirmButtonColor: '#059669'
+                });
+                return;
+            }
             loadGameQuestion();
         }
 
@@ -1715,19 +1888,35 @@
             const data = soalData[currentTopic].menjodohkan[0];
             const questions = [];
             
+            // Create pairs and shuffle them
+            const pairs = [];
             for (let i = 0; i < Math.min(10, data.kiri.length); i++) {
-                const correctAnswer = data.kanan[i];
-                const shuffledOptions = [...data.kanan].sort(() => Math.random() - 0.5);
-                const correctIndex = shuffledOptions.indexOf(correctAnswer);
+                pairs.push({
+                    kiri: data.kiri[i],
+                    kanan: data.kanan[i]
+                });
+            }
+            
+            // Shuffle the pairs so questions aren't in order
+            const shuffledPairs = [...pairs].sort(() => Math.random() - 0.5);
+            
+            // Create all possible right-side options (shuffled)
+            const allKananOptions = shuffledPairs.map(pair => pair.kanan).sort(() => Math.random() - 0.5);
+            
+            // Generate questions
+            shuffledPairs.forEach(pair => {
+                const correctAnswer = pair.kanan;
+                const correctIndex = allKananOptions.indexOf(correctAnswer);
                 
                 questions.push({
                     type: 'menjodohkan',
-                    soal: `Jodohkan: ${data.kiri[i]}`,
-                    kiri: data.kiri[i],
-                    pilihan: shuffledOptions,
-                    jawaban: correctIndex
+                    soal: `Jodohkan: ${pair.kiri}`,
+                    kiri: pair.kiri,
+                    pilihan: [...allKananOptions], // All options available for each question
+                    jawaban: correctIndex,
+                    correctAnswer: correctAnswer
                 });
-            }
+            });
             
             return questions;
         }
@@ -1774,30 +1963,26 @@
                     </div>
                 `;
             } else if (currentQuizType === 'menjodohkan') {
-                // Get available options (exclude already selected answers)
-                const usedAnswers = userAnswers.filter((answer, idx) => idx !== currentQuestionIndex && answer !== null);
-                const availableOptions = question.pilihan.filter((pilihan, index) => 
-                    !usedAnswers.includes(index) || userAnswers[currentQuestionIndex] == index
-                );
-                
                 questionHtml = `
                     <div class="space-y-4">
                         <div class="bg-blue-50 p-4 rounded-lg">
-                            <h4 class="font-semibold text-gray-700 mb-2">Pertanyaan:</h4>
+                            <h4 class="font-semibold text-gray-700 mb-2">Jodohkan pernyataan berikut:</h4>
                             <p class="text-lg font-bold text-blue-800">${question.kiri}</p>
                         </div>
                         <div class="bg-green-50 p-4 rounded-lg">
-                            <label class="block font-semibold text-gray-700 mb-3">Opsi Jawaban:</label>
+                            <label class="block font-semibold text-gray-700 mb-3">Pilih pasangan yang tepat:</label>
                             <select class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-base" 
                                     onchange="saveAnswer(this.value)">
                                 <option value="">-- Pilih Jawaban --</option>
-                                ${availableOptions.map((pilihan, originalIndex) => {
-                                    const actualIndex = question.pilihan.indexOf(pilihan);
-                                    return `<option value="${actualIndex}" ${userAnswers[currentQuestionIndex] == actualIndex ? 'selected' : ''}>
+                                ${question.pilihan.map((pilihan, index) => 
+                                    `<option value="${index}" ${userAnswers[currentQuestionIndex] == index ? 'selected' : ''}>
                                         ${pilihan}
-                                    </option>`;
-                                }).join('')}
+                                    </option>`
+                                ).join('')}
                             </select>
+                        </div>
+                        <div class="text-xs text-gray-500 bg-yellow-50 p-2 rounded">
+                            💡 Tip: Setiap jawaban hanya bisa dipilih sekali dalam keseluruhan soal menjodohkan
                         </div>
                     </div>
                 `;
@@ -1949,6 +2134,9 @@
                 detail_jawaban: JSON.stringify(detailedAnswers)
             };
             
+            // Update evaluation progress based on score
+            updateProgress(currentTopic, 'evaluasi', finalScore);
+            
             // Save to Google Sheets
             saveToGoogleSheets(resultData).then(success => {
                 const saveMessage = success ? 
@@ -1986,5 +2174,5 @@
             initializeStudentIdentity();
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'976b96b9e5168202',t:'MTc1NjQ2NTY4OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'976bb8f0768efd83',t:'MTc1NjQ2NzA5MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
