@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Media Pembelajaran Fikih Kelas 5</title>
-    <link rel="icon" href="https://archive.org/download/logo-fikih/logo%20fikih.png" type="image/png">
+    <link rel="icon" href="https://archive.org/download/media-interaktif-1/media%20interaktif%20%281%29.png" type="image/png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -31,20 +31,120 @@
     </style>
 </head>
 <body class="bg-gradient-to-br from-green-50 to-emerald-100 min-h-screen">
+    <!-- Student Identity Form -->
+    <div id="studentForm" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-2xl p-6 sm:p-8 max-w-md w-full mx-4">
+            <div class="text-center mb-6">
+                <img src="https://archive.org/download/media-interaktif-1/media%20interaktif%20%281%29.png" alt="Logo" class="h-16 mx-auto mb-4" onerror="this.style.display='none'">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Selamat Datang!</h2>
+                <p class="text-gray-600">Silakan isi identitas Anda untuk memulai pembelajaran</p>
+            </div>
+            
+            <form id="identityForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap *</label>
+                    <input type="text" id="inputName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="Masukkan nama lengkap" required>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Kelas *</label>
+                    <select id="inputClass" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                        <option value="">Pilih Kelas</option>
+                        <option value="5A">5A</option>
+                        <option value="5B">5B</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Foto Profil</label>
+                    <div class="flex items-center space-x-4">
+                        <div class="flex-shrink-0">
+                            <img id="previewPhoto" class="h-16 w-16 rounded-full object-cover border-2 border-gray-300" src="" alt="Preview" style="display: none;">
+                            <div id="photoPlaceholder" class="h-16 w-16 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300">
+                                <i class="fas fa-user text-gray-400 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <input type="file" id="inputPhoto" accept="image/*" class="w-full p-2 border border-gray-300 rounded-lg text-sm">
+                            <p class="text-xs text-gray-500 mt-1">Format: JPG, PNG (Opsional)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-all">
+                    <i class="fas fa-arrow-right mr-2"></i>Mulai Belajar
+                </button>
+            </form>
+        </div>
+    </div>
+
     <!-- Header -->
     <header class="islamic-green text-white p-3 sm:p-4 shadow-lg">
-        <div class="container mx-auto flex items-center justify-between">
-            <div class="flex items-center space-x-2 sm:space-x-3">
-                <img src="https://archive.org/download/logo-fikih/logo%20fikih.png" alt="Logo Fikih" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white p-1" onerror="this.src=''; this.innerHTML='<div class=\'w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center text-green-600 font-bold text-sm sm:text-base\'>F</div>'">
-                <div>
-                    <p class="text-xs sm:text-sm opacity-90">Media Pembelajaran Interaktif</p>
-                    <h1 class="text-lg sm:text-2xl font-bold">Fikih Kelas 5</h1>
-                    <p class="text-xs sm:text-sm opacity-90">Semester Ganjil</p>
+        <div class="container mx-auto">
+            <!-- Desktop Layout -->
+            <div class="hidden sm:flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <img src="https://archive.org/download/media-interaktif-1/media%20interaktif%20%281%29.png" alt="Logo Media Interaktif" class="h-24" onerror="this.style.display='none'">
+                    <div>
+                        <p class="text-sm opacity-90">Media Pembelajaran Interaktif</p>
+                        <h1 class="text-3xl font-bold">Fikih Kelas 5</h1>
+                        <p class="text-sm opacity-90">Semester Ganjil</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <!-- Student Identity (Desktop) -->
+                    <div id="studentIdentityDesktop" class="text-right">
+                        <div class="flex items-center space-x-3">
+                            <div>
+                                <p class="text-sm font-semibold" id="studentNameDesktop"></p>
+                                <p class="text-xs opacity-90" id="studentClassDesktop"></p>
+                            </div>
+                            <img id="studentPhotoDesktop" class="w-14 h-14 rounded-full border-2 border-white object-cover" src="" alt="Foto Siswa">
+                        </div>
+                    </div>
+                    <button onclick="showInfo()" class="bg-white bg-opacity-20 hover:bg-opacity-30 p-2 rounded-full transition-all">
+                        <i class="fas fa-info-circle text-xl"></i>
+                    </button>
                 </div>
             </div>
-            <button onclick="showInfo()" class="bg-white bg-opacity-20 hover:bg-opacity-30 p-2 rounded-full transition-all">
-                <i class="fas fa-info-circle text-lg sm:text-xl"></i>
-            </button>
+            
+            <!-- Mobile Layout -->
+            <div class="sm:hidden">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <img src="https://archive.org/download/media-interaktif-1/media%20interaktif%20%281%29.png" alt="Logo Media Interaktif" class="h-16" onerror="this.style.display='none'">
+                        <div>
+                            <p class="text-xs opacity-90">Media Pembelajaran Interaktif</p>
+                            <h1 class="text-xl font-bold">Fikih Kelas 5</h1>
+                            <p class="text-xs opacity-90">Semester Ganjil</p>
+                        </div>
+                    </div>
+                    <button onclick="showInfo()" class="bg-white bg-opacity-20 hover:bg-opacity-30 p-2 rounded-full transition-all">
+                        <i class="fas fa-info-circle"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Student Identity & Progress (Below Header) -->
+        <div class="sm:hidden mt-3 pt-3 border-t border-white border-opacity-20">
+            <div id="studentIdentityMobile" class="bg-white bg-opacity-10 rounded-lg p-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <img id="studentPhotoMobile" class="w-12 h-12 rounded-full border-2 border-white object-cover" src="" alt="Foto Siswa">
+                        <div>
+                            <p class="text-sm font-semibold" id="studentNameMobile"></p>
+                            <p class="text-xs opacity-90" id="studentClassMobile"></p>
+                        </div>
+                    </div>
+                    <div id="mobileProgress" class="text-right text-xs opacity-90">
+                        <p>Progress: <span id="progressText">0%</span></p>
+                        <div class="w-16 h-1 bg-white bg-opacity-30 rounded-full mt-1">
+                            <div id="progressBar" class="h-1 bg-white rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -86,39 +186,29 @@
                 <div class="text-center">
                     <div class="bg-green-100 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
                         <svg class="w-6 h-6 sm:w-8 sm:h-8 text-green-600" fill="currentColor" viewBox="0 0 24 24">
-                            <!-- Sheep body with wool texture -->
                             <ellipse cx="12" cy="15" rx="7" ry="4.5" fill="currentColor" opacity="0.9"/>
-                            <!-- Wool bumps on body -->
                             <circle cx="8" cy="13" r="1.2" fill="currentColor" opacity="0.7"/>
                             <circle cx="10" cy="12" r="1" fill="currentColor" opacity="0.7"/>
                             <circle cx="14" cy="12" r="1" fill="currentColor" opacity="0.7"/>
                             <circle cx="16" cy="13" r="1.2" fill="currentColor" opacity="0.7"/>
-                            <!-- Head -->
                             <ellipse cx="12" cy="8" rx="2.5" ry="3" fill="currentColor"/>
-                            <!-- Snout -->
                             <ellipse cx="12" cy="9.5" rx="1" ry="0.8" fill="currentColor" opacity="0.8"/>
-                            <!-- Ears -->
                             <ellipse cx="10.2" cy="6.5" rx="0.8" ry="1.8" fill="currentColor" opacity="0.9"/>
                             <ellipse cx="13.8" cy="6.5" rx="0.8" ry="1.8" fill="currentColor" opacity="0.9"/>
-                            <!-- Horns (small) -->
                             <rect x="10.8" y="4.5" width="0.4" height="1.5" fill="currentColor" opacity="0.6"/>
                             <rect x="12.8" y="4.5" width="0.4" height="1.5" fill="currentColor" opacity="0.6"/>
-                            <!-- Legs -->
                             <rect x="8.5" y="18.5" width="1.2" height="3" fill="currentColor"/>
                             <rect x="10.5" y="18.5" width="1.2" height="3" fill="currentColor"/>
                             <rect x="12.3" y="18.5" width="1.2" height="3" fill="currentColor"/>
                             <rect x="14.3" y="18.5" width="1.2" height="3" fill="currentColor"/>
-                            <!-- Hooves -->
                             <ellipse cx="9.1" cy="21.8" rx="0.8" ry="0.4" fill="currentColor" opacity="0.8"/>
                             <ellipse cx="11.1" cy="21.8" rx="0.8" ry="0.4" fill="currentColor" opacity="0.8"/>
                             <ellipse cx="12.9" cy="21.8" rx="0.8" ry="0.4" fill="currentColor" opacity="0.8"/>
                             <ellipse cx="14.9" cy="21.8" rx="0.8" ry="0.4" fill="currentColor" opacity="0.8"/>
-                            <!-- Eyes -->
                             <circle cx="11.2" cy="7.5" r="0.4" fill="white"/>
                             <circle cx="12.8" cy="7.5" r="0.4" fill="white"/>
                             <circle cx="11.2" cy="7.5" r="0.2" fill="black"/>
                             <circle cx="12.8" cy="7.5" r="0.2" fill="black"/>
-                            <!-- Tail -->
                             <ellipse cx="18.5" cy="15" rx="0.8" ry="1.5" fill="currentColor" opacity="0.7"/>
                         </svg>
                     </div>
@@ -299,7 +389,7 @@
         <div class="container mx-auto px-3 sm:px-4 py-6">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                 <div>
-                    <h4 class="font-bold mb-3 text-sm sm:text-base">Media Pembelajaran</h4>
+                    <h4 class="font-bold mb-3 text-sm sm:text-base">Media Pembelajaran Interaktif</h4>
                     <p class="text-xs sm:text-sm opacity-90">Fikih Kelas 5 MI - Semester Ganjil</p>
                     <p class="text-xs sm:text-sm opacity-90 mt-1">Materi: Zakat, Infak, Sedekah, Kurban</p>
                 </div>
@@ -332,7 +422,7 @@
             </div>
             <div class="border-t border-white border-opacity-20 mt-6 pt-4 text-center">
                 <p class="text-xs sm:text-sm opacity-90">
-                    © 2025 Emes Media Creativa<br>Dibuat dengan ❤️ untuk pendidikan Islam.
+                    © 2025 Emes Media Interaktif
                 </p>
                 <p class="text-xs opacity-75 mt-1">
                     <i class="fas fa-code mr-1"></i>Powered by AI Technology & Google Sheets Integration
@@ -354,6 +444,7 @@
         let timeLeft = 1800; // 30 minutes
         let studentName = '';
         let studentClass = '';
+        let studentPhoto = '';
 
         // Google Sheets Configuration (Demo - replace with your actual sheet)
         const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbws2qvF_LtwGOJDP9Gt1Lv4Y_s8rubFdOgjPb8I0XPNOiTpr3Tv1FlmfBvszJsLH3hrKQ/exec';
@@ -369,10 +460,89 @@
         }
 
         // Save student data to localStorage
-        function saveStudentData(name, kelas) {
-            const data = { name, class: kelas };
+        function saveStudentData(name, kelas, photo = '') {
+            const data = { name, class: kelas, photo };
             localStorage.setItem('fikih_student_data', JSON.stringify(data));
         }
+
+        // Update student identity display
+        function updateStudentIdentity(name, kelas, photo = '') {
+            // Desktop
+            document.getElementById('studentNameDesktop').textContent = name;
+            document.getElementById('studentClassDesktop').textContent = `Kelas ${kelas}`;
+            document.getElementById('studentPhotoDesktop').src = photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=059669&color=fff&size=128`;
+
+            // Mobile
+            document.getElementById('studentNameMobile').textContent = name;
+            document.getElementById('studentClassMobile').textContent = `Kelas ${kelas}`;
+            document.getElementById('studentPhotoMobile').src = photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=059669&color=fff&size=128`;
+        }
+
+        // Initialize student identity on page load
+        function initializeStudentIdentity() {
+            const savedData = loadStudentData();
+            if (savedData) {
+                studentName = savedData.name;
+                studentClass = savedData.class;
+                studentPhoto = savedData.photo || '';
+                updateStudentIdentity(studentName, studentClass, studentPhoto);
+                document.getElementById('studentForm').style.display = 'none';
+            } else {
+                document.getElementById('studentForm').style.display = 'flex';
+            }
+        }
+
+        // Handle photo preview
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeStudentIdentity();
+            
+            const photoInput = document.getElementById('inputPhoto');
+            const previewPhoto = document.getElementById('previewPhoto');
+            const photoPlaceholder = document.getElementById('photoPlaceholder');
+            
+            photoInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewPhoto.src = e.target.result;
+                        previewPhoto.style.display = 'block';
+                        photoPlaceholder.style.display = 'none';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            // Handle form submission
+            document.getElementById('identityForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('inputName').value;
+                const kelas = document.getElementById('inputClass').value;
+                const photoFile = document.getElementById('inputPhoto').files[0];
+                
+                if (name && kelas) {
+                    studentName = name;
+                    studentClass = kelas;
+                    
+                    if (photoFile) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            studentPhoto = e.target.result;
+                            saveStudentData(studentName, studentClass, studentPhoto);
+                            updateStudentIdentity(studentName, studentClass, studentPhoto);
+                            document.getElementById('studentForm').style.display = 'none';
+                        };
+                        reader.readAsDataURL(photoFile);
+                    } else {
+                        studentPhoto = '';
+                        saveStudentData(studentName, studentClass, studentPhoto);
+                        updateStudentIdentity(studentName, studentClass, studentPhoto);
+                        document.getElementById('studentForm').style.display = 'none';
+                    }
+                }
+            });
+        });
         
         // Function to save results to Google Sheets
         async function saveToGoogleSheets(data) {
@@ -1402,8 +1572,15 @@
                 tab.classList.remove('bg-green-600', 'text-white');
                 tab.classList.add('bg-gray-200', 'text-gray-700');
             });
-            event.target.classList.remove('bg-gray-200', 'text-gray-700');
-            event.target.classList.add('bg-green-600', 'text-white');
+            
+            // Find the clicked button and update its style
+            const clickedButton = Array.from(document.querySelectorAll('.materi-tab')).find(tab => 
+                tab.textContent.toLowerCase().includes(section.toLowerCase())
+            );
+            if (clickedButton) {
+                clickedButton.classList.remove('bg-gray-200', 'text-gray-700');
+                clickedButton.classList.add('bg-green-600', 'text-white');
+            }
 
             // Load content
             const content = materiData[currentTopic][section];
@@ -1493,86 +1670,45 @@
         }
 
         function startEvaluasi(type) {
-            // Load existing student data
-            const savedData = loadStudentData();
+            currentQuizType = type;
             
-            // Collect student information first
-            Swal.fire({
-                title: 'Informasi Siswa',
-                html: `
-                    <div class="text-left space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap:</label>
-                            <input type="text" id="studentName" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Masukkan nama lengkap" value="${savedData ? savedData.name : ''}">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Kelas:</label>
-                            <select id="studentClass" class="w-full p-2 border border-gray-300 rounded-lg">
-                                <option value="">Pilih Kelas</option>
-                                <option value="5A" ${savedData && savedData.class === '5A' ? 'selected' : ''}>5A</option>
-                                <option value="5B" ${savedData && savedData.class === '5B' ? 'selected' : ''}>5B</option>
-                                <option value="5C" ${savedData && savedData.class === '5C' ? 'selected' : ''}>5C</option>
-                                <option value="5D" ${savedData && savedData.class === '5D' ? 'selected' : ''}>5D</option>
-                            </select>
-                        </div>
-                        ${savedData ? '<p class="text-xs text-green-600"><i class="fas fa-info-circle mr-1"></i>Data tersimpan otomatis dari quiz sebelumnya</p>' : ''}
-                    </div>
-                `,
-                showCancelButton: true,
-                confirmButtonText: 'Mulai Quiz',
-                cancelButtonText: 'Batal',
-                confirmButtonColor: '#059669',
-                preConfirm: () => {
-                    const name = document.getElementById('studentName').value;
-                    const kelas = document.getElementById('studentClass').value;
-                    
-                    if (!name || !kelas) {
-                        Swal.showValidationMessage('Mohon lengkapi nama dan kelas!');
-                        return false;
-                    }
-                    
-                    return { name, kelas };
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    studentName = result.value.name;
-                    studentClass = result.value.kelas;
-                    
-                    // Save student data for future use
-                    saveStudentData(studentName, studentClass);
-                    
-                    currentQuizType = type;
-                    
-                    // Generate questions based on type
-                    if (type === 'pilgan') {
-                        quizQuestions = generatePilganQuestions();
-                    } else if (type === 'menjodohkan') {
-                        quizQuestions = generateMenjodohkanQuestions();
-                    } else if (type === 'uraian') {
-                        quizQuestions = generateUraianQuestions();
-                    }
+            // Generate questions based on type
+            if (type === 'pilgan') {
+                quizQuestions = generatePilganQuestions();
+            } else if (type === 'menjodohkan') {
+                quizQuestions = generateMenjodohkanQuestions();
+            } else if (type === 'uraian') {
+                quizQuestions = generateUraianQuestions();
+            }
 
-                    currentQuestionIndex = 0;
-                    userAnswers = new Array(quizQuestions.length).fill(null);
-                    
-                    document.getElementById('totalQuestions').textContent = quizQuestions.length;
-                    document.getElementById('evaluasiContent').classList.add('hidden');
-                    document.getElementById('quizContent').classList.remove('hidden');
-                    
-                    startTimer();
-                    loadQuestion();
-                }
-            });
+            currentQuestionIndex = 0;
+            userAnswers = new Array(quizQuestions.length).fill(null);
+            
+            document.getElementById('totalQuestions').textContent = quizQuestions.length;
+            document.getElementById('evaluasiContent').classList.add('hidden');
+            document.getElementById('quizContent').classList.remove('hidden');
+            
+            startTimer();
+            loadQuestion();
         }
 
         function generatePilganQuestions() {
             const allQuestions = soalData[currentTopic].pilgan;
             // Shuffle and take up to 20 questions
             const shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
-            return shuffled.slice(0, Math.min(20, shuffled.length)).map(q => ({
-                ...q,
-                pilihan: [...q.pilihan].sort(() => Math.random() - 0.5) // Shuffle options
-            }));
+            return shuffled.slice(0, Math.min(20, shuffled.length)).map(q => {
+                // Shuffle options while keeping track of correct answer
+                const originalAnswer = q.jawaban;
+                const originalCorrectOption = q.pilihan[originalAnswer];
+                const shuffledOptions = [...q.pilihan].sort(() => Math.random() - 0.5);
+                const newCorrectIndex = shuffledOptions.indexOf(originalCorrectOption);
+                
+                return {
+                    ...q,
+                    pilihan: shuffledOptions,
+                    jawaban: newCorrectIndex
+                };
+            });
         }
 
         function generateMenjodohkanQuestions() {
@@ -1580,12 +1716,16 @@
             const questions = [];
             
             for (let i = 0; i < Math.min(10, data.kiri.length); i++) {
+                const correctAnswer = data.kanan[i];
+                const shuffledOptions = [...data.kanan].sort(() => Math.random() - 0.5);
+                const correctIndex = shuffledOptions.indexOf(correctAnswer);
+                
                 questions.push({
                     type: 'menjodohkan',
                     soal: `Jodohkan: ${data.kiri[i]}`,
                     kiri: data.kiri[i],
-                    pilihan: [...data.kanan].sort(() => Math.random() - 0.5),
-                    jawaban: data.kanan.indexOf(data.kanan[i])
+                    pilihan: shuffledOptions,
+                    jawaban: correctIndex
                 });
             }
             
@@ -1753,79 +1893,36 @@
                     '<p class="text-xs text-green-600 mt-2"><i class="fas fa-check-circle mr-1"></i>Hasil tersimpan ke Google Sheets</p>' :
                     '<p class="text-xs text-orange-600 mt-2"><i class="fas fa-exclamation-triangle mr-1"></i>Hasil tersimpan lokal (backup)</p>';
                 
+                let gradeText = '';
+                if (finalScore >= 90) gradeText = 'Sangat Baik! 🌟';
+                else if (finalScore >= 80) gradeText = 'Baik! 👍';
+                else if (finalScore >= 70) gradeText = 'Cukup 👌';
+                else gradeText = 'Perlu Belajar Lagi 📚';
+                
                 Swal.fire({
                     title: 'Quiz Selesai!',
                     html: `
                         <div class="text-center">
-                            <div class="mb-4">
-                                <p class="text-sm text-gray-600">Nama: ${studentName}</p>
-                                <p class="text-sm text-gray-600">Kelas: ${studentClass}</p>
-                            </div>
-                            <p class="text-3xl font-bold mb-2 text-green-600">${finalScore}%</p>
-                            <p class="text-lg mb-2">Benar: ${Math.round(score)} dari ${totalQuestions} soal</p>
-                            <p class="text-sm text-gray-600 mb-2">Waktu: ${timeUsedMinutes}:${timeUsedSeconds.toString().padStart(2, '0')}</p>
-                            <div class="text-2xl mb-2">
-                                ${finalScore >= 90 ? '🏆 Luar Biasa!' : 
-                                  finalScore >= 80 ? '🎉 Excellent!' : 
-                                  finalScore >= 70 ? '👍 Good Job!' : 
-                                  finalScore >= 60 ? '👌 Not Bad!' : '📚 Keep Learning!'}
-                            </div>
+                            <h3 class="text-2xl font-bold mb-2">${gradeText}</h3>
+                            <p class="text-lg mb-2">Skor: ${finalScore}/100</p>
+                            <p class="text-sm text-gray-600">Benar: ${Math.round(score)}/${totalQuestions}</p>
+                            <p class="text-sm text-gray-600">Waktu: ${timeUsedMinutes}:${timeUsedSeconds.toString().padStart(2, '0')}</p>
                             ${saveMessage}
                         </div>
                     `,
-                    icon: finalScore >= 70 ? 'success' : 'info',
+                    icon: finalScore >= 70 ? 'success' : 'warning',
                     confirmButtonColor: '#059669',
-                    confirmButtonText: 'Kembali ke Menu',
-                    showCancelButton: true,
-                    cancelButtonText: 'Lihat Detail'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        showEvaluasi();
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-                        showDetailResults(detailedAnswers, finalScore);
-                    }
+                    confirmButtonText: 'Kembali ke Menu'
+                }).then(() => {
+                    showSubMenu(currentTopic);
                 });
             });
         }
-        
-        function showDetailResults(detailedAnswers, finalScore) {
-            let detailHtml = '<div class="text-left max-h-96 overflow-y-auto">';
-            
-            detailedAnswers.forEach((answer, index) => {
-                const isCorrect = currentQuizType === 'uraian' ? answer.skor >= 60 : answer.benar;
-                const bgColor = isCorrect ? 'bg-green-50' : 'bg-red-50';
-                const textColor = isCorrect ? 'text-green-800' : 'text-red-800';
-                
-                detailHtml += `
-                    <div class="mb-4 p-3 ${bgColor} rounded-lg">
-                        <p class="font-semibold text-sm mb-2">${index + 1}. ${answer.soal}</p>
-                        <p class="text-xs mb-1"><strong>Jawaban Anda:</strong> ${answer.jawaban_user}</p>
-                        ${currentQuizType === 'uraian' ? 
-                            `<p class="text-xs mb-1"><strong>Skor:</strong> ${answer.skor}% (${answer.keyword_match} kata kunci)</p>` :
-                            `<p class="text-xs mb-1"><strong>Jawaban Benar:</strong> ${answer.jawaban_benar}</p>`
-                        }
-                        <p class="text-xs ${textColor}">
-                            <i class="fas fa-${isCorrect ? 'check' : 'times'} mr-1"></i>
-                            ${isCorrect ? 'Benar' : 'Salah'}
-                        </p>
-                    </div>
-                `;
-            });
-            
-            detailHtml += '</div>';
-            
-            Swal.fire({
-                title: `Detail Hasil (${finalScore}%)`,
-                html: detailHtml,
-                confirmButtonColor: '#059669',
-                confirmButtonText: 'Tutup',
-                width: '90%',
-                maxWidth: '600px'
-            });
-        }
 
-        // Initialize app
-        showMainMenu();
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeStudentIdentity();
+        });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'976af8a5619a4685',t:'MTc1NjQ1OTIxMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'976b6e7b94419fe9',t:'MTc1NjQ2NDA0MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
