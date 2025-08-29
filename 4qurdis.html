@@ -2886,94 +2886,215 @@
             addPoints(5);
         }
 
-        function startEvaluation(topic, container) {
-            const questions = evaluationData[topic];
-            if (!questions) return;
-            
-            const topicNames = {
-                tajweed: 'Hukum Izhar dan Ikhfa\'',
-                alashr: 'Surah Al-Ashr',
-                quraisy: 'Surah Quraisy',
-                maun: 'Surah Al-Ma\'un',
-                takatsur: 'Surah At-Takatsur',
-                hadis_takwa: 'Hadis tentang Takwa',
-                hadis_niat: 'Hadis tentang Niat'
-            };
-            
-            let currentQuestion = 0;
-            let score = 0;
-            let answers = [];
-            
-            function showQuestion() {
-                const q = questions[currentQuestion];
-                container.innerHTML = `
-                    <div class="max-w-4xl mx-auto">
-                        <div class="text-center mb-6">
-                            <div class="bg-gradient-to-r from-green-100 to-emerald-100 px-6 py-3 rounded-full inline-block border-2 border-green-200">
-                                <p class="text-green-800 font-bold text-lg">📝 Evaluasi: ${topicNames[topic] || topic}</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center justify-between mb-8">
-                            <div class="text-lg font-semibold text-gray-600">
-                                Soal ${currentQuestion + 1} dari ${questions.length}
-                            </div>
-                            <div class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full font-semibold">
-                                Skor: ${score}
-                            </div>
-                        </div>
-                        
-                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-2xl border-2 border-blue-200 mb-8">
-                            <h3 class="text-2xl font-bold text-gray-800 mb-6">${q.question}</h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                ${q.options.map((option, index) => `
-                                    <button onclick="selectAnswer(${index})" class="quiz-option text-left">
-                                        <span class="font-bold mr-3">${String.fromCharCode(65 + index)}.</span>
-                                        ${option}
-                                    </button>
-                                `).join('')}
-                            </div>
-                        </div>
-                        
-                        <div class="text-center">
-                            <div class="bg-gray-200 rounded-full h-2 mb-4">
-                                <div class="progress-bar" style="width: ${((currentQuestion + 1) / questions.length) * 100}%"></div>
-                            </div>
-                        </div>
+function startEvaluation(topic, container) {
+    const questions = evaluationData[topic];
+    if (!questions) return;
+    
+    // Acak soal dan opsi jawaban
+    const randomizedQuestions = prepareRandomizedQuestions(questions);
+    
+    const topicNames = {
+        tajweed: 'Hukum Izhar dan Ikhfa\'',
+        alashr: 'Surah Al-Ashr',
+        quraisy: 'Surah Quraisy',
+        maun: 'Surah Al-Ma\'un',
+        takatsur: 'Surah At-Takatsur',
+        hadis_takwa: 'Hadis tentang Takwa',
+        hadis_niat: 'Hadis tentang Niat'
+    };
+    
+    let currentQuestion = 0;
+    let score = 0;
+    let answers = [];
+    
+    function showQuestion() {
+        const q = randomizedQuestions[currentQuestion];
+        container.innerHTML = `
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-6">
+                    <div class="bg-gradient-to-r from-green-100 to-emerald-100 px-6 py-3 rounded-full inline-block border-2 border-green-200">
+                        <p class="text-green-800 font-bold text-lg">📝 Evaluasi: ${topicNames[topic] || topic}</p>
                     </div>
-                `;
+                </div>
+                
+                <div class="flex items-center justify-between mb-8">
+                    <div class="text-lg font-semibold text-gray-600">
+                        Soal ${currentQuestion + 1} dari ${randomizedQuestions.length}
+                    </div>
+                    <div class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full font-semibold">
+                        Skor: ${score}
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-2xl border-2 border-blue-200 mb-8">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6">${q.question}</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        ${q.options.map((option, index) => `
+                            <button onclick="selectAnswer(${index})" class="quiz-option text-left">
+                                <span class="font-bold mr-3">${String.fromCharCode(65 + index)}.</span>
+                                ${option}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-gray-200 rounded-full h-2 mb-4">
+                        <div class="progress-bar" style="width: ${((currentQuestion + 1) / randomizedQuestions.length) * 100}%"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    window.selectAnswer = function(selectedIndex) {
+        const q = randomizedQuestions[currentQuestion];
+        const isCorrect = selectedIndex === q.correct;
+        
+        if (isCorrect) {
+            score += q.points;
+            addPoints(q.points);
+        }
+        
+        answers.push({
+            question: currentQuestion,
+            selected: selectedIndex,
+            correct: isCorrect,
+            questionText: q.question,
+            correctAnswer: q.options[q.correct]
+        });
+        
+        // Show feedback
+        const options = document.querySelectorAll('.quiz-option');
+        options[selectedIndex].classList.add(isCorrect ? 'correct' : 'incorrect');
+        options[q.correct].classList.add('correct');
+        
+        setTimeout(() => {
+            currentQuestion++;
+            if (currentQuestion < randomizedQuestions.length) {
+                showQuestion();
+            } else {
+                showResults();
             }
-            
-            window.selectAnswer = function(selectedIndex) {
-                const q = questions[currentQuestion];
-                const isCorrect = selectedIndex === q.correct;
-                
-                if (isCorrect) {
-                   score += q.points;
-                    addPoints(q.points);
-                }
-                
-                answers.push({
-                    question: currentQuestion,
-                    selected: selectedIndex,
-                    correct: isCorrect
-                });
-                
-                // Show feedback
-                const options = document.querySelectorAll('.quiz-option');
-                options[selectedIndex].classList.add(isCorrect ? 'correct' : 'incorrect');
-                options[q.correct].classList.add('correct');
-                
-                setTimeout(() => {
-                    currentQuestion++;
-                    if (currentQuestion < questions.length) {
-                        showQuestion();
-                    } else {
-                        showResults();
-                    }
-                }, 2000);
-            };
+        }, 2000);
+    };
 
+    function showResults() {
+        // total poin semua soal
+        const totalPoints = randomizedQuestions.reduce((sum, q) => sum + q.points, 0);
+
+        // hitung persentase & grade
+        const percentage = Math.round((score / totalPoints) * 100);
+        let grade = 'D';
+        if (percentage >= 90) grade = 'A';
+        else if (percentage >= 80) grade = 'B';
+        else if (percentage >= 70) grade = 'C';
+
+        // ambil identitas siswa langsung dari elemen DOM
+        const studentName = (document.getElementById('studentName') || {}).textContent || '';
+        const studentClass = (document.getElementById('studentClass') || {}).textContent || '';
+
+        // tampilkan hasil di layar
+        container.innerHTML = `
+            <div class="max-w-2xl mx-auto text-center">
+                <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-8 rounded-3xl border-2 border-green-200 mb-8">
+                    <div class="text-6xl text-green-600 mb-4">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3 class="text-3xl font-bold text-green-800 mb-4">Evaluasi Selesai!</h3>
+                    <div class="text-6xl font-bold text-green-600 mb-2">${percentage}%</div>
+                    <div class="text-2xl font-bold text-green-700 mb-4">Nilai: ${grade}</div>
+                    <div class="text-lg text-green-600">
+                        Skor: ${score} dari ${totalPoints}
+                    </div>
+                </div>
+                
+                <div class="space-y-4 mb-8">
+                    <h4 class="text-xl font-bold text-gray-800">Ringkasan Jawaban:</h4>
+                    ${answers.map((answer, index) => {
+                        const questionData = randomizedQuestions[answer.question];
+                        return `
+                            <div class="text-left p-4 rounded-lg ${answer.correct ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}">
+                                <div class="font-semibold mb-2">Soal ${index + 1}: ${questionData.question}</div>
+                                <div class="mb-2">Jawaban Anda: <span class="${answer.correct ? 'text-green-600 font-bold' : 'text-red-600'}">${questionData.options[answer.selected]}</span></div>
+                                ${!answer.correct ? `<div class="text-green-600">Jawaban Benar: ${questionData.options[questionData.correct]}</div>` : ''}
+                                <div class="mt-2 text-sm text-gray-500">Status: ${answer.correct ? '<span class="text-green-600">Benar</span>' : '<span class="text-red-600">Salah</span>'}</div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+                
+                <div class="flex justify-center space-x-4">
+                    <button onclick="showSubMenu('${topic}')" 
+                            class="bg-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Kembali
+                    </button>
+                    <button onclick="sendResultToTeacher('${topic}', ${score}, ${totalPoints}, ${percentage}, '${grade}')" 
+                            class="bg-green-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-green-700 transition-colors">
+                        <i class="fas fa-share mr-2"></i>
+                        Kirim ke Guru
+                    </button>
+                </div>
+            </div>
+        `;
+
+        // daftar nama materi
+        const materiNames = {
+            tajweed: "Hukum Izhar dan Ikhfa'",
+            alashr: "Surah Al-Ashr",
+            quraisy: "Surah Quraisy",
+            maun: "Surah Al-Ma'un",
+            takatsur: "Surah At-Takatsur",
+            hadis_takwa: "Hadis tentang Takwa",
+            hadis_niat: "Hadis tentang Niat"
+        };
+
+        // otomatis kirim hasil ke Google Sheet
+        sendResultToSheet(
+            studentName,
+            studentClass,
+            topic,
+            materiNames[topic],
+            score,
+            totalPoints
+        );
+    }
+    
+    showQuestion();
+}
+// Fungsi untuk mengacak array (Fisher-Yates algorithm)
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+// Fungsi untuk mengacak soal dan opsi jawaban
+function prepareRandomizedQuestions(questions) {
+    // Acak urutan soal
+    const shuffledQuestions = shuffleArray([...questions]);
+    
+    // Acak urutan opsi untuk setiap soal
+    return shuffledQuestions.map(question => {
+        // Simpan jawaban yang benar
+        const correctAnswer = question.options[question.correct];
+        
+        // Acak opsi jawaban
+        const shuffledOptions = shuffleArray([...question.options]);
+        
+        // Temukan posisi jawaban benar yang baru
+        const newCorrectIndex = shuffledOptions.indexOf(correctAnswer);
+        
+        return {
+            ...question,
+            options: shuffledOptions,
+            correct: newCorrectIndex
+        };
+    });
+}
  function sendResultToSheet(nama, kelas, mapel, materi, skor, total) {
   // URL Web App milikmu
   const baseUrl = "https://script.google.com/macros/s/AKfycbzalkIZVHeleRFybqBY2j4e8WVXOLnFUwDH9Xe5aScg7Z_O2pkGJzcKBpSt5nAmyug/exec";
