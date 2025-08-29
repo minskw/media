@@ -217,9 +217,12 @@
                 <span class="font-semibold">Media Pembelajaran Fikih</span>
             </div>
             <p class="text-xs text-gray-300 mb-2">Kelas 4 Madrasah Ibtidaiyah</p>
+            
+
+            
             <div class="flex justify-center space-x-4 text-xs text-gray-400">
-                <span><i class="fas fa-calendar mr-1"></i>2025</span>
-                <span><i class="fas fa-code mr-1"></i>Emes Media Creativa</span>
+                <span><i class="fas fa-calendar mr-1"></i>2024</span>
+                <span><i class="fas fa-code mr-1"></i>Interactive Learning</span>
             </div>
             <div class="mt-3 pt-3 border-t border-gray-700">
                 <p class="text-xs text-gray-400">
@@ -248,16 +251,6 @@
         let memoryMatchedPairs = 0;
         let memoryGameScore = 0;
         let memoryGameCards = [];
-// === [TAMBAH BARU] Simpan hasil evaluasi ke Google Sheet ===
-const GSHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyBu2ZdoyhogvGW6FRcFqB-3rDGRWQbMi9LVl8ai3BYZhns1UEerhxbbs3_IIu-C8QQ/exec"; // <- ganti dengan URL Web App Anda
-
-function simpanHasilEvaluasi(nama, kelas, materi, nilai) {
-  fetch(GSHEET_WEBAPP_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ nama, kelas, materi, nilai })
-  }).catch(err => console.error("Gagal kirim ke Sheet:", err));
-}
 
         // Student Profile Functions
         function editStudentInfo() {
@@ -313,19 +306,27 @@ function simpanHasilEvaluasi(nama, kelas, materi, nilai) {
             if (data.photo) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    document.getElementById('studentPhoto').src = e.target.result;
+                    const photoData = e.target.result;
+                    document.getElementById('studentPhoto').src = photoData;
                     document.getElementById('studentPhoto').classList.remove('hidden');
                     document.getElementById('defaultAvatar').classList.add('hidden');
+                    
+                    // Save to localStorage with photo data
+                    localStorage.setItem('studentProfile', JSON.stringify({
+                        name: data.name,
+                        kelas: data.kelas,
+                        photoData: photoData
+                    }));
                 };
                 reader.readAsDataURL(data.photo);
+            } else {
+                // Save without photo
+                localStorage.setItem('studentProfile', JSON.stringify({
+                    name: data.name,
+                    kelas: data.kelas,
+                    photoData: null
+                }));
             }
-            
-            // Save to localStorage
-            localStorage.setItem('studentProfile', JSON.stringify({
-                name: data.name,
-                kelas: data.kelas,
-                photoData: data.photo ? document.getElementById('studentPhoto').src : null
-            }));
             
             Swal.fire({
                 title: 'Profil Tersimpan!',
@@ -1767,44 +1768,59 @@ function simpanHasilEvaluasi(nama, kelas, materi, nilai) {
             }
         }
 
-   function showPilihanGandaResult() {
-  clearInterval(timer);
-  const totalSoal = soalData[currentMateri].pilganSoal.length;
-  const percentage = Math.round((score / (totalSoal * 5)) * 100);
-
-  if (percentage >= 60) {
-    studentProgress[currentMateri].evaluasi = true;
-    updateProgress();
-  }
-
-  let grade, message, icon;
-  if (percentage >= 80) {
-    grade = 'A'; message = 'Excellent! Pemahaman Anda sangat baik.'; icon = 'success';
-  } else if (percentage >= 70) {
-    grade = 'B'; message = 'Good! Pemahaman Anda cukup baik.'; icon = 'success';
-  } else if (percentage >= 60) {
-    grade = 'C'; message = 'Cukup. Perlu belajar lebih giat lagi.'; icon = 'warning';
-  } else {
-    grade = 'D'; message = 'Perlu belajar lebih banyak lagi.'; icon = 'error';
-  }
-
-  // === [TAMBAHAN] Kirim ke Google Sheet ===
-  try {
-    const nama  = document.getElementById('studentName').textContent.trim();
-    const kelas = document.getElementById('studentClass').textContent.trim();
-    simpanHasilEvaluasi(nama, kelas, currentMateri, percentage);
-  } catch (e) { console.error(e); }
-
-  Swal.fire({
-    title: `Nilai Anda: ${grade}`,
-    text: `Skor: ${score}/${totalSoal * 5} (${percentage}%). ${message}`,
-    icon: icon,
-    confirmButtonText: 'Kembali ke Menu'
-  }).then(() => {
-    showEvaluasiMenu();
-  });
-}
-
+        function showPilihanGandaResult() {
+            clearInterval(timer);
+            const totalSoal = soalData[currentMateri].pilganSoal.length;
+            const percentage = Math.round((score / (totalSoal * 5)) * 100);
+            
+            // Mark evaluasi as completed if score >= 60%
+            if (percentage >= 60) {
+                studentProgress[currentMateri].evaluasi = true;
+                updateProgress();
+            }
+            
+            let grade, message, icon;
+            if (percentage >= 80) {
+                grade = 'A';
+                message = 'Excellent! Pemahaman Anda sangat baik.';
+                icon = 'success';
+            } else if (percentage >= 70) {
+                grade = 'B';
+                message = 'Good! Pemahaman Anda cukup baik.';
+                icon = 'success';
+            } else if (percentage >= 60) {
+                grade = 'C';
+                message = 'Cukup. Perlu belajar lebih giat lagi.';
+                icon = 'warning';
+            } else {
+                grade = 'D';
+                message = 'Perlu belajar lebih banyak lagi.';
+                icon = 'error';
+            }
+            
+            // Save result to Google Sheets
+            saveResultToGoogleSheets({
+                nama: document.getElementById('studentName').textContent,
+                kelas: document.getElementById('studentClass').textContent,
+                materi: materiData[currentMateri].title,
+                jenisEvaluasi: 'Pilihan Ganda',
+                skor: score,
+                totalSkor: totalSoal * 5,
+                persentase: percentage,
+                grade: grade,
+                tanggal: new Date().toLocaleString('id-ID'),
+                waktuPengerjaan: Math.round((1200 - timeLeft) / 60) + ' menit'
+            });
+            
+            Swal.fire({
+                title: `Nilai Anda: ${grade}`,
+                text: `Skor: ${score}/${totalSoal * 5} (${percentage}%). ${message}`,
+                icon: icon,
+                confirmButtonText: 'Kembali ke Menu'
+            }).then(() => {
+                showEvaluasiMenu();
+            });
+        }
 
         function completeGame() {
             studentProgress[currentMateri].game = true;
@@ -1877,57 +1893,71 @@ function simpanHasilEvaluasi(nama, kelas, materi, nilai) {
             }
         }
 
- function submitMenjodohkan() {
-  const selects = document.querySelectorAll('#menjodohkanContainer select');
-  let correctCount = 0;
-  let totalAnswered = 0;
+        function submitMenjodohkan() {
+            const selects = document.querySelectorAll('#menjodohkanContainer select');
+            let correctCount = 0;
+            let totalAnswered = 0;
+            
+            selects.forEach(select => {
+                if (select.value !== '') {
+                    totalAnswered++;
+                    if (select.getAttribute('data-correct') === 'true') {
+                        correctCount++;
+                    }
+                }
+            });
+            
+            if (totalAnswered < selects.length) {
+                Swal.fire({
+                    title: 'Belum Lengkap',
+                    text: 'Mohon jawab semua soal terlebih dahulu.',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+            
+            const percentage = Math.round((correctCount / selects.length) * 100);
+            let grade, message, icon;
+            
+            if (percentage >= 80) {
+                grade = 'A';
+                message = 'Excellent! Anda menguasai materi dengan baik.';
+                icon = 'success';
+            } else if (percentage >= 60) {
+                grade = 'B';
+                message = 'Good! Pemahaman Anda cukup baik.';
+                icon = 'success';
+            } else {
+                grade = 'C';
+                message = 'Perlu belajar lebih giat lagi.';
+                icon = 'warning';
+            }
+            
+            // Save result to Google Sheets
+            saveResultToGoogleSheets({
+                nama: document.getElementById('studentName').textContent,
+                kelas: document.getElementById('studentClass').textContent,
+                materi: materiData[currentMateri].title,
+                jenisEvaluasi: 'Menjodohkan',
+                skor: correctCount,
+                totalSkor: selects.length,
+                persentase: percentage,
+                grade: grade,
+                tanggal: new Date().toLocaleString('id-ID'),
+                waktuPengerjaan: 'Tidak dibatasi'
+            });
+            
+            Swal.fire({
+                title: `Nilai: ${grade}`,
+                text: `Benar: ${correctCount}/${selects.length} (${percentage}%). ${message}`,
+                icon: icon,
+                confirmButtonText: 'Kembali ke Menu'
+            }).then(() => {
+                showEvaluasiMenu();
+            });
+        }
 
-  selects.forEach(select => {
-    if (select.value !== '') {
-      totalAnswered++;
-      if (select.getAttribute('data-correct') === 'true') {
-        correctCount++;
-      }
-    }
-  });
-
-  if (totalAnswered < selects.length) {
-    Swal.fire({
-      title: 'Belum Lengkap',
-      text: 'Mohon jawab semua soal terlebih dahulu.',
-      icon: 'warning',
-      confirmButtonText: 'OK'
-    });
-    return;
-  }
-
-  const percentage = Math.round((correctCount / selects.length) * 100);
-  let grade, message, icon;
-
-  if (percentage >= 80) {
-    grade = 'A'; message = 'Excellent! Anda menguasai materi dengan baik.'; icon = 'success';
-  } else if (percentage >= 60) {
-    grade = 'B'; message = 'Good! Pemahaman Anda cukup baik.'; icon = 'success';
-  } else {
-    grade = 'C'; message = 'Perlu belajar lebih giat lagi.'; icon = 'warning';
-  }
-
-  // === [TAMBAHAN] Kirim ke Google Sheet ===
-  try {
-    const nama  = document.getElementById('studentName').textContent.trim();
-    const kelas = document.getElementById('studentClass').textContent.trim();
-    simpanHasilEvaluasi(nama, kelas, currentMateri, percentage);
-  } catch (e) { console.error(e); }
-
-  Swal.fire({
-    title: `Nilai: ${grade}`,
-    text: `Benar: ${correctCount}/${selects.length} (${percentage}%). ${message}`,
-    icon: icon,
-    confirmButtonText: 'Kembali ke Menu'
-  }).then(() => {
-    showEvaluasiMenu();
-  });
-}
         function startTimer() {
             timer = setInterval(() => {
                 timeLeft--;
@@ -2068,6 +2098,92 @@ function simpanHasilEvaluasi(nama, kelas, materi, nilai) {
             }, 2500);
         }
 
+        // Google Sheets Integration
+        function saveResultToGoogleSheets(data) {
+            // Configuration for Google Sheets
+            const GOOGLE_SHEETS_CONFIG = {
+                // Ganti dengan URL Google Apps Script Web App Anda
+                webAppUrl: 'https://script.google.com/macros/s/AKfycbytkgIKNwEvn09Gada9VSQds23H0pJooCZbbVso324T08BnJihZ2h0xvoaDu6SerwuS/exec',
+                enabled: true // Set ke false jika belum setup Google Sheets
+            };
+            
+            if (!GOOGLE_SHEETS_CONFIG.enabled) {
+                // Simpan ke localStorage sebagai backup
+                saveResultToLocalStorage(data);
+                console.log('Google Sheets dinonaktifkan, data disimpan ke localStorage');
+                return;
+            }
+            
+            // Kirim data ke Google Sheets
+            fetch(GOOGLE_SHEETS_CONFIG.webAppUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    action: 'saveEvaluationResult',
+                    data: data
+                })
+            })
+            .then(() => {
+                console.log('✅ Data berhasil disimpan ke Google Sheets');
+                // Juga simpan ke localStorage sebagai backup
+                saveResultToLocalStorage(data);
+                
+                // Show success notification
+                showNotification('Data evaluasi tersimpan ke Google Sheets', 'success');
+            })
+            .catch((error) => {
+                console.error('❌ Error saving to Google Sheets:', error);
+                // Fallback ke localStorage
+                saveResultToLocalStorage(data);
+                showNotification('Data disimpan lokal (Google Sheets tidak tersedia)', 'warning');
+            });
+        }
+        
+        // Notification function
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 p-3 rounded-lg text-white text-sm max-w-sm ${
+                type === 'success' ? 'bg-green-500' : 
+                type === 'warning' ? 'bg-yellow-500' : 
+                type === 'error' ? 'bg-red-500' : 'bg-blue-500'
+            }`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-${type === 'success' ? 'check' : type === 'warning' ? 'exclamation-triangle' : type === 'error' ? 'times' : 'info'} mr-2"></i>
+                    ${message}
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+        
+        function saveResultToLocalStorage(data) {
+            // Ambil data hasil evaluasi yang sudah ada
+            let evaluasiResults = JSON.parse(localStorage.getItem('evaluasiResults') || '[]');
+            
+            // Tambahkan hasil baru
+            evaluasiResults.push({
+                ...data,
+                id: Date.now(), // ID unik berdasarkan timestamp
+                timestamp: new Date().toISOString()
+            });
+            
+            // Simpan kembali ke localStorage
+            localStorage.setItem('evaluasiResults', JSON.stringify(evaluasiResults));
+            
+            console.log('Data hasil evaluasi disimpan ke localStorage');
+        }
+        
+
+
         // Initialize app
         document.addEventListener('DOMContentLoaded', function() {
             loadStudentProfile();
@@ -2075,41 +2191,5 @@ function simpanHasilEvaluasi(nama, kelas, materi, nilai) {
             showHome();
         });
     </script>
-    <script>
-const GOOGLE_SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyF88KS_1FzckoUybFzjWwrT0QTkO-q0bAysr11he9zGhz7r--xPAmcsfXbHLsrGeg8/exec";
-
-async function simpanHasilEvaluasi(nama, kelas, materi, jawaban, skor) {
-  const payload = {
-    nama: nama,
-    kelas: kelas,
-    materi: materi,
-    jawaban: JSON.stringify(jawaban),
-    skor: skor
-  };
-
-  try {
-    await fetch(GOOGLE_SHEET_WEBAPP_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-
-    Swal.fire("Tersimpan!", "Hasil evaluasi berhasil dikirim ke Google Sheets.", "success");
-  } catch (err) {
-    Swal.fire("Gagal!", "Tidak bisa menyimpan hasil ke Google Sheets.", "error");
-  }
-}
-
-function evaluasiSelesai() {
-  const nama   = document.getElementById("studentName").textContent;
-  const kelas  = document.getElementById("studentClass").textContent;
-  const materi = currentMateri;
-  const skor   = score;
-  const jawaban = jawabanSiswa;
-
-  simpanHasilEvaluasi(nama, kelas, materi, jawaban, skor);
-}
-</script>
-
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97691992956f6bc9',t:'MTc1NjQzOTU5MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97696e0e66289e3b',t:'MTc1NjQ0MzA1MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
