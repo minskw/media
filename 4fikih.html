@@ -248,6 +248,16 @@
         let memoryMatchedPairs = 0;
         let memoryGameScore = 0;
         let memoryGameCards = [];
+// === [TAMBAH BARU] Simpan hasil evaluasi ke Google Sheet ===
+const GSHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyBu2ZdoyhogvGW6FRcFqB-3rDGRWQbMi9LVl8ai3BYZhns1UEerhxbbs3_IIu-C8QQ/exec"; // <- ganti dengan URL Web App Anda
+
+function simpanHasilEvaluasi(nama, kelas, materi, nilai) {
+  fetch(GSHEET_WEBAPP_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ nama, kelas, materi, nilai })
+  }).catch(err => console.error("Gagal kirim ke Sheet:", err));
+}
 
         // Student Profile Functions
         function editStudentInfo() {
@@ -1757,45 +1767,44 @@
             }
         }
 
-        function showPilihanGandaResult() {
-            clearInterval(timer);
-            const totalSoal = soalData[currentMateri].pilganSoal.length;
-            const percentage = Math.round((score / (totalSoal * 5)) * 100);
-            
-            // Mark evaluasi as completed if score >= 60%
-            if (percentage >= 60) {
-                studentProgress[currentMateri].evaluasi = true;
-                updateProgress();
-            }
-            
-            let grade, message, icon;
-            if (percentage >= 80) {
-                grade = 'A';
-                message = 'Excellent! Pemahaman Anda sangat baik.';
-                icon = 'success';
-            } else if (percentage >= 70) {
-                grade = 'B';
-                message = 'Good! Pemahaman Anda cukup baik.';
-                icon = 'success';
-            } else if (percentage >= 60) {
-                grade = 'C';
-                message = 'Cukup. Perlu belajar lebih giat lagi.';
-                icon = 'warning';
-            } else {
-                grade = 'D';
-                message = 'Perlu belajar lebih banyak lagi.';
-                icon = 'error';
-            }
-            
-            Swal.fire({
-                title: `Nilai Anda: ${grade}`,
-                text: `Skor: ${score}/${totalSoal * 5} (${percentage}%). ${message}`,
-                icon: icon,
-                confirmButtonText: 'Kembali ke Menu'
-            }).then(() => {
-                showEvaluasiMenu();
-            });
-        }
+   function showPilihanGandaResult() {
+  clearInterval(timer);
+  const totalSoal = soalData[currentMateri].pilganSoal.length;
+  const percentage = Math.round((score / (totalSoal * 5)) * 100);
+
+  if (percentage >= 60) {
+    studentProgress[currentMateri].evaluasi = true;
+    updateProgress();
+  }
+
+  let grade, message, icon;
+  if (percentage >= 80) {
+    grade = 'A'; message = 'Excellent! Pemahaman Anda sangat baik.'; icon = 'success';
+  } else if (percentage >= 70) {
+    grade = 'B'; message = 'Good! Pemahaman Anda cukup baik.'; icon = 'success';
+  } else if (percentage >= 60) {
+    grade = 'C'; message = 'Cukup. Perlu belajar lebih giat lagi.'; icon = 'warning';
+  } else {
+    grade = 'D'; message = 'Perlu belajar lebih banyak lagi.'; icon = 'error';
+  }
+
+  // === [TAMBAHAN] Kirim ke Google Sheet ===
+  try {
+    const nama  = document.getElementById('studentName').textContent.trim();
+    const kelas = document.getElementById('studentClass').textContent.trim();
+    simpanHasilEvaluasi(nama, kelas, currentMateri, percentage);
+  } catch (e) { console.error(e); }
+
+  Swal.fire({
+    title: `Nilai Anda: ${grade}`,
+    text: `Skor: ${score}/${totalSoal * 5} (${percentage}%). ${message}`,
+    icon: icon,
+    confirmButtonText: 'Kembali ke Menu'
+  }).then(() => {
+    showEvaluasiMenu();
+  });
+}
+
 
         function completeGame() {
             studentProgress[currentMateri].game = true;
@@ -1868,57 +1877,57 @@
             }
         }
 
-        function submitMenjodohkan() {
-            const selects = document.querySelectorAll('#menjodohkanContainer select');
-            let correctCount = 0;
-            let totalAnswered = 0;
-            
-            selects.forEach(select => {
-                if (select.value !== '') {
-                    totalAnswered++;
-                    if (select.getAttribute('data-correct') === 'true') {
-                        correctCount++;
-                    }
-                }
-            });
-            
-            if (totalAnswered < selects.length) {
-                Swal.fire({
-                    title: 'Belum Lengkap',
-                    text: 'Mohon jawab semua soal terlebih dahulu.',
-                    icon: 'warning',
-                    confirmButtonText: 'OK'
-                });
-                return;
-            }
-            
-            const percentage = Math.round((correctCount / selects.length) * 100);
-            let grade, message, icon;
-            
-            if (percentage >= 80) {
-                grade = 'A';
-                message = 'Excellent! Anda menguasai materi dengan baik.';
-                icon = 'success';
-            } else if (percentage >= 60) {
-                grade = 'B';
-                message = 'Good! Pemahaman Anda cukup baik.';
-                icon = 'success';
-            } else {
-                grade = 'C';
-                message = 'Perlu belajar lebih giat lagi.';
-                icon = 'warning';
-            }
-            
-            Swal.fire({
-                title: `Nilai: ${grade}`,
-                text: `Benar: ${correctCount}/${selects.length} (${percentage}%). ${message}`,
-                icon: icon,
-                confirmButtonText: 'Kembali ke Menu'
-            }).then(() => {
-                showEvaluasiMenu();
-            });
-        }
+ function submitMenjodohkan() {
+  const selects = document.querySelectorAll('#menjodohkanContainer select');
+  let correctCount = 0;
+  let totalAnswered = 0;
 
+  selects.forEach(select => {
+    if (select.value !== '') {
+      totalAnswered++;
+      if (select.getAttribute('data-correct') === 'true') {
+        correctCount++;
+      }
+    }
+  });
+
+  if (totalAnswered < selects.length) {
+    Swal.fire({
+      title: 'Belum Lengkap',
+      text: 'Mohon jawab semua soal terlebih dahulu.',
+      icon: 'warning',
+      confirmButtonText: 'OK'
+    });
+    return;
+  }
+
+  const percentage = Math.round((correctCount / selects.length) * 100);
+  let grade, message, icon;
+
+  if (percentage >= 80) {
+    grade = 'A'; message = 'Excellent! Anda menguasai materi dengan baik.'; icon = 'success';
+  } else if (percentage >= 60) {
+    grade = 'B'; message = 'Good! Pemahaman Anda cukup baik.'; icon = 'success';
+  } else {
+    grade = 'C'; message = 'Perlu belajar lebih giat lagi.'; icon = 'warning';
+  }
+
+  // === [TAMBAHAN] Kirim ke Google Sheet ===
+  try {
+    const nama  = document.getElementById('studentName').textContent.trim();
+    const kelas = document.getElementById('studentClass').textContent.trim();
+    simpanHasilEvaluasi(nama, kelas, currentMateri, percentage);
+  } catch (e) { console.error(e); }
+
+  Swal.fire({
+    title: `Nilai: ${grade}`,
+    text: `Benar: ${correctCount}/${selects.length} (${percentage}%). ${message}`,
+    icon: icon,
+    confirmButtonText: 'Kembali ke Menu'
+  }).then(() => {
+    showEvaluasiMenu();
+  });
+}
         function startTimer() {
             timer = setInterval(() => {
                 timeLeft--;
