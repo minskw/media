@@ -1694,12 +1694,36 @@
             currentQuestion = 0;
             score = 0;
             timeLeft = 1200; // 20 minutes
+            
+            // Randomize questions order
+            window.randomizedQuestions = [...soalData[currentMateri].pilganSoal].sort(() => Math.random() - 0.5);
+            
             showPilihanGandaQuestion();
             startTimer();
         }
 
         function showPilihanGandaQuestion() {
-            const soal = soalData[currentMateri].pilganSoal[currentQuestion];
+            const soal = window.randomizedQuestions[currentQuestion];
+            
+            // Randomize answer options while keeping track of correct answer
+            const originalCorrectAnswer = soal.jawaban;
+            const originalCorrectText = soal.pilihan[originalCorrectAnswer];
+            
+            // Create array of options with their original indices
+            const optionsWithIndex = soal.pilihan.map((pilihan, index) => ({
+                text: pilihan,
+                originalIndex: index
+            }));
+            
+            // Shuffle the options
+            const shuffledOptions = [...optionsWithIndex].sort(() => Math.random() - 0.5);
+            
+            // Find new position of correct answer
+            const newCorrectIndex = shuffledOptions.findIndex(option => option.originalIndex === originalCorrectAnswer);
+            
+            // Store the correct answer index for this randomized question
+            window.currentCorrectAnswer = newCorrectIndex;
+            
             document.getElementById('evaluasiContent').innerHTML = `
                 <div class="bg-white">
                     <div class="flex justify-between items-center mb-4 p-4 bg-blue-50 rounded-lg">
@@ -1711,10 +1735,10 @@
                         <h4 class="text-lg font-semibold mb-4 text-gray-800">${soal.soal}</h4>
                         
                         <div class="space-y-3">
-                            ${soal.pilihan.map((pilihan, index) => `
+                            ${shuffledOptions.map((option, index) => `
                                 <button onclick="selectAnswer(${index})" class="w-full text-left p-3 border-2 border-gray-200 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition-colors answer-btn">
                                     <span class="font-medium mr-2">${String.fromCharCode(65 + index)}.</span>
-                                    ${pilihan}
+                                    ${option.text}
                                 </button>
                             `).join('')}
                         </div>
@@ -1753,15 +1777,15 @@
         function nextQuestion() {
             if (window.selectedAnswer === undefined) return;
             
-            const soal = soalData[currentMateri].pilganSoal[currentQuestion];
-            if (window.selectedAnswer === soal.jawaban) {
+            // Check if selected answer matches the correct answer for this randomized question
+            if (window.selectedAnswer === window.currentCorrectAnswer) {
                 score += 5;
             }
             
             currentQuestion++;
             window.selectedAnswer = undefined;
             
-            if (currentQuestion < soalData[currentMateri].pilganSoal.length) {
+            if (currentQuestion < window.randomizedQuestions.length) {
                 showPilihanGandaQuestion();
             } else {
                 showPilihanGandaResult();
@@ -1770,7 +1794,7 @@
 
         function showPilihanGandaResult() {
             clearInterval(timer);
-            const totalSoal = soalData[currentMateri].pilganSoal.length;
+            const totalSoal = window.randomizedQuestions.length;
             const percentage = Math.round((score / (totalSoal * 5)) * 100);
             
             // Mark evaluasi as completed if score >= 60%
@@ -1837,8 +1861,14 @@
         }
 
         function startMenjodohkan() {
-            const soalMenjodohkan = soalData[currentMateri].menjodohkanSoal;
+            // Randomize the matching questions order
+            const soalMenjodohkan = [...soalData[currentMateri].menjodohkanSoal].sort(() => Math.random() - 0.5);
+            
+            // Randomize the answer options
             const jawaban = soalMenjodohkan.map(item => item.jawaban).sort(() => Math.random() - 0.5);
+            
+            // Store randomized questions for checking answers
+            window.randomizedMenjodohkanSoal = soalMenjodohkan;
             
             document.getElementById('evaluasiContent').innerHTML = `
                 <div class="bg-white">
@@ -2191,5 +2221,5 @@
             showHome();
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97696e0e66289e3b',t:'MTc1NjQ0MzA1MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97698ce072f1fdbf',t:'MTc1NjQ0NDMxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
