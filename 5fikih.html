@@ -422,7 +422,7 @@
             </div>
             <div class="border-t border-white border-opacity-20 mt-6 pt-4 text-center">
                 <p class="text-xs sm:text-sm opacity-90">
-                    © 2025 Emes Media Interaktif
+                    © 2025 Karya ❤️ Emes Media Interaktif
                 </p>
                 <p class="text-xs opacity-75 mt-1">
                     <i class="fas fa-code mr-1"></i>Powered by AI Technology & Google Sheets Integration
@@ -1774,26 +1774,31 @@
                     </div>
                 `;
             } else if (currentQuizType === 'menjodohkan') {
+                // Get available options (exclude already selected answers)
+                const usedAnswers = userAnswers.filter((answer, idx) => idx !== currentQuestionIndex && answer !== null);
+                const availableOptions = question.pilihan.filter((pilihan, index) => 
+                    !usedAnswers.includes(index) || userAnswers[currentQuestionIndex] == index
+                );
+                
                 questionHtml = `
-                    <h3 class="text-xl font-bold mb-4">${question.soal}</h3>
-                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
-                        <p class="text-sm text-blue-700 mb-2">
-                            <i class="fas fa-info-circle mr-1"></i>
-                            Pilih jawaban yang tepat dari dropdown di bawah:
-                        </p>
-                        <p class="font-semibold text-lg">${question.kiri}</p>
-                    </div>
-                    <div class="space-y-3">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Pilih jawaban:</label>
-                        <select class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-base" 
-                                onchange="saveAnswer(this.value)">
-                            <option value="">-- Pilih Jawaban --</option>
-                            ${question.pilihan.map((pilihan, index) => `
-                                <option value="${index}" ${userAnswers[currentQuestionIndex] == index ? 'selected' : ''}>
-                                    ${pilihan}
-                                </option>
-                            `).join('')}
-                        </select>
+                    <div class="space-y-4">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-700 mb-2">Pertanyaan:</h4>
+                            <p class="text-lg font-bold text-blue-800">${question.kiri}</p>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <label class="block font-semibold text-gray-700 mb-3">Opsi Jawaban:</label>
+                            <select class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-base" 
+                                    onchange="saveAnswer(this.value)">
+                                <option value="">-- Pilih Jawaban --</option>
+                                ${availableOptions.map((pilihan, originalIndex) => {
+                                    const actualIndex = question.pilihan.indexOf(pilihan);
+                                    return `<option value="${actualIndex}" ${userAnswers[currentQuestionIndex] == actualIndex ? 'selected' : ''}>
+                                        ${pilihan}
+                                    </option>`;
+                                }).join('')}
+                            </select>
+                        </div>
                     </div>
                 `;
             } else if (currentQuizType === 'uraian') {
@@ -1855,38 +1860,72 @@
                     });
                 }
             } else if (currentQuizType === 'uraian') {
-                // Enhanced AI-like scoring for essay questions
+                // Improved AI-like scoring for essay questions
                 for (let i = 0; i < quizQuestions.length; i++) {
-                    const userAnswer = (userAnswers[i] || '').toLowerCase();
+                    const userAnswer = (userAnswers[i] || '').toLowerCase().trim();
                     const keyAnswer = quizQuestions[i].kunci.toLowerCase();
                     
-                    // Advanced keyword matching with weights
-                    const keywords = keyAnswer.split(/[.,!?;:\s]+/).filter(word => word.length > 3);
-                    let matchCount = 0;
-                    let totalWeight = keywords.length;
+                    if (!userAnswer) {
+                        detailedAnswers.push({
+                            soal: quizQuestions[i].soal,
+                            jawaban_user: 'Tidak dijawab',
+                            jawaban_kunci: quizQuestions[i].kunci,
+                            skor: 0,
+                            alasan: 'Tidak ada jawaban'
+                        });
+                        continue;
+                    }
                     
-                    keywords.forEach(keyword => {
-                        if (userAnswer.includes(keyword)) {
-                            matchCount++;
+                    // Extract key concepts and important terms
+                    const keyTerms = keyAnswer.match(/\b\w{4,}\b/g) || [];
+                    const uniqueKeyTerms = [...new Set(keyTerms)];
+                    
+                    // Check for concept understanding (not just exact word matching)
+                    let conceptScore = 0;
+                    let matchedConcepts = [];
+                    
+                    // More flexible matching for concepts
+                    uniqueKeyTerms.forEach(term => {
+                        if (userAnswer.includes(term) || 
+                            userAnswer.includes(term.substring(0, term.length-1)) || // partial match
+                            (term.includes('zakat') && userAnswer.includes('zakat')) ||
+                            (term.includes('infak') && userAnswer.includes('infak')) ||
+                            (term.includes('sedekah') && userAnswer.includes('sedekah')) ||
+                            (term.includes('kurban') && userAnswer.includes('kurban'))) {
+                            conceptScore += 1;
+                            matchedConcepts.push(term);
                         }
                     });
                     
-                    // Score based on keyword matches with more nuanced scoring
-                    const percentage = matchCount / totalWeight;
-                    let questionScore = 0;
-                    if (percentage >= 0.8) questionScore = 1;
-                    else if (percentage >= 0.6) questionScore = 0.8;
-                    else if (percentage >= 0.4) questionScore = 0.6;
-                    else if (percentage >= 0.2) questionScore = 0.4;
+                    // Length and effort consideration
+                    const lengthBonus = userAnswer.length > 50 ? 0.2 : 0;
+                    const structureBonus = userAnswer.includes('.') || userAnswer.includes(',') ? 0.1 : 0;
+                    
+                    // Calculate final score with more lenient criteria
+                    const baseScore = Math.min(conceptScore / Math.max(uniqueKeyTerms.length, 1), 1);
+                    let questionScore = baseScore + lengthBonus + structureBonus;
+                    questionScore = Math.min(questionScore, 1); // Cap at 1
+                    
+                    // More generous scoring thresholds
+                    if (questionScore >= 0.3) questionScore = Math.max(questionScore, 0.6);
+                    if (questionScore >= 0.5) questionScore = Math.max(questionScore, 0.75);
+                    if (questionScore >= 0.7) questionScore = Math.max(questionScore, 0.85);
                     
                     score += questionScore;
+                    
+                    let feedback = '';
+                    if (questionScore >= 0.8) feedback = 'Jawaban sangat baik';
+                    else if (questionScore >= 0.6) feedback = 'Jawaban baik, ada beberapa konsep yang tepat';
+                    else if (questionScore >= 0.4) feedback = 'Jawaban cukup, perlu lebih detail';
+                    else feedback = 'Jawaban kurang lengkap';
                     
                     detailedAnswers.push({
                         soal: quizQuestions[i].soal,
                         jawaban_user: userAnswers[i] || 'Tidak dijawab',
                         jawaban_kunci: quizQuestions[i].kunci,
                         skor: Math.round(questionScore * 100),
-                        keyword_match: `${matchCount}/${totalWeight}`
+                        feedback: feedback,
+                        konsep_ditemukan: matchedConcepts.length
                     });
                 }
             }
@@ -1947,5 +1986,5 @@
             initializeStudentIdentity();
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'976b81e996728817',t:'MTc1NjQ2NDgzNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'976b96b9e5168202',t:'MTc1NjQ2NTY4OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
