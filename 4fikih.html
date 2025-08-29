@@ -1,0 +1,2072 @@
+<!DOCTYPE html>
+<html lang="id" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Fikih Kelas 4 MI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .arabic-text { font-family: 'Amiri', serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+        .animate-pulse-slow { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        .islamic-pattern { background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M30 30c0-11.046-8.954-20-20-20s-20 8.954-20 20 8.954 20 20 20 20-8.954 20-20zm0 0c0 11.046 8.954 20 20 20s20-8.954 20-20-8.954-20-20-20-20 8.954-20 20z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
+    </style>
+</head>
+<body class="bg-gray-50 font-['Poppins']">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white p-4 shadow-lg islamic-pattern">
+        <div class="max-w-md mx-auto">
+            <div class="flex items-center">
+                <div class="mr-4">
+                    <i class="fas fa-mosque text-4xl text-yellow-300 animate-pulse-slow"></i>
+                </div>
+                <div class="flex-1">
+                    <p class="text-sm text-emerald-100">Media Pembelajaran Interaktif</p>
+                    <h1 class="text-xl font-bold text-white">Fikih Kelas 4 MI</h1>
+                    <p class="text-sm text-emerald-100">Semester Ganjil</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Student Identity & Progress -->
+    <div id="studentSection" class="max-w-md mx-auto bg-white border-b shadow-sm">
+        <div class="p-4">
+            <div class="flex items-center space-x-4 mb-3">
+                <div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+                    <img id="studentPhoto" src="" alt="Foto Siswa" class="w-full h-full object-cover hidden">
+                    <i class="fas fa-user text-2xl text-gray-400" id="defaultAvatar"></i>
+                </div>
+                <div class="flex-1">
+                    <h3 id="studentName" class="font-semibold text-gray-800">Nama Siswa</h3>
+                    <p id="studentClass" class="text-sm text-gray-600">Kelas 4 MI</p>
+                    <button onclick="editStudentInfo()" class="text-xs text-blue-500 hover:text-blue-700">
+                        <i class="fas fa-edit mr-1"></i>Edit Profil
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="bg-gray-100 rounded-full h-2 mb-2">
+                <div id="progressBar" class="bg-gradient-to-r from-green-400 to-blue-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+            <div class="flex justify-between text-xs text-gray-600">
+                <span>Progress Belajar</span>
+                <span id="progressText">0%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="max-w-md mx-auto bg-white min-h-screen">
+        <!-- Home Screen -->
+        <div id="homeScreen" class="p-4">
+            <div class="text-center mb-6">
+                <div class="bg-gradient-to-r from-emerald-50 to-teal-50 p-4 rounded-xl mb-4">
+                    <h2 class="text-lg font-bold text-gray-800 mb-2">Doa Sebelum Belajar</h2>
+                    <div class="arabic-text text-xl text-emerald-700 mb-2">
+                        رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ عُقْدَةً مِنْ لِسَانِي يَفْقَهُوا قَوْلِي
+                    </div>
+                    <p class="text-sm text-gray-600 italic">
+                        "Ya Tuhanku, lapangkanlah dadaku, mudahkanlah urusanku, dan lepaskanlah kekakuan lidahku agar mereka mengerti perkataanku"
+                    </p>
+                </div>
+                <p class="text-gray-600">Mari belajar Fikih dengan penuh semangat!</p>
+            </div>
+
+            <!-- Main Menu -->
+            <div class="space-y-4">
+                <div class="card-hover bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-xl p-4 text-white cursor-pointer" onclick="showMateri('khitan')">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-child text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg">Khitan</h3>
+                            <p class="text-sm opacity-90">Pelajari tentang khitan dalam Islam</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-hover bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-4 text-white cursor-pointer" onclick="showMateri('balig')">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-pray text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg">Tanda-tanda Balig</h3>
+                            <p class="text-sm opacity-90">Mengenal tanda-tanda kedewasaan</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-hover bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl p-4 text-white cursor-pointer" onclick="showMateri('bersuci')">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-shower text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg">Bersuci dari Hadas Besar</h3>
+                            <p class="text-sm opacity-90">Cara bersuci yang benar</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Materi Screen -->
+        <div id="materiScreen" class="hidden">
+            <!-- Navigation -->
+            <div class="bg-white border-b p-4 flex items-center">
+                <button onclick="showHome()" class="text-emerald-600 mr-3">
+                    <i class="fas fa-arrow-left text-xl"></i>
+                </button>
+                <h2 id="materiTitle" class="text-lg font-semibold text-gray-800"></h2>
+            </div>
+
+            <!-- Sub Menu -->
+            <div class="p-4 space-y-3">
+                <button id="btnPembelajaran" class="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 text-white p-4 rounded-xl flex items-center justify-between card-hover">
+                    <div class="flex items-center">
+                        <i class="fas fa-book text-xl mr-3"></i>
+                        <span class="font-medium">Materi Pembelajaran</span>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+
+                <button id="btnGame" class="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white p-4 rounded-xl flex items-center justify-between card-hover">
+                    <div class="flex items-center">
+                        <i class="fas fa-gamepad text-xl mr-3"></i>
+                        <span class="font-medium">Game Edukasi</span>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+
+                <button id="btnEvaluasi" class="w-full bg-gradient-to-r from-red-500 to-red-600 text-white p-4 rounded-xl flex items-center justify-between card-hover">
+                    <div class="flex items-center">
+                        <i class="fas fa-clipboard-check text-xl mr-3"></i>
+                        <span class="font-medium">Evaluasi</span>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Pembelajaran Screen -->
+        <div id="pembelajaranScreen" class="hidden">
+            <div class="bg-white border-b p-4 flex items-center">
+                <button onclick="showMateri(currentMateri)" class="text-emerald-600 mr-3">
+                    <i class="fas fa-arrow-left text-xl"></i>
+                </button>
+                <h2 class="text-lg font-semibold text-gray-800">Materi Pembelajaran</h2>
+            </div>
+            <div id="pembelajaranContent" class="p-4"></div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="gameScreen" class="hidden">
+            <div class="bg-white border-b p-4 flex items-center">
+                <button onclick="showMateri(currentMateri)" class="text-emerald-600 mr-3">
+                    <i class="fas fa-arrow-left text-xl"></i>
+                </button>
+                <h2 class="text-lg font-semibold text-gray-800">Game Edukasi</h2>
+            </div>
+            <div id="gameContent" class="p-4"></div>
+        </div>
+
+        <!-- Evaluasi Screen -->
+        <div id="evaluasiScreen" class="hidden">
+            <div class="bg-white border-b p-4 flex items-center">
+                <button onclick="showMateri(currentMateri)" class="text-emerald-600 mr-3">
+                    <i class="fas fa-arrow-left text-xl"></i>
+                </button>
+                <h2 class="text-lg font-semibold text-gray-800">Evaluasi</h2>
+            </div>
+            <div id="evaluasiContent" class="p-4"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="max-w-md mx-auto bg-gradient-to-r from-gray-800 to-gray-900 text-white p-4 mt-8">
+        <div class="text-center">
+            <div class="flex items-center justify-center mb-2">
+                <i class="fas fa-graduation-cap text-yellow-400 mr-2"></i>
+                <span class="font-semibold">Media Pembelajaran Fikih Semester 1</span>
+            </div>
+            <p class="text-xs text-gray-300 mb-2">Kelas 4 MIN Singkawang</p>
+            <div class="flex justify-center space-x-4 text-xs text-gray-400">
+                <span><i class="fas fa-calendar mr-1"></i>2025</span>
+                <span><i class="fas fa-code mr-1"></i>Emes Media Creativa</span>
+            </div>
+            <div class="mt-3 pt-3 border-t border-gray-700">
+                <p class="text-xs text-gray-400">
+                    <i class="fas fa-heart text-red-400 mr-1"></i>
+                    Dibuat dengan penuh cinta untuk pendidikan Islam
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentMateri = '';
+        let currentQuestion = 0;
+        let score = 0;
+        let gameScore = 0;
+        let timeLeft = 0;
+        let timer = null;
+        let studentProgress = {
+            khitan: { materi: false, game: false, evaluasi: false },
+            balig: { materi: false, game: false, evaluasi: false },
+            bersuci: { materi: false, game: false, evaluasi: false }
+        };
+
+        // Student Profile Functions
+        function editStudentInfo() {
+            Swal.fire({
+                title: 'Edit Profil Siswa',
+                html: `
+                    <div class="text-left space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
+                            <input type="text" id="inputName" class="w-full border rounded-lg px-3 py-2" placeholder="Masukkan nama lengkap" value="${document.getElementById('studentName').textContent}">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Kelas</label>
+                            <select id="inputClass" class="w-full border rounded-lg px-3 py-2">
+                                <option value="4A MI">4A MI</option>
+                                <option value="4B MI">4B MI</option>
+                                <option value="4C MI">4C MI</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Foto Profil</label>
+                            <input type="file" id="inputPhoto" class="w-full border rounded-lg px-3 py-2" accept="image/*">
+                            <p class="text-xs text-gray-500 mt-1">Upload foto profil (opsional)</p>
+                        </div>
+                    </div>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Simpan',
+                cancelButtonText: 'Batal',
+                preConfirm: () => {
+                    const name = document.getElementById('inputName').value;
+                    const kelas = document.getElementById('inputClass').value;
+                    const photo = document.getElementById('inputPhoto').files[0];
+                    
+                    if (!name.trim()) {
+                        Swal.showValidationMessage('Nama tidak boleh kosong');
+                        return false;
+                    }
+                    
+                    return { name: name.trim(), kelas, photo };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    updateStudentProfile(result.value);
+                }
+            });
+        }
+
+        function updateStudentProfile(data) {
+            document.getElementById('studentName').textContent = data.name;
+            document.getElementById('studentClass').textContent = data.kelas;
+            
+            if (data.photo) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('studentPhoto').src = e.target.result;
+                    document.getElementById('studentPhoto').classList.remove('hidden');
+                    document.getElementById('defaultAvatar').classList.add('hidden');
+                };
+                reader.readAsDataURL(data.photo);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('studentProfile', JSON.stringify({
+                name: data.name,
+                kelas: data.kelas,
+                photoData: data.photo ? document.getElementById('studentPhoto').src : null
+            }));
+            
+            Swal.fire({
+                title: 'Profil Tersimpan!',
+                text: 'Profil siswa berhasil diperbarui.',
+                icon: 'success',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        }
+
+        function loadStudentProfile() {
+            const saved = localStorage.getItem('studentProfile');
+            if (saved) {
+                const profile = JSON.parse(saved);
+                document.getElementById('studentName').textContent = profile.name;
+                document.getElementById('studentClass').textContent = profile.kelas;
+                
+                if (profile.photoData) {
+                    document.getElementById('studentPhoto').src = profile.photoData;
+                    document.getElementById('studentPhoto').classList.remove('hidden');
+                    document.getElementById('defaultAvatar').classList.add('hidden');
+                }
+            }
+        }
+
+        function updateProgress() {
+            let totalCompleted = 0;
+            let totalTasks = 9; // 3 materi x 3 aktivitas
+            
+            Object.values(studentProgress).forEach(materi => {
+                Object.values(materi).forEach(completed => {
+                    if (completed) totalCompleted++;
+                });
+            });
+            
+            const percentage = Math.round((totalCompleted / totalTasks) * 100);
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = percentage + '%';
+            
+            // Save progress
+            localStorage.setItem('studentProgress', JSON.stringify(studentProgress));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('studentProgress');
+            if (saved) {
+                studentProgress = JSON.parse(saved);
+                updateProgress();
+            }
+        }
+
+        // Data Materi
+        const materiData = {
+            khitan: {
+                title: 'Khitan',
+                content: `
+                    <div class="space-y-6">
+                        <div class="bg-gradient-to-r from-green-100 to-green-50 p-4 rounded-xl border-l-4 border-green-500">
+                            <h3 class="font-bold text-lg text-green-800 mb-3 flex items-center">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                Pengertian Khitan
+                            </h3>
+                            <p class="text-gray-700 leading-relaxed">
+                                Khitan adalah memotong kulit yang menutupi ujung kemaluan laki-laki. 
+                                Khitan merupakan sunnah muakkad (sangat dianjurkan) dalam Islam.
+                            </p>
+                        </div>
+
+                        <div class="bg-blue-50 p-4 rounded-xl">
+                            <h4 class="font-semibold text-blue-800 mb-3 flex items-center">
+                                <i class="fas fa-star mr-2"></i>
+                                Hikmah Khitan
+                            </h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                                    Menjaga kebersihan dan kesehatan
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                                    Mengikuti sunnah Nabi Ibrahim AS
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                                    Mencegah penyakit
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-purple-50 p-4 rounded-xl">
+                            <h4 class="font-semibold text-purple-800 mb-3 flex items-center">
+                                <i class="fas fa-clock mr-2"></i>
+                                Waktu Pelaksanaan
+                            </h4>
+                            <p class="text-gray-700">
+                                Khitan sebaiknya dilakukan sejak bayi hingga sebelum baligh. 
+                                Biasanya dilakukan pada usia 7-12 tahun.
+                            </p>
+                        </div>
+
+                        <div class="bg-yellow-50 p-4 rounded-xl">
+                            <h4 class="font-semibold text-yellow-800 mb-3 flex items-center">
+                                <i class="fas fa-book-quran mr-2"></i>
+                                Dalil Khitan
+                            </h4>
+                            <div class="arabic-text text-2xl text-center mb-2 text-gray-800">
+                                الْفِطْرَةُ خَمْسٌ: الْخِتَانُ وَالاِسْتِحْدَادُ وَنَتْفُ الإِبْطِ وَتَقْلِيمُ الأَظْفَارِ وَقَصُّ الشَّارِبِ
+                            </div>
+                            <p class="text-sm text-gray-600 text-center italic">
+                                "Fitrah itu ada lima: khitan, mencukur bulu kemaluan, mencabut bulu ketiak, 
+                                memotong kuku, dan memotong kumis." (HR. Bukhari Muslim)
+                            </p>
+                        </div>
+
+                        <!-- Animasi Khitan -->
+                        <div class="bg-white border-2 border-dashed border-gray-300 p-6 rounded-xl text-center">
+                            <div id="khitanAnimation" class="relative">
+                                <div class="animate-pulse">
+                                    <i class="fas fa-user-md text-6xl text-blue-500 mb-4"></i>
+                                </div>
+                                <h4 class="font-semibold text-gray-800 mb-2">Proses Khitan</h4>
+                                <p class="text-sm text-gray-600 mb-4">Dilakukan oleh tenaga medis yang berpengalaman</p>
+                                <button onclick="startKhitanAnimation()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                                    <i class="fas fa-play mr-2"></i>Lihat Animasi
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            balig: {
+                title: 'Tanda-tanda Balig',
+                content: `
+                    <div class="space-y-6">
+                        <div class="bg-gradient-to-r from-blue-100 to-blue-50 p-4 rounded-xl border-l-4 border-blue-500">
+                            <h3 class="font-bold text-lg text-blue-800 mb-3 flex items-center">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                Pengertian Balig
+                            </h3>
+                            <p class="text-gray-700 leading-relaxed">
+                                Balig adalah masa dimana seseorang sudah dewasa dan mulai dibebani kewajiban syariat Islam. 
+                                Pada masa ini, semua perbuatan sudah dicatat oleh malaikat.
+                            </p>
+                        </div>
+
+                        <div class="bg-green-50 p-4 rounded-xl">
+                            <h4 class="font-semibold text-green-800 mb-3 flex items-center">
+                                <i class="fas fa-male mr-2"></i>
+                                Tanda Balig Laki-laki
+                            </h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fas fa-arrow-right text-green-500 mr-2 mt-1"></i>
+                                    Mimpi basah (ihtilam)
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-arrow-right text-green-500 mr-2 mt-1"></i>
+                                    Tumbuh bulu halus di wajah dan kemaluan
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-arrow-right text-green-500 mr-2 mt-1"></i>
+                                    Suara berubah menjadi berat
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-arrow-right text-green-500 mr-2 mt-1"></i>
+                                    Berusia 15 tahun (jika belum ada tanda)
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-pink-50 p-4 rounded-xl">
+                            <h4 class="font-semibold text-pink-800 mb-3 flex items-center">
+                                <i class="fas fa-female mr-2"></i>
+                                Tanda Balig Perempuan
+                            </h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fas fa-arrow-right text-pink-500 mr-2 mt-1"></i>
+                                    Haid (menstruasi)
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-arrow-right text-pink-500 mr-2 mt-1"></i>
+                                    Tumbuh bulu halus di kemaluan
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-arrow-right text-pink-500 mr-2 mt-1"></i>
+                                    Payudara mulai berkembang
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-arrow-right text-pink-500 mr-2 mt-1"></i>
+                                    Berusia 15 tahun (jika belum ada tanda)
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-purple-50 p-4 rounded-xl">
+                            <h4 class="font-semibold text-purple-800 mb-3 flex items-center">
+                                <i class="fas fa-tasks mr-2"></i>
+                                Kewajiban Setelah Balig
+                            </h4>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="bg-white p-3 rounded-lg text-center">
+                                    <i class="fas fa-pray text-2xl text-purple-500 mb-2"></i>
+                                    <p class="text-sm font-medium">Shalat 5 Waktu</p>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg text-center">
+                                    <i class="fas fa-moon text-2xl text-purple-500 mb-2"></i>
+                                    <p class="text-sm font-medium">Puasa Ramadhan</p>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg text-center">
+                                    <i class="fas fa-hand-holding-heart text-2xl text-purple-500 mb-2"></i>
+                                    <p class="text-sm font-medium">Zakat</p>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg text-center">
+                                    <i class="fas fa-kaaba text-2xl text-purple-500 mb-2"></i>
+                                    <p class="text-sm font-medium">Haji</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-yellow-50 p-4 rounded-xl">
+                            <h4 class="font-semibold text-yellow-800 mb-3 flex items-center">
+                                <i class="fas fa-lightbulb mr-2"></i>
+                                Persiapan Menghadapi Balig
+                            </h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-yellow-500 mr-2 mt-1"></i>
+                                    Belajar tata cara shalat yang benar
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-yellow-500 mr-2 mt-1"></i>
+                                    Memahami cara bersuci dari hadas
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-yellow-500 mr-2 mt-1"></i>
+                                    Menjaga pergaulan yang baik
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-yellow-500 mr-2 mt-1"></i>
+                                    Menambah ilmu agama
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            bersuci: {
+                title: 'Bersuci dari Hadas Besar',
+                content: `
+                    <div class="space-y-6">
+                        <div class="bg-gradient-to-r from-purple-100 to-purple-50 p-4 rounded-xl border-l-4 border-purple-500">
+                            <h3 class="font-bold text-lg text-purple-800 mb-3 flex items-center">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                Pengertian Hadas Besar
+                            </h3>
+                            <p class="text-gray-700 leading-relaxed">
+                                Hadas besar adalah keadaan tidak suci yang mengharuskan seseorang mandi junub (mandi wajib) 
+                                sebelum melakukan ibadah seperti shalat, thawaf, atau menyentuh Al-Qur'an.
+                            </p>
+                        </div>
+
+                        <div class="bg-red-50 p-4 rounded-xl">
+                            <h4 class="font-semibold text-red-800 mb-3 flex items-center">
+                                <i class="fas fa-exclamation-triangle mr-2"></i>
+                                Penyebab Hadas Besar
+                            </h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fas fa-dot-circle text-red-500 mr-2 mt-1"></i>
+                                    Jimak (hubungan suami istri)
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-dot-circle text-red-500 mr-2 mt-1"></i>
+                                    Keluar mani (ihtilam/mimpi basah)
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-dot-circle text-red-500 mr-2 mt-1"></i>
+                                    Haid dan nifas (khusus perempuan)
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-dot-circle text-red-500 mr-2 mt-1"></i>
+                                    Melahirkan (khusus perempuan)
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-blue-50 p-4 rounded-xl">
+                            <h4 class="font-semibold text-blue-800 mb-3 flex items-center">
+                                <i class="fas fa-hand-sparkles mr-2"></i>
+                                Tata Cara Mandi Wajib
+                            </h4>
+                            <div class="space-y-3">
+                                <div class="bg-white p-3 rounded-lg border-l-4 border-blue-400">
+                                    <h5 class="font-medium text-blue-700 mb-1">1. Niat</h5>
+                                    <div class="arabic-text text-lg mb-1">نَوَيْتُ الْغُسْلَ لِرَفْعِ الْحَدَثِ الأَكْبَرِ فَرْضًا لِلَّهِ تَعَالَى</div>
+                                    <p class="text-sm text-gray-600">"Saya niat mandi untuk menghilangkan hadas besar, fardhu karena Allah Ta'ala"</p>
+                                </div>
+                                
+                                <div class="bg-white p-3 rounded-lg border-l-4 border-blue-400">
+                                    <h5 class="font-medium text-blue-700 mb-1">2. Membasuh Kedua Telapak Tangan</h5>
+                                    <p class="text-sm text-gray-600">Bersihkan tangan terlebih dahulu sebelum memulai mandi</p>
+                                </div>
+                                
+                                <div class="bg-white p-3 rounded-lg border-l-4 border-blue-400">
+                                    <h5 class="font-medium text-blue-700 mb-1">3. Membasuh Kemaluan</h5>
+                                    <p class="text-sm text-gray-600">Bersihkan area kemaluan dan sekitarnya</p>
+                                </div>
+                                
+                                <div class="bg-white p-3 rounded-lg border-l-4 border-blue-400">
+                                    <h5 class="font-medium text-blue-700 mb-1">4. Wudhu Seperti Biasa</h5>
+                                    <p class="text-sm text-gray-600">Lakukan wudhu lengkap kecuali membasuh kaki (jika lantai kotor)</p>
+                                </div>
+                                
+                                <div class="bg-white p-3 rounded-lg border-l-4 border-blue-400">
+                                    <h5 class="font-medium text-blue-700 mb-1">5. Siram Kepala 3 Kali</h5>
+                                    <p class="text-sm text-gray-600">Pastikan air sampai ke akar rambut</p>
+                                </div>
+                                
+                                <div class="bg-white p-3 rounded-lg border-l-4 border-blue-400">
+                                    <h5 class="font-medium text-blue-700 mb-1">6. Siram Badan Kanan 3 Kali</h5>
+                                    <p class="text-sm text-gray-600">Mulai dari bahu kanan hingga kaki</p>
+                                </div>
+                                
+                                <div class="bg-white p-3 rounded-lg border-l-4 border-blue-400">
+                                    <h5 class="font-medium text-blue-700 mb-1">7. Siram Badan Kiri 3 Kali</h5>
+                                    <p class="text-sm text-gray-600">Mulai dari bahu kiri hingga kaki</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Animasi Bersuci -->
+                        <div class="bg-white border-2 border-dashed border-gray-300 p-6 rounded-xl text-center">
+                            <div id="bersuciAnimation" class="relative">
+                                <div class="animate-pulse">
+                                    <i class="fas fa-shower text-6xl text-blue-500 mb-4"></i>
+                                </div>
+                                <h4 class="font-semibold text-gray-800 mb-2">Simulasi Mandi Wajib</h4>
+                                <p class="text-sm text-gray-600 mb-4">Pelajari langkah-langkah mandi wajib</p>
+                                <button onclick="startBersuciAnimation()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                                    <i class="fas fa-play mr-2"></i>Mulai Simulasi
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bg-green-50 p-4 rounded-xl">
+                            <h4 class="font-semibold text-green-800 mb-3 flex items-center">
+                                <i class="fas fa-check-circle mr-2"></i>
+                                Hal yang Dilarang Saat Hadas Besar
+                            </h4>
+                            <ul class="space-y-2 text-gray-700">
+                                <li class="flex items-start">
+                                    <i class="fas fa-times-circle text-red-500 mr-2 mt-1"></i>
+                                    Shalat
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-times-circle text-red-500 mr-2 mt-1"></i>
+                                    Menyentuh Al-Qur'an
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-times-circle text-red-500 mr-2 mt-1"></i>
+                                    Thawaf mengelilingi Ka'bah
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-times-circle text-red-500 mr-2 mt-1"></i>
+                                    I'tikaf di masjid
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        // Data Soal Evaluasi
+        const soalData = {
+            khitan: {
+                pilganSoal: [
+                    {
+                        soal: "Khitan dalam Islam hukumnya adalah...",
+                        pilihan: ["Wajib", "Sunnah muakkad", "Mubah", "Makruh"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Khitan sebaiknya dilakukan pada usia...",
+                        pilihan: ["0-3 tahun", "4-6 tahun", "7-12 tahun", "13-15 tahun"],
+                        jawaban: 2
+                    },
+                    {
+                        soal: "Hikmah khitan yang utama adalah...",
+                        pilihan: ["Menambah keimanan", "Menjaga kebersihan", "Menambah rezeki", "Memperpanjang umur"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Khitan merupakan sunnah dari Nabi...",
+                        pilihan: ["Muhammad SAW", "Ibrahim AS", "Musa AS", "Isa AS"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Dalam hadits disebutkan bahwa fitrah itu ada berapa?",
+                        pilihan: ["3", "4", "5", "6"],
+                        jawaban: 2
+                    },
+                    {
+                        soal: "Selain khitan, yang termasuk fitrah adalah...",
+                        pilihan: ["Mandi", "Mencukur bulu kemaluan", "Gosok gigi", "Keramas"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Khitan dilakukan pada bagian...",
+                        pilihan: ["Kepala", "Tangan", "Kemaluan laki-laki", "Kaki"],
+                        jawaban: 2
+                    },
+                    {
+                        soal: "Yang boleh melakukan khitan adalah...",
+                        pilihan: ["Siapa saja", "Tenaga medis", "Orang tua", "Guru"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Setelah khitan, yang harus dijaga adalah...",
+                        pilihan: ["Kebersihan luka", "Tidak boleh mandi", "Tidak boleh shalat", "Tidak boleh makan"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Khitan dapat mencegah...",
+                        pilihan: ["Kelaparan", "Penyakit", "Kemiskinan", "Kebodohan"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Waktu yang tepat untuk khitan adalah...",
+                        pilihan: ["Setelah balig", "Sebelum balig", "Saat balig", "Tidak ada waktu khusus"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Khitan bagi perempuan hukumnya...",
+                        pilihan: ["Wajib", "Sunnah", "Makruh", "Haram"],
+                        jawaban: 2
+                    },
+                    {
+                        soal: "Manfaat khitan untuk kesehatan adalah...",
+                        pilihan: ["Mencegah infeksi", "Menambah tinggi badan", "Memperkuat otot", "Memperlancar darah"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Khitan sebaiknya dilakukan di...",
+                        pilihan: ["Rumah", "Masjid", "Fasilitas kesehatan", "Sekolah"],
+                        jawaban: 2
+                    },
+                    {
+                        soal: "Sebelum khitan, sebaiknya...",
+                        pilihan: ["Puasa", "Shalat", "Periksa kesehatan", "Belajar"],
+                        jawaban: 2
+                    },
+                    {
+                        soal: "Khitan termasuk dalam kategori...",
+                        pilihan: ["Ibadah mahdhah", "Ibadah ghairu mahdhah", "Muamalah", "Jinayah"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Dalil tentang khitan terdapat dalam...",
+                        pilihan: ["Al-Qur'an saja", "Hadits saja", "Al-Qur'an dan Hadits", "Ijma ulama"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Khitan dilakukan dengan cara...",
+                        pilihan: ["Memotong kulit", "Mencuci", "Mengoles obat", "Memijat"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Setelah khitan, anak laki-laki menjadi lebih...",
+                        pilihan: ["Tinggi", "Bersih", "Kuat", "Pintar"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Khitan merupakan tradisi yang sudah ada sejak zaman...",
+                        pilihan: ["Nabi Muhammad", "Nabi Ibrahim", "Nabi Musa", "Nabi Isa"],
+                        jawaban: 1
+                    }
+                ],
+                menjodohkanSoal: [
+                    {
+                        soal: "Khitan",
+                        jawaban: "Sunnah muakkad"
+                    },
+                    {
+                        soal: "Fitrah",
+                        jawaban: "Lima perkara"
+                    },
+                    {
+                        soal: "Hikmah khitan",
+                        jawaban: "Kebersihan"
+                    },
+                    {
+                        soal: "Waktu khitan",
+                        jawaban: "Sebelum balig"
+                    },
+                    {
+                        soal: "Pelaksana khitan",
+                        jawaban: "Tenaga medis"
+                    }
+                ]
+            },
+            balig: {
+                pilganSoal: [
+                    {
+                        soal: "Balig artinya...",
+                        pilihan: ["Anak-anak", "Dewasa", "Tua", "Muda"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Tanda balig laki-laki yang utama adalah...",
+                        pilihan: ["Tinggi bertambah", "Ihtilam", "Berat badan naik", "Suara berubah"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Tanda balig perempuan yang utama adalah...",
+                        pilihan: ["Payudara berkembang", "Haid", "Tinggi bertambah", "Suara berubah"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Usia maksimal balig adalah...",
+                        pilihan: ["12 tahun", "13 tahun", "14 tahun", "15 tahun"],
+                        jawaban: 3
+                    },
+                    {
+                        soal: "Setelah balig, seseorang wajib...",
+                        pilihan: ["Sekolah", "Bekerja", "Shalat", "Menikah"],
+                        jawaban: 2
+                    },
+                    {
+                        soal: "Ihtilam adalah...",
+                        pilihan: ["Mimpi biasa", "Mimpi basah", "Mimpi buruk", "Mimpi indah"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Haid adalah...",
+                        pilihan: ["Penyakit", "Proses alami", "Kecelakaan", "Hukuman"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Setelah balig, amal perbuatan...",
+                        pilihan: ["Tidak dicatat", "Dicatat malaikat", "Diabaikan", "Dilupakan"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Kewajiban setelah balig kecuali...",
+                        pilihan: ["Shalat", "Puasa", "Zakat", "Bermain"],
+                        jawaban: 3
+                    },
+                    {
+                        soal: "Perubahan suara pada laki-laki saat balig menjadi...",
+                        pilihan: ["Lebih tinggi", "Lebih berat", "Lebih pelan", "Lebih keras"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Tumbuhnya bulu halus merupakan tanda balig untuk...",
+                        pilihan: ["Laki-laki saja", "Perempuan saja", "Keduanya", "Tidak ada"],
+                        jawaban: 2
+                    },
+                    {
+                        soal: "Masa balig dimulai saat...",
+                        pilihan: ["Lahir", "Usia 7 tahun", "Ada tanda balig", "Usia 20 tahun"],
+                        jawaban: 2
+                    },
+                    {
+                        soal: "Sebelum balig, anak...",
+                        pilihan: ["Sudah mukallaf", "Belum mukallaf", "Setengah mukallaf", "Tidak jelas"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Mukallaf artinya...",
+                        pilihan: ["Anak kecil", "Orang dewasa", "Dibebani kewajiban syariat", "Bebas dari kewajiban"],
+                        jawaban: 2
+                    },
+                    {
+                        soal: "Persiapan menghadapi balig yang penting adalah...",
+                        pilihan: ["Belajar agama", "Bermain", "Tidur", "Makan"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Setelah balig, jika tidak shalat maka...",
+                        pilihan: ["Tidak apa-apa", "Berdosa", "Biasa saja", "Dipuji"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Haid biasanya terjadi setiap...",
+                        pilihan: ["Hari", "Minggu", "Bulan", "Tahun"],
+                        jawaban: 2
+                    },
+                    {
+                        soal: "Saat haid, perempuan tidak boleh...",
+                        pilihan: ["Makan", "Minum", "Shalat", "Tidur"],
+                        jawaban: 2
+                    },
+                    {
+                        soal: "Balig bagi laki-laki dan perempuan...",
+                        pilihan: ["Sama", "Berbeda", "Tidak ada", "Tidak jelas"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Setelah balig, seseorang harus...",
+                        pilihan: ["Bertanggung jawab", "Bermain terus", "Tidak peduli", "Malas-malasan"],
+                        jawaban: 0
+                    }
+                ],
+                menjodohkanSoal: [
+                    {
+                        soal: "Balig",
+                        jawaban: "Dewasa"
+                    },
+                    {
+                        soal: "Ihtilam",
+                        jawaban: "Mimpi basah"
+                    },
+                    {
+                        soal: "Haid",
+                        jawaban: "Menstruasi"
+                    },
+                    {
+                        soal: "Mukallaf",
+                        jawaban: "Dibebani syariat"
+                    },
+                    {
+                        soal: "Usia maksimal balig",
+                        jawaban: "15 tahun"
+                    }
+                ]
+            },
+            bersuci: {
+                pilganSoal: [
+                    {
+                        soal: "Hadas besar adalah...",
+                        pilihan: ["Keadaan suci", "Keadaan tidak suci berat", "Keadaan biasa", "Keadaan sakit"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Cara bersuci dari hadas besar adalah...",
+                        pilihan: ["Wudhu", "Tayamum", "Mandi wajib", "Istinja"],
+                        jawaban: 2
+                    },
+                    {
+                        soal: "Penyebab hadas besar kecuali...",
+                        pilihan: ["Jimak", "Ihtilam", "Haid", "Kentut"],
+                        jawaban: 3
+                    },
+                    {
+                        soal: "Niat mandi wajib harus...",
+                        pilihan: ["Diucapkan keras", "Dalam hati", "Ditulis", "Tidak perlu"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Langkah pertama mandi wajib adalah...",
+                        pilihan: ["Siram kepala", "Niat", "Wudhu", "Siram badan"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Setelah niat, langkah selanjutnya adalah...",
+                        pilihan: ["Siram kepala", "Basuh tangan", "Wudhu", "Siram badan"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Kepala disiram berapa kali?",
+                        pilihan: ["1 kali", "2 kali", "3 kali", "4 kali"],
+                        jawaban: 2
+                    },
+                    {
+                        soal: "Urutan menyiram badan adalah...",
+                        pilihan: ["Kiri dulu", "Kanan dulu", "Bersamaan", "Tidak ada urutan"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Saat hadas besar, tidak boleh...",
+                        pilihan: ["Makan", "Minum", "Shalat", "Tidur"],
+                        jawaban: 2
+                    },
+                    {
+                        soal: "Hadas besar pada perempuan disebabkan...",
+                        pilihan: ["Haid saja", "Nifas saja", "Haid dan nifas", "Tidak ada"],
+                        jawaban: 2
+                    },
+                    {
+                        soal: "Nifas adalah...",
+                        pilihan: ["Darah haid", "Darah setelah melahirkan", "Darah luka", "Darah mimisan"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Air yang digunakan untuk mandi wajib harus...",
+                        pilihan: ["Panas", "Dingin", "Suci dan mensucikan", "Banyak"],
+                        jawaban: 2
+                    },
+                    {
+                        soal: "Sebelum mandi wajib, sebaiknya...",
+                        pilihan: ["Makan", "Wudhu", "Tidur", "Bermain"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Mandi wajib hukumnya...",
+                        pilihan: ["Sunnah", "Wajib", "Mubah", "Makruh"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Jika tidak ada air, pengganti mandi wajib adalah...",
+                        pilihan: ["Wudhu", "Tayamum", "Tidak ada", "Menunggu"],
+                        jawaban: 1
+                    },
+                    {
+                        soal: "Mandi wajib harus membasahi...",
+                        pilihan: ["Kepala saja", "Badan saja", "Seluruh tubuh", "Tangan saja"],
+                        jawaban: 2
+                    },
+                    {
+                        soal: "Setelah mandi wajib, seseorang menjadi...",
+                        pilihan: ["Hadas kecil", "Hadas besar", "Suci", "Najis"],
+                        jawaban: 2
+                    },
+                    {
+                        soal: "Mandi wajib boleh dilakukan dengan...",
+                        pilihan: ["Air panas saja", "Air dingin saja", "Air suam-suam kuku", "Semua benar"],
+                        jawaban: 3
+                    },
+                    {
+                        soal: "Rukun mandi wajib yang utama adalah...",
+                        pilihan: ["Niat dan membasahi seluruh tubuh", "Wudhu", "Doa", "Menghadap kiblat"],
+                        jawaban: 0
+                    },
+                    {
+                        soal: "Mandi wajib sebaiknya dilakukan...",
+                        pilihan: ["Secepatnya", "Besok", "Minggu depan", "Kapan saja"],
+                        jawaban: 0
+                    }
+                ],
+                menjodohkanSoal: [
+                    {
+                        soal: "Hadas besar",
+                        jawaban: "Mandi wajib"
+                    },
+                    {
+                        soal: "Jimak",
+                        jawaban: "Penyebab hadas besar"
+                    },
+                    {
+                        soal: "Niat",
+                        jawaban: "Rukun mandi wajib"
+                    },
+                    {
+                        soal: "Seluruh tubuh",
+                        jawaban: "Harus dibasahi"
+                    },
+                    {
+                        soal: "Air suci",
+                        jawaban: "Syarat mandi wajib"
+                    }
+                ]
+            }
+        };
+
+        // Game Data
+        const gameData = {
+            memory: {
+                khitan: [
+                    {icon: 'fas fa-cut', text: 'Khitan'},
+                    {icon: 'fas fa-user-md', text: 'Dokter'},
+                    {icon: 'fas fa-heart', text: 'Kesehatan'},
+                    {icon: 'fas fa-star', text: 'Sunnah'},
+                    {icon: 'fas fa-child', text: 'Anak'},
+                    {icon: 'fas fa-mosque', text: 'Islam'}
+                ],
+                balig: [
+                    {icon: 'fas fa-user-graduate', text: 'Balig'},
+                    {icon: 'fas fa-pray', text: 'Shalat'},
+                    {icon: 'fas fa-moon', text: 'Puasa'},
+                    {icon: 'fas fa-male', text: 'Laki-laki'},
+                    {icon: 'fas fa-female', text: 'Perempuan'},
+                    {icon: 'fas fa-calendar', text: '15 Tahun'}
+                ],
+                bersuci: [
+                    {icon: 'fas fa-shower', text: 'Mandi'},
+                    {icon: 'fas fa-hands-wash', text: 'Bersuci'},
+                    {icon: 'fas fa-water', text: 'Air'},
+                    {icon: 'fas fa-heart', text: 'Niat'},
+                    {icon: 'fas fa-user', text: 'Tubuh'},
+                    {icon: 'fas fa-check', text: 'Suci'}
+                ]
+            },
+            matching: {
+                khitan: [
+                    {question: 'Hukum khitan', answer: 'Sunnah muakkad'},
+                    {question: 'Hikmah khitan', answer: 'Kebersihan'},
+                    {question: 'Waktu khitan', answer: 'Sebelum balig'},
+                    {question: 'Pelaksana khitan', answer: 'Tenaga medis'}
+                ],
+                balig: [
+                    {question: 'Tanda balig laki-laki', answer: 'Ihtilam'},
+                    {question: 'Tanda balig perempuan', answer: 'Haid'},
+                    {question: 'Usia maksimal balig', answer: '15 tahun'},
+                    {question: 'Kewajiban setelah balig', answer: 'Shalat'}
+                ],
+                bersuci: [
+                    {question: 'Cara bersuci hadas besar', answer: 'Mandi wajib'},
+                    {question: 'Penyebab hadas besar', answer: 'Jimak'},
+                    {question: 'Rukun mandi wajib', answer: 'Niat'},
+                    {question: 'Yang harus dibasahi', answer: 'Seluruh tubuh'}
+                ]
+            }
+        };
+
+        // Navigation Functions
+        function showHome() {
+            hideAllScreens();
+            document.getElementById('homeScreen').classList.remove('hidden');
+        }
+
+        function showMateri(materi) {
+            currentMateri = materi;
+            hideAllScreens();
+            document.getElementById('materiScreen').classList.remove('hidden');
+            document.getElementById('materiTitle').textContent = materiData[materi].title;
+            
+            // Set event listeners for sub menu
+            document.getElementById('btnPembelajaran').onclick = () => showPembelajaran();
+            document.getElementById('btnGame').onclick = () => showGame();
+            document.getElementById('btnEvaluasi').onclick = () => showEvaluasi();
+        }
+
+        function showPembelajaran() {
+            hideAllScreens();
+            document.getElementById('pembelajaranScreen').classList.remove('hidden');
+            document.getElementById('pembelajaranContent').innerHTML = materiData[currentMateri].content + `
+                <div class="mt-6 text-center">
+                    <button onclick="completeMateri()" class="bg-green-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-600 transition-colors">
+                        <i class="fas fa-check mr-2"></i>Selesai Belajar Materi
+                    </button>
+                </div>
+            `;
+        }
+
+        function completeMateri() {
+            studentProgress[currentMateri].materi = true;
+            updateProgress();
+            
+            Swal.fire({
+                title: 'Materi Selesai!',
+                text: 'Anda telah menyelesaikan materi pembelajaran.',
+                icon: 'success',
+                confirmButtonText: 'Lanjut ke Game'
+            }).then(() => {
+                showGame();
+            });
+        }
+
+        function showGame() {
+            hideAllScreens();
+            document.getElementById('gameScreen').classList.remove('hidden');
+            showGameMenu();
+        }
+
+        function showEvaluasi() {
+            hideAllScreens();
+            document.getElementById('evaluasiScreen').classList.remove('hidden');
+            showEvaluasiMenu();
+        }
+
+        function hideAllScreens() {
+            const screens = ['homeScreen', 'materiScreen', 'pembelajaranScreen', 'gameScreen', 'evaluasiScreen'];
+            screens.forEach(screen => {
+                document.getElementById(screen).classList.add('hidden');
+            });
+        }
+
+        // Game Functions
+        function showGameMenu() {
+            document.getElementById('gameContent').innerHTML = `
+                <div class="space-y-4">
+                    <div class="text-center mb-6">
+                        <i class="fas fa-gamepad text-5xl text-orange-500 mb-3"></i>
+                        <h3 class="text-xl font-bold text-gray-800">Pilih Game Edukasi</h3>
+                    </div>
+                    
+                    <button onclick="startMemoryGame()" class="w-full bg-gradient-to-r from-pink-500 to-pink-600 text-white p-4 rounded-xl flex items-center justify-between card-hover">
+                        <div class="flex items-center">
+                            <i class="fas fa-brain text-xl mr-3"></i>
+                            <span class="font-medium">Memory Game</span>
+                        </div>
+                        <i class="fas fa-play"></i>
+                    </button>
+                    
+                    <button onclick="startMatchingGame()" class="w-full bg-gradient-to-r from-indigo-500 to-indigo-600 text-white p-4 rounded-xl flex items-center justify-between card-hover">
+                        <div class="flex items-center">
+                            <i class="fas fa-puzzle-piece text-xl mr-3"></i>
+                            <span class="font-medium">Matching Game</span>
+                        </div>
+                        <i class="fas fa-play"></i>
+                    </button>
+                    
+                    <button onclick="startSimulationGame()" class="w-full bg-gradient-to-r from-teal-500 to-teal-600 text-white p-4 rounded-xl flex items-center justify-between card-hover">
+                        <div class="flex items-center">
+                            <i class="fas fa-vr-cardboard text-xl mr-3"></i>
+                            <span class="font-medium">Simulasi</span>
+                        </div>
+                        <i class="fas fa-play"></i>
+                    </button>
+                </div>
+            `;
+        }
+
+        function startMemoryGame() {
+            const cards = gameData.memory[currentMateri];
+            const gameCards = [...cards, ...cards].sort(() => Math.random() - 0.5);
+            let flippedCards = [];
+            let matchedPairs = 0;
+            gameScore = 0;
+            
+            document.getElementById('gameContent').innerHTML = `
+                <div class="text-center mb-4">
+                    <h3 class="text-lg font-bold text-gray-800">Memory Game - ${materiData[currentMateri].title}</h3>
+                    <p class="text-sm text-gray-600">Skor: <span id="memoryScore">0</span></p>
+                </div>
+                <div class="grid grid-cols-3 gap-3" id="memoryBoard"></div>
+                <button onclick="showGameMenu()" class="w-full mt-4 bg-gray-500 text-white p-3 rounded-lg">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Menu Game
+                </button>
+            `;
+            
+            const board = document.getElementById('memoryBoard');
+            gameCards.forEach((card, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'bg-purple-500 text-white p-4 rounded-lg text-center cursor-pointer card-hover aspect-square flex flex-col items-center justify-center';
+                cardElement.innerHTML = `
+                    <div class="card-front hidden">
+                        <i class="${card.icon} text-2xl mb-1"></i>
+                        <p class="text-xs">${card.text}</p>
+                    </div>
+                    <div class="card-back">
+                        <i class="fas fa-question text-2xl"></i>
+                    </div>
+                `;
+                cardElement.onclick = () => flipCard(cardElement, card, index);
+                board.appendChild(cardElement);
+            });
+        }
+
+        function flipCard(element, card, index) {
+            if (element.classList.contains('flipped') || flippedCards.length >= 2) return;
+            
+            element.classList.add('flipped');
+            element.querySelector('.card-front').classList.remove('hidden');
+            element.querySelector('.card-back').classList.add('hidden');
+            element.style.backgroundColor = '#10b981';
+            
+            flippedCards.push({element, card, index});
+            
+            if (flippedCards.length === 2) {
+                setTimeout(() => {
+                    if (flippedCards[0].card.text === flippedCards[1].card.text) {
+                        // Match found
+                        matchedPairs++;
+                        gameScore += 10;
+                        document.getElementById('memoryScore').textContent = gameScore;
+                        
+                        if (matchedPairs === gameData.memory[currentMateri].length) {
+                            Swal.fire({
+                                title: 'Selamat!',
+                                text: `Anda berhasil menyelesaikan Memory Game dengan skor ${gameScore}!`,
+                                icon: 'success',
+                                confirmButtonText: 'Main Lagi'
+                            }).then(() => startMemoryGame());
+                        }
+                    } else {
+                        // No match
+                        flippedCards.forEach(({element}) => {
+                            element.classList.remove('flipped');
+                            element.querySelector('.card-front').classList.add('hidden');
+                            element.querySelector('.card-back').classList.remove('hidden');
+                            element.style.backgroundColor = '#8b5cf6';
+                        });
+                    }
+                    flippedCards = [];
+                }, 1000);
+            }
+        }
+
+        function startMatchingGame() {
+            const matchData = gameData.matching[currentMateri];
+            const shuffledAnswers = [...matchData.map(item => item.answer)].sort(() => Math.random() - 0.5);
+            let correctMatches = 0;
+            
+            document.getElementById('gameContent').innerHTML = `
+                <div class="text-center mb-4">
+                    <h3 class="text-lg font-bold text-gray-800">Matching Game - ${materiData[currentMateri].title}</h3>
+                    <p class="text-sm text-gray-600">Cocokkan pertanyaan dengan jawaban yang tepat</p>
+                </div>
+                <div class="space-y-4" id="matchingContainer"></div>
+                <button onclick="showGameMenu()" class="w-full mt-4 bg-gray-500 text-white p-3 rounded-lg">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Menu Game
+                </button>
+            `;
+            
+            const container = document.getElementById('matchingContainer');
+            matchData.forEach((item, index) => {
+                const matchElement = document.createElement('div');
+                matchElement.className = 'bg-white border-2 border-gray-200 rounded-lg p-4';
+                matchElement.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div class="font-medium text-gray-800">${item.question}</div>
+                        <select class="border rounded px-3 py-1" onchange="checkMatch(this, '${item.answer}', ${index})">
+                            <option value="">Pilih jawaban...</option>
+                            ${shuffledAnswers.map(answer => `<option value="${answer}">${answer}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div id="result-${index}" class="mt-2 text-sm"></div>
+                `;
+                container.appendChild(matchElement);
+            });
+        }
+
+        function checkMatch(select, correctAnswer, index) {
+            const resultDiv = document.getElementById(`result-${index}`);
+            if (select.value === correctAnswer) {
+                resultDiv.innerHTML = '<i class="fas fa-check text-green-500 mr-1"></i>Benar!';
+                resultDiv.className = 'mt-2 text-sm text-green-600';
+                select.style.borderColor = '#10b981';
+                
+                // Check if all matches are correct
+                const allSelects = document.querySelectorAll('#matchingContainer select');
+                const correctCount = Array.from(allSelects).filter(s => s.style.borderColor === 'rgb(16, 185, 129)').length;
+                
+                if (correctCount === gameData.matching[currentMateri].length) {
+                    setTimeout(() => {
+                        Swal.fire({
+                            title: 'Excellent!',
+                            text: 'Semua jawaban benar! Anda menguasai materi ini.',
+                            icon: 'success',
+                            confirmButtonText: 'Main Lagi'
+                        }).then(() => startMatchingGame());
+                    }, 500);
+                }
+            } else if (select.value !== '') {
+                resultDiv.innerHTML = '<i class="fas fa-times text-red-500 mr-1"></i>Salah, coba lagi!';
+                resultDiv.className = 'mt-2 text-sm text-red-600';
+                select.style.borderColor = '#ef4444';
+            }
+        }
+
+        function startSimulationGame() {
+            let simulationContent = '';
+            
+            if (currentMateri === 'khitan') {
+                simulationContent = `
+                    <div class="text-center mb-4">
+                        <h3 class="text-lg font-bold text-gray-800">Simulasi Persiapan Khitan</h3>
+                        <p class="text-sm text-gray-600">Pelajari langkah-langkah persiapan khitan</p>
+                    </div>
+                    
+                    <!-- Illustration -->
+                    <div class="bg-gradient-to-br from-emerald-100 to-emerald-50 p-6 rounded-xl mb-4 text-center">
+                        <div class="text-6xl mb-3">🏥</div>
+                        <div class="flex justify-center items-center space-x-2 mb-2">
+                            <span class="text-3xl">👨‍⚕️</span>
+                            <span class="text-2xl">➕</span>
+                            <span class="text-3xl">👶</span>
+                        </div>
+                        <p class="text-sm text-emerald-700 font-medium">Konsultasi dengan Dokter</p>
+                    </div>
+                    
+                    <div class="space-y-4" id="simulationSteps">
+                        <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-user-md text-2xl text-blue-600 mr-3"></i>
+                                <h4 class="font-semibold text-blue-800">Langkah 1: Konsultasi Dokter</h4>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-1">Periksa kesehatan anak sebelum khitan</p>
+                            <button onclick="nextSimulationStep(1)" class="mt-2 bg-blue-500 text-white px-3 py-1 rounded text-sm">Lanjut</button>
+                        </div>
+                    </div>
+                `;
+            } else if (currentMateri === 'bersuci') {
+                simulationContent = `
+                    <div class="text-center mb-4">
+                        <h3 class="text-lg font-bold text-gray-800">Simulasi Mandi Wajib</h3>
+                        <p class="text-sm text-gray-600">Praktikkan langkah-langkah mandi wajib</p>
+                    </div>
+                    
+                    <!-- Illustration -->
+                    <div class="bg-gradient-to-br from-teal-100 to-teal-50 p-6 rounded-xl mb-4 text-center">
+                        <div class="text-6xl mb-3">🚿</div>
+                        <div class="flex justify-center items-center space-x-2 mb-2">
+                            <span class="text-3xl">💧</span>
+                            <span class="text-3xl">🧼</span>
+                            <span class="text-3xl">🤲</span>
+                        </div>
+                        <p class="text-sm text-teal-700 font-medium">Mandi Wajib</p>
+                    </div>
+                    
+                    <div class="space-y-4" id="simulationSteps">
+                        <div class="bg-teal-50 p-4 rounded-lg border-l-4 border-teal-400">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-heart text-2xl text-teal-600 mr-3"></i>
+                                <h4 class="font-semibold text-teal-800">Langkah 1: Niat</h4>
+                            </div>
+                            <div class="arabic-text text-lg my-2">نَوَيْتُ الْغُسْلَ لِرَفْعِ الْحَدَثِ الأَكْبَرِ فَرْضًا لِلَّهِ تَعَالَى</div>
+                            <p class="text-sm text-gray-600">Niat dalam hati untuk mandi wajib</p>
+                            <button onclick="nextSimulationStep(1)" class="mt-2 bg-teal-500 text-white px-3 py-1 rounded text-sm">Lanjut</button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                simulationContent = `
+                    <div class="text-center mb-4">
+                        <h3 class="text-lg font-bold text-gray-800">Simulasi Persiapan Balig</h3>
+                        <p class="text-sm text-gray-600">Persiapan menghadapi masa balig</p>
+                    </div>
+                    
+                    <!-- Illustration -->
+                    <div class="bg-gradient-to-br from-emerald-100 to-emerald-50 p-6 rounded-xl mb-4 text-center">
+                        <div class="text-6xl mb-3">🕌</div>
+                        <div class="flex justify-center items-center space-x-2 mb-2">
+                            <span class="text-3xl">🤲</span>
+                            <span class="text-3xl">📖</span>
+                            <span class="text-3xl">🙏</span>
+                        </div>
+                        <p class="text-sm text-emerald-700 font-medium">Belajar Ibadah</p>
+                    </div>
+                    
+                    <div class="space-y-4" id="simulationSteps">
+                        <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-400">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-pray text-2xl text-green-600 mr-3"></i>
+                                <h4 class="font-semibold text-green-800">Langkah 1: Belajar Shalat</h4>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-1">Pelajari tata cara shalat yang benar</p>
+                            <button onclick="nextSimulationStep(1)" class="mt-2 bg-green-500 text-white px-3 py-1 rounded text-sm">Lanjut</button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('gameContent').innerHTML = simulationContent + `
+                <button onclick="completeGame()" class="w-full mt-4 bg-orange-500 text-white p-3 rounded-lg">
+                    <i class="fas fa-trophy mr-2"></i>Selesai Game
+                </button>
+                <button onclick="showGameMenu()" class="w-full mt-2 bg-gray-500 text-white p-3 rounded-lg">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali ke Menu Game
+                </button>
+            `;
+        }
+
+        function nextSimulationStep(step) {
+            // Simple simulation progression
+            const steps = document.getElementById('simulationSteps');
+            const nextStepContent = getNextSimulationStep(step);
+            if (nextStepContent) {
+                steps.innerHTML += nextStepContent;
+            } else {
+                Swal.fire({
+                    title: 'Simulasi Selesai!',
+                    text: 'Anda telah menyelesaikan simulasi dengan baik.',
+                    icon: 'success',
+                    confirmButtonText: 'Ulangi'
+                }).then(() => startSimulationGame());
+            }
+        }
+
+        function getNextSimulationStep(step) {
+            const simulationSteps = {
+                khitan: [
+                    null,
+                    `<div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-400">
+                        <h4 class="font-semibold text-green-800">Langkah 2: Persiapan Mental</h4>
+                        <p class="text-sm text-gray-600 mt-1">Berikan pengertian kepada anak tentang khitan</p>
+                        <button onclick="nextSimulationStep(2)" class="mt-2 bg-green-500 text-white px-3 py-1 rounded text-sm">Lanjut</button>
+                    </div>`,
+                    `<div class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-400">
+                        <h4 class="font-semibold text-yellow-800">Langkah 3: Hari H</h4>
+                        <p class="text-sm text-gray-600 mt-1">Dampingi anak saat proses khitan</p>
+                        <button onclick="nextSimulationStep(3)" class="mt-2 bg-yellow-500 text-white px-3 py-1 rounded text-sm">Selesai</button>
+                    </div>`
+                ],
+                bersuci: [
+                    null,
+                    `<div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400">
+                        <h4 class="font-semibold text-blue-800">Langkah 2: Basuh Tangan</h4>
+                        <p class="text-sm text-gray-600 mt-1">Bersihkan kedua telapak tangan</p>
+                        <button onclick="nextSimulationStep(2)" class="mt-2 bg-blue-500 text-white px-3 py-1 rounded text-sm">Lanjut</button>
+                    </div>`,
+                    `<div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-400">
+                        <h4 class="font-semibold text-green-800">Langkah 3: Wudhu</h4>
+                        <p class="text-sm text-gray-600 mt-1">Lakukan wudhu seperti biasa</p>
+                        <button onclick="nextSimulationStep(3)" class="mt-2 bg-green-500 text-white px-3 py-1 rounded text-sm">Lanjut</button>
+                    </div>`,
+                    `<div class="bg-red-50 p-4 rounded-lg border-l-4 border-red-400">
+                        <h4 class="font-semibold text-red-800">Langkah 4: Siram Seluruh Tubuh</h4>
+                        <p class="text-sm text-gray-600 mt-1">Siram kepala, badan kanan, lalu badan kiri</p>
+                        <button onclick="nextSimulationStep(4)" class="mt-2 bg-red-500 text-white px-3 py-1 rounded text-sm">Selesai</button>
+                    </div>`
+                ],
+                balig: [
+                    null,
+                    `<div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400">
+                        <h4 class="font-semibold text-blue-800">Langkah 2: Belajar Wudhu</h4>
+                        <p class="text-sm text-gray-600 mt-1">Kuasai tata cara wudhu yang benar</p>
+                        <button onclick="nextSimulationStep(2)" class="mt-2 bg-blue-500 text-white px-3 py-1 rounded text-sm">Lanjut</button>
+                    </div>`,
+                    `<div class="bg-purple-50 p-4 rounded-lg border-l-4 border-purple-400">
+                        <h4 class="font-semibold text-purple-800">Langkah 3: Belajar Mengaji</h4>
+                        <p class="text-sm text-gray-600 mt-1">Tingkatkan kemampuan membaca Al-Qur'an</p>
+                        <button onclick="nextSimulationStep(3)" class="mt-2 bg-purple-500 text-white px-3 py-1 rounded text-sm">Selesai</button>
+                    </div>`
+                ]
+            };
+            
+            return simulationSteps[currentMateri] ? simulationSteps[currentMateri][step] : null;
+        }
+
+        // Evaluasi Functions
+        function showEvaluasiMenu() {
+            document.getElementById('evaluasiContent').innerHTML = `
+                <div class="space-y-4">
+                    <div class="text-center mb-6">
+                        <i class="fas fa-clipboard-check text-5xl text-red-500 mb-3"></i>
+                        <h3 class="text-xl font-bold text-gray-800">Evaluasi Pembelajaran</h3>
+                        <p class="text-sm text-gray-600">Uji pemahaman Anda tentang ${materiData[currentMateri].title}</p>
+                    </div>
+                    
+                    <button onclick="startPilihanGanda()" class="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white p-4 rounded-xl flex items-center justify-between card-hover">
+                        <div class="flex items-center">
+                            <i class="fas fa-list-ul text-xl mr-3"></i>
+                            <div class="text-left">
+                                <div class="font-medium">Pilihan Ganda</div>
+                                <div class="text-sm opacity-90">20 Soal</div>
+                            </div>
+                        </div>
+                        <i class="fas fa-play"></i>
+                    </button>
+                    
+                    <button onclick="startMenjodohkan()" class="w-full bg-gradient-to-r from-green-500 to-green-600 text-white p-4 rounded-xl flex items-center justify-between card-hover">
+                        <div class="flex items-center">
+                            <i class="fas fa-link text-xl mr-3"></i>
+                            <div class="text-left">
+                                <div class="font-medium">Menjodohkan</div>
+                                <div class="text-sm opacity-90">5 Soal</div>
+                            </div>
+                        </div>
+                        <i class="fas fa-play"></i>
+                    </button>
+                </div>
+            `;
+        }
+
+        function startPilihanGanda() {
+            currentQuestion = 0;
+            score = 0;
+            timeLeft = 1200; // 20 minutes
+            showPilihanGandaQuestion();
+            startTimer();
+        }
+
+        function showPilihanGandaQuestion() {
+            const soal = soalData[currentMateri].pilganSoal[currentQuestion];
+            document.getElementById('evaluasiContent').innerHTML = `
+                <div class="bg-white">
+                    <div class="flex justify-between items-center mb-4 p-4 bg-blue-50 rounded-lg">
+                        <span class="text-sm font-medium">Soal ${currentQuestion + 1}/20</span>
+                        <span class="text-sm font-medium" id="timer">20:00</span>
+                    </div>
+                    
+                    <div class="p-4">
+                        <h4 class="text-lg font-semibold mb-4 text-gray-800">${soal.soal}</h4>
+                        
+                        <div class="space-y-3">
+                            ${soal.pilihan.map((pilihan, index) => `
+                                <button onclick="selectAnswer(${index})" class="w-full text-left p-3 border-2 border-gray-200 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition-colors answer-btn">
+                                    <span class="font-medium mr-2">${String.fromCharCode(65 + index)}.</span>
+                                    ${pilihan}
+                                </button>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="mt-6 flex justify-between">
+                            <button onclick="showEvaluasiMenu()" class="bg-gray-500 text-white px-4 py-2 rounded-lg">
+                                <i class="fas fa-arrow-left mr-2"></i>Kembali
+                            </button>
+                            <button id="nextBtn" onclick="nextQuestion()" class="bg-blue-500 text-white px-4 py-2 rounded-lg opacity-50 cursor-not-allowed" disabled>
+                                Selanjutnya <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectAnswer(selectedIndex) {
+            const buttons = document.querySelectorAll('.answer-btn');
+            buttons.forEach((btn, index) => {
+                btn.classList.remove('border-blue-400', 'bg-blue-50', 'border-green-400', 'bg-green-50');
+                if (index === selectedIndex) {
+                    btn.classList.add('border-blue-400', 'bg-blue-50');
+                }
+            });
+            
+            // Store selected answer
+            window.selectedAnswer = selectedIndex;
+            
+            // Enable next button
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            nextBtn.disabled = false;
+        }
+
+        function nextQuestion() {
+            if (window.selectedAnswer === undefined) return;
+            
+            const soal = soalData[currentMateri].pilganSoal[currentQuestion];
+            if (window.selectedAnswer === soal.jawaban) {
+                score += 5;
+            }
+            
+            currentQuestion++;
+            window.selectedAnswer = undefined;
+            
+            if (currentQuestion < soalData[currentMateri].pilganSoal.length) {
+                showPilihanGandaQuestion();
+            } else {
+                showPilihanGandaResult();
+            }
+        }
+
+        function showPilihanGandaResult() {
+            clearInterval(timer);
+            const totalSoal = soalData[currentMateri].pilganSoal.length;
+            const percentage = Math.round((score / (totalSoal * 5)) * 100);
+            
+            // Mark evaluasi as completed if score >= 60%
+            if (percentage >= 60) {
+                studentProgress[currentMateri].evaluasi = true;
+                updateProgress();
+            }
+            
+            let grade, message, icon;
+            if (percentage >= 80) {
+                grade = 'A';
+                message = 'Excellent! Pemahaman Anda sangat baik.';
+                icon = 'success';
+            } else if (percentage >= 70) {
+                grade = 'B';
+                message = 'Good! Pemahaman Anda cukup baik.';
+                icon = 'success';
+            } else if (percentage >= 60) {
+                grade = 'C';
+                message = 'Cukup. Perlu belajar lebih giat lagi.';
+                icon = 'warning';
+            } else {
+                grade = 'D';
+                message = 'Perlu belajar lebih banyak lagi.';
+                icon = 'error';
+            }
+            
+            Swal.fire({
+                title: `Nilai Anda: ${grade}`,
+                text: `Skor: ${score}/${totalSoal * 5} (${percentage}%). ${message}`,
+                icon: icon,
+                confirmButtonText: 'Kembali ke Menu'
+            }).then(() => {
+                showEvaluasiMenu();
+            });
+        }
+
+        function completeGame() {
+            studentProgress[currentMateri].game = true;
+            updateProgress();
+            
+            Swal.fire({
+                title: 'Game Selesai!',
+                text: 'Anda telah menyelesaikan game edukasi.',
+                icon: 'success',
+                confirmButtonText: 'Lanjut ke Evaluasi'
+            }).then(() => {
+                showEvaluasi();
+            });
+        }
+
+        function startMenjodohkan() {
+            const soalMenjodohkan = soalData[currentMateri].menjodohkanSoal;
+            const jawaban = soalMenjodohkan.map(item => item.jawaban).sort(() => Math.random() - 0.5);
+            
+            document.getElementById('evaluasiContent').innerHTML = `
+                <div class="bg-white">
+                    <div class="p-4 bg-green-50 rounded-lg mb-4">
+                        <h3 class="text-lg font-bold text-green-800">Soal Menjodohkan</h3>
+                        <p class="text-sm text-green-600">Cocokkan pertanyaan dengan jawaban yang tepat</p>
+                    </div>
+                    
+                    <div class="p-4 space-y-4" id="menjodohkanContainer">
+                        ${soalMenjodohkan.map((item, index) => `
+                            <div class="border-2 border-gray-200 rounded-lg p-4">
+                                <div class="flex items-center justify-between">
+                                    <div class="font-medium text-gray-800 flex-1">${item.soal}</div>
+                                    <select class="border rounded px-3 py-1 ml-4" onchange="checkMenjodohkan(this, '${item.jawaban}', ${index})">
+                                        <option value="">Pilih...</option>
+                                        ${jawaban.map(j => `<option value="${j}">${j}</option>`).join('')}
+                                    </select>
+                                </div>
+                                <div id="menjodohkan-result-${index}" class="mt-2 text-sm"></div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="p-4">
+                        <button onclick="submitMenjodohkan()" class="w-full bg-green-500 text-white p-3 rounded-lg font-medium">
+                            <i class="fas fa-check mr-2"></i>Submit Jawaban
+                        </button>
+                        <button onclick="showEvaluasiMenu()" class="w-full mt-2 bg-gray-500 text-white p-3 rounded-lg">
+                            <i class="fas fa-arrow-left mr-2"></i>Kembali
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function checkMenjodohkan(select, correctAnswer, index) {
+            const resultDiv = document.getElementById(`menjodohkan-result-${index}`);
+            if (select.value === correctAnswer) {
+                resultDiv.innerHTML = '<i class="fas fa-check text-green-500 mr-1"></i>Benar!';
+                resultDiv.className = 'mt-2 text-sm text-green-600';
+                select.style.borderColor = '#10b981';
+                select.setAttribute('data-correct', 'true');
+            } else if (select.value !== '') {
+                resultDiv.innerHTML = '<i class="fas fa-times text-red-500 mr-1"></i>Salah';
+                resultDiv.className = 'mt-2 text-sm text-red-600';
+                select.style.borderColor = '#ef4444';
+                select.setAttribute('data-correct', 'false');
+            } else {
+                resultDiv.innerHTML = '';
+                select.style.borderColor = '#d1d5db';
+                select.removeAttribute('data-correct');
+            }
+        }
+
+        function submitMenjodohkan() {
+            const selects = document.querySelectorAll('#menjodohkanContainer select');
+            let correctCount = 0;
+            let totalAnswered = 0;
+            
+            selects.forEach(select => {
+                if (select.value !== '') {
+                    totalAnswered++;
+                    if (select.getAttribute('data-correct') === 'true') {
+                        correctCount++;
+                    }
+                }
+            });
+            
+            if (totalAnswered < selects.length) {
+                Swal.fire({
+                    title: 'Belum Lengkap',
+                    text: 'Mohon jawab semua soal terlebih dahulu.',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+            
+            const percentage = Math.round((correctCount / selects.length) * 100);
+            let grade, message, icon;
+            
+            if (percentage >= 80) {
+                grade = 'A';
+                message = 'Excellent! Anda menguasai materi dengan baik.';
+                icon = 'success';
+            } else if (percentage >= 60) {
+                grade = 'B';
+                message = 'Good! Pemahaman Anda cukup baik.';
+                icon = 'success';
+            } else {
+                grade = 'C';
+                message = 'Perlu belajar lebih giat lagi.';
+                icon = 'warning';
+            }
+            
+            Swal.fire({
+                title: `Nilai: ${grade}`,
+                text: `Benar: ${correctCount}/${selects.length} (${percentage}%). ${message}`,
+                icon: icon,
+                confirmButtonText: 'Kembali ke Menu'
+            }).then(() => {
+                showEvaluasiMenu();
+            });
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                document.getElementById('timer').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    Swal.fire({
+                        title: 'Waktu Habis!',
+                        text: 'Evaluasi akan berakhir otomatis.',
+                        icon: 'warning',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        showPilihanGandaResult();
+                    });
+                }
+            }, 1000);
+        }
+
+        // Animation Functions
+        function startKhitanAnimation() {
+            const animationDiv = document.getElementById('khitanAnimation');
+            let step = 0;
+            const steps = [
+                {
+                    icon: 'fas fa-user-md',
+                    title: 'Konsultasi Dokter',
+                    desc: 'Periksa kesehatan anak'
+                },
+                {
+                    icon: 'fas fa-syringe',
+                    title: 'Persiapan Alat',
+                    desc: 'Sterilisasi alat medis'
+                },
+                {
+                    icon: 'fas fa-cut',
+                    title: 'Proses Khitan',
+                    desc: 'Dilakukan dengan hati-hati'
+                },
+                {
+                    icon: 'fas fa-band-aid',
+                    title: 'Perawatan',
+                    desc: 'Jaga kebersihan luka'
+                }
+            ];
+            
+            const interval = setInterval(() => {
+                if (step < steps.length) {
+                    const currentStep = steps[step];
+                    animationDiv.innerHTML = `
+                        <div class="animate-pulse">
+                            <i class="${currentStep.icon} text-6xl text-blue-500 mb-4"></i>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 mb-2">${currentStep.title}</h4>
+                        <p class="text-sm text-gray-600">${currentStep.desc}</p>
+                        <div class="mt-3 bg-blue-200 rounded-full h-2">
+                            <div class="bg-blue-500 h-2 rounded-full transition-all duration-500" style="width: ${((step + 1) / steps.length) * 100}%"></div>
+                        </div>
+                    `;
+                    step++;
+                } else {
+                    clearInterval(interval);
+                    animationDiv.innerHTML = `
+                        <div class="text-green-500">
+                            <i class="fas fa-check-circle text-6xl mb-4"></i>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Khitan Selesai</h4>
+                        <p class="text-sm text-gray-600 mb-4">Anak sudah menjalankan sunnah khitan</p>
+                        <button onclick="startKhitanAnimation()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                            <i class="fas fa-redo mr-2"></i>Ulangi Animasi
+                        </button>
+                    `;
+                }
+            }, 2000);
+        }
+
+        function startBersuciAnimation() {
+            const animationDiv = document.getElementById('bersuciAnimation');
+            let step = 0;
+            const steps = [
+                {
+                    icon: 'fas fa-heart',
+                    title: 'Niat',
+                    desc: 'Berniat mandi wajib dalam hati'
+                },
+                {
+                    icon: 'fas fa-hands',
+                    title: 'Basuh Tangan',
+                    desc: 'Bersihkan kedua telapak tangan'
+                },
+                {
+                    icon: 'fas fa-tint',
+                    title: 'Wudhu',
+                    desc: 'Lakukan wudhu seperti biasa'
+                },
+                {
+                    icon: 'fas fa-shower',
+                    title: 'Siram Kepala',
+                    desc: 'Siram kepala hingga basah'
+                },
+                {
+                    icon: 'fas fa-user',
+                    title: 'Siram Badan',
+                    desc: 'Siram seluruh badan'
+                }
+            ];
+            
+            const interval = setInterval(() => {
+                if (step < steps.length) {
+                    const currentStep = steps[step];
+                    animationDiv.innerHTML = `
+                        <div class="animate-pulse">
+                            <i class="${currentStep.icon} text-6xl text-blue-500 mb-4"></i>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 mb-2">${currentStep.title}</h4>
+                        <p class="text-sm text-gray-600">${currentStep.desc}</p>
+                        <div class="mt-3 bg-blue-200 rounded-full h-2">
+                            <div class="bg-blue-500 h-2 rounded-full transition-all duration-500" style="width: ${((step + 1) / steps.length) * 100}%"></div>
+                        </div>
+                    `;
+                    step++;
+                } else {
+                    clearInterval(interval);
+                    animationDiv.innerHTML = `
+                        <div class="text-green-500">
+                            <i class="fas fa-check-circle text-6xl mb-4"></i>
+                        </div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Mandi Wajib Selesai</h4>
+                        <p class="text-sm text-gray-600 mb-4">Anda sudah suci dari hadas besar</p>
+                        <button onclick="startBersuciAnimation()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                            <i class="fas fa-redo mr-2"></i>Ulangi Simulasi
+                        </button>
+                    `;
+                }
+            }, 2500);
+        }
+
+        // Missing simulation step functions with illustrations
+        function getNextSimulationStep(step) {
+            const simulationSteps = {
+                khitan: [
+                    null,
+                    `<div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-400">
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-heart text-2xl text-green-600 mr-3"></i>
+                            <h4 class="font-semibold text-green-800">Langkah 2: Persiapan Mental</h4>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg mb-2 text-center">
+                            <div class="text-4xl mb-2">😊</div>
+                            <div class="flex justify-center space-x-1">
+                                <span class="text-2xl">💚</span>
+                                <span class="text-2xl">🤗</span>
+                                <span class="text-2xl">✨</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Berikan pengertian kepada anak tentang khitan</p>
+                        <button onclick="nextSimulationStep(2)" class="mt-2 bg-green-500 text-white px-3 py-1 rounded text-sm">Lanjut</button>
+                    </div>`,
+                    `<div class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-400">
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-calendar-check text-2xl text-yellow-600 mr-3"></i>
+                            <h4 class="font-semibold text-yellow-800">Langkah 3: Hari H</h4>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg mb-2 text-center">
+                            <div class="text-4xl mb-2">🏥</div>
+                            <div class="flex justify-center space-x-1">
+                                <span class="text-2xl">👨‍⚕️</span>
+                                <span class="text-2xl">👶</span>
+                                <span class="text-2xl">❤️</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Dampingi anak saat proses khitan</p>
+                        <button onclick="nextSimulationStep(3)" class="mt-2 bg-yellow-500 text-white px-3 py-1 rounded text-sm">Selesai</button>
+                    </div>`
+                ],
+                bersuci: [
+                    null,
+                    `<div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400">
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-hands text-2xl text-blue-600 mr-3"></i>
+                            <h4 class="font-semibold text-blue-800">Langkah 2: Basuh Tangan</h4>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg mb-2 text-center">
+                            <div class="text-4xl mb-2">🤲</div>
+                            <div class="flex justify-center space-x-1">
+                                <span class="text-2xl">💧</span>
+                                <span class="text-2xl">🧼</span>
+                                <span class="text-2xl">✨</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Bersihkan kedua telapak tangan</p>
+                        <button onclick="nextSimulationStep(2)" class="mt-2 bg-blue-500 text-white px-3 py-1 rounded text-sm">Lanjut</button>
+                    </div>`,
+                    `<div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-400">
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-tint text-2xl text-green-600 mr-3"></i>
+                            <h4 class="font-semibold text-green-800">Langkah 3: Wudhu</h4>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg mb-2 text-center">
+                            <div class="text-4xl mb-2">🕊️</div>
+                            <div class="flex justify-center space-x-1">
+                                <span class="text-2xl">💧</span>
+                                <span class="text-2xl">🤲</span>
+                                <span class="text-2xl">🌟</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Lakukan wudhu seperti biasa</p>
+                        <button onclick="nextSimulationStep(3)" class="mt-2 bg-green-500 text-white px-3 py-1 rounded text-sm">Lanjut</button>
+                    </div>`,
+                    `<div class="bg-red-50 p-4 rounded-lg border-l-4 border-red-400">
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-shower text-2xl text-red-600 mr-3"></i>
+                            <h4 class="font-semibold text-red-800">Langkah 4: Siram Seluruh Tubuh</h4>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg mb-2">
+                            <svg width="80" height="60" viewBox="0 0 80 60" class="mx-auto">
+                                <rect x="30" y="5" width="20" height="5" fill="#6b7280" rx="2"/>
+                                <circle cx="32" cy="12" r="1" fill="#3b82f6"/>
+                                <circle cx="36" cy="15" r="1" fill="#3b82f6"/>
+                                <circle cx="40" cy="13" r="1" fill="#3b82f6"/>
+                                <circle cx="44" cy="16" r="1" fill="#3b82f6"/>
+                                <circle cx="48" cy="12" r="1" fill="#3b82f6"/>
+                                <circle cx="40" cy="30" r="8" fill="#fbbf24"/>
+                                <rect x="34" y="38" width="12" height="18" fill="#8b5cf6" rx="2"/>
+                                <rect x="30" y="56" width="6" height="4" fill="#1f2937"/>
+                                <rect x="44" y="56" width="6" height="4" fill="#1f2937"/>
+                            </svg>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Siram kepala, badan kanan, lalu badan kiri</p>
+                        <button onclick="nextSimulationStep(4)" class="mt-2 bg-red-500 text-white px-3 py-1 rounded text-sm">Selesai</button>
+                    </div>`
+                ],
+                balig: [
+                    null,
+                    `<div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400">
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-hands-wash text-2xl text-blue-600 mr-3"></i>
+                            <h4 class="font-semibold text-blue-800">Langkah 2: Belajar Wudhu</h4>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg mb-2">
+                            <svg width="80" height="60" viewBox="0 0 80 60" class="mx-auto">
+                                <circle cx="40" cy="20" r="8" fill="#fbbf24"/>
+                                <ellipse cx="35" cy="35" rx="8" ry="5" fill="#f59e0b"/>
+                                <ellipse cx="45" cy="35" rx="8" ry="5" fill="#f59e0b"/>
+                                <circle cx="25" cy="25" r="1.5" fill="#3b82f6"/>
+                                <circle cx="30" cy="20" r="1" fill="#3b82f6"/>
+                                <circle cx="50" cy="20" r="1" fill="#3b82f6"/>
+                                <circle cx="55" cy="25" r="1.5" fill="#3b82f6"/>
+                                <rect x="36" y="40" width="8" height="15" fill="#3b82f6" rx="2"/>
+                            </svg>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Kuasai tata cara wudhu yang benar</p>
+                        <button onclick="nextSimulationStep(2)" class="mt-2 bg-blue-500 text-white px-3 py-1 rounded text-sm">Lanjut</button>
+                    </div>`,
+                    `<div class="bg-emerald-50 p-4 rounded-lg border-l-4 border-emerald-400">
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-book-quran text-2xl text-emerald-600 mr-3"></i>
+                            <h4 class="font-semibold text-emerald-800">Langkah 3: Belajar Mengaji</h4>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg mb-2 text-center">
+                            <div class="text-4xl mb-2">📖</div>
+                            <div class="flex justify-center space-x-1">
+                                <span class="text-2xl">🕌</span>
+                                <span class="text-2xl">📚</span>
+                                <span class="text-2xl">✨</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Tingkatkan kemampuan membaca Al-Qur'an</p>
+                        <button onclick="nextSimulationStep(3)" class="mt-2 bg-emerald-500 text-white px-3 py-1 rounded text-sm">Selesai</button>
+                    </div>`
+                ]
+            };
+            
+            return simulationSteps[currentMateri] ? simulationSteps[currentMateri][step] : null;
+        }
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStudentProfile();
+            loadProgress();
+            showHome();
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9768f78b86dd3f5c',t:'MTc1NjQzODE5Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
