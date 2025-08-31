@@ -1,0 +1,4042 @@
+<!DOCTYPE html>
+<html lang="id" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Interaktif - Al-Quran Hadits Kelas 4 MI</title>
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/9960/9960119.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0f766e 0%, #065f46 30%, #1e40af 70%, #7c3aed 100%);
+            background-attachment: fixed;
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.08) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.06) 0%, transparent 40%);
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .arabic-text {
+            font-family: 'Amiri', serif;
+            font-size: 1.1em;
+            line-height: 1.7;
+            direction: rtl;
+        }
+        
+        .arabic-large {
+            font-family: 'Amiri', serif;
+            font-size: 1.6em;
+            line-height: 1.8;
+            direction: rtl;
+        }
+        
+        .arabic-verse {
+            font-family: 'Amiri', serif;
+            direction: rtl;
+        }
+        
+        .arabic-full-surah {
+            font-family: 'Amiri', serif;
+            direction: rtl;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        /* Responsive Arabic text sizes */
+        @media (max-width: 768px) {
+            .arabic-text {
+                font-size: 1em;
+                line-height: 1.6;
+            }
+            
+            .arabic-large {
+                font-size: 1.3em;
+                line-height: 1.6;
+            }
+            
+            .arabic-verse {
+                font-size: 1.2em;
+                line-height: 1.7;
+            }
+            
+            .arabic-full-surah {
+                font-size: 1.4em;
+                line-height: 1.8;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .arabic-verse {
+                font-size: 1.5em;
+                line-height: 1.8;
+            }
+            
+            .arabic-full-surah {
+                font-size: 1.6em;
+                line-height: 1.9;
+            }
+        }
+        
+        .latin-text {
+            font-family: 'Arial', sans-serif;
+            direction: ltr;
+        }
+        
+        .indo-text {
+            font-family: 'Arial', sans-serif;
+            direction: ltr;
+        }
+        
+        .islamic-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Cpath d='M40 40c0-15.464-12.536-28-28-28s-28 12.536-28 28 12.536 28 28 28 28-12.536 28-28zm0 0c0 15.464 12.536 28 28 28s28-12.536 28-28-12.536-28-28-28-28 12.536-28 28z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .menu-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+        
+        .menu-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .submenu-card {
+            transition: all 0.3s ease;
+        }
+        
+        .submenu-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .bounce-in {
+            animation: bounceIn 0.8s ease;
+        }
+        
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .pulse-glow {
+            animation: pulseGlow 2s infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.8); }
+        }
+        
+        .verse-highlight {
+            background: linear-gradient(120deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%);
+            border-left: 4px solid #3b82f6;
+            transition: all 0.3s ease;
+        }
+        
+        .verse-highlight:hover {
+            background: linear-gradient(120deg, rgba(59, 130, 246, 0.2) 0%, rgba(147, 51, 234, 0.2) 100%);
+            transform: translateX(5px);
+        }
+        
+        .audio-player {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50px;
+            padding: 8px 16px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .audio-player:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .audio-player.playing {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .game-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .game-card:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: translateY(-5px);
+        }
+        
+        .memory-card {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .memory-card.flipped {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            transform: rotateY(180deg);
+        }
+        
+        .memory-card.matched {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            transform: scale(1.1);
+        }
+        
+        .quiz-option {
+            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+            border: 2px solid #9ca3af;
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .quiz-option:hover {
+            background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%);
+            border-color: #8b5cf6;
+            transform: translateY(-2px);
+        }
+        
+        .quiz-option.correct {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            border-color: #22c55e;
+        }
+        
+        .quiz-option.incorrect {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border-color: #ef4444;
+        }
+        
+        .loading-spinner {
+            border: 4px solid #f3f4f6;
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+            height: 8px;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-emerald-900 via-teal-800 to-blue-900 shadow-2xl p-6 islamic-pattern">
+        <div class="container mx-auto">
+            <!-- Header Content - Desktop and Mobile -->
+            <div class="flex items-center justify-center md:justify-between mb-4">
+                <div class="flex items-center space-x-4">
+                    <div class="w-16 md:w-24 h-16 md:h-24 flex items-center justify-center">
+                        <img src="https://archive.org/download/logoku_202508/png-clipart-islam-muslim-quran-reading-child-reading-thumbnail-removebg-preview.png" 
+                             alt="Al-Quran Logo" 
+                             class="w-14 md:w-20 h-14 md:h-20 object-contain"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <div class="w-14 md:w-20 h-14 md:h-20 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-full flex items-center justify-center text-white text-xl md:text-2xl font-bold" style="display: none;">
+                            <i class="fas fa-book-quran"></i>
+                        </div>
+                    </div>
+                    <div class="text-left indo-text">
+                        <p class="text-xs md:text-sm text-emerald-200">Media Pembelajaran Interaktif</p>
+                        <h1 class="text-2xl md:text-4xl font-bold text-white">Al-Qur'an Hadits</h1>
+                        <p class="text-sm md:text-lg text-emerald-100">Kelas 4 MI</p>
+                    </div>
+                </div>
+                
+                <!-- Desktop Student Identity Card -->
+                <div class="hidden md:block text-center">
+                    <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl p-4 mb-4 border border-white border-opacity-20">
+                        <div class="flex items-center justify-center space-x-4 mb-3">
+                            <!-- Student Photo -->
+                            <div class="relative">
+                                <div id="studentPhotoContainer" class="w-16 h-16 rounded-full overflow-hidden border-3 border-white shadow-lg cursor-pointer" onclick="changeStudentPhoto()" title="Klik untuk ganti foto">
+                                    <img id="studentPhoto" src="" alt="Foto Siswa" class="w-full h-full object-cover hidden">
+                                    <div id="defaultAvatar" class="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-2xl font-bold">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                </div>
+                                <button onclick="changeStudentPhoto()" class="absolute -bottom-1 -right-1 bg-blue-500 text-white w-6 h-6 rounded-full text-xs hover:bg-blue-600 transition-colors" title="Ganti Foto">
+                                    <i class="fas fa-camera"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- Student Info -->
+                            <div class="text-left">
+                                <div class="text-white font-bold text-lg" id="studentName" onclick="editStudentName()" title="Klik untuk edit nama" style="cursor: pointer;">
+                                    Den Bagus
+                                </div>
+                                <div class="text-emerald-200 text-sm" id="studentClass" onclick="editStudentClass()" title="Klik untuk edit kelas" style="cursor: pointer;">
+                                    4D
+                                </div>
+                                <div class="text-emerald-100 text-xs opacity-75">
+                                    <i class="fas fa-edit mr-1"></i>Klik untuk edit
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Points and Stars -->
+                        <div class="flex items-center justify-center space-x-2">
+                            <div class="bg-yellow-400 px-4 py-2 rounded-full shadow-lg">
+                                <span class="text-yellow-900 font-bold">Poin: <span id="totalPoints">0</span></span>
+                            </div>
+                            <div id="stars" class="flex space-x-1"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Student Identity Card -->
+    <div class="md:hidden bg-white bg-opacity-95 backdrop-blur-sm shadow-lg border-b border-gray-200">
+        <div class="container mx-auto p-4">
+            <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-4 border border-blue-200">
+                <div class="flex items-center space-x-4 mb-3">
+                    <!-- Mobile Student Photo -->
+                    <div class="relative">
+                        <div id="studentPhotoContainerMobile" class="w-14 h-14 rounded-full overflow-hidden border-3 border-blue-400 shadow-lg cursor-pointer" onclick="changeStudentPhoto()" title="Klik untuk ganti foto">
+                            <img id="studentPhotoMobile" src="" alt="Foto Siswa" class="w-full h-full object-cover hidden">
+                            <div id="defaultAvatarMobile" class="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-xl font-bold">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <button onclick="changeStudentPhoto()" class="absolute -bottom-1 -right-1 bg-blue-500 text-white w-5 h-5 rounded-full text-xs hover:bg-blue-600 transition-colors" title="Ganti Foto">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Mobile Student Info -->
+                    <div class="flex-1">
+                        <div class="text-gray-800 font-bold text-lg" id="studentNameMobile" onclick="editStudentName()" title="Klik untuk edit nama" style="cursor: pointer;">
+                            Siswa Rajin
+                        </div>
+                        <div class="text-blue-600 text-sm font-semibold" id="studentClassMobile" onclick="editStudentClass()" title="Klik untuk edit kelas" style="cursor: pointer;">
+                            Kelas 4 MI
+                        </div>
+                        <div class="text-gray-500 text-xs">
+                            <i class="fas fa-edit mr-1"></i>Tap untuk edit
+                        </div>
+                    </div>
+                    
+                    <!-- Mobile Points and Stars -->
+                    <div class="text-right">
+                        <div class="bg-yellow-400 px-3 py-1 rounded-full shadow-lg mb-2">
+                            <span class="text-yellow-900 font-bold text-sm">Poin: <span id="totalPointsMobile">0</span></span>
+                        </div>
+                        <div id="starsMobile" class="flex justify-end space-x-1"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container mx-auto p-4 md:p-6">
+        <!-- Main Menu -->
+        <div id="mainMenu" class="fade-in">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-bold text-white mb-4 bounce-in indo-text">Pilih Materi Pembelajaran</h2>
+                <p class="text-xl text-emerald-100 arabic-text" dir="rtl">اختر الموضوع الذي تريد تعلمه</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                <!-- Menu 1: Hukum Izhar dan Ikhfa' -->
+                <div class="menu-card bg-gradient-to-br from-white to-blue-50 rounded-3xl p-8 shadow-2xl cursor-pointer border-3 border-blue-200" onclick="showSubMenu('tajweed')">
+                    <div class="text-center">
+                        <div class="text-6xl mb-6 text-blue-600">
+                            <i class="fas fa-book-quran"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-blue-800 mb-3 arabic-text" dir="rtl">أحكام الإظهار والإخفاء</h3>
+                        <p class="text-lg text-gray-700 font-semibold mb-2 indo-text">Hukum Izhar dan Ikhfa'</p>
+                        <div class="text-sm text-gray-600 arabic-text" dir="rtl">تعلم أحكام التجويد الأساسية</div>
+                        <div class="mt-4 flex justify-center space-x-2">
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-semibold">تجويد</span>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">أساسي</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu 2: Surah al-Ashr -->
+                <div class="menu-card bg-gradient-to-br from-white to-green-50 rounded-3xl p-8 shadow-2xl cursor-pointer border-3 border-green-200" onclick="showSubMenu('alashr')">
+                    <div class="text-center">
+                        <div class="text-6xl mb-6 text-green-600">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-green-800 mb-3 arabic-text" dir="rtl">سورة العصر</h3>
+                        <p class="text-lg text-gray-700 font-semibold mb-2 indo-text">Surah Al-Ashr</p>
+                        <div class="text-sm text-gray-600 arabic-text" dir="rtl">سورة مكية - 3 آيات</div>
+                        <div class="mt-4 flex justify-center space-x-2">
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">مكية</span>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold">قصيرة</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu 3: Surah Quraisy -->
+                <div class="menu-card bg-gradient-to-br from-white to-purple-50 rounded-3xl p-8 shadow-2xl cursor-pointer border-3 border-purple-200" onclick="showSubMenu('quraisy')">
+                    <div class="text-center">
+                        <div class="text-6xl mb-6 text-purple-600">
+                            <i class="fas fa-kaaba"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-purple-800 mb-3 arabic-text" dir="rtl">سورة قريش</h3>
+                        <p class="text-lg text-gray-700 font-semibold mb-2 indo-text">Surah Quraisy</p>
+                        <div class="text-sm text-gray-600 arabic-text" dir="rtl">سورة مكية - 4 آيات</div>
+                        <div class="mt-4 flex justify-center space-x-2">
+                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-semibold arabic-text" dir="rtl">مكية</span>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold arabic-text" dir="rtl">قصيرة</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu 4: Surah al-Ma'un -->
+                <div class="menu-card bg-gradient-to-br from-white to-orange-50 rounded-3xl p-8 shadow-2xl cursor-pointer border-3 border-orange-200" onclick="showSubMenu('maun')">
+                    <div class="text-center">
+                        <div class="text-6xl mb-6 text-orange-600">
+                            <i class="fas fa-hands-helping"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-orange-800 mb-3 arabic-text" dir="rtl">سورة الماعون</h3>
+                        <p class="text-lg text-gray-700 font-semibold mb-2 indo-text">Surah Al-Ma'un</p>
+                        <div class="text-sm text-gray-600 arabic-text" dir="rtl">سورة مكية - 7 آيات</div>
+                        <div class="mt-4 flex justify-center space-x-2">
+                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs font-semibold arabic-text" dir="rtl">مكية</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-semibold arabic-text" dir="rtl">أخلاق</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu 5: Surah at-Takatsur -->
+                <div class="menu-card bg-gradient-to-br from-white to-red-50 rounded-3xl p-8 shadow-2xl cursor-pointer border-3 border-red-200" onclick="showSubMenu('takatsur')">
+                    <div class="text-center">
+                        <div class="text-6xl mb-6 text-red-600">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-red-800 mb-3 arabic-text" dir="rtl">سورة التكاثر</h3>
+                        <p class="text-lg text-gray-700 font-semibold mb-2 indo-text">Surah At-Takatsur</p>
+                        <div class="text-sm text-gray-600 arabic-text" dir="rtl">سورة مكية - 8 آيات</div>
+                        <div class="mt-4 flex justify-center space-x-2">
+                            <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-xs font-semibold arabic-text" dir="rtl">مكية</span>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold arabic-text" dir="rtl">تحذير</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu 6: Hadis tentang Takwa -->
+                <div class="menu-card bg-gradient-to-br from-white to-teal-50 rounded-3xl p-8 shadow-2xl cursor-pointer border-3 border-teal-200" onclick="showSubMenu('hadis_takwa')">
+                    <div class="text-center">
+                        <div class="text-6xl mb-6 text-teal-600">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-teal-800 mb-3 arabic-text" dir="rtl">حديث عن التقوى</h3>
+                        <p class="text-lg text-gray-700 font-semibold mb-2 indo-text">Hadis tentang Takwa</p>
+                        <div class="text-sm text-gray-600 arabic-text" dir="rtl">أحاديث نبوية شريفة</div>
+                        <div class="mt-4 flex justify-center space-x-2">
+                            <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-xs font-semibold arabic-text" dir="rtl">حديث</span>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold arabic-text" dir="rtl">أخلاق</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu 7: Hadis tentang Niat -->
+                <div class="menu-card bg-gradient-to-br from-white to-indigo-50 rounded-3xl p-8 shadow-2xl cursor-pointer border-3 border-indigo-200" onclick="showSubMenu('hadis_niat')">
+                    <div class="text-center">
+                        <div class="text-6xl mb-6 text-indigo-600">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-indigo-800 mb-3 arabic-text" dir="rtl">حديث عن النية</h3>
+                        <p class="text-lg text-gray-700 font-semibold mb-2 indo-text">Hadis tentang Niat</p>
+                        <div class="text-sm text-gray-600 arabic-text" dir="rtl">أحاديث نبوية شريفة</div>
+                        <div class="mt-4 flex justify-center space-x-2">
+                            <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-xs font-semibold">حديث</span>
+                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-semibold">نية</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sub Menu -->
+        <div id="subMenu" class="hidden fade-in">
+            <div class="flex items-center mb-8">
+                <button onclick="showMainMenu()" class="bg-white bg-opacity-20 backdrop-blur-sm text-white w-12 h-12 rounded-full shadow-lg hover:bg-opacity-30 transition-all border border-white border-opacity-30 flex items-center justify-center">
+                    <i class="fas fa-home text-xl"></i>
+                </button>
+                <h2 id="subMenuTitle" class="text-3xl font-bold text-white mx-auto arabic-text"></h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
+                <!-- Materi Pembelajaran -->
+                <div class="submenu-card bg-gradient-to-br from-white to-blue-50 rounded-2xl p-8 shadow-xl cursor-pointer border-2 border-blue-200" onclick="showContent('materi')">
+                    <div class="text-center">
+                        <div class="text-5xl mb-6 text-blue-600">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-blue-800 mb-3 indo-text">Materi Pembelajaran</h3>
+                        <p class="text-lg text-gray-700 font-semibold mb-2 arabic-text" dir="rtl">مواد التعلم</p>
+                        <div class="text-sm text-gray-600 mb-4 indo-text">Pelajari materi dengan audio dan penjelasan lengkap</div>
+                        <div class="flex justify-center space-x-2">
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-semibold">
+                                <i class="fas fa-volume-up mr-1"></i> Audio
+                            </span>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">
+                                <i class="fas fa-book mr-1"></i> Materi
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game Edukasi -->
+                <div class="submenu-card bg-gradient-to-br from-white to-purple-50 rounded-2xl p-8 shadow-xl cursor-pointer border-2 border-purple-200" onclick="showContent('game')">
+                    <div class="text-center">
+                        <div class="text-5xl mb-6 text-purple-600">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-purple-800 mb-3 indo-text">Game Edukasi</h3>
+                        <p class="text-lg text-gray-700 font-semibold mb-2 arabic-text" dir="rtl">الألعاب التعليمية</p>
+                        <div class="text-sm text-gray-600 mb-4 indo-text">Bermain sambil belajar dengan game interaktif</div>
+                        <div class="flex justify-center space-x-2">
+                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-semibold indo-text">
+                                <i class="fas fa-trophy mr-1"></i> Skor
+                            </span>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-semibold indo-text">
+                                <i class="fas fa-star mr-1"></i> Poin
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Evaluasi -->
+                <div class="submenu-card bg-gradient-to-br from-white to-green-50 rounded-2xl p-8 shadow-xl cursor-pointer border-2 border-green-200" onclick="showContent('evaluasi')">
+                    <div class="text-center">
+                        <div class="text-5xl mb-6 text-green-600">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-green-800 mb-3 indo-text">Evaluasi</h3>
+                        <p class="text-lg text-gray-700 font-semibold mb-2 arabic-text" dir="rtl">التقييم</p>
+                        <div class="text-sm text-gray-600 mb-4 indo-text">Uji pemahaman dengan soal-soal interaktif</div>
+                        <div class="flex justify-center space-x-2">
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">
+                                <i class="fas fa-question-circle mr-1"></i> Quiz
+                            </span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-semibold">
+                                <i class="fas fa-chart-line mr-1"></i> Nilai
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div id="contentArea" class="hidden fade-in">
+            <div class="flex items-center mb-8">
+                <button onclick="showSubMenu(currentTopic)" class="bg-white bg-opacity-20 backdrop-blur-sm text-white w-12 h-12 rounded-full shadow-lg hover:bg-opacity-30 transition-all border border-white border-opacity-30 flex items-center justify-center">
+                    <i class="fas fa-arrow-left text-xl"></i>
+                </button>
+                <h2 id="contentTitle" class="text-3xl font-bold text-white mx-auto arabic-text"></h2>
+            </div>
+            
+            <div id="contentBody" class="bg-white rounded-2xl md:rounded-3xl p-4 md:p-8 shadow-2xl border border-gray-200 mx-2 md:mx-0">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-emerald-900 via-teal-800 to-blue-900 text-white py-8 mt-16 islamic-pattern">
+        <div class="container mx-auto text-center">
+            <div class="flex items-center justify-center mb-4">
+                <div class="w-16 h-16 flex items-center justify-center mr-4">
+                    <img src="https://archive.org/download/logoku_202508/png-clipart-islam-muslim-quran-reading-child-reading-thumbnail-removebg-preview.png" 
+                         alt="Al-Quran Logo" 
+                         class="w-12 h-12 object-contain"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-full flex items-center justify-center text-white text-lg font-bold" style="display: none;">
+                        <i class="fas fa-book-quran"></i>
+                    </div>
+                </div>
+                <div class="indo-text">
+                    <h3 class="text-xl font-bold">Al-Qur'an Hadits</h3>
+                    <p class="text-sm text-emerald-200">Kelas 4 MI</p>
+                </div>
+            </div>
+            <div class="text-emerald-100 text-sm mb-3 indo-text">
+                Media Pembelajaran Interaktif Al-Qur'an Hadits untuk Siswa Kelas 4 MI
+            </div>
+            <div class="text-emerald-200 text-xs mb-2">
+                <span class="indo-text">© 2025 Emes Media Creativa. All Rights Reserved</span>
+            </div>
+            <div class="text-emerald-300 text-xs">
+                <span class="indo-text">Made with ❤️ for Islamic Education</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentTopic = '';
+        let currentContent = '';
+        let totalPoints = parseInt(localStorage.getItem('totalPoints') || '0');
+        let stars = Math.floor(totalPoints / 100);
+        let currentAudio = null;
+        let isPlaying = false;
+        let gameScore = 0;
+        let gameLevel = 1;
+
+        // Complete data for Tajwid and Al-Ashr, templates for others
+        const materiData = {
+            tajweed: {
+                title: "أحكام الإظهار والإخفاء",
+                titleIndo: "Hukum Izhar dan Ikhfa'",
+                izhar: {
+                    definition: "الإظهار لغة: البيان والوضوح. واصطلاحاً: إخراج كل حرف من مخرجه من غير غنة في الحرف المظهر",
+                    definitionIndo: "Izhar secara bahasa berarti jelas dan terang. Secara istilah: mengeluarkan setiap huruf dari tempat keluarnya tanpa dengung pada huruf yang di-izhar-kan",
+                    huruf: ["ء", "ه", "ع", "ح", "غ", "خ"],
+                    hurufNames: ["الهمزة", "الهاء", "العين", "الحاء", "الغين", "الخاء"],
+                    contoh: [
+                        { arabic: "مِنْ آمَنَ", keterangan: "نون ساكنة + همزة", audioUrl: "AUDIO_IZHAR_1" },
+                        { arabic: "مِنْ هَادٍ", keterangan: "نون ساكنة + هاء", audioUrl: "AUDIO_IZHAR_2" },
+                        { arabic: "مِنْ عِلْمٍ", keterangan: "نون ساكنة + عين", audioUrl: "AUDIO_IZHAR_3" },
+                        { arabic: "مِنْ حَكِيمٍ", keterangan: "نون ساكنة + حاء", audioUrl: "AUDIO_IZHAR_4" },
+                        { arabic: "مِنْ غِلٍّ", keterangan: "نون ساكنة + غين", audioUrl: "AUDIO_IZHAR_5" },
+                        { arabic: "مِنْ خَيْرٍ", keterangan: "نون ساكنة + خاء", audioUrl: "AUDIO_IZHAR_6" }
+                    ]
+                },
+                ikhfa: {
+                    definition: "الإخفاء لغة: الستر. واصطلاحاً: النطق بالحرف بصفة بين الإظهار والإدغام عارٍ عن التشديد مع بقاء الغنة",
+                    definitionIndo: "Ikhfa' secara bahasa berarti menyembunyikan. Secara istilah: mengucapkan huruf dengan sifat antara izhar dan idgham tanpa tasydid dengan tetap mempertahankan dengung",
+                    huruf: ["ص", "ذ", "ث", "ك", "ج", "ش", "ق", "س", "د", "ط", "ز", "ف", "ت", "ض", "ظ"],
+                    hurufCount: "15 حرفاً",
+                    contoh: [
+                        { arabic: "مِنْ صَالِحٍ", keterangan: "نون ساكنة + صاد", audioUrl: "AUDIO_IKHFA_1" },
+                        { arabic: "مِنْ ذَهَبٍ", keterangan: "نون ساكنة + ذال", audioUrl: "AUDIO_IKHFA_2" },
+                        { arabic: "مِنْ ثَمَرَةٍ", keterangan: "نون ساكنة + ثاء", audioUrl: "AUDIO_IKHFA_3" },
+                        { arabic: "مِنْ كُلِّ", keterangan: "نون ساكنة + كاف", audioUrl: "AUDIO_IKHFA_4" },
+                        { arabic: "مِنْ جَنَّةٍ", keterangan: "نون ساكنة + جيم", audioUrl: "AUDIO_IKHFA_5" },
+                        { arabic: "مِنْ شَيْءٍ", keterangan: "نون ساكنة + شين", audioUrl: "AUDIO_IKHFA_6" }
+                    ]
+                },
+                lessons: [
+                    "Izhar dilakukan pada 6 huruf: ء ه ع ح غ خ",
+                    "Ikhfa' dilakukan pada 15 huruf selain huruf izhar, idgham, dan iqlab",
+                    "Izhar dibaca jelas tanpa dengung",
+                    "Ikhfa' dibaca samar dengan dengung",
+                    "Penting untuk berlatih dengan audio yang benar",
+                    "Tajwid membuat bacaan Al-Qur'an menjadi indah"
+                ]
+            },
+            alashr: {
+                name: "سورة العصر",
+                nameIndo: "Surah Al-Ashr",
+                meaning: "Masa/Waktu",
+                type: "مكية",
+                verses: 3,
+                revelation: "Makkah",
+                order: 103,
+                fullAudioUrl: "https://archive.org/download/murotal-surah-at-takasur-bermegah-megahan-metode-ummi/MUROTAL%20SURAH%20AL-ASHR%20%28ASAR%29%20METODE%20UMMI.mp3",
+                mufradat: [
+                    { arabic: "وَالْعَصْرِ", meaning: "Demi masa", type: "Qasam (sumpah)" },
+                    { arabic: "إِنَّ", meaning: "Sesungguhnya", type: "Huruf taukid" },
+                    { arabic: "الْإِنسَانَ", meaning: "Manusia", type: "Isim" },
+                    { arabic: "لَفِي", meaning: "Benar-benar dalam", type: "Huruf jar + khabar" },
+                    { arabic: "خُسْرٍ", meaning: "Kerugian", type: "Isim" },
+                    { arabic: "إِلَّا", meaning: "Kecuali", type: "Huruf istitsna" },
+                    { arabic: "الَّذِينَ", meaning: "Orang-orang yang", type: "Isim maushul" },
+                    { arabic: "آمَنُوا", meaning: "Beriman", type: "Fi'il madhi" },
+                    { arabic: "عَمِلُوا", meaning: "Mengerjakan", type: "Fi'il madhi" },
+                    { arabic: "الصَّالِحَاتِ", meaning: "Amal saleh", type: "Isim" },
+                    { arabic: "تَوَاصَوْا", meaning: "Saling menasehati", type: "Fi'il madhi" },
+                    { arabic: "بِالْحَقِّ", meaning: "Dengan kebenaran", type: "Jar majrur" },
+                    { arabic: "الصَّبْرِ", meaning: "Kesabaran", type: "Isim" }
+                ],
+                content: [
+                    {
+                        arabic: "وَالْعَصْرِ",
+                        latin: "Wal 'ashr",
+                        translation: "Demi masa",
+                        explanation: "Allah bersumpah dengan waktu/masa untuk menunjukkan pentingnya waktu dalam kehidupan manusia. Waktu adalah amanah yang harus digunakan dengan baik.",
+                        audioUrl: "https://archive.org/download/103-3_202508/103-1.mp3"
+                    },
+                    {
+                        arabic: "إِنَّ الْإِنسَانَ لَفِي خُسْرٍ",
+                        latin: "Innal insaana lafii khusr",
+                        translation: "Sesungguhnya manusia itu benar-benar dalam kerugian",
+                        explanation: "Semua manusia pada dasarnya dalam kerugian karena waktu terus berlalu dan hidup semakin berkurang. Ini adalah kondisi umum manusia kecuali yang dikecualikan di ayat berikutnya.",
+                        audioUrl: "https://archive.org/download/103-3_202508/103-2.mp3"
+                    },
+                    {
+                        arabic: "إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَتَوَاصَوْا بِالْحَقِّ وَتَوَاصَوْا بِالصَّبْرِ",
+                        latin: "Illalladziina aamanuu wa 'amilus shaalihaati wa tawaashau bil haqqi wa tawaashau bish shabr",
+                        translation: "Kecuali orang-orang yang beriman dan mengerjakan amal saleh dan nasehat menasehati supaya mentaati kebenaran dan nasehat menasehati supaya menetapi kesabaran",
+                        explanation: "Hanya empat golongan yang tidak rugi: 1) Beriman kepada Allah, 2) Beramal saleh, 3) Saling menasehati dalam kebenaran, 4) Saling menasehati dalam kesabaran. Keempat hal ini harus ada semua.",
+                        audioUrl: "https://archive.org/download/103-3_202508/103-3.mp3"
+                    }
+                ],
+                lessons: [
+                    "Waktu adalah amanah yang harus digunakan dengan baik",
+                    "Manusia harus beriman kepada Allah SWT",
+                    "Amal saleh harus dilakukan setiap hari",
+                    "Saling menasehati dalam kebaikan adalah kewajiban",
+                    "Sabar adalah kunci menghadapi cobaan",
+                    "Keempat syarat harus dipenuhi semua untuk tidak rugi"
+                ]
+            },
+            // Templates for other materials
+            quraisy: {
+                name: "سورة قريش",
+                nameIndo: "Surah Quraisy",
+                meaning: "Suku Quraisy",
+                type: "مكية",
+                verses: 4,
+                revelation: "Makkah",
+                order: 106,
+                fullAudioUrl: "https://archive.org/download/murotal-surah-at-takasur-bermegah-megahan-metode-ummi/MUROTAL%20SURAH%20QURAISY%20%28QURAISY%29%20METODE%20UMMI.mp3",
+                mufradat: [
+                    { arabic: "لِإِيلَافِ", meaning: "Karena kebiasaan", type: "Huruf jar + masdar" },
+                    { arabic: "قُرَيْشٍ", meaning: "Suku Quraisy", type: "Isim" },
+                    { arabic: "إِيلَافِهِمْ", meaning: "Kebiasaan mereka", type: "Masdar + dhamir" },
+                    { arabic: "رِحْلَةَ", meaning: "Perjalanan", type: "Isim" },
+                    { arabic: "الشِّتَاءِ", meaning: "Musim dingin", type: "Isim" },
+                    { arabic: "الصَّيْفِ", meaning: "Musim panas", type: "Isim" },
+                    { arabic: "فَلْيَعْبُدُوا", meaning: "Hendaklah mereka menyembah", type: "Fi'il amr" },
+                    { arabic: "رَبَّ", meaning: "Tuhan", type: "Isim" },
+                    { arabic: "هَٰذَا الْبَيْتِ", meaning: "Rumah ini (Ka'bah)", type: "Isim isyarah" },
+                    { arabic: "الَّذِي", meaning: "Yang", type: "Isim maushul" },
+                    { arabic: "أَطْعَمَهُم", meaning: "Memberi makan mereka", type: "Fi'il madhi" },
+                    { arabic: "مِّن جُوعٍ", meaning: "Dari kelaparan", type: "Jar majrur" },
+                    { arabic: "آمَنَهُم", meaning: "Mengamankan mereka", type: "Fi'il madhi" },
+                    { arabic: "مِّنْ خَوْفٍ", meaning: "Dari ketakutan", type: "Jar majrur" }
+                ],
+                content: [
+                    {
+                        arabic: "لِإِيلَافِ قُرَيْشٍ",
+                        latin: "Li ilaafi Quraisy",
+                        translation: "Karena kebiasaan orang-orang Quraisy",
+                        explanation: "Allah menyebutkan nikmat yang diberikan kepada suku Quraisy berupa kebiasaan dan kemudahan dalam berdagang. Ini adalah pembukaan yang menunjukkan bahwa ayat ini berkaitan dengan surah sebelumnya (Al-Fil).",
+                        audioUrl: "https://archive.org/download/106-4/106-1.mp3"
+                    },
+                    {
+                        arabic: "إِيلَافِهِمْ رِحْلَةَ الشِّتَاءِ وَالصَّيْفِ",
+                        latin: "Ilaafihim rihlatas syitaa'i wash shaif",
+                        translation: "(yaitu) kebiasaan mereka bepergian pada musim dingin dan musim panas",
+                        explanation: "Suku Quraisy memiliki kebiasaan berdagang ke Syam (Syiria) pada musim panas dan ke Yaman pada musim dingin. Perjalanan dagang ini memberikan mereka kemakmuran dan keamanan.",
+                        audioUrl: "https://archive.org/download/106-4/106-2.mp3"
+                    },
+                    {
+                        arabic: "فَلْيَعْبُدُوا رَبَّ هَٰذَا الْبَيْتِ",
+                        latin: "Falyabudu rabba haadzal bait",
+                        translation: "Maka hendaklah mereka menyembah Tuhan pemilik rumah ini (Ka'bah)",
+                        explanation: "Sebagai balasan atas nikmat yang telah diberikan Allah, suku Quraisy hendaknya menyembah Allah yang memiliki Ka'bah. Ka'bah adalah pusat ibadah dan juga sumber kemakmuran mereka.",
+                        audioUrl: "https://archive.org/download/106-4/106-3.mp3"
+                    },
+                    {
+                        arabic: "الَّذِي أَطْعَمَهُم مِّن جُوعٍ وَآمَنَهُم مِّنْ خَوْفٍ",
+                        latin: "Alladzii ath'amahum min juu'iw wa aamanahum min khauf",
+                        translation: "Yang telah memberi makanan kepada mereka untuk menghilangkan lapar dan mengamankan mereka dari ketakutan",
+                        explanation: "Allah telah memberikan dua nikmat besar kepada Quraisy: 1) Makanan yang cukup sehingga tidak kelaparan, 2) Keamanan dari rasa takut. Kedua nikmat ini sangat berharga dan wajib disyukuri.",
+                        audioUrl: "https://archive.org/download/106-4/106-4.mp3"
+                    }
+                ],
+                lessons: [
+                    "Nikmat Allah harus disyukuri dengan beribadah kepada-Nya",
+                    "Keamanan dan rezeki adalah nikmat besar dari Allah",
+                    "Ka'bah adalah pusat ibadah dan berkah bagi umat Islam",
+                    "Perdagangan yang halal mendatangkan berkah",
+                    "Suku Quraisy dipilih Allah sebagai penjaga Ka'bah",
+                    "Syukur nikmat dengan menyembah Allah semata"
+                ]
+            },
+            maun: {
+                name: "سورة الماعون",
+                nameIndo: "Surah Al-Ma'un",
+                meaning: "Barang-barang yang berguna",
+                type: "مكية",
+                verses: 7,
+                revelation: "Makkah",
+                order: 107,
+                fullAudioUrl: "https://archive.org/download/murotal-surah-at-takasur-bermegah-megahan-metode-ummi/MUROTAL%20SURAH%20AL-MAUN%20%28BANTUAN%29%20METODE%20UMMI.mp3",
+                content: [
+                    {
+                        arabic: "أَرَأَيْتَ الَّذِي يُكَذِّبُ بِالدِّينِ",
+                        latin: "Ara'aytalladziiy yukadzdzibu biddiin",
+                        translation: "Tahukah kamu (orang) yang mendustakan agama?",
+                        explanation: "Allah bertanya kepada Nabi Muhammad SAW dan umatnya tentang ciri-ciri orang yang mendustakan agama. Pertanyaan ini untuk menarik perhatian agar kita mengenali dan menghindari sifat-sifat tersebut.",
+                        audioUrl: "https://archive.org/download/107-5/107-1.mp3"
+                    },
+                    {
+                        arabic: "فَذَٰلِكَ الَّذِي يَدُعُّ الْيَتِيمَ",
+                        latin: "Fadzaalikal ladziiy yadu'ul yatiim",
+                        translation: "Itulah orang yang menghardik anak yatim",
+                        explanation: "Ciri pertama orang yang mendustakan agama adalah menghardik, mengusir, atau berlaku kasar kepada anak yatim. Padahal Islam mengajarkan untuk berbuat baik kepada anak yatim.",
+                        audioUrl: "https://archive.org/download/107-5/107-2.mp3"
+                    },
+                    {
+                        arabic: "وَلَا يَحُضُّ عَلَىٰ طَعَامِ الْمِسْكِينِ",
+                        translation: "dan tidak menganjurkan memberi makan orang miskin",
+                        latin: "Wa laa yahudhdhu 'alaa tha'aamil miskiin",
+                        explanation: "Ciri kedua adalah tidak peduli terhadap orang miskin. Mereka tidak hanya tidak memberi makan, tetapi juga tidak menganjurkan orang lain untuk membantu orang miskin.",
+                        audioUrl: "https://archive.org/download/107-5/107-3.mp3"
+                    },
+                    {
+                        arabic: "فَوَيْلٌ لِّلْمُصَلِّينَ",
+                        latin: "Fawaylul lil mushalliin",
+                        translation: "Maka kecelakaanlah bagi orang-orang yang shalat",
+                        explanation: "Ayat ini tidak berarti semua orang yang shalat akan celaka, tetapi menunjuk pada orang-orang yang shalat namun memiliki sifat-sifat buruk yang disebutkan dalam ayat selanjutnya.",
+                        audioUrl: "https://archive.org/download/107-5/107-4.mp3"
+                    },
+                    {
+                        arabic: "الَّذِينَ هُمْ عَن صَلَاتِهِمْ سَاهُونَ",
+                        latin: "Alladziina hum 'an shalaatihim saahuum",
+                        translation: "(yaitu) orang-orang yang lalai dari shalatnya",
+                        explanation: "Mereka shalat tetapi dengan lalai, tidak khusyuk, tidak tepat waktu, atau tidak memperhatikan rukun dan syarat shalat. Shalat mereka hanya gerakan tanpa makna.",
+                        audioUrl: "https://archive.org/download/107-5/107-5.mp3"
+                    },
+                    {
+                        arabic: "الَّذِينَ هُمْ يُرَاءُونَ",
+                        latin: "Alladziina hum yuraa'uun",
+                        translation: "orang-orang yang berbuat riya (ingin dilihat orang)",
+                        explanation: "Mereka beribadah bukan karena Allah, tetapi ingin dipuji dan dilihat orang lain. Riya adalah syirik kecil yang dapat menghapus pahala amal ibadah.",
+                        audioUrl: "https://archive.org/download/107-5/107-6.mp3"
+                    },
+                    {
+                        arabic: "وَيَمْنَعُونَ الْمَاعُونَ",
+                        latin: "Wa yamna'uunal maa'uun",
+                        translation: "dan enggan (menolong dengan) barang berguna",
+                        explanation: "Mereka pelit dan tidak mau membantu sesama dengan barang-barang yang berguna seperti alat-alat rumah tangga, makanan, atau bantuan lainnya yang dibutuhkan orang lain.",
+                        audioUrl: "https://archive.org/download/107-5/107-7.mp3"
+                    }
+                ],
+                lessons: [
+                    "Agama Islam mengajarkan kepedulian sosial yang tinggi",
+                    "Berbuat baik kepada anak yatim adalah kewajiban muslim",
+                    "Membantu orang miskin adalah bagian dari iman",
+                    "Shalat harus dilakukan dengan khusyuk dan tepat waktu",
+                    "Riya dalam beribadah dapat menghapus pahala",
+                    "Berbagi dengan sesama adalah akhlak mulia",
+                    "Keimanan harus dibuktikan dengan amal perbuatan"
+                ]
+            },
+            takatsur: {
+                name: "سورة التكاثر",
+                nameIndo: "Surah At-Takatsur",
+                meaning: "Bermegah-megahan",
+                type: "مكية",
+                verses: 8,
+                revelation: "Makkah",
+                order: 102,
+                fullAudioUrl: "https://archive.org/download/murotal-surah-at-takasur-bermegah-megahan-metode-ummi/MUROTAL%20SURAH%20AT-TAKASUR%20%28BERMEGAH-MEGAHAN%29%20METODE%20UMMI.mp3",
+                content: [
+                    {
+                        arabic: "أَلْهَاكُمُ التَّكَاثُرُ",
+                        latin: "Alhaakumut takaatsur",
+                        translation: "Bermegah-megahan telah melalaikan kamu",
+                        explanation: "Allah menegur manusia yang terlalu sibuk bermegah-megahan dengan harta, anak, jabatan, atau hal duniawi lainnya sehingga melupakan tujuan hidup yang sebenarnya yaitu beribadah kepada Allah.",
+                        audioUrl: "https://archive.org/download/at-takatsur_202508/102-1.mp3"
+                    },
+                    {
+                        arabic: "حَتَّىٰ زُرْتُمُ الْمَقَابِرَ",
+                        latin: "Hattaa zurtumul maqaabir",
+                        translation: "sampai kamu masuk ke dalam kubur",
+                        explanation: "Manusia terus bermegah-megahan hingga ajal menjemput. 'Mengunjungi kubur' di sini berarti mati. Ketika mati, semua kemegahan dunia tidak ada artinya lagi.",
+                        audioUrl: "https://archive.org/download/at-takatsur_202508/102-2.mp3"
+                    },
+                    {
+                        arabic: "كَلَّا سَوْفَ تَعْلَمُونَ",
+                        latin: "Kallaa sawfa ta'lamuun",
+                        translation: "Jangan begitu, kelak kamu akan mengetahui (akibatnya)",
+                        explanation: "Allah memperingatkan bahwa sikap bermegah-megahan itu salah. Kelak di akhirat, manusia akan mengetahui akibat buruk dari sikapnya yang terlalu cinta dunia.",
+                        audioUrl: "https://archive.org/download/at-takatsur_202508/102-3.mp3"
+                    },
+                    {
+                        arabic: "ثُمَّ كَلَّا سَوْفَ تَعْلَمُونَ",
+                        latin: "Tsumma kallaa sawfa ta'lamuun",
+                        translation: "Kemudian jangan begitu, kelak kamu akan mengetahui",
+                        explanation: "Peringatan diulang untuk menekankan betapa seriusnya masalah ini. Pengulangan menunjukkan bahwa akibat dari bermegah-megahan sangat berat dan pasti akan terjadi.",
+                        audioUrl: "https://archive.org/download/at-takatsur_202508/102-4.mp3"
+                    },
+                    {
+                        arabic: "كَلَّا لَوْ تَعْلَمُونَ عِلْمَ الْيَقِينِ",
+                        latin: "Kallaa law ta'lamuuna 'ilmal yaqiin",
+                        translation: "Jangan begitu, jika kamu mengetahui dengan pengetahuan yang yakin",
+                        explanation: "Jika manusia benar-benar yakin dengan adanya akhirat, hisab, surga, dan neraka, maka mereka tidak akan terlalu sibuk dengan urusan dunia dan bermegah-megahan.",
+                        audioUrl: "https://archive.org/download/at-takatsur_202508/102-5.mp3"
+                    },
+                    {
+                        arabic: "لَتَرَوُنَّ الْجَحِيمَ",
+                        latin: "Latarawunnal jahiim",
+                        translation: "niscaya kamu benar-benar akan melihat neraka Jahim",
+                        explanation: "Orang yang bermegah-megahan dan melupakan akhirat akan melihat neraka Jahim. Ini adalah ancaman bagi mereka yang terlalu cinta dunia dan lupa kepada Allah.",
+                        audioUrl: "https://archive.org/download/at-takatsur_202508/102-6.mp3"
+                    },
+                    {
+                        arabic: "ثُمَّ لَتَرَوُنَّهَا عَيْنَ الْيَقِينِ",
+                        latin: "Tsumma latarawunnahaa 'aynal yaqiin",
+                        translation: "kemudian kamu benar-benar akan melihatnya dengan mata (kepala) sendiri",
+                        explanation: "Mereka akan melihat neraka dengan mata kepala sendiri, bukan hanya mendengar atau membayangkan. Ini adalah tingkat keyakinan tertinggi yaitu melihat langsung ('ainul yaqin).",
+                        audioUrl: "https://archive.org/download/at-takatsur_202508/102-7.mp3"
+                    },
+                    {
+                        arabic: "ثُمَّ لَتُسْأَلُنَّ يَوْمَئِذٍ عَنِ النَّعِيمِ",
+                        latin: "Tsumma latus'alunna yauma'idzin 'anin na'iim",
+                        translation: "kemudian kamu akan ditanya pada hari itu tentang kenikmatan (yang kamu peroleh di dunia)",
+                        explanation: "Di hari kiamat, manusia akan dimintai pertanggungjawaban tentang semua nikmat yang diberikan Allah di dunia. Bagaimana cara memperoleh dan menggunakannya akan dipertanyakan.",
+                        audioUrl: "https://archive.org/download/at-takatsur_202508/102-8.mp3"
+                    }
+                ],
+                lessons: [
+                    "Jangan terlalu sibuk bermegah-megahan dengan hal duniawi",
+                    "Ingatlah selalu bahwa hidup di dunia hanya sementara",
+                    "Kematian pasti datang dan mengakhiri semua kemegahan dunia",
+                    "Yakinlah dengan adanya akhirat, hisab, surga, dan neraka",
+                    "Gunakan nikmat Allah dengan bijak dan bertanggung jawab",
+                    "Jangan sampai cinta dunia melupakan kewajiban kepada Allah",
+                    "Persiapkan diri untuk menghadapi pertanyaan di akhirat",
+                    "Keseimbangan antara urusan dunia dan akhirat sangat penting"
+                ]
+            },
+            hadis_takwa: {
+                title: "حديث عن التقوى",
+                titleIndo: "Hadis tentang Takwa",
+                hadis: "اتَّقِ اللَّهَ حَيْثُمَا كُنْتَ وَأَتْبِعِ السَّيِّئَةَ الْحَسَنَةَ تَمْحُهَا وَخَالِقِ النَّاسَ بِخُلُقٍ حَسَنٍ",
+                latin: "Ittaqillaha haitsuma kunta wa atbi'is sayyi'atal hasanata tamhuha wa khaliqin naasa bikhuluqin hasan",
+                translation: "Bertakwalah kepada Allah di mana pun kamu berada, ikutilah perbuatan buruk dengan perbuatan baik yang dapat menghapusnya, dan pergaulilah manusia dengan akhlak yang baik",
+                rawi: "رواه الترمذي",
+                rawiIndo: "Diriwayatkan oleh Tirmizi",
+                mufradat: [
+                    { arabic: "اتَّقِ", meaning: "Bertakwalah", type: "Fi'il amr (kata kerja perintah)" },
+                    { arabic: "اللَّهَ", meaning: "kepada Allah", type: "Lafzhul jalalah" },
+                    { arabic: "حَيْثُمَا", meaning: "di mana pun", type: "Zharf makan (keterangan tempat)" },
+                    { arabic: "كُنْتَ", meaning: "kamu berada", type: "Fi'il madhi" },
+                    { arabic: "وَأَتْبِعِ", meaning: "dan ikutilah", type: "Fi'il amr" },
+                    { arabic: "السَّيِّئَةَ", meaning: "perbuatan buruk", type: "Isim" },
+                    { arabic: "الْحَسَنَةَ", meaning: "perbuatan baik", type: "Isim" },
+                    { arabic: "تَمْحُهَا", meaning: "yang menghapusnya", type: "Fi'il mudhari'" },
+                    { arabic: "وَخَالِقِ", meaning: "dan pergaulilah", type: "Fi'il amr" },
+                    { arabic: "النَّاسَ", meaning: "manusia", type: "Isim" },
+                    { arabic: "بِخُلُقٍ", meaning: "dengan akhlak", type: "Jar majrur" },
+                    { arabic: "حَسَنٍ", meaning: "yang baik", type: "Sifat" }
+                ],
+                explanation: "Hadis ini memberikan tiga nasihat penting dalam kehidupan seorang muslim: Pertama, bertakwa kepada Allah di mana pun berada, baik saat sendirian maupun bersama orang lain. Kedua, jika melakukan kesalahan, segera ikuti dengan perbuatan baik untuk menghapus dosa tersebut. Ketiga, bergaul dengan sesama manusia dengan akhlak yang mulia. Ketiga nasihat ini mencakup hubungan vertikal dengan Allah (hablum minallah) dan hubungan horizontal dengan sesama manusia (hablum minannas).",
+                lessons: [
+                    "Takwa harus dilakukan di mana pun kita berada, tidak hanya di tempat ibadah",
+                    "Perbuatan baik dapat menghapus perbuatan buruk yang telah dilakukan",
+                    "Akhlak yang baik adalah kunci dalam bergaul dengan sesama",
+                    "Islam mengajarkan keseimbangan antara hubungan dengan Allah dan sesama",
+                    "Taubat harus diikuti dengan amal saleh sebagai bukti penyesalan",
+                    "Takwa bukan hanya ritual, tetapi juga tercermin dalam perilaku sehari-hari"
+                ]
+            },
+            hadis_niat: {
+                title: "حديث عن النية",
+                titleIndo: "Hadis tentang Niat",
+                hadis: "إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى",
+                latin: "Innamal a'maalu bin niyyaati wa innamaa likulli imri'in maa nawaa",
+                translation: "Sesungguhnya setiap amal perbuatan tergantung pada niatnya, dan sesungguhnya setiap orang akan mendapat balasan sesuai dengan apa yang diniatkannya",
+                rawi: "رواه الترمذي",
+                rawiIndo: "Diriwayatkan oleh Tirmizi",
+                mufradat: [
+                    { arabic: "إِنَّمَا", meaning: "Sesungguhnya", type: "Huruf taukid dan hashr" },
+                    { arabic: "الْأَعْمَالُ", meaning: "amal perbuatan", type: "Isim jamak" },
+                    { arabic: "بِالنِّيَّاتِ", meaning: "dengan niat-niat", type: "Jar majrur" },
+                    { arabic: "وَإِنَّمَا", meaning: "dan sesungguhnya", type: "Huruf athaf + taukid" },
+                    { arabic: "لِكُلِّ", meaning: "untuk setiap", type: "Jar majrur" },
+                    { arabic: "امْرِئٍ", meaning: "orang/seseorang", type: "Isim" },
+                    { arabic: "مَا", meaning: "apa yang", type: "Isim maushul" },
+                    { arabic: "نَوَى", meaning: "dia niatkan", type: "Fi'il madhi" }
+                ],
+                explanation: "Hadis ini adalah hadis yang sangat fundamental dalam Islam, bahkan disebut sebagai 'sepertiga dari ilmu Islam'. Hadis ini mengajarkan bahwa nilai suatu amal perbuatan ditentukan oleh niat yang mendasarinya. Niat yang ikhlas karena Allah akan mendapat pahala, sedangkan niat yang tidak ikhlas atau untuk selain Allah tidak akan mendapat pahala. Oleh karena itu, setiap muslim harus selalu memperbaiki niatnya dalam setiap amal yang dilakukan.",
+                lessons: [
+                    "Niat adalah dasar dari setiap amal perbuatan",
+                    "Amal tanpa niat yang benar tidak akan mendapat pahala",
+                    "Niat harus ikhlas karena Allah semata",
+                    "Setiap orang akan mendapat balasan sesuai niatnya",
+                    "Niat yang baik dapat mengubah amal biasa menjadi ibadah",
+                    "Penting untuk selalu memperbaiki dan meluruskan niat",
+                    "Niat yang buruk dapat merusak amal kebaikan"
+                ]
+            }
+        };
+
+        // Game data templates
+        const gameData = {
+            tajweed: {
+                memory: [
+                    { arabic: "الإظهار", translation: "izhar (jelas)" },
+                    { arabic: "الإخفاء", translation: "ikhfa' (samar)" },
+                    { arabic: "الغنة", translation: "dengung" },
+                    { arabic: "النون الساكنة", translation: "nun sukun" },
+                    { arabic: "التنوين", translation: "tanwin" },
+                    { arabic: "المخرج", translation: "tempat keluar huruf" }
+                ],
+                quiz: [
+    {
+        question: "Apa yang dimaksud dengan hukum bacaan Izhar?",
+        options: ["Menyamarkan bacaan huruf nun mati atau tanwin", "Membaca dengan jelas huruf nun mati atau tanwin", "Menyembunyikan bacaan huruf nun mati atau tanwin", "Memanjangkan bacaan huruf nun mati atau tanwin"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Bagaimana cara membaca Izhar?",
+        options: ["Dengan dengung", "Dengan jelas dan tegas tanpa dengung", "Dengan samar-samar", "Dengan memantul"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Huruf Izhar berjumlah...",
+        options: ["4 huruf", "6 huruf", "10 huruf", "15 huruf"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Berikut ini yang merupakan huruf Izhar adalah...",
+        options: ["Ba' (ب)", "Jim (ج)", "Kha' (خ)", "Ta' (ت)"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Apabila nun mati (نْ) bertemu dengan huruf 'Ain (ع), maka hukum bacaannya adalah...",
+        options: ["Ikhfa'", "Idgham", "Iqlab", "Izhar"],
+        correct: 3,
+        points: 5
+    },
+    {
+        question: "Apa yang dimaksud dengan hukum bacaan Ikhfa'?",
+        options: ["Membaca dengan jelas", "Membaca dengan dengung", "Membaca dengan samar-samar dan berdengung", "Membaca dengan memantul"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Huruf Ikhfa' berjumlah...",
+        options: ["6 huruf", "10 huruf", "15 huruf", "20 huruf"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Berikut ini yang merupakan huruf Ikhfa' adalah...",
+        options: ["Alif (ا)", "Ha' (ح)", "Kha' (خ)", "Qaf (ق)"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Apabila tanwin fathah bertemu dengan huruf Ta' (ت), maka hukum bacaannya adalah...",
+        options: ["Izhar", "Ikhfa'", "Idgham", "Iqlab"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Contoh bacaan Izhar dalam Al-Qur'an terdapat pada lafaz...",
+        options: ["مِنْ خَيْرٍ", "مِنْ تَحْتِهَا", "مِنْ بَعْدِ", "أَنْصَارٌ حَمِيدٌ"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Contoh bacaan Ikhfa' dalam Al-Qur'an terdapat pada lafaz...",
+        options: ["أَنْعَمْتَ", "صِرَاطٌ مُسْتَقِيمٌ", "عَلِيمٌ حَكِيمٌ", "يَنْصُرُكُمْ"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Perhatikan penggalan ayat: مِنْ غَسَّاقٍ. Hukum bacaan pada kalimat bergaris bawah adalah...",
+        options: ["Izhar", "Ikhfa'", "Idgham", "Iqlab"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Perhatikan penggalan ayat: مِنْ قَبْلُ. Hukum bacaan pada kalimat bergaris bawah adalah...",
+        options: ["Ikhfa'", "Izhar", "Idgham Bigunnah", "Iqlab"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Perbedaan utama antara Izhar dan Ikhfa' adalah...",
+        options: ["Panjang pendeknya bacaan", "Ada tidaknya dengung", "Keras lemahnya suara", "Tinggi rendahnya nada"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Huruf mana saja yang termasuk dalam kelompok huruf Izhar?",
+        options: ["ا, ج, غ", "ء, هـ, ع, ح, غ, خ", "ت, ث, ج, د, ذ, ز, س, ش, ص, ض, ط, ظ, ف, ق, ك", "ب"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Hukum bacaan nun mati atau tanwin dibagi menjadi...",
+        options: ["2 macam", "4 macam", "6 macam", "8 macam"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Ketika nun mati bertemu dengan huruf Kha' (خ), hukum bacaannya menjadi...",
+        options: ["Izhar", "Ikhfa'", "Idgham", "Iqlab"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Lafaz 'unẓur' (اُنْظُرْ) mengandung hukum bacaan...",
+        options: ["Izhar karena nun mati bertemu Zha'", "Ikhfa' karena nun mati bertemu Zha'", "Idgham karena nun mati bertemu Zha'", "Iqlab karena nun mati bertemu Zha'"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Bunyi dengung pada Ikhfa' dibaca selama...",
+        options: ["1 harakat", "2 harakat", "3 harakat", "Tidak ada ketentuan"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Tanda baca yang menunjukan tanwin adalah...",
+        options: ["Fathah, Kasrah, Dhammah yang ditulis double", "Sukun", "Tasydid", "Mad"],
+        correct: 0,
+        points: 5
+    }
+                ]
+            },
+            alashr: {
+                memory: [
+                    { arabic: "وَالْعَصْرِ", translation: "Demi masa" },
+                    { arabic: "إِنَّ الْإِنسَانَ", translation: "Sesungguhnya manusia" },
+                    { arabic: "لَفِي خُسْرٍ", translation: "dalam kerugian" },
+                    { arabic: "آمَنُوا", translation: "beriman" },
+                    { arabic: "عَمِلُوا الصَّالِحَاتِ", translation: "beramal saleh" },
+                    { arabic: "تَوَاصَوْا بِالْحَقِّ", translation: "saling menasehati dengan kebenaran" }
+                ],
+                quiz: [
+    {
+        question: "Surah Al-'Asr adalah surah yang ke-berapa dalam Al-Qur'an?",
+        options: ["Ke-103", "Ke-107", "Ke-110", "Ke-114"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Jumlah ayat dalam Surah Al-'Asr adalah...",
+        options: ["2 ayat", "3 ayat", "4 ayat", "5 ayat"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Arti dari kata 'Al-'Asr' dalam surah tersebut adalah...",
+        options: ["Waktu Dhuha", "Waktu Ashar", "Waktu", "Masa"],
+        correct: 3,
+        points: 5
+    },
+    {
+        question: "Surah Al-'Asr tergolong ke dalam surah...",
+        options: ["Madaniyah", "Makkiyah", "Syamiyah", "Hijriyah"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Pokok kandungan Surah Al-'Asr adalah tentang...",
+        options: ["Kisah Nabi", "Hukum Waris", "Ciri-ciri Orang yang Beruntung", "Hari Kiamat"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Allah bersumpah dengan waktu 'Asr untuk menunjukkan bahwa...",
+        options: ["Waktu Ashar sangat penting", "Manusia selalu merugi", "Waktu adalah pedang", "Waktu adalah kehidupan"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Siapakah yang termasuk dalam golongan orang yang tidak merugi menurut Surah Al-'Asr?",
+        options: ["Orang yang kaya raya", "Orang yang berilmu", "Orang yang beriman dan beramal shaleh", "Orang yang berkuasa"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Lafaz 'wa tawāshaụ bil-ḥaqqi' mengandung arti...",
+        options: ["Dan saling menasihati dalam kesabaran", "Dan saling menasihati dalam kebenaran", "Dan saling tolong-menolong dalam kebaikan", "Dan saling mengingatkan dalam ibadah"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Lafaz 'wa tawāshaụ biṣ-ṣabr' mengandung arti...",
+        options: ["Dan saling menasihati dalam kesabaran", "Dan saling menasihati dalam kebenaran", "Dan saling tolong-menolong dalam kebaikan", "Dan saling mengingatkan dalam ibadah"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Surah Al-'Asr diturunkan setelah surah...",
+        options: ["Al-Qadr", "Al-Ikhlas", "An-Nasr", "Al-Quraisy"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Menurut surah ini, manusia berada dalam keadaan...",
+        options: ["Beruntung", "Bersedih", "Merugi", "Bingung"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Amal shaleh dalam Surah Al-'Asr adalah perbuatan baik yang dilakukan berdasarkan...",
+        options: ["Kebiasaan", "Perintah orang tua", "Ilmu dan keimanan", "Keinginan sendiri"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Saling menasihati dalam kebenaran dan kesabaran adalah cara untuk...",
+        options: ["Mendapatkan pujian", "Menghindari kerugian", "Mencari kekayaan", "Mendapatkan jabatan"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Imam Syafi'i pernah berkata bahwa seandainya Allah hanya menurunkan surah Al-'Asr, maka itu sudah...",
+        options: ["Cukup untuk manusia", "Membingungkan manusia", "Menjadi dasar hukum", "Menjadi bukti kenabian"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Surah Al-'Asr mengajarkan kepada kita untuk memanfaatkan...",
+        options: ["Kekayaan", "Waktu", "Kekuasaan", "Ilmu"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Orang yang beriman dan beramal shaleh akan saling menasihati dalam...",
+        options: ["Bersedih dan menangis", "Kebenaran dan kesabaran", "Bersenang-senang", "Bermain dan tidur"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Berikut ini yang bukan merupakan isi Surah Al-'Asr adalah...",
+        options: ["Manusia berada dalam kerugian", "Pentingnya waktu", "Orang yang beruntung memiliki 4 sifat", "Perintah shalat 5 waktu"],
+        correct: 3,
+        points: 5
+    },
+    {
+        question: "Nasihat yang terkandung dalam Surah Al-'Asr sangat cocok untuk diterapkan dalam...",
+        options: ["Kehidupan sehari-hari", "Acara formal saja", "Di masjid saja", "Saat sendiri saja"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Surah Al-'Asr mengajarkan bahwa kesabaran diperlukan dalam...",
+        options: ["Menghadapi ujian dan godaan", "Mengerjakan ujian sekolah", "Menunggu antrian", "Semua benar"],
+        correct: 3,
+        points: 5
+    },
+    {
+        question: "Dengan memahami Surah Al-'Asr, kita menjadi tahu bahwa untuk selamat dari kerugian, kita harus...",
+        options: ["Banyak harta", "Beriman, beramal shaleh, dan saling menasihati", "Pandai bersembunyi", "Selalu menghindari masalah"],
+        correct: 1,
+        points: 5
+    }
+                ]
+            },
+ // Game data templates - LENGKAP untuk semua topik
+const gameData = {
+    tajweed: {
+        memory: [
+            { arabic: "الإظهار", translation: "izhar (jelas)" },
+            { arabic: "الإخفاء", translation: "ikhfa' (samar)" },
+            { arabic: "الغنة", translation: "dengung" },
+            { arabic: "النون الساكنة", translation: "nun sukun" },
+            { arabic: "التنوين", translation: "tanwin" },
+            { arabic: "المخرج", translation: "tempat keluar huruf" }
+        ],
+        quiz: [
+            // ... (soal tajweed yang sudah ada sebelumnya)
+        ]
+    },
+    alashr: {
+        memory: [
+            { arabic: "وَالْعَصْرِ", translation: "Demi masa" },
+            { arabic: "إِنَّ الْإِنسَانَ", translation: "Sesungguhnya manusia" },
+            { arabic: "لَفِي خُسْرٍ", translation: "dalam kerugian" },
+            { arabic: "آمَنُوا", translation: "beriman" },
+            { arabic: "عَمِلُوا الصَّالِحَاتِ", translation: "beramal saleh" },
+            { arabic: "تَوَاصَوْا بِالْحَقِّ", translation: "saling menasehati dengan kebenaran" }
+        ],
+        quiz: [
+            // ... (soal alashr yang sudah ada sebelumnya)
+        ]
+    },
+    quraisy: {
+        memory: [
+            { arabic: "لِإِيلَافِ", translation: "Karena kebiasaan" },
+            { arabic: "قُرَيْشٍ", translation: "Suku Quraisy" },
+            { arabic: "رِحْلَةَ", translation: "Perjalanan" },
+            { arabic: "الشِّتَاءِ", translation: "Musim dingin" },
+            { arabic: "الصَّيْفِ", translation: "Musim panas" },
+            { arabic: "فَلْيَعْبُدُوا", translation: "Hendaklah mereka menyembah" }
+        ],
+        quiz: [
+            // ... (soal quraisy yang sudah ada sebelumnya)
+        ]
+    },
+    maun: {
+        memory: [
+            { arabic: "أَرَأَيْتَ", translation: "Tahukah kamu" },
+            { arabic: "يُكَذِّبُ", translation: "mendustakan" },
+            { arabic: "بِالدِّينِ", translation: "agama" },
+            { arabic: "يَدُعُّ", translation: "menghardik" },
+            { arabic: "الْيَتِيمَ", translation: "anak yatim" },
+            { arabic: "يَحُضُّ", translation: "menganjurkan" },
+            { arabic: "الْمِسْكِينِ", translation: "orang miskin" },
+            { arabic: "سَاهُونَ", translation: "lalai" },
+            { arabic: "يُرَاءُونَ", translation: "berbuat riya" },
+            { arabic: "يَمْنَعُونَ", translation: "enggan/menolak" }
+        ],
+        quiz: [
+            {
+                question: "Berapa jumlah ayat dalam Surah Al-Ma'un?",
+                options: ["5 ayat", "6 ayat", "7 ayat", "8 ayat"],
+                correct: 2,
+                points: 5
+            },
+            {
+                question: "Apa arti dari 'Al-Ma'un'?",
+                options: ["Bantuan", "Barang-barang berguna", "Kebaikan", "Sedekah"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Siapa yang disebut mendustakan agama dalam Surah Al-Ma'un?",
+                options: ["Orang yang shalat", "Orang yang menghardik anak yatim", "Orang yang kaya", "Orang yang berilmu"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa ciri orang yang lalai dalam shalat menurut Surah Al-Ma'un?",
+                options: ["Shalat dengan cepat", "Shalat tidak khusyuk dan tepat waktu", "Shalat tanpa wudhu", "Shalat sendirian"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa yang dimaksud dengan 'riya' dalam Surah Al-Ma'un?",
+                options: ["Shalat dengan suara keras", "Beribadah ingin dilihat orang", "Shalat di masjid besar", "Berdoa dengan panjang"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa yang enggan diberikan oleh orang yang mendustakan agama?",
+                options: ["Uang", "Makanan", "Barang-barang berguna", "Pakaian"],
+                correct: 2,
+                points: 5
+            },
+            {
+                question: "Surah Al-Ma'un tergolong surah...",
+                options: ["Madaniyah", "Makkiyah", "Syamiyah", "Hijriyah"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa pelajaran utama dari Surah Al-Ma'un?",
+                options: ["Pentingnya shalat", "Kepedulian sosial dalam Islam", "Keutamaan sedekah", "Kewajiban berpuasa"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Orang yang bagaimana yang disebut celaka dalam Surah Al-Ma'un?",
+                options: ["Orang yang kaya", "Orang yang shalat tetapi lalai", "Orang yang tidak shalat", "Orang yang berilmu"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa lawan kata dari 'menghardik anak yatim'?",
+                options: ["Menyayangi anak yatim", "Mengajari anak yatim", "Memberi makan anak yatim", "Mendidik anak yatim"],
+                correct: 0,
+                points: 5
+            }
+        ]
+    },
+    takatsur: {
+        memory: [
+            { arabic: "أَلْهَاكُمُ", translation: "telah melalaikan kamu" },
+            { arabic: "التَّكَاثُرُ", translation: "bermegah-megahan" },
+            { arabic: "الْمَقَابِرَ", translation: "kubur" },
+            { arabic: "كَلَّا", translation: "jangan begitu" },
+            { arabic: "سَوْفَ", translation: "kelak" },
+            { arabic: "تَعْلَمُونَ", translation: "kamu akan mengetahui" },
+            { arabic: "عِلْمَ", translation: "pengetahuan" },
+            { arabic: "الْيَقِينِ", translation: "yakin" },
+            { arabic: "الْجَحِيمَ", translation: "neraka Jahim" },
+            { arabic: "عَيْنَ", translation: "mata kepala" }
+        ],
+        quiz: [
+            {
+                question: "Berapa jumlah ayat dalam Surah At-Takatsur?",
+                options: ["6 ayat", "7 ayat", "8 ayat", "9 ayat"],
+                correct: 2,
+                points: 5
+            },
+            {
+                question: "Apa arti dari 'At-Takatsur'?",
+                options: ["Bermegah-megahan", "Bersedekah", "Berkumpul", "Bersyukur"],
+                correct: 0,
+                points: 5
+            },
+            {
+                question: "Apa yang melalaikan manusia menurut Surah At-Takatsur?",
+                options: ["Harta dan anak", "Bermegah-megahan", "Jabatan dan kekuasaan", "Ilmu pengetahuan"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Sampai kapan manusia bermegah-megahan?",
+                options: ["Sampai tua", "Sampai miskin", "Sampai masuk kubur", "Sampai sakit"],
+                correct: 2,
+                points: 5
+            },
+            {
+                question: "Apa yang akan dilihat manusia di akhirat nanti?",
+                options: ["Surga", "Neraka Jahim", "Malaikat", "Arsy"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa yang akan ditanyakan kepada manusia di hari kiamat?",
+                options: ["Tentang harta", "Tentang kenikmatan", "Tentang keluarga", "Tentang ibadah"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Surah At-Takatsur tergolong surah...",
+                options: ["Madaniyah", "Makkiyah", "Syamiyah", "Hijriyah"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa makna 'ainul yaqin'?",
+                options: ["Keyakinan buta", "Keyakinan dengan mata kepala", "Keyakinan hati", "Keyakinan ilmu"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa peringatan Allah dalam surah ini?",
+                options: ["Jangan sombong", "Jangan bermegah-megahan", "Jangan kikir", "Jangan malas"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa pelajaran utama dari Surah At-Takatsur?",
+                options: ["Hidup sederhana", "Tidak terlena dengan dunia", "Rajin beribadah", "Banyak sedekah"],
+                correct: 1,
+                points: 5
+            }
+        ]
+    },
+    hadis_takwa: {
+        memory: [
+            { arabic: "اتَّقِ", translation: "Bertakwalah" },
+            { arabic: "اللَّهَ", translation: "kepada Allah" },
+            { arabic: "حَيْثُمَا", translation: "di mana pun" },
+            { arabic: "كُنْتَ", translation: "kamu berada" },
+            { arabic: "أَتْبِعِ", translation: "ikutilah" },
+            { arabic: "السَّيِّئَةَ", translation: "perbuatan buruk" },
+            { arabic: "الْحَسَنَةَ", translation: "perbuatan baik" },
+            { arabic: "تَمْحُهَا", translation: "menghapusnya" },
+            { arabic: "وَخَالِقِ", translation: "dan pergaulilah" },
+            { arabic: "النَّاسَ", translation: "manusia" },
+            { arabic: "بِخُلُقٍ", translation: "dengan akhlak" },
+            { arabic: "حَسَنٍ", translation: "yang baik" }
+        ],
+        quiz: [
+            {
+                question: "Siapa perawi hadis tentang takwa?",
+                options: ["Imam Bukhari", "Imam Muslim", "Imam Tirmizi", "Imam Abu Daud"],
+                correct: 2,
+                points: 5
+            },
+            {
+                question: "Apa arti 'ittaqillaha'?",
+                options: ["Cintailah Allah", "Bertakwalah kepada Allah", "Sembahlah Allah", "Pujilah Allah"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Di mana kita harus bertakwa kepada Allah?",
+                options: ["Di masjid saja", "Di mana pun berada", "Di rumah saja", "Di tempat sunyi"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa yang harus dilakukan setelah berbuat salah?",
+                options: ["Menyembunyikannya", "Mengikutinya dengan perbuatan baik", "Melupakannya", "Menyalahkan orang lain"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa yang dapat menghapus perbuatan buruk?",
+                options: ["Uang", "Perbuatan baik", "Permintaan maaf", "Waktu"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Bagaimana cara bergaul dengan manusia?",
+                options: ["Dengan kekayaan", "Dengan akhlak yang baik", "Dengan kepandaian", "Dengan kekuasaan"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa makna takwa secara bahasa?",
+                options: ["Takut", "Cinta", "Menjaga diri", "Taat"],
+                correct: 2,
+                points: 5
+            },
+            {
+                question: "Apa tiga nasihat dalam hadis ini?",
+                options: ["Shalat, puasa, zakat", "Takwa, ikuti keburukan dengan kebaikan, berakhlak baik", "Sedekah, jihad, haji", "Ilmu, amal, dakwah"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa keutamaan akhlak yang baik?",
+                options: ["Mendapatkan kekayaan", "Mempermudah urusan", "Mendatangkan banyak teman", "Meningkatkan derajat"],
+                correct: 3,
+                points: 5
+            },
+            {
+                question: "Apa hubungan antara takwa dan akhlak?",
+                options: ["Tidak ada hubungan", "Takwa tercermin dalam akhlak", "Akhlak lebih penting dari takwa", "Takwa hanya untuk diri sendiri"],
+                correct: 1,
+                points: 5
+            }
+        ]
+    },
+    hadis_niat: {
+        memory: [
+            { arabic: "إِنَّمَا", translation: "Sesungguhnya" },
+            { arabic: "الْأَعْمَالُ", translation: "amal perbuatan" },
+            { arabic: "بِالنِّيَّاتِ", translation: "dengan niat-niat" },
+            { arabic: "لِكُلِّ", translation: "untuk setiap" },
+            { arabic: "امْرِئٍ", translation: "orang" },
+            { arabic: "مَا", translation: "apa yang" },
+            { arabic: "نَوَى", translation: "dia niatkan" }
+        ],
+        quiz: [
+            {
+                question: "Siapa perawi hadis tentang niat?",
+                options: ["Imam Bukhari", "Imam Muslim", "Imam Tirmizi", "Imam Ahmad"],
+                correct: 0,
+                points: 5
+            },
+            {
+                question: "Apa yang menentukan nilai suatu amal?",
+                options: ["Banyaknya amal", "Niatnya", "Tempatnya", "Waktunya"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa arti 'innamal a'malu binniyat'?",
+                options: ["Sesungguhnya amal itu dengan niat", "Sesungguhnya niat itu penting", "Sesungguhnya amal harus ikhlas", "Sesungguhnya niat menentukan amal"],
+                correct: 0,
+                points: 5
+            },
+            {
+                question: "Apa yang akan didapatkan setiap orang?",
+                options: ["Apa yang diinginkannya", "Apa yang diusahakannya", "Apa yang diniatkannya", "Apa yang didoakannya"],
+                correct: 2,
+                points: 5
+            },
+            {
+                question: "Apa syarat niat yang baik?",
+                options: ["Ikhlas karena Allah", "Diketahui orang lain", "Dilakukan dengan sungguh-sungguh", "Ditulis dan diucapkan"],
+                correct: 0,
+                points: 5
+            },
+            {
+                question: "Kapan niat harus dilakukan?",
+                options: ["Sebelum amal", "Sesudah amal", "Selama amal", "Tidak perlu niat"],
+                correct: 0,
+                points: 5
+            },
+            {
+                question: "Apa contoh niat yang ikhlas?",
+                options: ["Beramal untuk dipuji", "Beramal karena Allah", "Beramal untuk mendapatkan upah", "Beramal karena terpaksa"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa akibat niat yang tidak ikhlas?",
+                options: ["Amal tidak diterima", "Amal diterima setengah", "Amal ditunda penerimaannya", "Amal tetap diterima"],
+                correct: 0,
+                points: 5
+            },
+            {
+                question: "Apa keutamaan hadis tentang niat?",
+                options: ["Separuh ilmu Islam", "Sepertiga ilmu Islam", "Seperempat ilmu Islam", "Seluruh ilmu Islam"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa beda niat dan tujuan?",
+                options: ["Niat untuk Allah, tujuan untuk diri", "Niat di hati, tujuan di lisan", "Tidak ada beda", "Niat lebih penting dari tujuan"],
+                correct: 1,
+                points: 5
+            }
+        ]
+    }
+};
+
+        // Evaluation data templates
+        const evaluationData = {
+            tajweed: [
+    {
+        question: "Apa yang dimaksud dengan hukum bacaan Izhar?",
+        options: ["Menyamarkan bacaan huruf nun mati atau tanwin", "Membaca dengan jelas huruf nun mati atau tanwin", "Menyembunyikan bacaan huruf nun mati atau tanwin", "Memanjangkan bacaan huruf nun mati atau tanwin"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Bagaimana cara membaca Izhar?",
+        options: ["Dengan dengung", "Dengan jelas dan tegas tanpa dengung", "Dengan samar-samar", "Dengan memantul"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Huruf Izhar berjumlah...",
+        options: ["4 huruf", "6 huruf", "10 huruf", "15 huruf"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Berikut ini yang merupakan huruf Izhar adalah...",
+        options: ["Ba' (ب)", "Jim (ج)", "Kha' (خ)", "Ta' (ت)"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Apabila nun mati (نْ) bertemu dengan huruf 'Ain (ع), maka hukum bacaannya adalah...",
+        options: ["Ikhfa'", "Idgham", "Iqlab", "Izhar"],
+        correct: 3,
+        points: 5
+    },
+    {
+        question: "Apa yang dimaksud dengan hukum bacaan Ikhfa'?",
+        options: ["Membaca dengan jelas", "Membaca dengan dengung", "Membaca dengan samar-samar dan berdengung", "Membaca dengan memantul"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Huruf Ikhfa' berjumlah...",
+        options: ["6 huruf", "10 huruf", "15 huruf", "20 huruf"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Berikut ini yang merupakan huruf Ikhfa' adalah...",
+        options: ["Alif (ا)", "Ha' (ح)", "Kha' (خ)", "Qaf (ق)"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Apabila tanwin fathah bertemu dengan huruf Ta' (ت), maka hukum bacaannya adalah...",
+        options: ["Izhar", "Ikhfa'", "Idgham", "Iqlab"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Contoh bacaan Izhar dalam Al-Qur'an terdapat pada lafaz...",
+        options: ["مِنْ خَيْرٍ", "مِنْ تَحْتِهَا", "مِنْ بَعْدِ", "أَنْصَارٌ حَمِيدٌ"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Contoh bacaan Ikhfa' dalam Al-Qur'an terdapat pada lafaz...",
+        options: ["أَنْعَمْتَ", "صِرَاطٌ مُسْتَقِيمٌ", "عَلِيمٌ حَكِيمٌ", "يَنْصُرُكُمْ"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Perhatikan penggalan ayat: مِنْ غَسَّاقٍ. Hukum bacaan pada kalimat bergaris bawah adalah...",
+        options: ["Izhar", "Ikhfa'", "Idgham", "Iqlab"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Perhatikan penggalan ayat: مِنْ قَبْلُ. Hukum bacaan pada kalimat bergaris bawah adalah...",
+        options: ["Ikhfa'", "Izhar", "Idgham Bigunnah", "Iqlab"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Perbedaan utama antara Izhar dan Ikhfa' adalah...",
+        options: ["Panjang pendeknya bacaan", "Ada tidaknya dengung", "Keras lemahnya suara", "Tinggi rendahnya nada"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Huruf mana saja yang termasuk dalam kelompok huruf Izhar?",
+        options: ["ا, ج, غ", "ء, هـ, ع, ح, غ, خ", "ت, ث, ج, د, ذ, ز, س, ش, ص, ض, ط, ظ, ف, ق, ك", "ب"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Hukum bacaan nun mati atau tanwin dibagi menjadi...",
+        options: ["2 macam", "4 macam", "6 macam", "8 macam"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Ketika nun mati bertemu dengan huruf Kha' (خ), hukum bacaannya menjadi...",
+        options: ["Izhar", "Ikhfa'", "Idgham", "Iqlab"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Lafaz 'unẓur' (اُنْظُرْ) mengandung hukum bacaan...",
+        options: ["Izhar karena nun mati bertemu Zha'", "Ikhfa' karena nun mati bertemu Zha'", "Idgham karena nun mati bertemu Zha'", "Iqlab karena nun mati bertemu Zha'"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Bunyi dengung pada Ikhfa' dibaca selama...",
+        options: ["1 harakat", "2 harakat", "3 harakat", "Tidak ada ketentuan"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Tanda baca yang menunjukan tanwin adalah...",
+        options: ["Fathah, Kasrah, Dhammah yang ditulis double", "Sukun", "Tasydid", "Mad"],
+        correct: 0,
+        points: 5
+    }
+            ],
+            alashr: [
+    {
+        question: "Surah Al-'Asr adalah surah yang ke-berapa dalam Al-Qur'an?",
+        options: ["Ke-103", "Ke-107", "Ke-110", "Ke-114"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Jumlah ayat dalam Surah Al-'Asr adalah...",
+        options: ["2 ayat", "3 ayat", "4 ayat", "5 ayat"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Arti dari kata 'Al-'Asr' dalam surah tersebut adalah...",
+        options: ["Waktu Dhuha", "Waktu Ashar", "Waktu", "Masa"],
+        correct: 3,
+        points: 5
+    },
+    {
+        question: "Surah Al-'Asr tergolong ke dalam surah...",
+        options: ["Madaniyah", "Makkiyah", "Syamiyah", "Hijriyah"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Pokok kandungan Surah Al-'Asr adalah tentang...",
+        options: ["Kisah Nabi", "Hukum Waris", "Ciri-ciri Orang yang Beruntung", "Hari Kiamat"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Allah bersumpah dengan waktu 'Asr untuk menunjukkan bahwa...",
+        options: ["Waktu Ashar sangat penting", "Manusia selalu merugi", "Waktu adalah pedang", "Waktu adalah kehidupan"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Siapakah yang termasuk dalam golongan orang yang tidak merugi menurut Surah Al-'Asr?",
+        options: ["Orang yang kaya raya", "Orang yang berilmu", "Orang yang beriman dan beramal shaleh", "Orang yang berkuasa"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Lafaz 'wa tawāshaụ bil-ḥaqqi' mengandung arti...",
+        options: ["Dan saling menasihati dalam kesabaran", "Dan saling menasihati dalam kebenaran", "Dan saling tolong-menolong dalam kebaikan", "Dan saling mengingatkan dalam ibadah"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Lafaz 'wa tawāshaụ biṣ-ṣabr' mengandung arti...",
+        options: ["Dan saling menasihati dalam kesabaran", "Dan saling menasihati dalam kebenaran", "Dan saling tolong-menolong dalam kebaikan", "Dan saling mengingatkan dalam ibadah"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Surah Al-'Asr diturunkan setelah surah...",
+        options: ["Al-Qadr", "Al-Ikhlas", "An-Nasr", "Al-Quraisy"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Menurut surah ini, manusia berada dalam keadaan...",
+        options: ["Beruntung", "Bersedih", "Merugi", "Bingung"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Amal shaleh dalam Surah Al-'Asr adalah perbuatan baik yang dilakukan berdasarkan...",
+        options: ["Kebiasaan", "Perintah orang tua", "Ilmu dan keimanan", "Keinginan sendiri"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Saling menasihati dalam kebenaran dan kesabaran adalah cara untuk...",
+        options: ["Mendapatkan pujian", "Menghindari kerugian", "Mencari kekayaan", "Mendapatkan jabatan"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Imam Syafi'i pernah berkata bahwa seandainya Allah hanya menurunkan surah Al-'Asr, maka itu sudah...",
+        options: ["Cukup untuk manusia", "Membingungkan manusia", "Menjadi dasar hukum", "Menjadi bukti kenabian"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Surah Al-'Asr mengajarkan kepada kita untuk memanfaatkan...",
+        options: ["Kekayaan", "Waktu", "Kekuasaan", "Ilmu"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Orang yang beriman dan beramal shaleh akan saling menasihati dalam...",
+        options: ["Bersedih dan menangis", "Kebenaran dan kesabaran", "Bersenang-senang", "Bermain dan tidur"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Berikut ini yang bukan merupakan isi Surah Al-'Asr adalah...",
+        options: ["Manusia berada dalam kerugian", "Pentingnya waktu", "Orang yang beruntung memiliki 4 sifat", "Perintah shalat 5 waktu"],
+        correct: 3,
+        points: 5
+    },
+    {
+        question: "Nasihat yang terkandung dalam Surah Al-'Asr sangat cocok untuk diterapkan dalam...",
+        options: ["Kehidupan sehari-hari", "Acara formal saja", "Di masjid saja", "Saat sendiri saja"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Surah Al-'Asr mengajarkan bahwa kesabaran diperlukan dalam...",
+        options: ["Menghadapi ujian dan godaan", "Mengerjakan ujian sekolah", "Menunggu antrian", "Semua benar"],
+        correct: 3,
+        points: 5
+    },
+    {
+        question: "Dengan memahami Surah Al-'Asr, kita menjadi tahu bahwa untuk selamat dari kerugian, kita harus...",
+        options: ["Banyak harta", "Beriman, beramal shaleh, dan saling menasihati", "Pandai bersembunyi", "Selalu menghindari masalah"],
+        correct: 1,
+        points: 5
+    }
+            ],
+            quraisy: [
+    {
+        question: "Surah Quraisy adalah surah yang ke-berapa dalam Al-Qur'an?",
+        options: ["Ke-104", "Ke-105", "Ke-106", "Ke-107"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Jumlah ayat dalam Surah Quraisy adalah...",
+        options: ["3 ayat", "4 ayat", "5 ayat", "6 ayat"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Surah Quraisy tergolong ke dalam surah...",
+        options: ["Madaniyah", "Makkiyah", "Syamiyah", "Hijriyah"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Arti dari 'Quraisy' adalah...",
+        options: ["Nama sebuah kabilah", "Nama sebuah kota", "Nama seorang Nabi", "Nama sebuah sungai"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Surah Quraisy diturunkan setelah surah...",
+        options: ["Al-Fiil", "At-Takatsur", "Al-Kautsar", "Al-Ma'un"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Pokok kandungan Surah Quraisy adalah tentang...",
+        options: ["Kisah pasukan gajah", "Nikmat Allah kepada suku Quraisy", "Hari Kiamat", "Ciri-ciri orang munafik"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Nikmat apa yang disebutkan dalam surah ini yang diberikan Allah kepada suku Quraisy?",
+        options: ["Kemampuan berperang", "Kecerdasan berdagang", "Keamanan dalam perjalanan dan kecukupan rezeki", "Kekuatan fisik yang hebat"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Lafaz 'ilāfihim' dalam Surah Quraisy berarti...",
+        options: ["Kebiasaan mereka", "Kekayaan mereka", "Perjalanan mereka", "Keselamatan mereka"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Kebiasaan suku Quraisy yang disebutkan dalam surah ini adalah...",
+        options: ["Berdagang ke Yaman dan Syam", "Berkebun dan beternak", "Berperang dan berburu", "Membaca dan menulis"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Aman dari rasa takut adalah nikmat Allah yang diberikan kepada suku Quraisy, sehingga mereka bisa...",
+        options: ["Berdagang dengan tenang", "Berperang dengan gagah", "Bermalas-malasan", "Pamer kekayaan"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Surah Quraisy memiliki hubungan yang sangat erat dengan surah sebelumnya, yaitu...",
+        options: ["Al-Kafirun", "Al-Ma'un", "Al-Fiil", "Al-Humazah"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Apa perintah Allah di akhir Surah Quraisy?",
+        options: ["Maka hendaklah mereka menyembah Tuhan pemilik rumah ini (Ka'bah)", "Maka hendaklah mereka bersyukur", "Maka hendaklah mereka berhijrah", "Maka hendaklah mereka berdagang"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "'Rumah' yang dimaksud dalam ayat 'Rabba hāżal-bait' adalah...",
+        options: ["Baitul Mal", "Baitullah (Ka'bah)", "Rumah Nabi", "Rumah mereka sendiri"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Allah memberikan kecukupan rezeki kepada suku Quraisy berupa...",
+        options: ["Kekayaan yang melimpah ruah", "Makanan untuk mengenyangkan (dari lapar) dan keamanan (dari ketakutan)", "Kemewahan dan harta benda", "Ketenangan dan kemewahan"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Sikap yang diajarkan dari Surah Quraisy setelah menerima nikmat adalah...",
+        options: ["Sombong dan berbangga diri", "Bersyukur dan beribadah hanya kepada Allah", "Diam dan menyendiri", "Bersedih dan menangis"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Kata 'asy-syitā`i' dalam surah ini berarti...",
+        options: ["Musim semi", "Musim panas", "Musim dingin", "Musim gugur"],
+        correct: 2,
+        points: 5
+    },
+    {
+        question: "Kata 'waṣ-ṣaif' dalam surah ini berarti...",
+        options: ["Musim semi", "Musim panas", "Musim dingin", "Musim gugur"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Perjalanan dagang musim dingin suku Quraisy biasanya menuju ke...",
+        options: ["Syam (Syria)", "Yaman", "Irak", "Mesir"],
+        correct: 1,
+        points: 5
+    },
+    {
+        question: "Perjalanan dagang musim panas suku Quraisy biasanya menuju ke...",
+        options: ["Syam (Syria)", "Yaman", "Irak", "Mesir"],
+        correct: 0,
+        points: 5
+    },
+    {
+        question: "Inti pesan dari Surah Quraisy adalah...",
+        options: ["Harta adalah segalanya", "Bersyukurlah atas nikmat Allah dengan menyembah-Nya", "Berdaganglah ke mana saja", "Jadilah suku yang paling kuat"],
+        correct: 1,
+        points: 5
+    }
+            ],
+     maun: [
+        {
+            question: "Berapa jumlah ayat dalam Surah Al-Ma'un?",
+            options: ["5 ayat", "6 ayat", "7 ayat", "8 ayat"],
+            correct: 2,
+            points: 5
+        },
+        {
+            question: "Apa arti dari 'Al-Ma'un'?",
+            options: ["Bantuan", "Barang-barang berguna", "Kebaikan", "Sedekah"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Siapa yang disebut mendustakan agama dalam Surah Al-Ma'un?",
+            options: ["Orang yang shalat", "Orang yang menghardik anak yatim", "Orang yang kaya", "Orang yang berilmu"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa ciri orang yang lalai dalam shalat menurut Surah Al-Ma'un?",
+            options: ["Shalat dengan cepat", "Shalat tidak khusyuk dan tepat waktu", "Shalat tanpa wudhu", "Shalat sendirian"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa yang dimaksud dengan 'riya' dalam Surah Al-Ma'un?",
+            options: ["Shalat dengan suara keras", "Beribadah ingin dilihat orang", "Shalat di masjid besar", "Berdoa dengan panjang"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa yang enggan diberikan oleh orang yang mendustakan agama?",
+            options: ["Uang", "Makanan", "Barang-barang berguna", "Pakaian"],
+            correct: 2,
+            points: 5
+        },
+        {
+            question: "Surah Al-Ma'un tergolong surah...",
+            options: ["Madaniyah", "Makkiyah", "Syamiyah", "Hijriyah"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa pelajaran utama dari Surah Al-Ma'un?",
+            options: ["Pentingnya shalat", "Kepedulian sosial dalam Islam", "Keutamaan sedekah", "Kewajiban berpuasa"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Orang yang bagaimana yang disebut celaka dalam Surah Al-Ma'un?",
+            options: ["Orang yang kaya", "Orang yang shalat tetapi lalai", "Orang yang tidak shalat", "Orang yang berilmu"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa lawan kata dari 'menghardik anak yatim'?",
+            options: ["Menyayangi anak yatim", "Mengajari anak yatim", "Memberi makan anak yatim", "Mendidik anak yatim"],
+            correct: 0,
+            points: 5
+        }
+    ],
+    takatsur: [
+        {
+            question: "Berapa jumlah ayat dalam Surah At-Takatsur?",
+            options: ["6 ayat", "7 ayat", "8 ayat", "9 ayat"],
+            correct: 2,
+            points: 5
+        },
+        {
+            question: "Apa arti dari 'At-Takatsur'?",
+            options: ["Bermegah-megahan", "Bersedekah", "Berkumpul", "Bersyukur"],
+            correct: 0,
+            points: 5
+        },
+        {
+            question: "Apa yang melalaikan manusia menurut Surah At-Takatsur?",
+            options: ["Harta dan anak", "Bermegah-megahan", "Jabatan dan kekuasaan", "Ilmu pengetahuan"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Sampai kapan manusia bermegah-megahan?",
+            options: ["Sampai tua", "Sampai miskin", "Sampai masuk kubur", "Sampai sakit"],
+            correct: 2,
+            points: 5
+        },
+        {
+            question: "Apa yang akan dilihat manusia di akhirat nanti?",
+            options: ["Surga", "Neraka Jahim", "Malaikat", "Arsy"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa yang akan ditanyakan kepada manusia di hari kiamat?",
+            options: ["Tentang harta", "Tentang kenikmatan", "Tentang keluarga", "Tentang ibadah"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Surah At-Takatsur tergolong surah...",
+            options: ["Madaniyah", "Makkiyah", "Syamiyah", "Hijriyah"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa makna 'ainul yaqin'?",
+            options: ["Keyakinan buta", "Keyakinan dengan mata kepala", "Keyakinan hati", "Keyakinan ilmu"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa peringatan Allah dalam surah ini?",
+            options: ["Jangan sombong", "Jangan bermegah-megahan", "Jangan kikir", "Jangan malas"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa pelajaran utama dari Surah At-Takatsur?",
+            options: ["Hidup sederhana", "Tidak terlena dengan dunia", "Rajin beribadah", "Banyak sedekah"],
+            correct: 1,
+            points: 5
+        }
+    ],
+    hadis_takwa: [
+        {
+            question: "Siapa perawi hadis tentang takwa?",
+            options: ["Imam Bukhari", "Imam Muslim", "Imam Tirmizi", "Imam Abu Daud"],
+            correct: 2,
+            points: 5
+        },
+        {
+            question: "Apa arti 'ittaqillaha'?",
+            options: ["Cintailah Allah", "Bertakwalah kepada Allah", "Sembahlah Allah", "Pujilah Allah"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Di mana kita harus bertakwa kepada Allah?",
+            options: ["Di masjid saja", "Di mana pun berada", "Di rumah saja", "Di tempat sunyi"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa yang harus dilakukan setelah berbuat salah?",
+            options: ["Menyembunyikannya", "Mengikutinya dengan perbuatan baik", "Melupakannya", "Menyalahkan orang lain"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa yang dapat menghapus perbuatan buruk?",
+            options: ["Uang", "Perbuatan baik", "Permintaan maaf", "Waktu"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Bagaimana cara bergaul dengan manusia?",
+            options: ["Dengan kekayaan", "Dengan akhlak yang baik", "Dengan kepandaian", "Dengan kekuasaan"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa makna takwa secara bahasa?",
+            options: ["Takut", "Cinta", "Menjaga diri", "Taat"],
+            correct: 2,
+            points: 5
+        },
+        {
+            question: "Apa tiga nasihat dalam hadis ini?",
+            options: ["Shalat, puasa, zakat", "Takwa, ikuti keburukan dengan kebaikan, berakhlak baik", "Sedekah, jihad, haji", "Ilmu, amal, dakwah"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa keutamaan akhlak yang baik?",
+            options: ["Mendapatkan kekayaan", "Mempermudah urusan", "Mendatangkan banyak teman", "Meningkatkan derajat"],
+            correct: 3,
+            points: 5
+        },
+        {
+            question: "Apa hubungan antara takwa dan akhlak?",
+            options: ["Tidak ada hubungan", "Takwa tercermin dalam akhlak", "Akhlak lebih penting dari takwa", "Takwa hanya untuk diri sendiri"],
+            correct: 1,
+            points: 5
+        }
+    ],
+    hadis_niat: [
+        {
+            question: "Siapa perawi hadis tentang niat?",
+            options: ["Imam Bukhari", "Imam Muslim", "Imam Tirmizi", "Imam Ahmad"],
+            correct: 0,
+            points: 5
+        },
+        {
+            question: "Apa yang menentukan nilai suatu amal?",
+            options: ["Banyaknya amal", "Niatnya", "Tempatnya", "Waktunya"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa arti 'innamal a'malu binniyat'?",
+            options: ["Sesungguhnya amal itu dengan niat", "Sesungguhnya niat itu penting", "Sesungguhnya amal harus ikhlas", "Sesungguhnya niat menentukan amal"],
+            correct: 0,
+            points: 5
+        },
+        {
+            question: "Apa yang akan didapatkan setiap orang?",
+            options: ["Apa yang diinginkannya", "Apa yang diusahakannya", "Apa yang diniatkannya", "Apa yang didoakannya"],
+            correct: 2,
+            points: 5
+        },
+        {
+            question: "Apa syarat niat yang baik?",
+            options: ["Ikhlas karena Allah", "Diketahui orang lain", "Dilakukan dengan sungguh-sungguh", "Ditulis dan diucapkan"],
+            correct: 0,
+            points: 5
+        },
+        {
+            question: "Kapan niat harus dilakukan?",
+            options: ["Sebelum amal", "Sesudah amal", "Selama amal", "Tidak perlu niat"],
+            correct: 0,
+            points: 5
+        },
+        {
+            question: "Apa contoh niat yang ikhlas?",
+            options: ["Beramal untuk dipuji", "Beramal karena Allah", "Beramal untuk mendapatkan upah", "Beramal karena terpaksa"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa akibat niat yang tidak ikhlas?",
+            options: ["Amal tidak diterima", "Amal diterima setengah", "Amal ditunda penerimaannya", "Amal tetap diterima"],
+            correct: 0,
+            points: 5
+        },
+        {
+            question: "Apa keutamaan hadis tentang niat?",
+            options: ["Separuh ilmu Islam", "Sepertiga ilmu Islam", "Seperempat ilmu Islam", "Seluruh ilmu Islam"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa beda niat dan tujuan?",
+            options: ["Niat untuk Allah, tujuan untuk diri", "Niat di hati, tujuan di lisan", "Tidak ada beda", "Niat lebih penting dari tujuan"],
+            correct: 1,
+            points: 5
+        }
+    ]
+};
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadStudentData();
+            updatePointsDisplay();
+            updateStarsDisplay();
+        });
+
+        // Navigation functions
+        function showMainMenu() {
+            document.getElementById('mainMenu').classList.remove('hidden');
+            document.getElementById('subMenu').classList.add('hidden');
+            document.getElementById('contentArea').classList.add('hidden');
+            stopAudio();
+        }
+
+        function showSubMenu(topic) {
+            currentTopic = topic;
+            document.getElementById('mainMenu').classList.add('hidden');
+            document.getElementById('subMenu').classList.remove('hidden');
+            document.getElementById('contentArea').classList.add('hidden');
+            
+            const titles = {
+                tajweed: 'أحكام الإظهار والإخفاء - Hukum Izhar dan Ikhfa\'',
+                alashr: 'سورة العصر - Surah Al-Ashr',
+                quraisy: 'سورة قريش - Surah Quraisy',
+                maun: 'سورة الماعون - Surah Al-Ma\'un',
+                takatsur: 'سورة التكاثر - Surah At-Takatsur',
+                hadis_takwa: 'حديث عن التقوى - Hadis tentang Takwa',
+                hadis_niat: 'حديث عن النية - Hadis tentang Niat'
+            };
+            
+            document.getElementById('subMenuTitle').textContent = titles[topic];
+            stopAudio();
+        }
+
+        function showContent(contentType) {
+            currentContent = contentType;
+            document.getElementById('subMenu').classList.add('hidden');
+            document.getElementById('contentArea').classList.remove('hidden');
+            
+            const titles = {
+                materi: 'مواد التعلم - Materi Pembelajaran',
+                game: 'الألعاب التعليمية - Game Edukasi',
+                evaluasi: 'التقييم - Evaluasi'
+            };
+            
+            document.getElementById('contentTitle').textContent = titles[contentType];
+            loadContent(currentTopic, contentType);
+            stopAudio();
+        }
+
+        // Content loading functions
+        function loadContent(topic, contentType) {
+            const contentBody = document.getElementById('contentBody');
+            
+            switch(contentType) {
+                case 'materi':
+                    loadMateriContent(topic, contentBody);
+                    break;
+                case 'game':
+                    loadGameContent(topic, contentBody);
+                    break;
+                case 'evaluasi':
+                    loadEvaluasiContent(topic, contentBody);
+                    break;
+            }
+        }
+
+        function loadMateriContent(topic, container) {
+            const data = materiData[topic];
+            if (!data) {
+                container.innerHTML = `
+                    <div class="text-center py-16">
+                        <div class="text-6xl text-gray-400 mb-4">
+                            <i class="fas fa-construction"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-600 mb-4">Materi Sedang Dikembangkan</h3>
+                        <p class="text-gray-500 mb-6">Materi untuk topik ini sedang dalam tahap pengembangan. Silakan kembali lagi nanti.</p>
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 max-w-md mx-auto">
+                            <p class="text-yellow-800 text-sm">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                Anda dapat mengisi konten materi di bagian ini sesuai kebutuhan pembelajaran.
+                            </p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            if (topic === 'tajweed') {
+                loadTajweedMateri(container);
+            } else if (topic.startsWith('hadis_')) {
+                loadHadisMateri(topic, container);
+            } else {
+                loadSurahMateri(topic, container);
+            }
+        }
+
+        function loadSurahMateri(surahKey, container) {
+            const surah = materiData[surahKey];
+            if (!surah) return;
+
+            container.innerHTML = `
+                <div class="text-center mb-8">
+                    <h3 class="text-4xl font-bold text-gray-800 mb-4 arabic-text">${surah.name}</h3>
+                    <p class="text-2xl text-gray-600 font-semibold mb-2">${surah.nameIndo}</p>
+                    <p class="text-lg text-gray-500 mb-4">Artinya: ${surah.meaning}</p>
+                    <div class="flex justify-center space-x-4 mb-6">
+                        <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full font-semibold">
+                            <i class="fas fa-map-marker-alt mr-2"></i>${surah.type}
+                        </span>
+                        <span class="bg-green-100 text-green-800 px-4 py-2 rounded-full font-semibold">
+                            <i class="fas fa-list-ol mr-2"></i>${surah.verses} آيات
+                        </span>
+                        ${surah.order ? `<span class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full font-semibold">
+                            <i class="fas fa-sort-numeric-down mr-2"></i>No. ${surah.order}
+                        </span>` : ''}
+                    </div>
+                </div>
+
+                <!-- Complete Surah Text -->
+                <div class="bg-gradient-to-br from-emerald-50 to-teal-50 p-4 md:p-8 rounded-2xl md:rounded-3xl border-2 md:border-3 border-emerald-200 shadow-xl mb-6 md:mb-8">
+                    <div class="text-center mb-6">
+                        <h4 class="text-2xl font-bold text-emerald-800 mb-4 arabic-text">النص الكامل للسورة</h4>
+                        ${surah.fullAudioUrl ? `
+                        <button onclick="playFullSurahAudio('${surah.fullAudioUrl}', '${surah.nameIndo}')" class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:from-green-600 hover:to-emerald-700 transition-all transform hover:scale-105" id="fullSurahBtn">
+                            <i class="fas fa-play mr-3"></i>
+                            Dengarkan Surah Lengkap
+                        </button>
+                        <p class="text-gray-600 mt-2 text-sm">Audio murotal dengan metode Ummi</p>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="arabic-full-surah text-gray-800 mb-6 text-center p-4 md:p-6 bg-white rounded-2xl shadow-inner">
+                        <div class="mb-4 text-emerald-600 arabic-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+                        <div class="leading-loose">
+                            ${surah.content.map(verse => verse.arabic).join(' ۝ ')}
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-2xl shadow-inner">
+                        <h5 class="text-lg font-bold text-emerald-800 mb-3">
+                            <i class="fas fa-language mr-2"></i>
+                            Terjemahan Lengkap:
+                        </h5>
+                        <p class="text-emerald-700 text-lg leading-relaxed">
+                            "Dengan nama Allah Yang Maha Pengasih, Maha Penyayang. ${surah.content.map(verse => verse.translation).join('. ')}"
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Mufradat (Vocabulary) -->
+                ${surah.mufradat ? `
+                <div class="bg-gradient-to-br from-purple-50 to-indigo-50 p-4 md:p-8 rounded-2xl md:rounded-3xl border-2 md:border-3 border-purple-200 shadow-xl mb-6 md:mb-8">
+                    <h4 class="text-2xl font-bold text-purple-800 mb-6 text-center">
+                        <i class="fas fa-book mr-2"></i>
+                        المفردات - Kosakata
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+                        ${surah.mufradat.map(vocab => `
+                            <div class="bg-white p-3 md:p-4 rounded-xl shadow-lg border border-purple-200">
+                                <div class="text-xl md:text-2xl arabic-text text-purple-800 font-bold mb-2 text-center">${vocab.arabic}</div>
+                                <div class="text-center">
+                                    <div class="text-purple-600 font-semibold">${vocab.meaning}</div>
+                                    ${vocab.type ? `<div class="text-xs text-gray-500 mt-1">(${vocab.type})</div>` : ''}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                ` : ''}
+
+                <!-- Audio Instructions -->
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-2xl border-2 border-blue-200 mb-8 text-center">
+                    <div class="text-blue-600 text-2xl mb-2">
+                        <i class="fas fa-hand-pointer"></i>
+                    </div>
+                    <p class="text-blue-800 font-semibold text-lg">
+                        💡 <strong>Tip:</strong> Tap ayatnya untuk mendengarkan audionya
+                    </p>
+                    <p class="text-blue-600 text-sm mt-1">اضغط على الآية لسماع الصوت</p>
+                </div>
+
+                <!-- Verses -->
+                <div class="space-y-6">
+                    ${surah.content.map((verse, index) => `
+                        <div class="verse-highlight p-4 md:p-6 rounded-xl md:rounded-2xl border border-gray-200 shadow-lg">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex-1">
+                                    <div class="flex items-start gap-3 md:gap-4 mb-4">
+                                        <span class="bg-gradient-to-r from-blue-500 to-purple-600 text-white w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center font-bold text-sm md:text-lg flex-shrink-0 mt-1 md:mt-2">
+                                            ${index + 1}
+                                        </span>
+                                        <div onclick="playVerseAudio('${verse.audioUrl}', ${index + 1})" class="arabic-verse text-gray-800 text-right p-3 md:p-4 bg-gray-50 rounded-xl cursor-pointer hover:bg-blue-50 transition-colors border-2 border-transparent hover:border-blue-300 flex-1 leading-relaxed" id="verse_${index}" title="Klik untuk mendengarkan ayat ${index + 1}">
+                                            ${verse.arabic}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-blue-50 p-4 rounded-xl mb-3">
+                                        <p class="text-lg text-blue-800 font-semibold mb-2 indo-text">
+                                            <i class="fas fa-font mr-2"></i>
+                                            Bacaan Latin:
+                                        </p>
+                                        <p class="text-blue-700 italic latin-text">${verse.latin}</p>
+                                    </div>
+                                    
+                                    <div class="bg-green-50 p-4 rounded-xl mb-3">
+                                        <p class="text-lg text-green-800 font-semibold mb-2 indo-text">
+                                            <i class="fas fa-language mr-2"></i>
+                                            Terjemahan:
+                                        </p>
+                                        <p class="text-green-700 indo-text">${verse.translation}</p>
+                                    </div>
+                                    
+                                    <div class="bg-yellow-50 p-4 rounded-xl">
+                                        <p class="text-lg text-yellow-800 font-semibold mb-2 indo-text">
+                                            <i class="fas fa-lightbulb mr-2"></i>
+                                            Penjelasan:
+                                        </p>
+                                        <p class="text-yellow-700 indo-text">${verse.explanation}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <!-- Lessons Learned -->
+                <div class="mt-8 bg-gradient-to-r from-indigo-50 to-purple-50 p-6 rounded-2xl border-2 border-indigo-200">
+                    <h4 class="text-2xl font-bold text-indigo-800 mb-4">
+                        <i class="fas fa-graduation-cap mr-2"></i>
+                        Pelajaran yang Dapat Diambil
+                    </h4>
+                    <ul class="text-indigo-700 space-y-2">
+                        ${surah.lessons.map(lesson => `
+                            <li><i class="fas fa-check-circle mr-2 text-green-500"></i>${lesson}</li>
+                        `).join('')}
+                    </ul>
+                </div>
+
+                <!-- Study Tips -->
+                <div class="mt-8 bg-gradient-to-r from-yellow-50 to-orange-50 p-6 rounded-2xl border-2 border-yellow-200">
+                    <h4 class="text-xl font-bold text-orange-800 mb-4">
+                        <i class="fas fa-lightbulb mr-2"></i>
+                        Tips Belajar
+                    </h4>
+                    <ul class="text-orange-700 space-y-2">
+                        <li><i class="fas fa-star mr-2 text-yellow-500"></i>Dengarkan audio berulang-ulang</li>
+                        <li><i class="fas fa-star mr-2 text-yellow-500"></i>Hafalkan per ayat secara bertahap</li>
+                        <li><i class="fas fa-star mr-2 text-yellow-500"></i>Pahami arti setiap ayat</li>
+                        <li><i class="fas fa-star mr-2 text-yellow-500"></i>Praktikkan dalam shalat</li>
+                        <li><i class="fas fa-star mr-2 text-yellow-500"></i>Renungkan makna dan pelajarannya</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        function loadHadisMateri(hadisKey, container) {
+            const hadis = materiData[hadisKey];
+            if (!hadis) return;
+
+            container.innerHTML = `
+                <div class="text-center mb-8">
+                    <h3 class="text-4xl font-bold text-gray-800 mb-4 arabic-text">${hadis.title}</h3>
+                    <p class="text-2xl text-gray-600 font-semibold mb-6">${hadis.titleIndo}</p>
+                </div>
+
+                <!-- Template Notice -->
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-8">
+                    <div class="flex items-center">
+                        <i class="fas fa-info-circle text-yellow-600 text-2xl mr-3"></i>
+                        <div>
+                            <h4 class="text-lg font-semibold text-yellow-800 mb-2">Template Materi Hadis</h4>
+                            <p class="text-yellow-700">Silakan lengkapi teks hadis, terjemahan, dan penjelasan sesuai kebutuhan pembelajaran.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hadis Text -->
+                <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-8 rounded-3xl border-3 border-green-200 shadow-xl mb-8">
+                    <div class="text-center mb-6">
+                        <h4 class="text-2xl font-bold text-green-800 mb-4 arabic-text">نص الحديث</h4>
+                        <button onclick="playHadisAudio('${hadis.hadis}')" class="audio-player" id="hadisAudioBtn">
+                            <i class="fas fa-volume-up mr-2"></i>
+                            استمع للحديث
+                        </button>
+                    </div>
+                    
+                    <div class="text-3xl arabic-large text-gray-800 mb-6 leading-loose text-center p-6 bg-white rounded-2xl shadow-inner">
+                        ${hadis.hadis}
+                    </div>
+                    
+                    <div class="bg-blue-50 p-6 rounded-2xl mb-4">
+                        <p class="text-lg text-blue-800 font-semibold mb-3 indo-text">
+                            <i class="fas fa-font mr-2"></i>
+                            Bacaan Latin:
+                        </p>
+                        <p class="text-blue-700 italic text-lg leading-relaxed latin-text">${hadis.latin}</p>
+                    </div>
+                    
+                    <div class="bg-purple-50 p-6 rounded-2xl mb-4">
+                        <p class="text-lg text-purple-800 font-semibold mb-3 indo-text">
+                            <i class="fas fa-language mr-2"></i>
+                            Terjemahan:
+                        </p>
+                        <p class="text-purple-700 text-lg leading-relaxed indo-text">${hadis.translation}</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-lg text-gray-600 arabic-text">${hadis.rawi}</p>
+                        <p class="text-gray-500">${hadis.rawiIndo}</p>
+                    </div>
+                </div>
+
+                <!-- Mufradat (Vocabulary) -->
+                ${hadis.mufradat ? `
+                <div class="bg-gradient-to-br from-purple-50 to-indigo-50 p-8 rounded-3xl border-3 border-purple-200 shadow-xl mb-8">
+                    <h4 class="text-2xl font-bold text-purple-800 mb-6 text-center">
+                        <i class="fas fa-book mr-2"></i>
+                        المفردات - Kosakata Hadis
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        ${hadis.mufradat.map(vocab => `
+                            <div class="bg-white p-4 rounded-xl shadow-lg border border-purple-200">
+                                <div class="text-2xl arabic-text text-purple-800 font-bold mb-2 text-center">${vocab.arabic}</div>
+                                <div class="text-center">
+                                    <div class="text-purple-600 font-semibold">${vocab.meaning}</div>
+                                    <div class="text-xs text-gray-500 mt-1">(${vocab.type})</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                ` : ''}
+
+                <!-- Explanation Template -->
+                <div class="bg-gradient-to-r from-yellow-50 to-orange-50 p-8 rounded-2xl border-2 border-yellow-200 mb-8">
+                    <h4 class="text-2xl font-bold text-orange-800 mb-4">
+                        <i class="fas fa-book-open mr-2"></i>
+                        شرح الحديث
+                    </h4>
+                    <p class="text-orange-700 text-lg leading-relaxed mb-4">${hadis.explanation}</p>
+                    <ul class="text-orange-700 space-y-2">
+                        ${hadis.lessons.map(lesson => `
+                            <li><i class="fas fa-check-circle mr-2 text-green-500"></i>${lesson}</li>
+                        `).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
+        function loadTajweedMateri(container) {
+            const data = materiData.tajweed;
+            
+            container.innerHTML = `
+                <div class="text-center mb-8">
+                    <h3 class="text-4xl font-bold text-gray-800 mb-4 arabic-text">${data.title}</h3>
+                    <p class="text-2xl text-gray-600 font-semibold mb-6">${data.titleIndo}</p>
+                </div>
+
+                <!-- Izhar Section -->
+                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-3xl border-3 border-blue-200 shadow-xl mb-8">
+                    <h4 class="text-3xl font-bold text-blue-800 mb-6 arabic-text text-center">
+                        <i class="fas fa-eye mr-3"></i>
+                        الإظهار
+                    </h4>
+                    
+                    <div class="bg-white p-6 rounded-2xl mb-6 shadow-inner">
+                        <h5 class="text-xl font-bold text-gray-700 mb-3">التعريف:</h5>
+                        <p class="text-lg arabic-text text-gray-800 mb-3 leading-relaxed">${data.izhar.definition}</p>
+                        <p class="text-lg text-gray-700 leading-relaxed">${data.izhar.definitionIndo}</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-blue-100 to-indigo-100 p-6 rounded-2xl mb-6">
+                        <h5 class="text-xl font-bold text-blue-800 mb-4">حروف الإظهار (6 أحرف):</h5>
+                        <div class="grid grid-cols-3 md:grid-cols-6 gap-4 mb-4">
+                            ${data.izhar.huruf.map((huruf, index) => `
+                                <div class="bg-white p-4 rounded-xl text-center shadow-lg">
+                                    <div class="text-3xl arabic-text text-blue-600 font-bold mb-2">${huruf}</div>
+                                    <div class="text-sm text-gray-600 arabic-text">${data.izhar.hurufNames[index]}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-2xl">
+                        <h5 class="text-xl font-bold text-gray-700 mb-4">أمثلة الإظهار:</h5>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            ${data.izhar.contoh.map(contoh => `
+                                <div class="bg-blue-50 p-4 rounded-xl border border-blue-200">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="text-2xl arabic-text text-blue-800 font-bold">${contoh.arabic}</div>
+                                        <button onclick="playTajweedAudio('${contoh.audioUrl}')" class="audio-player text-xs">
+                                            <i class="fas fa-play mr-1"></i>
+                                            Dengar
+                                        </button>
+                                    </div>
+                                    <div class="text-sm text-gray-600 arabic-text">${contoh.keterangan}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ikhfa Section -->
+                <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-8 rounded-3xl border-3 border-green-200 shadow-xl mb-8">
+                    <h4 class="text-3xl font-bold text-green-800 mb-6 arabic-text text-center">
+                        <i class="fas fa-eye-slash mr-3"></i>
+                        الإخفاء
+                    </h4>
+                    
+                    <div class="bg-white p-6 rounded-2xl mb-6 shadow-inner">
+                        <h5 class="text-xl font-bold text-gray-700 mb-3">التعريف:</h5>
+                        <p class="text-lg arabic-text text-gray-800 mb-3 leading-relaxed">${data.ikhfa.definition}</p>
+                        <p class="text-lg text-gray-700 leading-relaxed">${data.ikhfa.definitionIndo}</p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-green-100 to-emerald-100 p-6 rounded-2xl mb-6">
+                        <h5 class="text-xl font-bold text-green-800 mb-4">حروف الإخفاء (${data.ikhfa.hurufCount}):</h5>
+                        <div class="grid grid-cols-5 md:grid-cols-10 gap-3 mb-4">
+                            ${data.ikhfa.huruf.map(huruf => `
+                                <div class="bg-white p-3 rounded-xl text-center shadow-lg">
+                                    <div class="text-2xl arabic-text text-green-600 font-bold">${huruf}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-2xl">
+                        <h5 class="text-xl font-bold text-gray-700 mb-4">أمثلة الإخفاء:</h5>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            ${data.ikhfa.contoh.map(contoh => `
+                                <div class="bg-green-50 p-4 rounded-xl border border-green-200">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="text-2xl arabic-text text-green-800 font-bold">${contoh.arabic}</div>
+                                        <button onclick="playTajweedAudio('${contoh.audioUrl}')" class="audio-player text-xs">
+                                            <i class="fas fa-play mr-1"></i>
+                                            Dengar
+                                        </button>
+                                    </div>
+                                    <div class="text-sm text-gray-600 arabic-text">${contoh.keterangan}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-8 rounded-2xl border-2 border-purple-200 mb-8">
+                    <h4 class="text-2xl font-bold text-purple-800 mb-4">
+                        <i class="fas fa-lightbulb mr-2"></i>
+                        ملخص الدرس
+                    </h4>
+                    <ul class="text-purple-700 space-y-3 text-lg">
+                        ${data.lessons.map(lesson => `
+                            <li><i class="fas fa-check-circle mr-2 text-green-500"></i>${lesson}</li>
+                        `).join('')}
+                    </ul>
+                </div>
+
+                <!-- Practice Tips -->
+                <div class="bg-gradient-to-r from-yellow-50 to-orange-50 p-6 rounded-2xl border-2 border-yellow-200">
+                    <h4 class="text-xl font-bold text-orange-800 mb-4">
+                        <i class="fas fa-graduation-cap mr-2"></i>
+                        نصائح للتطبيق
+                    </h4>
+                    <ul class="text-orange-700 space-y-2">
+                        <li><i class="fas fa-star mr-2 text-yellow-500"></i>Dengarkan contoh audio dengan seksama</li>
+                        <li><i class="fas fa-star mr-2 text-yellow-500"></i>Latihan membaca dengan guru yang kompeten</li>
+                        <li><i class="fas fa-star mr-2 text-yellow-500"></i>Hafalkan huruf-huruf izhar dan ikhfa'</li>
+                        <li><i class="fas fa-star mr-2 text-yellow-500"></i>Praktikkan saat membaca Al-Qur'an</li>
+                        <li><i class="fas fa-star mr-2 text-yellow-500"></i>Bersabar dalam belajar tajwid</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        // Game functions
+        function loadGameContent(topic, container) {
+            const hasGameData = gameData[topic];
+            
+            const topicNames = {
+                tajweed: 'Hukum Izhar dan Ikhfa\'',
+                alashr: 'Surah Al-Ashr',
+                quraisy: 'Surah Quraisy',
+                maun: 'Surah Al-Ma\'un',
+                takatsur: 'Surah At-Takatsur',
+                hadis_takwa: 'Hadis tentang Takwa',
+                hadis_niat: 'Hadis tentang Niat'
+            };
+            
+            if (!hasGameData) {
+                container.innerHTML = `
+                    <div class="text-center py-16">
+                        <div class="text-6xl text-gray-400 mb-4">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-600 mb-4">Game Sedang Dikembangkan</h3>
+                        <p class="text-gray-500 mb-6">Game untuk materi <strong>"${topicNames[topic] || topic}"</strong> sedang dalam tahap pengembangan.</p>
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-md mx-auto">
+                            <p class="text-blue-800 text-sm">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                Anda dapat menambahkan game memory, quiz, dan matching sesuai materi pembelajaran.
+                            </p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="text-center mb-8">
+                    <h3 class="text-3xl font-bold text-gray-800 mb-4">
+                        <i class="fas fa-gamepad mr-3 text-purple-600"></i>
+                        الألعاب التعليمية
+                    </h3>
+                    <p class="text-xl text-gray-600 mb-2">اختر اللعبة التي تريد أن تلعبها</p>
+                    <div class="bg-gradient-to-r from-purple-100 to-pink-100 px-6 py-3 rounded-full inline-block border-2 border-purple-200">
+                        <p class="text-purple-800 font-bold text-lg">📚 Materi: ${topicNames[topic] || topic}</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                    <!-- Memory Game -->
+                    <div class="game-card text-white p-8 rounded-2xl shadow-xl cursor-pointer transform hover:scale-105 transition-all" onclick="startMemoryGame('${topic}')">
+                        <div class="text-center">
+                            <div class="text-5xl mb-4">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h4 class="text-2xl font-bold mb-3">لعبة الذاكرة</h4>
+                            <p class="text-lg opacity-90">اعثر على الأزواج المتطابقة</p>
+                            <div class="mt-4">
+                                <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
+                                    <i class="fas fa-star mr-1"></i>10-50 نقطة
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quiz Game -->
+                    <div class="bg-gradient-to-br from-green-500 to-emerald-600 text-white p-8 rounded-2xl shadow-xl cursor-pointer transform hover:scale-105 transition-all" onclick="startQuizGame('${topic}')">
+                        <div class="text-center">
+                            <div class="text-5xl mb-4">
+                                <i class="fas fa-question-circle"></i>
+                            </div>
+                            <h4 class="text-2xl font-bold mb-3">لعبة الأسئلة</h4>
+                            <p class="text-lg opacity-90">أجب على الأسئلة بسرعة</p>
+                            <div class="mt-4">
+                                <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
+                                    <i class="fas fa-trophy mr-1"></i>10-15 نقطة
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Matching Game -->
+                    <div class="bg-gradient-to-br from-orange-500 to-red-600 text-white p-8 rounded-2xl shadow-xl cursor-pointer transform hover:scale-105 transition-all" onclick="startMatchingGame('${topic}')">
+                        <div class="text-center">
+                            <div class="text-5xl mb-4">
+                                <i class="fas fa-link"></i>
+                            </div>
+                            <h4 class="text-2xl font-bold mb-3">لعبة المطابقة</h4>
+                            <p class="text-lg opacity-90">اربط النص بالمعنى</p>
+                            <div class="mt-4">
+                                <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
+                                    <i class="fas fa-puzzle-piece mr-1"></i>5-20 نقطة
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function loadEvaluasiContent(topic, container) {
+            const hasEvaluationData = evaluationData[topic];
+            
+            const topicNames = {
+                tajweed: 'Hukum Izhar dan Ikhfa\'',
+                alashr: 'Surah Al-Ashr',
+                quraisy: 'Surah Quraisy',
+                maun: 'Surah Al-Ma\'un',
+                takatsur: 'Surah At-Takatsur',
+                hadis_takwa: 'Hadis tentang Takwa',
+                hadis_niat: 'Hadis tentang Niat'
+            };
+            
+            if (!hasEvaluationData) {
+                container.innerHTML = `
+                    <div class="text-center py-16">
+                        <div class="text-6xl text-gray-400 mb-4">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-600 mb-4">Evaluasi Sedang Dikembangkan</h3>
+                        <p class="text-gray-500 mb-6">Soal evaluasi untuk materi <strong>"${topicNames[topic] || topic}"</strong> sedang dalam tahap pengembangan.</p>
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-4 max-w-md mx-auto">
+                            <p class="text-green-800 text-sm">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                Anda dapat menambahkan soal-soal evaluasi sesuai materi pembelajaran.
+                            </p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            startEvaluation(topic, container);
+        }
+
+        // Audio functions
+        function playVerseAudio(audioUrl, verseNumber) {
+            const verseElement = document.getElementById(`verse_${verseNumber - 1}`);
+            
+            // Stop current audio if playing
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+                isPlaying = false;
+            }
+            
+            if (verseElement) {
+                // Add visual feedback
+                verseElement.classList.add('bg-blue-100', 'border-blue-400');
+                verseElement.style.transform = 'scale(1.02)';
+                
+                // Create and play audio
+                currentAudio = new Audio(audioUrl);
+                
+                currentAudio.addEventListener('loadstart', function() {
+                    // Show loading state
+                    Swal.fire({
+                        title: '🎵 Memuat Audio...',
+                        text: `Memuat audio ayat ${verseNumber}`,
+                        icon: 'info',
+                        timer: 1000,
+                        showConfirmButton: false,
+                        toast: true,
+                        position: 'top-end'
+                    });
+                });
+                
+                currentAudio.addEventListener('canplay', function() {
+                    isPlaying = true;
+                });
+                
+                currentAudio.addEventListener('play', function() {
+                    Swal.fire({
+                        title: '🎵 Memutar Audio',
+                        text: `Ayat ${verseNumber} sedang diputar`,
+                        icon: 'success',
+                        timer: 1500,
+                        showConfirmButton: false,
+                        toast: true,
+                        position: 'top-end'
+                    });
+                });
+                
+                currentAudio.addEventListener('ended', function() {
+                    // Remove visual feedback when audio ends
+                    verseElement.classList.remove('bg-blue-100', 'border-blue-400');
+                    verseElement.style.transform = 'scale(1)';
+                    isPlaying = false;
+                    currentAudio = null;
+                    
+                    // Add points for listening
+                    addPoints(5);
+                });
+                
+                currentAudio.addEventListener('error', function(e) {
+                    console.error('Error playing audio:', e);
+                    verseElement.classList.remove('bg-blue-100', 'border-blue-400');
+                    verseElement.style.transform = 'scale(1)';
+                    
+                    Swal.fire({
+                        title: '❌ Error Audio',
+                        text: `Tidak dapat memuat audio ayat ${verseNumber}. Periksa koneksi internet.`,
+                        icon: 'error',
+                        timer: 3000,
+                        showConfirmButton: false,
+                        toast: true,
+                        position: 'top-end'
+                    });
+                });
+                
+                // Start playing
+                currentAudio.play().catch(function(error) {
+                    console.error('Error playing audio:', error);
+                    verseElement.classList.remove('bg-blue-100', 'border-blue-400');
+                    verseElement.style.transform = 'scale(1)';
+                    
+                    Swal.fire({
+                        title: '❌ Error',
+                        text: `Tidak dapat memutar audio ayat ${verseNumber}`,
+                        icon: 'error',
+                        timer: 3000,
+                        showConfirmButton: false,
+                        toast: true,
+                        position: 'top-end'
+                    });
+                });
+            }
+        }
+
+        function playTajweedAudio(audioUrl) {
+            // Simulate audio playback for tajweed examples
+            Swal.fire({
+                title: 'Audio Tajwid',
+                text: 'Audio contoh tajwid akan diputar di sini. Silakan tambahkan file audio yang sesuai.',
+                icon: 'info',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        }
+
+        function playHadisAudio(hadisText) {
+            const btn = document.getElementById('hadisAudioBtn');
+            
+            // Stop current audio if playing
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+                isPlaying = false;
+            }
+            
+            if (btn) {
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Memuat Audio...';
+                btn.disabled = true;
+                
+                // Use Web Speech API for better Arabic pronunciation
+                if ('speechSynthesis' in window) {
+                    // Cancel any ongoing speech
+                    speechSynthesis.cancel();
+                    
+                    const utterance = new SpeechSynthesisUtterance(hadisText);
+                    utterance.lang = 'ar-SA'; // Arabic (Saudi Arabia)
+                    utterance.rate = 0.8; // Slower rate for better understanding
+                    utterance.pitch = 1;
+                    utterance.volume = 1;
+                    
+                    utterance.onstart = function() {
+                        btn.innerHTML = '<i class="fas fa-pause mr-2"></i>Sedang Diputar...';
+                        btn.disabled = false;
+                        btn.onclick = function() { 
+                            speechSynthesis.cancel();
+                        };
+                        isPlaying = true;
+                        
+                        Swal.fire({
+                            title: '🎵 Memutar Audio Hadis',
+                            text: 'Audio hadis sedang diputar dengan suara Arabic',
+                            icon: 'success',
+                            timer: 2000,
+                            showConfirmButton: false,
+                            toast: true,
+                            position: 'top-end'
+                        });
+                    };
+                    
+                    utterance.onend = function() {
+                        btn.innerHTML = '<i class="fas fa-play mr-2"></i>استمع للحديث';
+                        btn.onclick = function() { playHadisAudio(hadisText); };
+                        isPlaying = false;
+                        
+                        // Add points for listening
+                        addPoints(15);
+                        
+                        Swal.fire({
+                            title: '✅ Audio Selesai',
+                            text: 'Audio hadis telah selesai diputar. +15 poin!',
+                            icon: 'success',
+                            timer: 2000,
+                            showConfirmButton: false,
+                            toast: true,
+                            position: 'top-end'
+                        });
+                    };
+                    
+                    utterance.onerror = function(event) {
+                        console.error('Speech synthesis error:', event);
+                        btn.innerHTML = '<i class="fas fa-play mr-2"></i>استمع للحديث';
+                        btn.disabled = false;
+                        btn.onclick = function() { playHadisAudio(hadisText); };
+                        isPlaying = false;
+                        
+                        // Fallback to Google TTS
+                        playHadisAudioFallback(hadisText);
+                    };
+                    
+                    // Get available voices and prefer Arabic ones
+                    const voices = speechSynthesis.getVoices();
+                    const arabicVoice = voices.find(voice => 
+                        voice.lang.startsWith('ar') || 
+                        voice.name.toLowerCase().includes('arabic') ||
+                        voice.name.toLowerCase().includes('عربي')
+                    );
+                    
+                    if (arabicVoice) {
+                        utterance.voice = arabicVoice;
+                    }
+                    
+                    speechSynthesis.speak(utterance);
+                } else {
+                    // Fallback to Google TTS if Web Speech API is not available
+                    playHadisAudioFallback(hadisText);
+                }
+            }
+        }
+        
+        function playHadisAudioFallback(hadisText) {
+            const btn = document.getElementById('hadisAudioBtn');
+            
+            // Create Google TTS URL
+            const encodedText = encodeURIComponent(hadisText);
+            const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=ar&client=tw-ob&q=${encodedText}`;
+            
+            // Create new audio element
+            currentAudio = new Audio(audioUrl);
+            
+            currentAudio.addEventListener('loadstart', function() {
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Memuat Audio...';
+            });
+            
+            currentAudio.addEventListener('canplay', function() {
+                btn.innerHTML = '<i class="fas fa-pause mr-2"></i>Sedang Diputar...';
+                btn.disabled = false;
+                isPlaying = true;
+            });
+            
+            currentAudio.addEventListener('play', function() {
+                btn.innerHTML = '<i class="fas fa-pause mr-2"></i>Sedang Diputar...';
+                btn.onclick = function() { 
+                    currentAudio.pause();
+                };
+                
+                Swal.fire({
+                    title: '🎵 Memutar Audio Hadis',
+                    text: 'Audio hadis sedang diputar (Google TTS)',
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false,
+                    toast: true,
+                    position: 'top-end'
+                });
+            });
+            
+            currentAudio.addEventListener('pause', function() {
+                btn.innerHTML = '<i class="fas fa-play mr-2"></i>استمع للحديث';
+                btn.onclick = function() { playHadisAudio(hadisText); };
+                isPlaying = false;
+            });
+            
+            currentAudio.addEventListener('ended', function() {
+                btn.innerHTML = '<i class="fas fa-play mr-2"></i>استمع للحديث';
+                btn.onclick = function() { playHadisAudio(hadisText); };
+                isPlaying = false;
+                currentAudio = null;
+                
+                // Add points for listening
+                addPoints(15);
+                
+                Swal.fire({
+                    title: '✅ Audio Selesai',
+                    text: 'Audio hadis telah selesai diputar. +15 poin!',
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false,
+                    toast: true,
+                    position: 'top-end'
+                });
+            });
+            
+            currentAudio.addEventListener('error', function(e) {
+                console.error('Audio error:', e);
+                btn.innerHTML = '<i class="fas fa-exclamation-triangle mr-2"></i>Coba Lagi';
+                btn.disabled = false;
+                btn.onclick = function() { playHadisAudio(hadisText); };
+                
+                Swal.fire({
+                    title: '⚠️ Audio Error',
+                    text: 'Tidak dapat memuat audio. Periksa koneksi internet dan coba lagi.',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                });
+            });
+            
+            // Start playing
+            currentAudio.play().catch(function(error) {
+                console.error('Error playing hadis audio:', error);
+                btn.innerHTML = '<i class="fas fa-exclamation-triangle mr-2"></i>Coba Lagi';
+                btn.disabled = false;
+                btn.onclick = function() { playHadisAudio(hadisText); };
+                
+                Swal.fire({
+                    title: '❌ Error',
+                    text: 'Tidak dapat memutar audio hadis. Silakan coba lagi.',
+                    icon: 'error',
+                    confirmButtonText: 'Coba Lagi'
+                });
+            });
+        }
+
+        function playFullSurahAudio(audioUrl, surahName) {
+            const btn = document.getElementById('fullSurahBtn');
+            
+            // Stop current audio if playing
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+                isPlaying = false;
+            }
+            
+            if (btn) {
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-3"></i>Memuat Audio...';
+                btn.disabled = true;
+                
+                // Create new audio element
+                currentAudio = new Audio(audioUrl);
+                
+                currentAudio.addEventListener('loadstart', function() {
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-3"></i>Memuat Audio...';
+                });
+                
+                currentAudio.addEventListener('canplay', function() {
+                    btn.innerHTML = '<i class="fas fa-pause mr-3"></i>Sedang Diputar...';
+                    btn.disabled = false;
+                    isPlaying = true;
+                });
+                
+                currentAudio.addEventListener('play', function() {
+                    btn.innerHTML = '<i class="fas fa-pause mr-3"></i>Sedang Diputar...';
+                    btn.onclick = function() { pauseFullSurahAudio(); };
+                });
+                
+                currentAudio.addEventListener('pause', function() {
+                    btn.innerHTML = '<i class="fas fa-play mr-3"></i>Lanjutkan Audio';
+                    btn.onclick = function() { resumeFullSurahAudio(); };
+                    isPlaying = false;
+                });
+                
+                currentAudio.addEventListener('ended', function() {
+                    btn.innerHTML = '<i class="fas fa-play mr-3"></i>Dengarkan Surah Lengkap';
+                    btn.onclick = function() { playFullSurahAudio(audioUrl, surahName); };
+                    isPlaying = false;
+                    currentAudio = null;
+                    
+                    // Show completion message
+                    Swal.fire({
+                        title: 'Audio Selesai',
+                        text: `Murotal ${surahName} telah selesai diputar`,
+                        icon: 'success',
+                        timer: 3000,
+                        showConfirmButton: false
+                    });
+                    
+                    // Add points for listening
+                    addPoints(20);
+                });
+                
+                currentAudio.addEventListener('error', function(e) {
+                    btn.innerHTML = '<i class="fas fa-exclamation-triangle mr-3"></i>Error Audio';
+                    btn.disabled = false;
+                    
+                    Swal.fire({
+                        title: 'Error Audio',
+                        text: 'Tidak dapat memuat audio. Periksa koneksi internet Anda.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                });
+                
+                // Start playing
+                currentAudio.play().catch(function(error) {
+                    console.error('Error playing audio:', error);
+                    btn.innerHTML = '<i class="fas fa-play mr-3"></i>Dengarkan Surah Lengkap';
+                    btn.disabled = false;
+                    
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Tidak dapat memutar audio. Silakan coba lagi.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                });
+            }
+        }
+
+        function pauseFullSurahAudio() {
+            if (currentAudio && isPlaying) {
+                currentAudio.pause();
+            }
+        }
+
+        function resumeFullSurahAudio() {
+            if (currentAudio && !isPlaying) {
+                currentAudio.play();
+            }
+        }
+
+        function stopAudio() {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+                isPlaying = false;
+            }
+        }
+ function startMemoryGame(topic) {
+    const data = gameData[topic];
+    const topicNames = {
+        tajweed: 'Hukum Izhar dan Ikhfa\'',
+        alashr: 'Surah Al-Ashr',
+        quraisy: 'Surah Quraisy',
+        maun: 'Surah Al-Ma\'un',
+        takatsur: 'Surah At-Takatsur',
+        hadis_takwa: 'Hadis tentang Takwa',
+        hadis_niat: 'Hadis tentang Niat'
+    };
+    
+    if (!data || !data.memory) {
+        Swal.fire('Info', `Game memory untuk materi "${topicNames[topic] || topic}" belum tersedia`, 'info');
+        return;
+    }
+    
+    // HIDE alert dan LOAD game memory sebenarnya
+    Swal.close();
+    loadMemoryGame(topic, data.memory);
+    
+    // Add points for starting game
+    addPoints(5);
+}
+
+function startQuizGame(topic) {
+    const data = gameData[topic];
+    const topicNames = {
+        tajweed: 'Hukum Izhar dan Ikhfa\'',
+        alashr: 'Surah Al-Ashr',
+        quraisy: 'Surah Quraisy',
+        maun: 'Surah Al-Ma\'un',
+        takatsur: 'Surah At-Takatsur',
+        hadis_takwa: 'Hadis tentang Takwa',
+        hadis_niat: 'Hadis tentang Niat'
+    };
+    
+    if (!data || !data.quiz) {
+        Swal.fire('Info', `Game quiz untuk materi "${topicNames[topic] || topic}" belum tersedia`, 'info');
+        return;
+    }
+    
+    // HIDE alert dan LOAD game quiz sebenarnya
+    Swal.close();
+    loadQuizGame(topic, data.quiz);
+    
+    // Add points for starting game
+    addPoints(5);
+}
+
+function startMatchingGame(topic) {
+    const topicNames = {
+        tajweed: 'Hukum Izhar dan Ikhfa\'',
+        alashr: 'Surah Al-Ashr',
+        quraisy: 'Surah Quraisy',
+        maun: 'Surah Al-Ma\'un',
+        takatsur: 'Surah At-Takatsur',
+        hadis_takwa: 'Hadis tentang Takwa',
+        hadis_niat: 'Hadis tentang Niat'
+    };
+    
+    // HIDE alert dan LOAD game matching
+    Swal.close();
+    loadMatchingGame(topic);
+    
+    // Add points for starting game
+    addPoints(5);
+}
+        }
+// Fungsi untuk mengacak array (Fisher-Yates algorithm)
+function shuffleArray(array) {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+}
+
+// Fungsi untuk mengacak soal dan opsi jawaban
+function prepareRandomizedQuestions(questions) {
+    // Acak urutan soal
+    const shuffledQuestions = shuffleArray([...questions]);
+    
+    // Acak urutan opsi untuk setiap soal
+    return shuffledQuestions.map(question => {
+        // Simpan jawaban yang benar
+        const correctAnswer = question.options[question.correct];
+        
+        // Acak opsi jawaban
+        const shuffledOptions = shuffleArray([...question.options]);
+        
+        // Temukan posisi jawaban benar yang baru
+        const newCorrectIndex = shuffledOptions.indexOf(correctAnswer);
+        
+        return {
+            ...question,
+            options: shuffledOptions,
+            correct: newCorrectIndex
+        };
+    });
+}
+function startEvaluation(topic, container) {
+    const questions = evaluationData[topic];
+    if (!questions) return;
+    
+    // Acak soal dan opsi jawaban
+    const randomizedQuestions = prepareRandomizedQuestions(questions);
+    
+    const topicNames = {
+        tajweed: 'Hukum Izhar dan Ikhfa\'',
+        alashr: 'Surah Al-Ashr',
+        quraisy: 'Surah Quraisy',
+        maun: 'Surah Al-Ma\'un',
+        takatsur: 'Surah At-Takatsur',
+        hadis_takwa: 'Hadis tentang Takwa',
+        hadis_niat: 'Hadis tentang Niat'
+    };
+    
+    let currentQuestion = 0;
+    let score = 0;
+    let answers = [];
+    
+    function showQuestion() {
+        const q = randomizedQuestions[currentQuestion];
+        container.innerHTML = `
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-6">
+                    <div class="bg-gradient-to-r from-green-100 to-emerald-100 px-6 py-3 rounded-full inline-block border-2 border-green-200">
+                        <p class="text-green-800 font-bold text-lg">📝 Evaluasi: ${topicNames[topic] || topic}</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center justify-between mb-8">
+                    <div class="text-lg font-semibold text-gray-600">
+                        Soal ${currentQuestion + 1} dari ${randomizedQuestions.length}
+                    </div>
+                    <div class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full font-semibold">
+                        Skor: ${score}
+                    </div>
+                </div>
+                
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-2xl border-2 border-blue-200 mb-8">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6">${q.question}</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        ${q.options.map((option, index) => `
+                            <button onclick="selectAnswer(${index})" class="quiz-option text-left">
+                                <span class="font-bold mr-3">${String.fromCharCode(65 + index)}.</span>
+                                ${option}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-gray-200 rounded-full h-2 mb-4">
+                        <div class="progress-bar" style="width: ${((currentQuestion + 1) / randomizedQuestions.length) * 100}%"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    window.selectAnswer = function(selectedIndex) {
+        const q = randomizedQuestions[currentQuestion];
+        const isCorrect = selectedIndex === q.correct;
+        
+        if (isCorrect) {
+            score += q.points;
+            addPoints(q.points);
+        }
+        
+        answers.push({
+            question: currentQuestion,
+            selected: selectedIndex,
+            correct: isCorrect,
+            questionText: q.question,
+            correctAnswer: q.options[q.correct]
+        });
+        
+        // Show feedback
+        const options = document.querySelectorAll('.quiz-option');
+        options[selectedIndex].classList.add(isCorrect ? 'correct' : 'incorrect');
+        options[q.correct].classList.add('correct');
+        
+        setTimeout(() => {
+            currentQuestion++;
+            if (currentQuestion < randomizedQuestions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }, 2000);
+    };
+
+    function showResults() {
+        // total poin semua soal
+        const totalPoints = randomizedQuestions.reduce((sum, q) => sum + q.points, 0);
+
+        // hitung persentase & grade
+        const percentage = Math.round((score / totalPoints) * 100);
+        let grade = 'D';
+        if (percentage >= 90) grade = 'A';
+        else if (percentage >= 80) grade = 'B';
+        else if (percentage >= 70) grade = 'C';
+
+        // ambil identitas siswa langsung dari elemen DOM
+        const studentName = (document.getElementById('studentName') || {}).textContent || '';
+        const studentClass = (document.getElementById('studentClass') || {}).textContent || '';
+
+        // tampilkan hasil di layar
+        container.innerHTML = `
+            <div class="max-w-2xl mx-auto text-center">
+                <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-8 rounded-3xl border-2 border-green-200 mb-8">
+                    <div class="text-6xl text-green-600 mb-4">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3 class="text-3xl font-bold text-green-800 mb-4">Evaluasi Selesai!</h3>
+                    <div class="text-6xl font-bold text-green-600 mb-2">${percentage}%</div>
+                    <div class="text-2xl font-bold text-green-700 mb-4">Nilai: ${grade}</div>
+                    <div class="text-lg text-green-600">
+                        Skor: ${score} dari ${totalPoints}
+                    </div>
+                </div>
+                
+                <div class="space-y-4 mb-8">
+                    <h4 class="text-xl font-bold text-gray-800">Ringkasan Jawaban:</h4>
+                    ${answers.map((answer, index) => {
+                        const questionData = randomizedQuestions[answer.question];
+                        return `
+                            <div class="text-left p-4 rounded-lg ${answer.correct ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}">
+                                <div class="font-semibold mb-2">Soal ${index + 1}: ${questionData.question}</div>
+                                <div class="mb-2">Jawaban Anda: <span class="${answer.correct ? 'text-green-600 font-bold' : 'text-red-600'}">${questionData.options[answer.selected]}</span></div>
+                                ${!answer.correct ? `<div class="text-green-600">Jawaban Benar: ${questionData.options[questionData.correct]}</div>` : ''}
+                                <div class="mt-2 text-sm text-gray-500">Status: ${answer.correct ? '<span class="text-green-600">Benar</span>' : '<span class="text-red-600">Salah</span>'}</div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+                
+                <div class="flex justify-center space-x-4">
+                    <button onclick="showSubMenu('${topic}')" 
+                            class="bg-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Kembali
+                    </button>
+                    <button onclick="sendResultToTeacher('${topic}', ${score}, ${totalPoints}, ${percentage}, '${grade}')" 
+                            class="bg-green-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-green-700 transition-colors">
+                        <i class="fas fa-share mr-2"></i>
+                        Kirim ke Guru
+                    </button>
+                </div>
+            </div>
+        `;
+
+        // daftar nama materi
+        const materiNames = {
+            tajweed: "Hukum Izhar dan Ikhfa'",
+            alashr: "Surah Al-Ashr",
+            quraisy: "Surah Quraisy",
+            maun: "Surah Al-Ma'un",
+            takatsur: "Surah At-Takatsur",
+            hadis_takwa: "Hadis tentang Takwa",
+            hadis_niat: "Hadis tentang Niat"
+        };
+
+        // otomatis kirim hasil ke Google Sheet
+        sendResultToSheet(
+            studentName,
+            studentClass,
+            topic,
+            materiNames[topic],
+            score,
+            totalPoints
+        );
+    }
+    
+    showQuestion();
+}
+function sendResultToSheet(nama, kelas, mapel, materi, skor, total) {
+  // URL Web App milikmu
+  const baseUrl = "https://script.google.com/macros/s/AKfycbzalkIZVHeleRFybqBY2j4e8WVXOLnFUwDH9Xe5aScg7Z_O2pkGJzcKBpSt5nAmyug/exec";
+
+  // bikin nama callback unik untuk JSONP
+  const callbackName = "jsonp_callback_" + Math.round(100000 * Math.random());
+
+  // definisikan callback global
+  window[callbackName] = function(response) {
+    console.log("✅ Hasil terkirim:", response);
+    // bersihkan setelah dipanggil
+    document.body.removeChild(script);
+    delete window[callbackName];
+  };
+
+  // susun query string
+  const url = `${baseUrl}?callback=${callbackName}`
+            + `&nama=${encodeURIComponent(nama)}`
+            + `&kelas=${encodeURIComponent(kelas)}`
+            + `&mapel=${encodeURIComponent(mapel)}`
+            + `&materi=${encodeURIComponent(materi)}`
+            + `&skor=${encodeURIComponent(skor)}`
+            + `&total=${encodeURIComponent(total)}`;
+
+  // buat <script> untuk JSONP
+  const script = document.createElement('script');
+  script.src = url;
+  document.body.appendChild(script);
+}
+
+
+        // Points and progress system
+        function addPoints(points) {
+            totalPoints += points;
+            localStorage.setItem('totalPoints', totalPoints.toString());
+            updatePointsDisplay();
+            updateStarsDisplay();
+            
+            // Show points animation
+            Swal.fire({
+                title: `+${points} Poin!`,
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false,
+                toast: true,
+                position: 'top-end'
+            });
+        }
+
+        function updatePointsDisplay() {
+            document.getElementById('totalPoints').textContent = totalPoints;
+            const mobilePointsEl = document.getElementById('totalPointsMobile');
+            if (mobilePointsEl) mobilePointsEl.textContent = totalPoints;
+        }
+
+        function updateStarsDisplay() {
+            const starsContainer = document.getElementById('stars');
+            const mobileStarsContainer = document.getElementById('starsMobile');
+            const newStars = Math.floor(totalPoints / 100);
+            
+            // Desktop stars
+            if (starsContainer) {
+                starsContainer.innerHTML = '';
+                for (let i = 0; i < Math.min(newStars, 5); i++) {
+                    const star = document.createElement('div');
+                    star.className = 'text-yellow-400 text-xl';
+                    star.innerHTML = '<i class="fas fa-star"></i>';
+                    starsContainer.appendChild(star);
+                }
+            }
+            
+            // Mobile stars
+            if (mobileStarsContainer) {
+                mobileStarsContainer.innerHTML = '';
+                for (let i = 0; i < Math.min(newStars, 5); i++) {
+                    const star = document.createElement('div');
+                    star.className = 'text-yellow-400 text-sm';
+                    star.innerHTML = '<i class="fas fa-star"></i>';
+                    mobileStarsContainer.appendChild(star);
+                }
+            }
+            
+            if (newStars > stars) {
+                Swal.fire({
+                    title: 'Bintang Baru!',
+                    text: `Selamat! Kamu mendapat bintang ke-${newStars}!`,
+                    icon: 'success',
+                    timer: 3000
+                });
+            }
+            
+            stars = newStars;
+        }
+
+        // Student data management
+        function loadStudentData() {
+            const savedName = localStorage.getItem('studentName');
+            const savedClass = localStorage.getItem('studentClass');
+            const savedPhoto = localStorage.getItem('studentPhoto');
+            
+            if (savedName) {
+                document.getElementById('studentName').textContent = savedName;
+                const mobileNameEl = document.getElementById('studentNameMobile');
+                if (mobileNameEl) mobileNameEl.textContent = savedName;
+            }
+            
+            if (savedClass) {
+                document.getElementById('studentClass').textContent = savedClass;
+                const mobileClassEl = document.getElementById('studentClassMobile');
+                if (mobileClassEl) mobileClassEl.textContent = savedClass;
+            }
+            
+            if (savedPhoto) {
+                // Desktop photo
+                const photoImg = document.getElementById('studentPhoto');
+                const defaultAvatar = document.getElementById('defaultAvatar');
+                if (photoImg && defaultAvatar) {
+                    photoImg.src = savedPhoto;
+                    photoImg.classList.remove('hidden');
+                    defaultAvatar.style.display = 'none';
+                }
+                
+                // Mobile photo
+                const mobilePhotoImg = document.getElementById('studentPhotoMobile');
+                const mobileDefaultAvatar = document.getElementById('defaultAvatarMobile');
+                if (mobilePhotoImg && mobileDefaultAvatar) {
+                    mobilePhotoImg.src = savedPhoto;
+                    mobilePhotoImg.classList.remove('hidden');
+                    mobileDefaultAvatar.style.display = 'none';
+                }
+            }
+        }
+
+        function editStudentName() {
+            const currentName = document.getElementById('studentName').textContent;
+            
+            Swal.fire({
+                title: 'Edit Nama Siswa',
+                input: 'text',
+                inputValue: currentName,
+                inputPlaceholder: 'Masukkan nama lengkap siswa',
+                showCancelButton: true,
+                confirmButtonText: 'Simpan',
+                cancelButtonText: 'Batal',
+                inputValidator: (value) => {
+                    if (!value || value.trim().length < 2) {
+                        return 'Nama harus diisi minimal 2 karakter!';
+                    }
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const newName = result.value.trim();
+                    document.getElementById('studentName').textContent = newName;
+                    const mobileNameEl = document.getElementById('studentNameMobile');
+                    if (mobileNameEl) mobileNameEl.textContent = newName;
+                    localStorage.setItem('studentName', newName);
+                    
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: `Nama berhasil diubah menjadi "${newName}"`,
+                        icon: 'success',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+
+        function editStudentClass() {
+            const currentClass = document.getElementById('studentClass').textContent;
+            
+            Swal.fire({
+                title: 'Edit Kelas Siswa',
+                input: 'select',
+                inputOptions: {
+                    '4A': '4A',
+                    '4B': '4B'
+                },
+                inputValue: currentClass,
+                showCancelButton: true,
+                confirmButtonText: 'Simpan',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const newClass = result.value;
+                    document.getElementById('studentClass').textContent = newClass;
+                    const mobileClassEl = document.getElementById('studentClassMobile');
+                    if (mobileClassEl) mobileClassEl.textContent = newClass;
+                    localStorage.setItem('studentClass', newClass);
+                    
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: `Kelas berhasil diubah menjadi "${newClass}"`,
+                        icon: 'success',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+
+        function changeStudentPhoto() {
+            Swal.fire({
+                title: 'Ganti Foto Siswa',
+                html: `
+                    <div class="text-left mb-4">
+                        <p class="text-gray-600 mb-3">Pilih cara mengganti foto:</p>
+                        <div class="space-y-3">
+                            <button onclick="uploadPhotoFromDevice()" class="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition-colors">
+                                <i class="fas fa-upload mr-2"></i>
+                                Upload dari Perangkat
+                            </button>
+                            <button onclick="takePhotoWithCamera()" class="w-full bg-green-500 text-white p-3 rounded-lg hover:bg-green-600 transition-colors">
+                                <i class="fas fa-camera mr-2"></i>
+                                Ambil Foto dengan Kamera
+                            </button>
+                            <button onclick="removeStudentPhoto()" class="w-full bg-red-500 text-white p-3 rounded-lg hover:bg-red-600 transition-colors">
+                                <i class="fas fa-trash mr-2"></i>
+                                Hapus Foto
+                            </button>
+                        </div>
+                    </div>
+                `,
+                showConfirmButton: false,
+                showCancelButton: true,
+                cancelButtonText: 'Tutup',
+                width: '400px'
+            });
+        }
+
+        function uploadPhotoFromDevice() {
+            // Create hidden file input
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.style.display = 'none';
+            
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    // Check file size (max 2MB)
+                    if (file.size > 2 * 1024 * 1024) {
+                        Swal.fire({
+                            title: 'File Terlalu Besar',
+                            text: 'Ukuran foto maksimal 2MB. Silakan pilih foto yang lebih kecil.',
+                            icon: 'error'
+                        });
+                        return;
+                    }
+                    
+                    // Check file type
+                    if (!file.type.startsWith('image/')) {
+                        Swal.fire({
+                            title: 'Format File Salah',
+                            text: 'Silakan pilih file gambar (JPG, PNG, GIF, dll.)',
+                            icon: 'error'
+                        });
+                        return;
+                    }
+                    
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const photoData = e.target.result;
+                        setStudentPhoto(photoData);
+                        
+                        Swal.fire({
+                            title: 'Berhasil!',
+                            text: 'Foto siswa berhasil diupload',
+                            icon: 'success',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            
+            document.body.appendChild(input);
+            input.click();
+            document.body.removeChild(input);
+            Swal.close();
+        }
+
+        function takePhotoWithCamera() {
+            // Check if camera is supported
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                Swal.fire({
+                    title: 'Kamera Tidak Didukung',
+                    text: 'Browser Anda tidak mendukung akses kamera. Silakan gunakan opsi upload foto.',
+                    icon: 'error'
+                });
+                return;
+            }
+            
+            Swal.fire({
+                title: 'Ambil Foto',
+                html: `
+                    <div class="text-center">
+                        <video id="cameraVideo" width="300" height="225" autoplay class="rounded-lg mb-4 mx-auto"></video>
+                        <canvas id="cameraCanvas" width="300" height="225" style="display: none;"></canvas>
+                        <div class="space-x-3">
+                            <button onclick="capturePhoto()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                                <i class="fas fa-camera mr-2"></i>
+                                Ambil Foto
+                            </button>
+                            <button onclick="stopCamera()" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                                <i class="fas fa-times mr-2"></i>
+                                Batal
+                            </button>
+                        </div>
+                    </div>
+                `,
+                showConfirmButton: false,
+                showCancelButton: false,
+                allowOutsideClick: false,
+                width: '400px',
+                didOpen: () => {
+                    startCamera();
+                }
+            });
+        }
+
+        function startCamera() {
+            const video = document.getElementById('cameraVideo');
+            
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    video.srcObject = stream;
+                    window.currentCameraStream = stream;
+                })
+                .catch(function(error) {
+                    console.error('Error accessing camera:', error);
+                    Swal.fire({
+                        title: 'Error Kamera',
+                        text: 'Tidak dapat mengakses kamera. Pastikan Anda memberikan izin akses kamera.',
+                        icon: 'error'
+                    });
+                });
+        }
+
+        function capturePhoto() {
+            const video = document.getElementById('cameraVideo');
+            const canvas = document.getElementById('cameraCanvas');
+            const context = canvas.getContext('2d');
+            
+            // Draw video frame to canvas
+            context.drawImage(video, 0, 0, 300, 225);
+            
+            // Convert to data URL
+            const photoData = canvas.toDataURL('image/jpeg', 0.8);
+            
+            // Stop camera and close modal
+            stopCamera();
+            
+            // Set the photo
+            setStudentPhoto(photoData);
+            
+            Swal.fire({
+                title: 'Berhasil!',
+                text: 'Foto siswa berhasil diambil',
+                icon: 'success',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        }
+
+        function stopCamera() {
+            if (window.currentCameraStream) {
+                window.currentCameraStream.getTracks().forEach(track => track.stop());
+                window.currentCameraStream = null;
+            }
+            Swal.close();
+        }
+
+        function setStudentPhoto(photoData) {
+            // Desktop photo
+            const photoImg = document.getElementById('studentPhoto');
+            const defaultAvatar = document.getElementById('defaultAvatar');
+            if (photoImg && defaultAvatar) {
+                photoImg.src = photoData;
+                photoImg.classList.remove('hidden');
+                defaultAvatar.style.display = 'none';
+            }
+            
+            // Mobile photo
+            const mobilePhotoImg = document.getElementById('studentPhotoMobile');
+            const mobileDefaultAvatar = document.getElementById('defaultAvatarMobile');
+            if (mobilePhotoImg && mobileDefaultAvatar) {
+                mobilePhotoImg.src = photoData;
+                mobilePhotoImg.classList.remove('hidden');
+                mobileDefaultAvatar.style.display = 'none';
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('studentPhoto', photoData);
+        }
+
+        function removeStudentPhoto() {
+            Swal.fire({
+                title: 'Hapus Foto?',
+                text: 'Foto siswa akan dihapus dan kembali ke avatar default',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, Hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Desktop photo
+                    const photoImg = document.getElementById('studentPhoto');
+                    const defaultAvatar = document.getElementById('defaultAvatar');
+                    if (photoImg && defaultAvatar) {
+                        photoImg.src = '';
+                        photoImg.classList.add('hidden');
+                        defaultAvatar.style.display = 'flex';
+                    }
+                    
+                    // Mobile photo
+                    const mobilePhotoImg = document.getElementById('studentPhotoMobile');
+                    const mobileDefaultAvatar = document.getElementById('defaultAvatarMobile');
+                    if (mobilePhotoImg && mobileDefaultAvatar) {
+                        mobilePhotoImg.src = '';
+                        mobilePhotoImg.classList.add('hidden');
+                        mobileDefaultAvatar.style.display = 'flex';
+                    }
+                    
+                    // Remove from localStorage
+                    localStorage.removeItem('studentPhoto');
+                    
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: 'Foto siswa berhasil dihapus',
+                        icon: 'success',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+
+
+
+        function sendResultToTeacher(topic, score, maxScore, percentage, grade) {
+            const studentName = document.getElementById('studentName').textContent;
+            const studentClass = document.getElementById('studentClass').textContent;
+            const currentDate = new Date().toLocaleDateString('id-ID', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            const currentTime = new Date().toLocaleTimeString('id-ID');
+            
+            const topicNames = {
+                tajweed: 'Hukum Izhar dan Ikhfa\'',
+                alashr: 'Surah Al-Ashr',
+                quraisy: 'Surah Quraisy',
+                maun: 'Surah Al-Ma\'un',
+                takatsur: 'Surah At-Takatsur',
+                hadis_takwa: 'Hadis tentang Takwa',
+                hadis_niat: 'Hadis tentang Niat'
+            };
+            
+            const message = `*LAPORAN HASIL EVALUASI SISWA*
+📚 *Media Pembelajaran Al-Qur'an Hadits*
+
+👤 *Identitas Siswa:*
+• Nama: ${studentName}
+• Kelas: ${studentClass}
+📅 *Tanggal:* ${currentDate}
+🕐 *Waktu:* ${currentTime}
+
+📖 *Materi:* ${topicNames[topic] || topic}
+📊 *Hasil Evaluasi:*
+• Skor: ${score}/${maxScore}
+• Persentase: ${percentage}
+• Nilai: ${grade}
+⭐ *Total Poin Siswa:* ${totalPoints}
+
+${grade === 'A' ? '🎉 *Excellent!* Siswa menguasai materi dengan sangat baik!' :
+  grade === 'B' ? '👍 *Good!* Siswa menguasai materi dengan baik!' :
+  grade === 'C' ? '📚 *Fair!* Siswa perlu belajar lebih giat!' :
+  '⚠️ *Needs Improvement!* Siswa perlu bimbingan tambahan!'}
+
+_Dikirim otomatis dari Media Pembelajaran Interaktif Al-Qur'an Hadits_`;
+
+            const encodedMessage = encodeURIComponent(message);
+            const teacherWhatsApp = "6281234567890"; // Ganti dengan nomor WhatsApp guru yang sebenarnya
+            const whatsappUrl = `https://wa.me/${teacherWhatsApp}?text=${encodedMessage}`;
+            
+            Swal.fire({
+                title: 'Kirim Hasil ke Guru?',
+                text: 'Hasil evaluasi akan dikirim melalui WhatsApp',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, Kirim!',
+                cancelButtonText: 'Batal',
+                confirmButtonColor: '#25D366'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.open(whatsappUrl, '_blank');
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: 'WhatsApp telah dibuka. Silakan pilih kontak guru dan kirim pesan.',
+                        icon: 'success',
+                        timer: 3000
+                    });
+                }
+            });
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'976481d9f4ecd865',t:'MTc1NjM5MTQzMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
