@@ -228,44 +228,43 @@
     align-items: center;
     justify-content: center;
     backface-visibility: hidden;
-    transition: transform 0.6s;
-    padding: 8px;
-    box-sizing: border-box;
+    transition: transform 0.6s, opacity 0.3s;
 }
 
 .memory-card-front {
     background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
     color: white;
-    font-weight: bold;
+    font-size: 1.5rem;
 }
 
 .memory-card-back {
     background: white;
     color: #333;
     transform: rotateY(180deg);
+    padding: 8px;
     text-align: center;
 }
 
 .memory-card.flipped .memory-card-front {
     transform: rotateY(180deg);
+    opacity: 0;
 }
 
 .memory-card.flipped .memory-card-back {
     transform: rotateY(0deg);
+    opacity: 1;
 }
 
 .memory-card.matched {
     transform: scale(1.05);
     box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+    cursor: default;
 }
 
-/* Warna berbeda untuk kartu Arab dan Terjemahan */
-.memory-card[data-type="arabic"].matched {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-}
-
-.memory-card[data-type="translation"].matched {
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+/* Efek hover untuk kartu yang bisa diklik */
+.memory-card:not(.flipped):not(.matched):hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 /* Responsive design */
@@ -275,12 +274,12 @@
         height: 80px;
     }
     
-    .memory-card-back .text-2xl {
-        font-size: 1.5rem;
+    .memory-card-front {
+        font-size: 1.2rem;
     }
     
-    .memory-card-back .text-sm {
-        font-size: 0.7rem;
+    .memory-card-back .text-2xl {
+        font-size: 1.3rem;
     }
 }
 
@@ -291,16 +290,13 @@
     }
     
     #memoryGameContainer {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 2px;
-    }
-    
-    .memory-card-back .text-2xl {
-        font-size: 1.2rem;
     }
     
     .memory-card-back .text-sm {
         font-size: 0.6rem;
+        padding: 2px;
     }
 }
         .quiz-option {
@@ -4088,19 +4084,19 @@ _Dikirim otomatis dari Media Pembelajaran Interaktif Al-Qur'an Hadits_`;
 function loadMemoryGame(topic, memoryData) {
     const contentBody = document.getElementById('contentBody');
     
-    // Buat dua set kartu: satu untuk Arab, satu untuk terjemahan
+    // Buat dua set kartu: Arab dan Terjemahan
     const arabicCards = memoryData.map(item => ({
         type: 'arabic',
         value: item.arabic,
         pair: item.translation,
-        display: item.arabic
+        id: Math.random().toString(36).substr(2, 9) // ID unik untuk matching
     }));
     
     const translationCards = memoryData.map(item => ({
         type: 'translation',
-        value: item.translation,
+        value: item.translation, 
         pair: item.arabic,
-        display: item.translation
+        id: arabicCards.find(a => a.value === item.arabic).id // ID yang sama dengan pasangannya
     }));
     
     // Gabungkan dan acak kartu
@@ -4112,20 +4108,21 @@ function loadMemoryGame(topic, memoryData) {
             <h3 class="text-3xl font-bold text-gray-800">Game Memory</h3>
             <p class="text-gray-600">Temukan pasangan antara kata Arab dan artinya!</p>
             <div class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full inline-block mt-4">
-                Skor: <span id="memoryScore">0</span> / ${memoryData.length}
+                Pasangan: <span id="memoryScore">0</span> / ${memoryData.length}
             </div>
         </div>
         
         <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4" id="memoryGameContainer">
             ${allCards.map((card, index) => `
-                <div class="memory-card" data-index="${index}" data-type="${card.type}" data-value="${card.value}" data-pair="${card.pair}">
+                <div class="memory-card" data-index="${index}" data-type="${card.type}" 
+                     data-value="${card.value}" data-pair="${card.pair}" data-id="${card.id}">
                     <div class="memory-card-front">
-                        <div class="text-2xl md:text-3xl">?</div>
+                        <div class="text-2xl">❓</div>
                     </div>
                     <div class="memory-card-back hidden">
                         ${card.type === 'arabic' ? 
-                            `<div class="text-2xl md:text-3xl arabic-text">${card.display}</div>` :
-                            `<div class="text-sm md:text-base text-center p-1">${card.display}</div>`
+                            `<div class="text-2xl arabic-text">${card.value}</div>` :
+                            `<div class="text-sm p-2 text-center">${card.value}</div>`
                         }
                     </div>
                 </div>
@@ -4136,6 +4133,9 @@ function loadMemoryGame(topic, memoryData) {
             <button onclick="showSubMenu('${topic}')" class="bg-gray-500 text-white px-6 py-3 rounded-lg">
                 Kembali ke Menu
             </button>
+            <button onclick="resetMemoryGame()" class="bg-yellow-500 text-white px-6 py-3 rounded-lg ml-4">
+                Ulangi Game
+            </button>
         </div>
     `;
     
@@ -4144,91 +4144,127 @@ function loadMemoryGame(topic, memoryData) {
 
 function implementMemoryGameLogic(totalPairs) {
     let flippedCards = [];
-    let matchedCards = [];
-    let score = 0;
+    let matchedPairs = 0;
+    let canFlip = true; // Untuk mencegah klik saat animasi
     
     document.querySelectorAll('.memory-card').forEach(card => {
-        card.addEventListener('click', () => {
-            // Jika kartu sudah terbuka atau sudah match, abaikan
-            if (card.classList.contains('flipped') || card.classList.contains('matched')) {
+        card.addEventListener('click', function() {
+            // Jika tidak bisa flip atau kartu sudah terbuka/match
+            if (!canFlip || this.classList.contains('flipped') || this.classList.contains('matched')) {
                 return;
             }
             
-            // Balik kartu
-            card.classList.add('flipped');
-            const front = card.querySelector('.memory-card-front');
-            const back = card.querySelector('.memory-card-back');
-            
-            if (front && back) {
-                front.classList.add('hidden');
-                back.classList.remove('hidden');
-            }
+            // Flip kartu
+            flipCard(this, true);
             
             const cardData = {
-                element: card,
-                type: card.getAttribute('data-type'),
-                value: card.getAttribute('data-value'),
-                pair: card.getAttribute('data-pair')
+                element: this,
+                type: this.getAttribute('data-type'),
+                value: this.getAttribute('data-value'),
+                pair: this.getAttribute('data-pair'),
+                id: this.getAttribute('data-id')
             };
             
             flippedCards.push(cardData);
             
             if (flippedCards.length === 2) {
-                const [card1, card2] = flippedCards;
+                canFlip = false; // Tidak bisa flip selama proses checking
                 
-                // Cek apakah pasangan cocok (Arab + Terjemahan)
-                const isMatch = 
-                    (card1.type === 'arabic' && card2.type === 'translation' && card1.value === card2.pair) ||
-                    (card1.type === 'translation' && card2.type === 'arabic' && card1.pair === card2.value);
+                const [firstCard, secondCard] = flippedCards;
                 
-                if (isMatch) {
-                    // Match!
-                    flippedCards.forEach(item => {
-                        item.element.classList.add('matched');
-                        if (item.type === 'arabic') {
-                            item.element.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
-                        } else {
-                            item.element.style.background = 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)';
-                        }
-                    });
-                    
-                    matchedCards.push(...flippedCards);
-                    score += 1;
-                    document.getElementById('memoryScore').textContent = score;
-                    addPoints(10);
-                    
-                    // Cek jika game selesai
-                    if (matchedCards.length === totalPairs * 2) {
-                        setTimeout(() => {
-                            Swal.fire({
-                                title: 'Selamat! 🎉',
-                                text: `Kamu menemukan semua ${totalPairs} pasangan!`,
-                                icon: 'success'
-                            });
-                        }, 500);
-                    }
-                } else {
-                    // Tidak match, balik kembali setelah delay
-                    setTimeout(() => {
-                        flippedCards.forEach(item => {
-                            item.element.classList.remove('flipped');
-                            const front = item.element.querySelector('.memory-card-front');
-                            const back = item.element.querySelector('.memory-card-back');
-                            
-                            if (front && back) {
-                                front.classList.remove('hidden');
-                                back.classList.add('hidden');
-                            }
+                // Cek apakah pasangan cocok (harus berbeda type dan ID sama)
+                const isMatch = firstCard.id === secondCard.id && firstCard.type !== secondCard.type;
+                
+                setTimeout(() => {
+                    if (isMatch) {
+                        // MATCH! - Kartu tetap terbuka
+                        flippedCards.forEach(card => {
+                            card.element.classList.add('matched');
+                            card.element.style.background = card.type === 'arabic' ? 
+                                'linear-gradient(135deg, #10b981 0%, #059669 100%)' :
+                                'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)';
                         });
-                    }, 1000);
-                }
-                
-                flippedCards = [];
+                        
+                        matchedPairs++;
+                        document.getElementById('memoryScore').textContent = matchedPairs;
+                        addPoints(10);
+                        
+                        // Cek jika game selesai
+                        if (matchedPairs === totalPairs) {
+                            setTimeout(() => {
+                                Swal.fire({
+                                    title: 'Selesai! 🎉',
+                                    text: `Kamu menemukan semua ${totalPairs} pasangan!`,
+                                    icon: 'success',
+                                    confirmButtonText: 'Main Lagi'
+                                }).then(() => {
+                                    resetMemoryGame();
+                                });
+                            }, 500);
+                        }
+                    } else {
+                        // TIDAK MATCH - Kartu tertutup kembali
+                        flippedCards.forEach(card => {
+                            flipCard(card.element, false);
+                        });
+                    }
+                    
+                    flippedCards = [];
+                    canFlip = true; // Bisa flip lagi
+                }, 1000); // Delay 1 detik sebelum check match
             }
         });
     });
 }
 
+function flipCard(card, show) {
+    const front = card.querySelector('.memory-card-front');
+    const back = card.querySelector('.memory-card-back');
+    
+    if (show) {
+        // Buka kartu
+        card.classList.add('flipped');
+        front.classList.add('hidden');
+        back.classList.remove('hidden');
+    } else {
+        // Tutup kartu
+        card.classList.remove('flipped');
+        front.classList.remove('hidden');
+        back.classList.add('hidden');
+    }
+}
+
+function resetMemoryGame() {
+    const memoryContainer = document.getElementById('memoryGameContainer');
+    const cards = memoryContainer.querySelectorAll('.memory-card');
+    
+    // Reset semua kartu
+    cards.forEach(card => {
+        card.classList.remove('flipped', 'matched');
+        card.style.background = 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)';
+        
+        const front = card.querySelector('.memory-card-front');
+        const back = card.querySelector('.memory-card-back');
+        
+        front.classList.remove('hidden');
+        back.classList.add('hidden');
+    });
+    
+    // Reset score
+    document.getElementById('memoryScore').textContent = '0';
+    
+    // Acak ulang posisi kartu
+    const cardsArray = Array.from(cards);
+    for (let i = cardsArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        memoryContainer.appendChild(cardsArray[j]);
+    }
+    
+    // Reset state
+    flippedCards = [];
+    matchedPairs = 0;
+    canFlip = true;
+}
 function loadQuizGame(topic, quizData) {
     const contentBody = document.getElementById('contentBody');
     let currentQuestion = 0;
