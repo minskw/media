@@ -205,7 +205,30 @@
             transform: translateY(-5px);
         }
         
-memory-card {
+        .memory-card {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .memory-card.flipped {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            transform: rotateY(180deg);
+        }
+        
+        .memory-card.matched {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            transform: scale(1.1);
+        }
+        
         .quiz-option {
             background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
             border: 2px solid #9ca3af;
