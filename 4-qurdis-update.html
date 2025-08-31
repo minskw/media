@@ -3987,7 +3987,7 @@ ${grade === 'A' ? '🎉 *Excellent!* Siswa menguasai materi dengan sangat baik!'
 _Dikirim otomatis dari Media Pembelajaran Interaktif Al-Qur'an Hadits_`;
 
             const encodedMessage = encodeURIComponent(message);
-            const teacherWhatsApp = "6281234567890"; // Ganti dengan nomor WhatsApp guru yang sebenarnya
+            const teacherWhatsApp = "6289619760801"; // Ganti dengan nomor WhatsApp guru yang sebenarnya
             const whatsappUrl = `https://wa.me/${teacherWhatsApp}?text=${encodedMessage}`;
             
             Swal.fire({
@@ -4010,6 +4010,328 @@ _Dikirim otomatis dari Media Pembelajaran Interaktif Al-Qur'an Hadits_`;
                 }
             });
         }
+// FUNGSI GAME YANG PERLU DITAMBAHKAN
+function loadMemoryGame(topic, memoryData) {
+    const contentBody = document.getElementById('contentBody');
+    const shuffledPairs = [...memoryData, ...memoryData]
+        .sort(() => Math.random() - 0.5);
+    
+    contentBody.innerHTML = `
+        <div class="text-center mb-8">
+            <h3 class="text-3xl font-bold text-gray-800">Game Memory</h3>
+            <p class="text-gray-600">Temukan pasangan yang cocok!</p>
+            <div class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full inline-block mt-4">
+                Skor: <span id="memoryScore">0</span>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-3 md:grid-cols-4 gap-4" id="memoryGameContainer">
+            ${shuffledPairs.map((item, index) => `
+                <div class="memory-card" data-index="${index}" data-value="${item.arabic}">
+                    <div class="text-3xl arabic-text">?</div>
+                </div>
+            `).join('')}
+        </div>
+        
+        <div class="text-center mt-8">
+            <button onclick="showSubMenu('${topic}')" class="bg-gray-500 text-white px-6 py-3 rounded-lg">
+                Kembali ke Menu
+            </button>
+        </div>
+    `;
+    
+    // Implementasi logika game memory
+    implementMemoryGameLogic(shuffledPairs);
+}
+
+function implementMemoryGameLogic(pairs) {
+    let flippedCards = [];
+    let matchedCards = [];
+    let score = 0;
+    
+    document.querySelectorAll('.memory-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const index = parseInt(card.getAttribute('data-index'));
+            
+            // Jika kartu sudah terbuka atau sudah match, abaikan
+            if (card.classList.contains('flipped') || card.classList.contains('matched')) {
+                return;
+            }
+            
+            // Balik kartu
+            card.classList.add('flipped');
+            card.innerHTML = `<div class="text-2xl arabic-text">${pairs[index].arabic}</div>`;
+            
+            flippedCards.push({card, index, value: pairs[index].arabic});
+            
+            if (flippedCards.length === 2) {
+                // Cek apakah pasangan cocok
+                if (flippedCards[0].value === flippedCards[1].value) {
+                    // Match!
+                    flippedCards.forEach(item => {
+                        item.card.classList.add('matched');
+                    });
+                    matchedCards.push(...flippedCards);
+                    score += 10;
+                    document.getElementById('memoryScore').textContent = score;
+                    addPoints(10);
+                    
+                    // Cek jika game selesai
+                    if (matchedCards.length === pairs.length) {
+                        setTimeout(() => {
+                            Swal.fire({
+                                title: 'Selamat!',
+                                text: `Kamu menyelesaikan game memory dengan skor ${score}!`,
+                                icon: 'success'
+                            });
+                        }, 500);
+                    }
+                } else {
+                    // Tidak match, balik kembali setelah delay
+                    setTimeout(() => {
+                        flippedCards.forEach(item => {
+                            item.card.classList.remove('flipped');
+                            item.card.innerHTML = '<div class="text-3xl arabic-text">?</div>';
+                        });
+                    }, 1000);
+                }
+                
+                flippedCards = [];
+            }
+        });
+    });
+}
+
+function loadQuizGame(topic, quizData) {
+    const contentBody = document.getElementById('contentBody');
+    let currentQuestion = 0;
+    let score = 0;
+    
+    function showQuestion() {
+        const question = quizData[currentQuestion];
+        contentBody.innerHTML = `
+            <div class="max-w-2xl mx-auto">
+                <div class="text-center mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800">Game Quiz</h3>
+                    <div class="bg-green-100 text-green-800 px-4 py-2 rounded-full inline-block mt-2">
+                        Soal ${currentQuestion + 1} dari ${quizData.length} | Skor: ${score}
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-2xl shadow-lg mb-6">
+                    <h4 class="text-xl font-bold text-gray-800 mb-4">${question.question}</h4>
+                    <div class="space-y-3">
+                        ${question.options.map((option, index) => `
+                            <button onclick="checkAnswer(${index}, ${currentQuestion})" 
+                                    class="w-full text-left p-4 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
+                                ${String.fromCharCode(65 + index)}. ${option}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-gray-200 rounded-full h-2">
+                        <div class="bg-green-500 h-2 rounded-full" 
+                             style="width: ${((currentQuestion + 1) / quizData.length) * 100}%"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    window.checkAnswer = function(selectedIndex, questionIndex) {
+        const question = quizData[questionIndex];
+        const isCorrect = selectedIndex === question.correct;
+        
+        if (isCorrect) {
+            score += question.points;
+            addPoints(question.points);
+            Swal.fire({
+                title: 'Benar!',
+                text: `+${question.points} poin!`,
+                icon: 'success',
+                timer: 1000
+            });
+        } else {
+            Swal.fire({
+                title: 'Salah!',
+                text: `Jawaban benar: ${question.options[question.correct]}`,
+                icon: 'error',
+                timer: 2000
+            });
+        }
+        
+        currentQuestion++;
+        if (currentQuestion < quizData.length) {
+            setTimeout(showQuestion, 2000);
+        } else {
+            showQuizResults();
+        }
+    };
+    
+    function showQuizResults() {
+        contentBody.innerHTML = `
+            <div class="text-center">
+                <div class="bg-gradient-to-r from-green-400 to-blue-500 text-white p-8 rounded-3xl mb-6">
+                    <h3 class="text-3xl font-bold mb-4">Quiz Selesai!</h3>
+                    <div class="text-4xl font-bold">Skor: ${score}</div>
+                </div>
+                
+                <button onclick="showSubMenu('${topic}')" class="bg-blue-500 text-white px-6 py-3 rounded-lg">
+                    Kembali ke Menu
+                </button>
+            </div>
+        `;
+    }
+    
+    showQuestion();
+}
+
+function loadMatchingGame(topic) {
+    const contentBody = document.getElementById('contentBody');
+    
+    // Data untuk matching game (contoh untuk tajweed)
+    const matchingData = [
+        { arabic: "الإظهار", translation: "Membaca dengan jelas" },
+        { arabic: "الإخفاء", translation: "Membaca samar dengan dengung" },
+        { arabic: "الغنة", translation: "Dengung" },
+        { arabic: "النون الساكنة", translation: "Nun mati" },
+        { arabic: "التنوين", translation: "Tanwin" },
+        { arabic: "المخرج", translation: "Tempat keluar huruf" }
+    ];
+    
+    // Acak data
+    const shuffledArabic = [...matchingData].sort(() => Math.random() - 0.5);
+    const shuffledTranslation = [...matchingData].sort(() => Math.random() - 0.5);
+    
+    contentBody.innerHTML = `
+        <div class="text-center mb-8">
+            <h3 class="text-3xl font-bold text-gray-800">Game Matching</h3>
+            <p class="text-gray-600">Hubungkan kata Arab dengan artinya!</p>
+            <div class="bg-orange-100 text-orange-800 px-4 py-2 rounded-full inline-block mt-4">
+                Pasangan Benar: <span id="matchingScore">0</span>/6
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div>
+                <h4 class="text-xl font-bold text-center mb-4">Kata Arab</h4>
+                <div class="space-y-3" id="arabicItems">
+                    ${shuffledArabic.map((item, index) => `
+                        <div class="bg-blue-100 p-4 rounded-lg cursor-pointer border-2 border-blue-200 arabic-item"
+                             data-value="${item.arabic}" data-index="${index}">
+                            <div class="text-2xl arabic-text text-center">${item.arabic}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+            
+            <div>
+                <h4 class="text-xl font-bold text-center mb-4">Arti</h4>
+                <div class="space-y-3" id="translationItems">
+                    ${shuffledTranslation.map((item, index) => `
+                        <div class="bg-green-100 p-4 rounded-lg cursor-pointer border-2 border-green-200 translation-item"
+                             data-value="${item.arabic}" data-index="${index}">
+                            <div class="text-lg text-center">${item.translation}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center">
+            <button onclick="showSubMenu('${topic}')" class="bg-gray-500 text-white px-6 py-3 rounded-lg">
+                Kembali ke Menu
+            </button>
+        </div>
+    `;
+    
+    // Implementasi logika matching game
+    implementMatchingGameLogic();
+}
+
+function implementMatchingGameLogic() {
+    let selectedArabic = null;
+    let selectedTranslation = null;
+    let matchedPairs = 0;
+    
+    document.querySelectorAll('.arabic-item').forEach(item => {
+        item.addEventListener('click', function() {
+            if (this.classList.contains('matched')) return;
+            
+            // Reset selection sebelumnya
+            document.querySelectorAll('.arabic-item, .translation-item').forEach(el => {
+                if (!el.classList.contains('matched')) {
+                    el.classList.remove('selected');
+                }
+            });
+            
+            this.classList.add('selected');
+            selectedArabic = this;
+            
+            checkMatch();
+        });
+    });
+    
+    document.querySelectorAll('.translation-item').forEach(item => {
+        item.addEventListener('click', function() {
+            if (this.classList.contains('matched')) return;
+            
+            // Reset selection sebelumnya
+            document.querySelectorAll('.arabic-item, .translation-item').forEach(el => {
+                if (!el.classList.contains('matched')) {
+                    el.classList.remove('selected');
+                }
+            });
+            
+            this.classList.add('selected');
+            selectedTranslation = this;
+            
+            checkMatch();
+        });
+    });
+    
+    function checkMatch() {
+        if (selectedArabic && selectedTranslation) {
+            const arabicValue = selectedArabic.getAttribute('data-value');
+            const translationValue = selectedTranslation.getAttribute('data-value');
+            
+            if (arabicValue === translationValue) {
+                // Match benar
+                selectedArabic.classList.add('matched', 'bg-green-200', 'border-green-400');
+                selectedTranslation.classList.add('matched', 'bg-green-200', 'border-green-400');
+                matchedPairs++;
+                
+                document.getElementById('matchingScore').textContent = matchedPairs;
+                addPoints(5);
+                
+                // Cek jika game selesai
+                if (matchedPairs === 6) {
+                    setTimeout(() => {
+                        Swal.fire({
+                            title: 'Selamat!',
+                            text: 'Kamu menyelesaikan game matching!',
+                            icon: 'success'
+                        });
+                    }, 500);
+                }
+            } else {
+                // Match salah
+                selectedArabic.classList.add('bg-red-200', 'border-red-400');
+                selectedTranslation.classList.add('bg-red-200', 'border-red-400');
+                
+                setTimeout(() => {
+                    selectedArabic.classList.remove('selected', 'bg-red-200', 'border-red-400');
+                    selectedTranslation.classList.remove('selected', 'bg-red-200', 'border-red-400');
+                }, 1000);
+            }
+            
+            selectedArabic = null;
+            selectedTranslation = null;
+        }
+    }
+}
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'976481d9f4ecd865',t:'MTc1NjM5MTQzMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
