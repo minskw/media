@@ -703,7 +703,7 @@
     <script>
         let currentTopic = '';
         let currentContent = '';
-        let totalPoints = parseInt(localStorage.getItem('totalPoints') || '0');
+        let totalPoints = 0;
         let stars = Math.floor(totalPoints / 100);
         let currentAudio = null;
         let isPlaying = false;
@@ -2288,6 +2288,9 @@
 
         // Initialize app
         document.addEventListener('DOMContentLoaded', function() {
+         const savedPoints = localStorage.getItem('totalPoints');
+            totalPoints = parseInt(savedPoints) || 0;
+            
             loadStudentData();
             updatePointsDisplay();
             updateStarsDisplay();
@@ -3603,68 +3606,78 @@ function sendResultToSheet(nama, kelas, mapel, materi, skor, total) {
 
 
         // Points and progress system
-        function addPoints(points) {
-            totalPoints += points;
-            localStorage.setItem('totalPoints', totalPoints.toString());
-            updatePointsDisplay();
-            updateStarsDisplay();
-            
-            // Show points animation
-            Swal.fire({
-                title: `+${points} Poin!`,
-                icon: 'success',
-                timer: 1500,
-                showConfirmButton: false,
-                toast: true,
-                position: 'top-end'
-            });
-        }
+function addPoints(points) {
+    // Pastikan points adalah number
+    points = parseInt(points) || 0;
+    
+    // Pastikan totalPoints adalah number
+    totalPoints = parseInt(totalPoints) || 0;
+    
+    totalPoints += points;
+    localStorage.setItem('totalPoints', totalPoints.toString());
+    updatePointsDisplay();
+    updateStarsDisplay();
+    
+    // Show points animation
+    Swal.fire({
+        title: `+${points} Poin!`,
+        icon: 'success',
+        timer: 1500,
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end'
+    });
+}
+ function updatePointsDisplay() {
+    // Pastikan totalPoints adalah number
+    totalPoints = parseInt(totalPoints) || 0;
+    
+    document.getElementById('totalPoints').textContent = totalPoints;
+    const mobilePointsEl = document.getElementById('totalPointsMobile');
+    if (mobilePointsEl) mobilePointsEl.textContent = totalPoints;
+}
 
-        function updatePointsDisplay() {
-            document.getElementById('totalPoints').textContent = totalPoints;
-            const mobilePointsEl = document.getElementById('totalPointsMobile');
-            if (mobilePointsEl) mobilePointsEl.textContent = totalPoints;
+function updateStarsDisplay() {
+    // Pastikan totalPoints adalah number
+    totalPoints = parseInt(totalPoints) || 0;
+    
+    const starsContainer = document.getElementById('stars');
+    const mobileStarsContainer = document.getElementById('starsMobile');
+    const newStars = Math.floor(totalPoints / 100);
+    
+    // Desktop stars
+    if (starsContainer) {
+        starsContainer.innerHTML = '';
+        for (let i = 0; i < Math.min(newStars, 5); i++) {
+            const star = document.createElement('div');
+            star.className = 'text-yellow-400 text-xl';
+            star.innerHTML = '<i class="fas fa-star"></i>';
+            starsContainer.appendChild(star);
         }
-
-        function updateStarsDisplay() {
-            const starsContainer = document.getElementById('stars');
-            const mobileStarsContainer = document.getElementById('starsMobile');
-            const newStars = Math.floor(totalPoints / 100);
-            
-            // Desktop stars
-            if (starsContainer) {
-                starsContainer.innerHTML = '';
-                for (let i = 0; i < Math.min(newStars, 5); i++) {
-                    const star = document.createElement('div');
-                    star.className = 'text-yellow-400 text-xl';
-                    star.innerHTML = '<i class="fas fa-star"></i>';
-                    starsContainer.appendChild(star);
-                }
-            }
-            
-            // Mobile stars
-            if (mobileStarsContainer) {
-                mobileStarsContainer.innerHTML = '';
-                for (let i = 0; i < Math.min(newStars, 5); i++) {
-                    const star = document.createElement('div');
-                    star.className = 'text-yellow-400 text-sm';
-                    star.innerHTML = '<i class="fas fa-star"></i>';
-                    mobileStarsContainer.appendChild(star);
-                }
-            }
-            
-            if (newStars > stars) {
-                Swal.fire({
-                    title: 'Bintang Baru!',
-                    text: `Selamat! Kamu mendapat bintang ke-${newStars}!`,
-                    icon: 'success',
-                    timer: 3000
-                });
-            }
-            
-            stars = newStars;
+    }
+    
+    // Mobile stars
+    if (mobileStarsContainer) {
+        mobileStarsContainer.innerHTML = '';
+        for (let i = 0; i < Math.min(newStars, 5); i++) {
+            const star = document.createElement('div');
+            star.className = 'text-yellow-400 text-sm';
+            star.innerHTML = '<i class="fas fa-star"></i>';
+            mobileStarsContainer.appendChild(star);
         }
-
+    }
+    
+    if (newStars > stars) {
+        Swal.fire({
+            title: 'Bintang Baru!',
+            text: `Selamat! Kamu mendapat bintang ke-${newStars}!`,
+            icon: 'success',
+            timer: 3000
+        });
+    }
+    
+    stars = newStars;
+}
         // Student data management
         function loadStudentData() {
             const savedName = localStorage.getItem('studentName');
@@ -4265,6 +4278,23 @@ function resetMemoryGame() {
     matchedPairs = 0;
     canFlip = true;
 }
+
+function resetPoints() {
+    totalPoints = 0;
+    localStorage.setItem('totalPoints', '0');
+    updatePointsDisplay();
+    updateStarsDisplay();
+    
+    Swal.fire({
+        title: 'Poin Direset',
+        text: 'Semua poin telah direset ke 0',
+        icon: 'info',
+        timer: 2000
+    });
+}
+
+// Untuk debugging, bisa tambahkan di console:
+// resetPoints()
 function loadQuizGame(topic, quizData) {
     const contentBody = document.getElementById('contentBody');
     let currentQuestion = 0;
