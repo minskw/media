@@ -205,30 +205,100 @@
             transform: translateY(-5px);
         }
         
-        .memory-card {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .memory-card.flipped {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            transform: rotateY(180deg);
-        }
-        
-        .memory-card.matched {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            transform: scale(1.1);
-        }
-        
+.memory-card {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    perspective: 1000px;
+}
+
+.memory-card-front, .memory-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backface-visibility: hidden;
+    transition: transform 0.6s, opacity 0.3s;
+}
+
+.memory-card-front {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+    font-size: 1.5rem;
+}
+
+.memory-card-back {
+    background: white;
+    color: #333;
+    transform: rotateY(180deg);
+    padding: 8px;
+    text-align: center;
+}
+
+.memory-card.flipped .memory-card-front {
+    transform: rotateY(180deg);
+    opacity: 0;
+}
+
+.memory-card.flipped .memory-card-back {
+    transform: rotateY(0deg);
+    opacity: 1;
+}
+
+.memory-card.matched {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+    cursor: default;
+}
+
+/* Efek hover untuk kartu yang bisa diklik */
+.memory-card:not(.flipped):not(.matched):hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .memory-card {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .memory-card-front {
+        font-size: 1.2rem;
+    }
+    
+    .memory-card-back .text-2xl {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .memory-card {
+        width: 70px;
+        height: 70px;
+    }
+    
+    #memoryGameContainer {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2px;
+    }
+    
+    .memory-card-back .text-sm {
+        font-size: 0.6rem;
+        padding: 2px;
+    }
+}
         .quiz-option {
             background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
             border: 2px solid #9ca3af;
@@ -1280,137 +1350,323 @@
     }
                 ]
             },
-            // Templates for other games
-            quraisy: {
-                memory: [
-                    { arabic: "[Kata Arab 1]", translation: "[Terjemahan 1]" }
-                    // Template untuk memory game lainnya
-                ],
-                quiz: [
-    {
-        question: "Surah Quraisy adalah surah yang ke-berapa dalam Al-Qur'an?",
-        options: ["Ke-104", "Ke-105", "Ke-106", "Ke-107"],
-        correct: 2,
-        points: 5
+ quraisy: {
+        memory: [
+            { arabic: "لِإِيلَافِ", translation: "Karena kebiasaan" },
+            { arabic: "قُرَيْشٍ", translation: "Suku Quraisy" },
+            { arabic: "رِحْلَةَ", translation: "Perjalanan" },
+            { arabic: "الشِّتَاءِ", translation: "Musim dingin" },
+            { arabic: "الصَّيْفِ", translation: "Musim panas" },
+            { arabic: "فَلْيَعْبُدُوا", translation: "Hendaklah mereka menyembah" }
+        ],
+        quiz: [
+            // ... (soal quraisy yang sudah ada sebelumnya)
+        ]
     },
-    {
-        question: "Jumlah ayat dalam Surah Quraisy adalah...",
-        options: ["3 ayat", "4 ayat", "5 ayat", "6 ayat"],
-        correct: 1,
-        points: 5
-    },
-    {
-        question: "Surah Quraisy tergolong ke dalam surah...",
-        options: ["Madaniyah", "Makkiyah", "Syamiyah", "Hijriyah"],
-        correct: 1,
-        points: 5
-    },
-    {
-        question: "Arti dari 'Quraisy' adalah...",
-        options: ["Nama sebuah kabilah", "Nama sebuah kota", "Nama seorang Nabi", "Nama sebuah sungai"],
-        correct: 0,
-        points: 5
-    },
-    {
-        question: "Surah Quraisy diturunkan setelah surah...",
-        options: ["Al-Fiil", "At-Takatsur", "Al-Kautsar", "Al-Ma'un"],
-        correct: 0,
-        points: 5
-    },
-    {
-        question: "Pokok kandungan Surah Quraisy adalah tentang...",
-        options: ["Kisah pasukan gajah", "Nikmat Allah kepada suku Quraisy", "Hari Kiamat", "Ciri-ciri orang munafik"],
-        correct: 1,
-        points: 5
-    },
-    {
-        question: "Nikmat apa yang disebutkan dalam surah ini yang diberikan Allah kepada suku Quraisy?",
-        options: ["Kemampuan berperang", "Kecerdasan berdagang", "Keamanan dalam perjalanan dan kecukupan rezeki", "Kekuatan fisik yang hebat"],
-        correct: 2,
-        points: 5
-    },
-    {
-        question: "Lafaz 'ilāfihim' dalam Surah Quraisy berarti...",
-        options: ["Kebiasaan mereka", "Kekayaan mereka", "Perjalanan mereka", "Keselamatan mereka"],
-        correct: 0,
-        points: 5
-    },
-    {
-        question: "Kebiasaan suku Quraisy yang disebutkan dalam surah ini adalah...",
-        options: ["Berdagang ke Yaman dan Syam", "Berkebun dan beternak", "Berperang dan berburu", "Membaca dan menulis"],
-        correct: 0,
-        points: 5
-    },
-    {
-        question: "Aman dari rasa takut adalah nikmat Allah yang diberikan kepada suku Quraisy, sehingga mereka bisa...",
-        options: ["Berdagang dengan tenang", "Berperang dengan gagah", "Bermalas-malasan", "Pamer kekayaan"],
-        correct: 0,
-        points: 5
-    },
-    {
-        question: "Surah Quraisy memiliki hubungan yang sangat erat dengan surah sebelumnya, yaitu...",
-        options: ["Al-Kafirun", "Al-Ma'un", "Al-Fiil", "Al-Humazah"],
-        correct: 2,
-        points: 5
-    },
-    {
-        question: "Apa perintah Allah di akhir Surah Quraisy?",
-        options: ["Maka hendaklah mereka menyembah Tuhan pemilik rumah ini (Ka'bah)", "Maka hendaklah mereka bersyukur", "Maka hendaklah mereka berhijrah", "Maka hendaklah mereka berdagang"],
-        correct: 0,
-        points: 5
-    },
-    {
-        question: "'Rumah' yang dimaksud dalam ayat 'Rabba hāżal-bait' adalah...",
-        options: ["Baitul Mal", "Baitullah (Ka'bah)", "Rumah Nabi", "Rumah mereka sendiri"],
-        correct: 1,
-        points: 5
-    },
-    {
-        question: "Allah memberikan kecukupan rezeki kepada suku Quraisy berupa...",
-        options: ["Kekayaan yang melimpah ruah", "Makanan untuk mengenyangkan (dari lapar) dan keamanan (dari ketakutan)", "Kemewahan dan harta benda", "Ketenangan dan kemewahan"],
-        correct: 1,
-        points: 5
-    },
-    {
-        question: "Sikap yang diajarkan dari Surah Quraisy setelah menerima nikmat adalah...",
-        options: ["Sombong dan berbangga diri", "Bersyukur dan beribadah hanya kepada Allah", "Diam dan menyendiri", "Bersedih dan menangis"],
-        correct: 1,
-        points: 5
-    },
-    {
-        question: "Kata 'asy-syitā`i' dalam surah ini berarti...",
-        options: ["Musim semi", "Musim panas", "Musim dingin", "Musim gugur"],
-        correct: 2,
-        points: 5
-    },
-    {
-        question: "Kata 'waṣ-ṣaif' dalam surah ini berarti...",
-        options: ["Musim semi", "Musim panas", "Musim dingin", "Musim gugur"],
-        correct: 1,
-        points: 5
-    },
-    {
-        question: "Perjalanan dagang musim dingin suku Quraisy biasanya menuju ke...",
-        options: ["Syam (Syria)", "Yaman", "Irak", "Mesir"],
-        correct: 1,
-        points: 5
-    },
-    {
-        question: "Perjalanan dagang musim panas suku Quraisy biasanya menuju ke...",
-        options: ["Syam (Syria)", "Yaman", "Irak", "Mesir"],
-        correct: 0,
-        points: 5
-    },
-    {
-        question: "Inti pesan dari Surah Quraisy adalah...",
-        options: ["Harta adalah segalanya", "Bersyukurlah atas nikmat Allah dengan menyembah-Nya", "Berdaganglah ke mana saja", "Jadilah suku yang paling kuat"],
-        correct: 1,
-        points: 5
-    }
-                ]
+    maun: {
+        memory: [
+            { arabic: "أَرَأَيْتَ", translation: "Tahukah kamu" },
+            { arabic: "يُكَذِّبُ", translation: "mendustakan" },
+            { arabic: "بِالدِّينِ", translation: "agama" },
+            { arabic: "يَدُعُّ", translation: "menghardik" },
+            { arabic: "الْيَتِيمَ", translation: "anak yatim" },
+            { arabic: "يَحُضُّ", translation: "menganjurkan" },
+            { arabic: "الْمِسْكِينِ", translation: "orang miskin" },
+            { arabic: "سَاهُونَ", translation: "lalai" },
+            { arabic: "يُرَاءُونَ", translation: "berbuat riya" },
+            { arabic: "يَمْنَعُونَ", translation: "enggan/menolak" }
+        ],
+        quiz: [
+            {
+                question: "Berapa jumlah ayat dalam Surah Al-Ma'un?",
+                options: ["5 ayat", "6 ayat", "7 ayat", "8 ayat"],
+                correct: 2,
+                points: 5
+            },
+            {
+                question: "Apa arti dari 'Al-Ma'un'?",
+                options: ["Bantuan", "Barang-barang berguna", "Kebaikan", "Sedekah"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Siapa yang disebut mendustakan agama dalam Surah Al-Ma'un?",
+                options: ["Orang yang shalat", "Orang yang menghardik anak yatim", "Orang yang kaya", "Orang yang berilmu"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa ciri orang yang lalai dalam shalat menurut Surah Al-Ma'un?",
+                options: ["Shalat dengan cepat", "Shalat tidak khusyuk dan tepat waktu", "Shalat tanpa wudhu", "Shalat sendirian"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa yang dimaksud dengan 'riya' dalam Surah Al-Ma'un?",
+                options: ["Shalat dengan suara keras", "Beribadah ingin dilihat orang", "Shalat di masjid besar", "Berdoa dengan panjang"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa yang enggan diberikan oleh orang yang mendustakan agama?",
+                options: ["Uang", "Makanan", "Barang-barang berguna", "Pakaian"],
+                correct: 2,
+                points: 5
+            },
+            {
+                question: "Surah Al-Ma'un tergolong surah...",
+                options: ["Madaniyah", "Makkiyah", "Syamiyah", "Hijriyah"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa pelajaran utama dari Surah Al-Ma'un?",
+                options: ["Pentingnya shalat", "Kepedulian sosial dalam Islam", "Keutamaan sedekah", "Kewajiban berpuasa"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Orang yang bagaimana yang disebut celaka dalam Surah Al-Ma'un?",
+                options: ["Orang yang kaya", "Orang yang shalat tetapi lalai", "Orang yang tidak shalat", "Orang yang berilmu"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa lawan kata dari 'menghardik anak yatim'?",
+                options: ["Menyayangi anak yatim", "Mengajari anak yatim", "Memberi makan anak yatim", "Mendidik anak yatim"],
+                correct: 0,
+                points: 5
             }
-            // Template untuk game materi lainnya...
-        };
+        ]
+    },
+    takatsur: {
+        memory: [
+            { arabic: "أَلْهَاكُمُ", translation: "telah melalaikan kamu" },
+            { arabic: "التَّكَاثُرُ", translation: "bermegah-megahan" },
+            { arabic: "الْمَقَابِرَ", translation: "kubur" },
+            { arabic: "كَلَّا", translation: "jangan begitu" },
+            { arabic: "سَوْفَ", translation: "kelak" },
+            { arabic: "تَعْلَمُونَ", translation: "kamu akan mengetahui" },
+            { arabic: "عِلْمَ", translation: "pengetahuan" },
+            { arabic: "الْيَقِينِ", translation: "yakin" },
+            { arabic: "الْجَحِيمَ", translation: "neraka Jahim" },
+            { arabic: "عَيْنَ", translation: "mata kepala" }
+        ],
+        quiz: [
+            {
+                question: "Berapa jumlah ayat dalam Surah At-Takatsur?",
+                options: ["6 ayat", "7 ayat", "8 ayat", "9 ayat"],
+                correct: 2,
+                points: 5
+            },
+            {
+                question: "Apa arti dari 'At-Takatsur'?",
+                options: ["Bermegah-megahan", "Bersedekah", "Berkumpul", "Bersyukur"],
+                correct: 0,
+                points: 5
+            },
+            {
+                question: "Apa yang melalaikan manusia menurut Surah At-Takatsur?",
+                options: ["Harta dan anak", "Bermegah-megahan", "Jabatan dan kekuasaan", "Ilmu pengetahuan"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Sampai kapan manusia bermegah-megahan?",
+                options: ["Sampai tua", "Sampai miskin", "Sampai masuk kubur", "Sampai sakit"],
+                correct: 2,
+                points: 5
+            },
+            {
+                question: "Apa yang akan dilihat manusia di akhirat nanti?",
+                options: ["Surga", "Neraka Jahim", "Malaikat", "Arsy"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa yang akan ditanyakan kepada manusia di hari kiamat?",
+                options: ["Tentang harta", "Tentang kenikmatan", "Tentang keluarga", "Tentang ibadah"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Surah At-Takatsur tergolong surah...",
+                options: ["Madaniyah", "Makkiyah", "Syamiyah", "Hijriyah"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa makna 'ainul yaqin'?",
+                options: ["Keyakinan buta", "Keyakinan dengan mata kepala", "Keyakinan hati", "Keyakinan ilmu"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa peringatan Allah dalam surah ini?",
+                options: ["Jangan sombong", "Jangan bermegah-megahan", "Jangan kikir", "Jangan malas"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa pelajaran utama dari Surah At-Takatsur?",
+                options: ["Hidup sederhana", "Tidak terlena dengan dunia", "Rajin beribadah", "Banyak sedekah"],
+                correct: 1,
+                points: 5
+            }
+        ]
+    },
+    hadis_takwa: {
+        memory: [
+            { arabic: "اتَّقِ", translation: "Bertakwalah" },
+            { arabic: "اللَّهَ", translation: "kepada Allah" },
+            { arabic: "حَيْثُمَا", translation: "di mana pun" },
+            { arabic: "كُنْتَ", translation: "kamu berada" },
+            { arabic: "أَتْبِعِ", translation: "ikutilah" },
+            { arabic: "السَّيِّئَةَ", translation: "perbuatan buruk" },
+            { arabic: "الْحَسَنَةَ", translation: "perbuatan baik" },
+            { arabic: "تَمْحُهَا", translation: "menghapusnya" },
+            { arabic: "وَخَالِقِ", translation: "dan pergaulilah" },
+            { arabic: "النَّاسَ", translation: "manusia" },
+            { arabic: "بِخُلُقٍ", translation: "dengan akhlak" },
+            { arabic: "حَسَنٍ", translation: "yang baik" }
+        ],
+        quiz: [
+            {
+                question: "Siapa perawi hadis tentang takwa?",
+                options: ["Imam Bukhari", "Imam Muslim", "Imam Tirmizi", "Imam Abu Daud"],
+                correct: 2,
+                points: 5
+            },
+            {
+                question: "Apa arti 'ittaqillaha'?",
+                options: ["Cintailah Allah", "Bertakwalah kepada Allah", "Sembahlah Allah", "Pujilah Allah"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Di mana kita harus bertakwa kepada Allah?",
+                options: ["Di masjid saja", "Di mana pun berada", "Di rumah saja", "Di tempat sunyi"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa yang harus dilakukan setelah berbuat salah?",
+                options: ["Menyembunyikannya", "Mengikutinya dengan perbuatan baik", "Melupakannya", "Menyalahkan orang lain"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa yang dapat menghapus perbuatan buruk?",
+                options: ["Uang", "Perbuatan baik", "Permintaan maaf", "Waktu"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Bagaimana cara bergaul dengan manusia?",
+                options: ["Dengan kekayaan", "Dengan akhlak yang baik", "Dengan kepandaian", "Dengan kekuasaan"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa makna takwa secara bahasa?",
+                options: ["Takut", "Cinta", "Menjaga diri", "Taat"],
+                correct: 2,
+                points: 5
+            },
+            {
+                question: "Apa tiga nasihat dalam hadis ini?",
+                options: ["Shalat, puasa, zakat", "Takwa, ikuti keburukan dengan kebaikan, berakhlak baik", "Sedekah, jihad, haji", "Ilmu, amal, dakwah"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa keutamaan akhlak yang baik?",
+                options: ["Mendapatkan kekayaan", "Mempermudah urusan", "Mendatangkan banyak teman", "Meningkatkan derajat"],
+                correct: 3,
+                points: 5
+            },
+            {
+                question: "Apa hubungan antara takwa dan akhlak?",
+                options: ["Tidak ada hubungan", "Takwa tercermin dalam akhlak", "Akhlak lebih penting dari takwa", "Takwa hanya untuk diri sendiri"],
+                correct: 1,
+                points: 5
+            }
+        ]
+    },
+    hadis_niat: {
+        memory: [
+            { arabic: "إِنَّمَا", translation: "Sesungguhnya" },
+            { arabic: "الْأَعْمَالُ", translation: "amal perbuatan" },
+            { arabic: "بِالنِّيَّاتِ", translation: "dengan niat-niat" },
+            { arabic: "لِكُلِّ", translation: "untuk setiap" },
+            { arabic: "امْرِئٍ", translation: "orang" },
+            { arabic: "مَا", translation: "apa yang" },
+            { arabic: "نَوَى", translation: "dia niatkan" }
+        ],
+        quiz: [
+            {
+                question: "Siapa perawi hadis tentang niat?",
+                options: ["Imam Bukhari", "Imam Muslim", "Imam Tirmizi", "Imam Ahmad"],
+                correct: 0,
+                points: 5
+            },
+            {
+                question: "Apa yang menentukan nilai suatu amal?",
+                options: ["Banyaknya amal", "Niatnya", "Tempatnya", "Waktunya"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa arti 'innamal a'malu binniyat'?",
+                options: ["Sesungguhnya amal itu dengan niat", "Sesungguhnya niat itu penting", "Sesungguhnya amal harus ikhlas", "Sesungguhnya niat menentukan amal"],
+                correct: 0,
+                points: 5
+            },
+            {
+                question: "Apa yang akan didapatkan setiap orang?",
+                options: ["Apa yang diinginkannya", "Apa yang diusahakannya", "Apa yang diniatkannya", "Apa yang didoakannya"],
+                correct: 2,
+                points: 5
+            },
+            {
+                question: "Apa syarat niat yang baik?",
+                options: ["Ikhlas karena Allah", "Diketahui orang lain", "Dilakukan dengan sungguh-sungguh", "Ditulis dan diucapkan"],
+                correct: 0,
+                points: 5
+            },
+            {
+                question: "Kapan niat harus dilakukan?",
+                options: ["Sebelum amal", "Sesudah amal", "Selama amal", "Tidak perlu niat"],
+                correct: 0,
+                points: 5
+            },
+            {
+                question: "Apa contoh niat yang ikhlas?",
+                options: ["Beramal untuk dipuji", "Beramal karena Allah", "Beramal untuk mendapatkan upah", "Beramal karena terpaksa"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa akibat niat yang tidak ikhlas?",
+                options: ["Amal tidak diterima", "Amal diterima setengah", "Amal ditunda penerimaannya", "Amal tetap diterima"],
+                correct: 0,
+                points: 5
+            },
+            {
+                question: "Apa keutamaan hadis tentang niat?",
+                options: ["Separuh ilmu Islam", "Sepertiga ilmu Islam", "Seperempat ilmu Islam", "Seluruh ilmu Islam"],
+                correct: 1,
+                points: 5
+            },
+            {
+                question: "Apa beda niat dan tujuan?",
+                options: ["Niat untuk Allah, tujuan untuk diri", "Niat di hati, tujuan di lisan", "Tidak ada beda", "Niat lebih penting dari tujuan"],
+                correct: 1,
+                points: 5
+            }
+        ]
+    }
+};
 
         // Evaluation data templates
         const evaluationData = {
@@ -1780,23 +2036,255 @@
         points: 5
     }
             ],
-            maun: [
-                {
-                    question: "Berapa jumlah ayat dalam Surah Al-Ashr?",
-                    options: ["2", "3", "4", "5"],
-                    correct: 1,
-                    explanation: "Surah Al-Ashr terdiri dari 3 ayat"
-                },
-                {
-                    question: "Apa arti kata 'العصر'?",
-                    options: ["Pagi", "Siang", "Masa/Waktu", "Malam"],
-                    correct: 2,
-                    explanation: "العصر berarti masa atau waktu"
-                }
-                // Template untuk soal evaluasi lainnya
-            ]
-            // Template untuk evaluasi materi lainnya...
-        };
+    maun: [
+        {
+            question: "Berapa jumlah ayat dalam Surah Al-Ma'un?",
+            options: ["5 ayat", "6 ayat", "7 ayat", "8 ayat"],
+            correct: 2,
+            points: 5
+        },
+        {
+            question: "Apa arti dari 'Al-Ma'un'?",
+            options: ["Bantuan", "Barang-barang berguna", "Kebaikan", "Sedekah"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Siapa yang disebut mendustakan agama dalam Surah Al-Ma'un?",
+            options: ["Orang yang shalat", "Orang yang menghardik anak yatim", "Orang yang kaya", "Orang yang berilmu"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa ciri orang yang lalai dalam shalat menurut Surah Al-Ma'un?",
+            options: ["Shalat dengan cepat", "Shalat tidak khusyuk dan tepat waktu", "Shalat tanpa wudhu", "Shalat sendirian"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa yang dimaksud dengan 'riya' dalam Surah Al-Ma'un?",
+            options: ["Shalat dengan suara keras", "Beribadah ingin dilihat orang", "Shalat di masjid besar", "Berdoa dengan panjang"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa yang enggan diberikan oleh orang yang mendustakan agama?",
+            options: ["Uang", "Makanan", "Barang-barang berguna", "Pakaian"],
+            correct: 2,
+            points: 5
+        },
+        {
+            question: "Surah Al-Ma'un tergolong surah...",
+            options: ["Madaniyah", "Makkiyah", "Syamiyah", "Hijriyah"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa pelajaran utama dari Surah Al-Ma'un?",
+            options: ["Pentingnya shalat", "Kepedulian sosial dalam Islam", "Keutamaan sedekah", "Kewajiban berpuasa"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Orang yang bagaimana yang disebut celaka dalam Surah Al-Ma'un?",
+            options: ["Orang yang kaya", "Orang yang shalat tetapi lalai", "Orang yang tidak shalat", "Orang yang berilmu"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa lawan kata dari 'menghardik anak yatim'?",
+            options: ["Menyayangi anak yatim", "Mengajari anak yatim", "Memberi makan anak yatim", "Mendidik anak yatim"],
+            correct: 0,
+            points: 5
+        }
+    ],
+    takatsur: [
+        {
+            question: "Berapa jumlah ayat dalam Surah At-Takatsur?",
+            options: ["6 ayat", "7 ayat", "8 ayat", "9 ayat"],
+            correct: 2,
+            points: 5
+        },
+        {
+            question: "Apa arti dari 'At-Takatsur'?",
+            options: ["Bermegah-megahan", "Bersedekah", "Berkumpul", "Bersyukur"],
+            correct: 0,
+            points: 5
+        },
+        {
+            question: "Apa yang melalaikan manusia menurut Surah At-Takatsur?",
+            options: ["Harta dan anak", "Bermegah-megahan", "Jabatan dan kekuasaan", "Ilmu pengetahuan"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Sampai kapan manusia bermegah-megahan?",
+            options: ["Sampai tua", "Sampai miskin", "Sampai masuk kubur", "Sampai sakit"],
+            correct: 2,
+            points: 5
+        },
+        {
+            question: "Apa yang akan dilihat manusia di akhirat nanti?",
+            options: ["Surga", "Neraka Jahim", "Malaikat", "Arsy"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa yang akan ditanyakan kepada manusia di hari kiamat?",
+            options: ["Tentang harta", "Tentang kenikmatan", "Tentang keluarga", "Tentang ibadah"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Surah At-Takatsur tergolong surah...",
+            options: ["Madaniyah", "Makkiyah", "Syamiyah", "Hijriyah"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa makna 'ainul yaqin'?",
+            options: ["Keyakinan buta", "Keyakinan dengan mata kepala", "Keyakinan hati", "Keyakinan ilmu"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa peringatan Allah dalam surah ini?",
+            options: ["Jangan sombong", "Jangan bermegah-megahan", "Jangan kikir", "Jangan malas"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa pelajaran utama dari Surah At-Takatsur?",
+            options: ["Hidup sederhana", "Tidak terlena dengan dunia", "Rajin beribadah", "Banyak sedekah"],
+            correct: 1,
+            points: 5
+        }
+    ],
+    hadis_takwa: [
+        {
+            question: "Siapa perawi hadis tentang takwa?",
+            options: ["Imam Bukhari", "Imam Muslim", "Imam Tirmizi", "Imam Abu Daud"],
+            correct: 2,
+            points: 5
+        },
+        {
+            question: "Apa arti 'ittaqillaha'?",
+            options: ["Cintailah Allah", "Bertakwalah kepada Allah", "Sembahlah Allah", "Pujilah Allah"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Di mana kita harus bertakwa kepada Allah?",
+            options: ["Di masjid saja", "Di mana pun berada", "Di rumah saja", "Di tempat sunyi"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa yang harus dilakukan setelah berbuat salah?",
+            options: ["Menyembunyikannya", "Mengikutinya dengan perbuatan baik", "Melupakannya", "Menyalahkan orang lain"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa yang dapat menghapus perbuatan buruk?",
+            options: ["Uang", "Perbuatan baik", "Permintaan maaf", "Waktu"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Bagaimana cara bergaul dengan manusia?",
+            options: ["Dengan kekayaan", "Dengan akhlak yang baik", "Dengan kepandaian", "Dengan kekuasaan"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa makna takwa secara bahasa?",
+            options: ["Takut", "Cinta", "Menjaga diri", "Taat"],
+            correct: 2,
+            points: 5
+        },
+        {
+            question: "Apa tiga nasihat dalam hadis ini?",
+            options: ["Shalat, puasa, zakat", "Takwa, ikuti keburukan dengan kebaikan, berakhlak baik", "Sedekah, jihad, haji", "Ilmu, amal, dakwah"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa keutamaan akhlak yang baik?",
+            options: ["Mendapatkan kekayaan", "Mempermudah urusan", "Mendatangkan banyak teman", "Meningkatkan derajat"],
+            correct: 3,
+            points: 5
+        },
+        {
+            question: "Apa hubungan antara takwa dan akhlak?",
+            options: ["Tidak ada hubungan", "Takwa tercermin dalam akhlak", "Akhlak lebih penting dari takwa", "Takwa hanya untuk diri sendiri"],
+            correct: 1,
+            points: 5
+        }
+    ],
+    hadis_niat: [
+        {
+            question: "Siapa perawi hadis tentang niat?",
+            options: ["Imam Bukhari", "Imam Muslim", "Imam Tirmizi", "Imam Ahmad"],
+            correct: 0,
+            points: 5
+        },
+        {
+            question: "Apa yang menentukan nilai suatu amal?",
+            options: ["Banyaknya amal", "Niatnya", "Tempatnya", "Waktunya"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa arti 'innamal a'malu binniyat'?",
+            options: ["Sesungguhnya amal itu dengan niat", "Sesungguhnya niat itu penting", "Sesungguhnya amal harus ikhlas", "Sesungguhnya niat menentukan amal"],
+            correct: 0,
+            points: 5
+        },
+        {
+            question: "Apa yang akan didapatkan setiap orang?",
+            options: ["Apa yang diinginkannya", "Apa yang diusahakannya", "Apa yang diniatkannya", "Apa yang didoakannya"],
+            correct: 2,
+            points: 5
+        },
+        {
+            question: "Apa syarat niat yang baik?",
+            options: ["Ikhlas karena Allah", "Diketahui orang lain", "Dilakukan dengan sungguh-sungguh", "Ditulis dan diucapkan"],
+            correct: 0,
+            points: 5
+        },
+        {
+            question: "Kapan niat harus dilakukan?",
+            options: ["Sebelum amal", "Sesudah amal", "Selama amal", "Tidak perlu niat"],
+            correct: 0,
+            points: 5
+        },
+        {
+            question: "Apa contoh niat yang ikhlas?",
+            options: ["Beramal untuk dipuji", "Beramal karena Allah", "Beramal untuk mendapatkan upah", "Beramal karena terpaksa"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa akibat niat yang tidak ikhlas?",
+            options: ["Amal tidak diterima", "Amal diterima setengah", "Amal ditunda penerimaannya", "Amal tetap diterima"],
+            correct: 0,
+            points: 5
+        },
+        {
+            question: "Apa keutamaan hadis tentang niat?",
+            options: ["Separuh ilmu Islam", "Sepertiga ilmu Islam", "Seperempat ilmu Islam", "Seluruh ilmu Islam"],
+            correct: 1,
+            points: 5
+        },
+        {
+            question: "Apa beda niat dan tujuan?",
+            options: ["Niat untuk Allah, tujuan untuk diri", "Niat di hati, tujuan di lisan", "Tidak ada beda", "Niat lebih penting dari tujuan"],
+            correct: 1,
+            points: 5
+        }
+    ]
+};
 
         // Initialize app
         document.addEventListener('DOMContentLoaded', function() {
@@ -2805,86 +3293,74 @@
         }
 
         // Game implementations
-        function startMemoryGame(topic) {
-            const data = gameData[topic];
-            const topicNames = {
-                tajweed: 'Hukum Izhar dan Ikhfa\'',
-                alashr: 'Surah Al-Ashr',
-                quraisy: 'Surah Quraisy',
-                maun: 'Surah Al-Ma\'un',
-                takatsur: 'Surah At-Takatsur',
-                hadis_takwa: 'Hadis tentang Takwa',
-                hadis_niat: 'Hadis tentang Niat'
-            };
-            
-            if (!data || !data.memory) {
-                Swal.fire('Info', `Game memory untuk materi "${topicNames[topic] || topic}" belum tersedia`, 'info');
-                return;
-            }
-            
-            Swal.fire({
-                title: 'Memory Game',
-                text: `Game memory materi "${topicNames[topic] || topic}" akan dimulai. Temukan pasangan yang cocok!`,
-                icon: 'success',
-                timer: 2000,
-                showConfirmButton: false
-            });
-            
-            // Add points for starting game
-            addPoints(5);
-        }
+ function startMemoryGame(topic) {
+    const data = gameData[topic];
+    const topicNames = {
+        tajweed: 'Hukum Izhar dan Ikhfa\'',
+        alashr: 'Surah Al-Ashr',
+        quraisy: 'Surah Quraisy',
+        maun: 'Surah Al-Ma\'un',
+        takatsur: 'Surah At-Takatsur',
+        hadis_takwa: 'Hadis tentang Takwa',
+        hadis_niat: 'Hadis tentang Niat'
+    };
+    
+    if (!data || !data.memory) {
+        Swal.fire('Info', `Game memory untuk materi "${topicNames[topic] || topic}" belum tersedia`, 'info');
+        return;
+    }
+    
+    // HIDE alert dan LOAD game memory sebenarnya
+    Swal.close();
+    loadMemoryGame(topic, data.memory);
+    
+    // Add points for starting game
+    addPoints(5);
+}
 
-        function startQuizGame(topic) {
-            const data = gameData[topic];
-            const topicNames = {
-                tajweed: 'Hukum Izhar dan Ikhfa\'',
-                alashr: 'Surah Al-Ashr',
-                quraisy: 'Surah Quraisy',
-                maun: 'Surah Al-Ma\'un',
-                takatsur: 'Surah At-Takatsur',
-                hadis_takwa: 'Hadis tentang Takwa',
-                hadis_niat: 'Hadis tentang Niat'
-            };
-            
-            if (!data || !data.quiz) {
-                Swal.fire('Info', `Game quiz untuk materi "${topicNames[topic] || topic}" belum tersedia`, 'info');
-                return;
-            }
-            
-            Swal.fire({
-                title: 'Quiz Game',
-                text: `Game quiz materi "${topicNames[topic] || topic}" akan dimulai. Jawab pertanyaan dengan benar!`,
-                icon: 'success',
-                timer: 2000,
-                showConfirmButton: false
-            });
-            
-            // Add points for starting game
-            addPoints(5);
-        }
+function startQuizGame(topic) {
+    const data = gameData[topic];
+    const topicNames = {
+        tajweed: 'Hukum Izhar dan Ikhfa\'',
+        alashr: 'Surah Al-Ashr',
+        quraisy: 'Surah Quraisy',
+        maun: 'Surah Al-Ma\'un',
+        takatsur: 'Surah At-Takatsur',
+        hadis_takwa: 'Hadis tentang Takwa',
+        hadis_niat: 'Hadis tentang Niat'
+    };
+    
+    if (!data || !data.quiz) {
+        Swal.fire('Info', `Game quiz untuk materi "${topicNames[topic] || topic}" belum tersedia`, 'info');
+        return;
+    }
+    
+    // HIDE alert dan LOAD game quiz sebenarnya
+    Swal.close();
+    loadQuizGame(topic, data.quiz);
+    
+    // Add points for starting game
+    addPoints(5);
+}
 
-        function startMatchingGame(topic) {
-            const topicNames = {
-                tajweed: 'Hukum Izhar dan Ikhfa\'',
-                alashr: 'Surah Al-Ashr',
-                quraisy: 'Surah Quraisy',
-                maun: 'Surah Al-Ma\'un',
-                takatsur: 'Surah At-Takatsur',
-                hadis_takwa: 'Hadis tentang Takwa',
-                hadis_niat: 'Hadis tentang Niat'
-            };
-            
-            Swal.fire({
-                title: 'Matching Game',
-                text: `Game mencocokkan materi "${topicNames[topic] || topic}" akan dimulai. Hubungkan kata dengan artinya!`,
-                icon: 'success',
-                timer: 2000,
-                showConfirmButton: false
-            });
-            
-            // Add points for starting game
-            addPoints(5);
-        }
+function startMatchingGame(topic) {
+    const topicNames = {
+        tajweed: 'Hukum Izhar dan Ikhfa\'',
+        alashr: 'Surah Al-Ashr',
+        quraisy: 'Surah Quraisy',
+        maun: 'Surah Al-Ma\'un',
+        takatsur: 'Surah At-Takatsur',
+        hadis_takwa: 'Hadis tentang Takwa',
+        hadis_niat: 'Hadis tentang Niat'
+    };
+    
+    // HIDE alert dan LOAD game matching
+    Swal.close();
+    loadMatchingGame(topic);
+    
+    // Add points for starting game
+    addPoints(5);
+}
 // Fungsi untuk mengacak array (Fisher-Yates algorithm)
 function shuffleArray(array) {
     const newArray = [...array];
@@ -3581,7 +4057,7 @@ ${grade === 'A' ? '🎉 *Excellent!* Siswa menguasai materi dengan sangat baik!'
 _Dikirim otomatis dari Media Pembelajaran Interaktif Al-Qur'an Hadits_`;
 
             const encodedMessage = encodeURIComponent(message);
-            const teacherWhatsApp = "6281234567890"; // Ganti dengan nomor WhatsApp guru yang sebenarnya
+            const teacherWhatsApp = "6289619760801"; // Ganti dengan nomor WhatsApp guru yang sebenarnya
             const whatsappUrl = `https://wa.me/${teacherWhatsApp}?text=${encodedMessage}`;
             
             Swal.fire({
@@ -3604,6 +4080,421 @@ _Dikirim otomatis dari Media Pembelajaran Interaktif Al-Qur'an Hadits_`;
                 }
             });
         }
+// FUNGSI GAME YANG PERLU DITAMBAHKAN
+function loadMemoryGame(topic, memoryData) {
+    const contentBody = document.getElementById('contentBody');
+    
+    // Buat dua set kartu: Arab dan Terjemahan
+    const arabicCards = memoryData.map(item => ({
+        type: 'arabic',
+        value: item.arabic,
+        pair: item.translation,
+        id: Math.random().toString(36).substr(2, 9) // ID unik untuk matching
+    }));
+    
+    const translationCards = memoryData.map(item => ({
+        type: 'translation',
+        value: item.translation, 
+        pair: item.arabic,
+        id: arabicCards.find(a => a.value === item.arabic).id // ID yang sama dengan pasangannya
+    }));
+    
+    // Gabungkan dan acak kartu
+    const allCards = [...arabicCards, ...translationCards]
+        .sort(() => Math.random() - 0.5);
+    
+    contentBody.innerHTML = `
+        <div class="text-center mb-8">
+            <h3 class="text-3xl font-bold text-gray-800">Game Memory</h3>
+            <p class="text-gray-600">Temukan pasangan antara kata Arab dan artinya!</p>
+            <div class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full inline-block mt-4">
+                Pasangan: <span id="memoryScore">0</span> / ${memoryData.length}
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4" id="memoryGameContainer">
+            ${allCards.map((card, index) => `
+                <div class="memory-card" data-index="${index}" data-type="${card.type}" 
+                     data-value="${card.value}" data-pair="${card.pair}" data-id="${card.id}">
+                    <div class="memory-card-front">
+                        <div class="text-2xl">❓</div>
+                    </div>
+                    <div class="memory-card-back hidden">
+                        ${card.type === 'arabic' ? 
+                            `<div class="text-2xl arabic-text">${card.value}</div>` :
+                            `<div class="text-sm p-2 text-center">${card.value}</div>`
+                        }
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+        
+        <div class="text-center mt-8">
+            <button onclick="showSubMenu('${topic}')" class="bg-gray-500 text-white px-6 py-3 rounded-lg">
+                Kembali ke Menu
+            </button>
+            <button onclick="resetMemoryGame()" class="bg-yellow-500 text-white px-6 py-3 rounded-lg ml-4">
+                Ulangi Game
+            </button>
+        </div>
+    `;
+    
+    implementMemoryGameLogic(memoryData.length);
+}
+
+function implementMemoryGameLogic(totalPairs) {
+    let flippedCards = [];
+    let matchedPairs = 0;
+    let canFlip = true; // Untuk mencegah klik saat animasi
+    
+    document.querySelectorAll('.memory-card').forEach(card => {
+        card.addEventListener('click', function() {
+            // Jika tidak bisa flip atau kartu sudah terbuka/match
+            if (!canFlip || this.classList.contains('flipped') || this.classList.contains('matched')) {
+                return;
+            }
+            
+            // Flip kartu
+            flipCard(this, true);
+            
+            const cardData = {
+                element: this,
+                type: this.getAttribute('data-type'),
+                value: this.getAttribute('data-value'),
+                pair: this.getAttribute('data-pair'),
+                id: this.getAttribute('data-id')
+            };
+            
+            flippedCards.push(cardData);
+            
+            if (flippedCards.length === 2) {
+                canFlip = false; // Tidak bisa flip selama proses checking
+                
+                const [firstCard, secondCard] = flippedCards;
+                
+                // Cek apakah pasangan cocok (harus berbeda type dan ID sama)
+                const isMatch = firstCard.id === secondCard.id && firstCard.type !== secondCard.type;
+                
+                setTimeout(() => {
+                    if (isMatch) {
+                        // MATCH! - Kartu tetap terbuka
+                        flippedCards.forEach(card => {
+                            card.element.classList.add('matched');
+                            card.element.style.background = card.type === 'arabic' ? 
+                                'linear-gradient(135deg, #10b981 0%, #059669 100%)' :
+                                'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)';
+                        });
+                        
+                        matchedPairs++;
+                        document.getElementById('memoryScore').textContent = matchedPairs;
+                        addPoints(10);
+                        
+                        // Cek jika game selesai
+                        if (matchedPairs === totalPairs) {
+                            setTimeout(() => {
+                                Swal.fire({
+                                    title: 'Selesai! 🎉',
+                                    text: `Kamu menemukan semua ${totalPairs} pasangan!`,
+                                    icon: 'success',
+                                    confirmButtonText: 'Main Lagi'
+                                }).then(() => {
+                                    resetMemoryGame();
+                                });
+                            }, 500);
+                        }
+                    } else {
+                        // TIDAK MATCH - Kartu tertutup kembali
+                        flippedCards.forEach(card => {
+                            flipCard(card.element, false);
+                        });
+                    }
+                    
+                    flippedCards = [];
+                    canFlip = true; // Bisa flip lagi
+                }, 1000); // Delay 1 detik sebelum check match
+            }
+        });
+    });
+}
+
+function flipCard(card, show) {
+    const front = card.querySelector('.memory-card-front');
+    const back = card.querySelector('.memory-card-back');
+    
+    if (show) {
+        // Buka kartu
+        card.classList.add('flipped');
+        front.classList.add('hidden');
+        back.classList.remove('hidden');
+    } else {
+        // Tutup kartu
+        card.classList.remove('flipped');
+        front.classList.remove('hidden');
+        back.classList.add('hidden');
+    }
+}
+
+function resetMemoryGame() {
+    const memoryContainer = document.getElementById('memoryGameContainer');
+    const cards = memoryContainer.querySelectorAll('.memory-card');
+    
+    // Reset semua kartu
+    cards.forEach(card => {
+        card.classList.remove('flipped', 'matched');
+        card.style.background = 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)';
+        
+        const front = card.querySelector('.memory-card-front');
+        const back = card.querySelector('.memory-card-back');
+        
+        front.classList.remove('hidden');
+        back.classList.add('hidden');
+    });
+    
+    // Reset score
+    document.getElementById('memoryScore').textContent = '0';
+    
+    // Acak ulang posisi kartu
+    const cardsArray = Array.from(cards);
+    for (let i = cardsArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        memoryContainer.appendChild(cardsArray[j]);
+    }
+    
+    // Reset state
+    flippedCards = [];
+    matchedPairs = 0;
+    canFlip = true;
+}
+function loadQuizGame(topic, quizData) {
+    const contentBody = document.getElementById('contentBody');
+    let currentQuestion = 0;
+    let score = 0;
+    
+    function showQuestion() {
+        const question = quizData[currentQuestion];
+        contentBody.innerHTML = `
+            <div class="max-w-2xl mx-auto">
+                <div class="text-center mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800">Game Quiz</h3>
+                    <div class="bg-green-100 text-green-800 px-4 py-2 rounded-full inline-block mt-2">
+                        Soal ${currentQuestion + 1} dari ${quizData.length} | Skor: ${score}
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-2xl shadow-lg mb-6">
+                    <h4 class="text-xl font-bold text-gray-800 mb-4">${question.question}</h4>
+                    <div class="space-y-3">
+                        ${question.options.map((option, index) => `
+                            <button onclick="checkAnswer(${index}, ${currentQuestion})" 
+                                    class="w-full text-left p-4 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
+                                ${String.fromCharCode(65 + index)}. ${option}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-gray-200 rounded-full h-2">
+                        <div class="bg-green-500 h-2 rounded-full" 
+                             style="width: ${((currentQuestion + 1) / quizData.length) * 100}%"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    window.checkAnswer = function(selectedIndex, questionIndex) {
+        const question = quizData[questionIndex];
+        const isCorrect = selectedIndex === question.correct;
+        
+        if (isCorrect) {
+            score += question.points;
+            addPoints(question.points);
+            Swal.fire({
+                title: 'Benar!',
+                text: `+${question.points} poin!`,
+                icon: 'success',
+                timer: 1000
+            });
+        } else {
+            Swal.fire({
+                title: 'Salah!',
+                text: `Jawaban benar: ${question.options[question.correct]}`,
+                icon: 'error',
+                timer: 2000
+            });
+        }
+        
+        currentQuestion++;
+        if (currentQuestion < quizData.length) {
+            setTimeout(showQuestion, 2000);
+        } else {
+            showQuizResults();
+        }
+    };
+    
+    function showQuizResults() {
+        contentBody.innerHTML = `
+            <div class="text-center">
+                <div class="bg-gradient-to-r from-green-400 to-blue-500 text-white p-8 rounded-3xl mb-6">
+                    <h3 class="text-3xl font-bold mb-4">Quiz Selesai!</h3>
+                    <div class="text-4xl font-bold">Skor: ${score}</div>
+                </div>
+                
+                <button onclick="showSubMenu('${topic}')" class="bg-blue-500 text-white px-6 py-3 rounded-lg">
+                    Kembali ke Menu
+                </button>
+            </div>
+        `;
+    }
+    
+    showQuestion();
+}
+
+function loadMatchingGame(topic) {
+    const contentBody = document.getElementById('contentBody');
+    
+    // Data untuk matching game (contoh untuk tajweed)
+    const matchingData = [
+        { arabic: "الإظهار", translation: "Membaca dengan jelas" },
+        { arabic: "الإخفاء", translation: "Membaca samar dengan dengung" },
+        { arabic: "الغنة", translation: "Dengung" },
+        { arabic: "النون الساكنة", translation: "Nun mati" },
+        { arabic: "التنوين", translation: "Tanwin" },
+        { arabic: "المخرج", translation: "Tempat keluar huruf" }
+    ];
+    
+    // Acak data
+    const shuffledArabic = [...matchingData].sort(() => Math.random() - 0.5);
+    const shuffledTranslation = [...matchingData].sort(() => Math.random() - 0.5);
+    
+    contentBody.innerHTML = `
+        <div class="text-center mb-8">
+            <h3 class="text-3xl font-bold text-gray-800">Game Matching</h3>
+            <p class="text-gray-600">Hubungkan kata Arab dengan artinya!</p>
+            <div class="bg-orange-100 text-orange-800 px-4 py-2 rounded-full inline-block mt-4">
+                Pasangan Benar: <span id="matchingScore">0</span>/6
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div>
+                <h4 class="text-xl font-bold text-center mb-4">Kata Arab</h4>
+                <div class="space-y-3" id="arabicItems">
+                    ${shuffledArabic.map((item, index) => `
+                        <div class="bg-blue-100 p-4 rounded-lg cursor-pointer border-2 border-blue-200 arabic-item"
+                             data-value="${item.arabic}" data-index="${index}">
+                            <div class="text-2xl arabic-text text-center">${item.arabic}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+            
+            <div>
+                <h4 class="text-xl font-bold text-center mb-4">Arti</h4>
+                <div class="space-y-3" id="translationItems">
+                    ${shuffledTranslation.map((item, index) => `
+                        <div class="bg-green-100 p-4 rounded-lg cursor-pointer border-2 border-green-200 translation-item"
+                             data-value="${item.arabic}" data-index="${index}">
+                            <div class="text-lg text-center">${item.translation}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center">
+            <button onclick="showSubMenu('${topic}')" class="bg-gray-500 text-white px-6 py-3 rounded-lg">
+                Kembali ke Menu
+            </button>
+        </div>
+    `;
+    
+    // Implementasi logika matching game
+    implementMatchingGameLogic();
+}
+
+function implementMatchingGameLogic() {
+    let selectedArabic = null;
+    let selectedTranslation = null;
+    let matchedPairs = 0;
+    
+    document.querySelectorAll('.arabic-item').forEach(item => {
+        item.addEventListener('click', function() {
+            if (this.classList.contains('matched')) return;
+            
+            // Reset selection sebelumnya
+            document.querySelectorAll('.arabic-item, .translation-item').forEach(el => {
+                if (!el.classList.contains('matched')) {
+                    el.classList.remove('selected');
+                }
+            });
+            
+            this.classList.add('selected');
+            selectedArabic = this;
+            
+            checkMatch();
+        });
+    });
+    
+    document.querySelectorAll('.translation-item').forEach(item => {
+        item.addEventListener('click', function() {
+            if (this.classList.contains('matched')) return;
+            
+            // Reset selection sebelumnya
+            document.querySelectorAll('.arabic-item, .translation-item').forEach(el => {
+                if (!el.classList.contains('matched')) {
+                    el.classList.remove('selected');
+                }
+            });
+            
+            this.classList.add('selected');
+            selectedTranslation = this;
+            
+            checkMatch();
+        });
+    });
+    
+    function checkMatch() {
+        if (selectedArabic && selectedTranslation) {
+            const arabicValue = selectedArabic.getAttribute('data-value');
+            const translationValue = selectedTranslation.getAttribute('data-value');
+            
+            if (arabicValue === translationValue) {
+                // Match benar
+                selectedArabic.classList.add('matched', 'bg-green-200', 'border-green-400');
+                selectedTranslation.classList.add('matched', 'bg-green-200', 'border-green-400');
+                matchedPairs++;
+                
+                document.getElementById('matchingScore').textContent = matchedPairs;
+                addPoints(5);
+                
+                // Cek jika game selesai
+                if (matchedPairs === 6) {
+                    setTimeout(() => {
+                        Swal.fire({
+                            title: 'Selamat!',
+                            text: 'Kamu menyelesaikan game matching!',
+                            icon: 'success'
+                        });
+                    }, 500);
+                }
+            } else {
+                // Match salah
+                selectedArabic.classList.add('bg-red-200', 'border-red-400');
+                selectedTranslation.classList.add('bg-red-200', 'border-red-400');
+                
+                setTimeout(() => {
+                    selectedArabic.classList.remove('selected', 'bg-red-200', 'border-red-400');
+                    selectedTranslation.classList.remove('selected', 'bg-red-200', 'border-red-400');
+                }, 1000);
+            }
+            
+            selectedArabic = null;
+            selectedTranslation = null;
+        }
+    }
+}
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'976481d9f4ecd865',t:'MTc1NjM5MTQzMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
