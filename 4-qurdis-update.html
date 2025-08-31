@@ -4019,7 +4019,7 @@ function loadMemoryGame(topic, memoryData) {
     contentBody.innerHTML = `
         <div class="text-center mb-8">
             <h3 class="text-3xl font-bold text-gray-800">Game Memory</h3>
-            <p class="text-gray-600">Temukan pasangan yang cocok!</p>
+            <p class="text-gray-600">Temukan pasangan yang cocok antara kata Arab dan artinya!</p>
             <div class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full inline-block mt-4">
                 Skor: <span id="memoryScore">0</span>
             </div>
@@ -4028,7 +4028,13 @@ function loadMemoryGame(topic, memoryData) {
         <div class="grid grid-cols-3 md:grid-cols-4 gap-4" id="memoryGameContainer">
             ${shuffledPairs.map((item, index) => `
                 <div class="memory-card" data-index="${index}" data-value="${item.arabic}">
-                    <div class="text-3xl arabic-text">?</div>
+                    <div class="memory-card-front">
+                        <div class="text-3xl arabic-text">?</div>
+                    </div>
+                    <div class="memory-card-back hidden">
+                        <div class="text-2xl arabic-text mb-2">${item.arabic}</div>
+                        <div class="text-sm text-gray-600">${item.translation}</div>
+                    </div>
                 </div>
             `).join('')}
         </div>
@@ -4060,7 +4066,13 @@ function implementMemoryGameLogic(pairs) {
             
             // Balik kartu
             card.classList.add('flipped');
-            card.innerHTML = `<div class="text-2xl arabic-text">${pairs[index].arabic}</div>`;
+            const front = card.querySelector('.memory-card-front');
+            const back = card.querySelector('.memory-card-back');
+            
+            if (front && back) {
+                front.classList.add('hidden');
+                back.classList.remove('hidden');
+            }
             
             flippedCards.push({card, index, value: pairs[index].arabic});
             
@@ -4091,7 +4103,13 @@ function implementMemoryGameLogic(pairs) {
                     setTimeout(() => {
                         flippedCards.forEach(item => {
                             item.card.classList.remove('flipped');
-                            item.card.innerHTML = '<div class="text-3xl arabic-text">?</div>';
+                            const front = item.card.querySelector('.memory-card-front');
+                            const back = item.card.querySelector('.memory-card-back');
+                            
+                            if (front && back) {
+                                front.classList.remove('hidden');
+                                back.classList.add('hidden');
+                            }
                         });
                     }, 1000);
                 }
