@@ -1280,7 +1280,19 @@
     }
                 ]
             },
- 
+ quraisy: {
+        memory: [
+            { arabic: "لِإِيلَافِ", translation: "Karena kebiasaan" },
+            { arabic: "قُرَيْشٍ", translation: "Suku Quraisy" },
+            { arabic: "رِحْلَةَ", translation: "Perjalanan" },
+            { arabic: "الشِّتَاءِ", translation: "Musim dingin" },
+            { arabic: "الصَّيْفِ", translation: "Musim panas" },
+            { arabic: "فَلْيَعْبُدُوا", translation: "Hendaklah mereka menyembah" }
+        ],
+        quiz: [
+            // ... (soal quraisy yang sudah ada sebelumnya)
+        ]
+    },
     maun: {
         memory: [
             { arabic: "أَرَأَيْتَ", translation: "Tahukah kamu" },
@@ -1954,7 +1966,7 @@
         points: 5
     }
             ],
-     maun: [
+    maun: [
         {
             question: "Berapa jumlah ayat dalam Surah Al-Ma'un?",
             options: ["5 ayat", "6 ayat", "7 ayat", "8 ayat"],
@@ -2212,48 +2224,48 @@
         });
 
         // Navigation functions
- function showMainMenu() {
-    document.getElementById('mainMenu').classList.remove('hidden');
-    document.getElementById('subMenu').classList.add('hidden');
-    document.getElementById('contentArea').classList.add('hidden');
-    stopAudio();
-}
+        function showMainMenu() {
+            document.getElementById('mainMenu').classList.remove('hidden');
+            document.getElementById('subMenu').classList.add('hidden');
+            document.getElementById('contentArea').classList.add('hidden');
+            stopAudio();
+        }
 
-function showSubMenu(topic) {
-    currentTopic = topic;
-    document.getElementById('mainMenu').classList.add('hidden');
-    document.getElementById('subMenu').classList.remove('hidden');
-    document.getElementById('contentArea').classList.add('hidden');
-    
-    const titles = {
-        tajweed: 'أحكام الإظهار والإخفاء - Hukum Izhar dan Ikhfa\'',
-        alashr: 'سورة العصر - Surah Al-Ashr',
-        quraisy: 'سورة قريش - Surah Quraisy',
-        maun: 'سورة الماعون - Surah Al-Ma\'un',
-        takatsur: 'سورة التكاثر - Surah At-Takatsur',
-        hadis_takwa: 'حديث عن التقوى - Hadis tentang Takwa',
-        hadis_niat: 'حديث عن النية - Hadis tentang Niat'
-    };
-    
-    document.getElementById('subMenuTitle').textContent = titles[topic] || topic;
-    stopAudio();
-}
+        function showSubMenu(topic) {
+            currentTopic = topic;
+            document.getElementById('mainMenu').classList.add('hidden');
+            document.getElementById('subMenu').classList.remove('hidden');
+            document.getElementById('contentArea').classList.add('hidden');
+            
+            const titles = {
+                tajweed: 'أحكام الإظهار والإخفاء - Hukum Izhar dan Ikhfa\'',
+                alashr: 'سورة العصر - Surah Al-Ashr',
+                quraisy: 'سورة قريش - Surah Quraisy',
+                maun: 'سورة الماعون - Surah Al-Ma\'un',
+                takatsur: 'سورة التكاثر - Surah At-Takatsur',
+                hadis_takwa: 'حديث عن التقوى - Hadis tentang Takwa',
+                hadis_niat: 'حديث عن النية - Hadis tentang Niat'
+            };
+            
+            document.getElementById('subMenuTitle').textContent = titles[topic];
+            stopAudio();
+        }
 
- function showContent(contentType) {
-    currentContent = contentType;
-    document.getElementById('subMenu').classList.add('hidden');
-    document.getElementById('contentArea').classList.remove('hidden');
-    
-    const titles = {
-        materi: 'مواد التعلم - Materi Pembelajaran',
-        game: 'الألعاب التعليمية - Game Edukasi',
-        evaluasi: 'التقييم - Evaluasi'
-    };
-    
-    document.getElementById('contentTitle').textContent = titles[contentType];
-    loadContent(currentTopic, contentType);
-    stopAudio();
-}
+        function showContent(contentType) {
+            currentContent = contentType;
+            document.getElementById('subMenu').classList.add('hidden');
+            document.getElementById('contentArea').classList.remove('hidden');
+            
+            const titles = {
+                materi: 'مواد التعلم - Materi Pembelajaran',
+                game: 'الألعاب التعليمية - Game Edukasi',
+                evaluasi: 'التقييم - Evaluasi'
+            };
+            
+            document.getElementById('contentTitle').textContent = titles[contentType];
+            loadContent(currentTopic, contentType);
+            stopAudio();
+        }
 
         // Content loading functions
         function loadContent(topic, contentType) {
@@ -3209,6 +3221,8 @@ function showSubMenu(topic) {
                 isPlaying = false;
             }
         }
+
+        // Game implementations
  function startMemoryGame(topic) {
     const data = gameData[topic];
     const topicNames = {
@@ -3277,7 +3291,6 @@ function startMatchingGame(topic) {
     // Add points for starting game
     addPoints(5);
 }
-        }
 // Fungsi untuk mengacak array (Fisher-Yates algorithm)
 function shuffleArray(array) {
     const newArray = [...array];
@@ -3998,6 +4011,5 @@ _Dikirim otomatis dari Media Pembelajaran Interaktif Al-Qur'an Hadits_`;
             });
         }
     </script>
-
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'976481d9f4ecd865',t:'MTc1NjM5MTQzMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
