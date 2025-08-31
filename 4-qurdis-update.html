@@ -2212,48 +2212,48 @@
         });
 
         // Navigation functions
-        function showMainMenu() {
-            document.getElementById('mainMenu').classList.remove('hidden');
-            document.getElementById('subMenu').classList.add('hidden');
-            document.getElementById('contentArea').classList.add('hidden');
-            stopAudio();
-        }
+ function showMainMenu() {
+    document.getElementById('mainMenu').classList.remove('hidden');
+    document.getElementById('subMenu').classList.add('hidden');
+    document.getElementById('contentArea').classList.add('hidden');
+    stopAudio();
+}
 
-        function showSubMenu(topic) {
-            currentTopic = topic;
-            document.getElementById('mainMenu').classList.add('hidden');
-            document.getElementById('subMenu').classList.remove('hidden');
-            document.getElementById('contentArea').classList.add('hidden');
-            
-            const titles = {
-                tajweed: 'أحكام الإظهار والإخفاء - Hukum Izhar dan Ikhfa\'',
-                alashr: 'سورة العصر - Surah Al-Ashr',
-                quraisy: 'سورة قريش - Surah Quraisy',
-                maun: 'سورة الماعون - Surah Al-Ma\'un',
-                takatsur: 'سورة التكاثر - Surah At-Takatsur',
-                hadis_takwa: 'حديث عن التقوى - Hadis tentang Takwa',
-                hadis_niat: 'حديث عن النية - Hadis tentang Niat'
-            };
-            
-            document.getElementById('subMenuTitle').textContent = titles[topic];
-            stopAudio();
-        }
+function showSubMenu(topic) {
+    currentTopic = topic;
+    document.getElementById('mainMenu').classList.add('hidden');
+    document.getElementById('subMenu').classList.remove('hidden');
+    document.getElementById('contentArea').classList.add('hidden');
+    
+    const titles = {
+        tajweed: 'أحكام الإظهار والإخفاء - Hukum Izhar dan Ikhfa\'',
+        alashr: 'سورة العصر - Surah Al-Ashr',
+        quraisy: 'سورة قريش - Surah Quraisy',
+        maun: 'سورة الماعون - Surah Al-Ma\'un',
+        takatsur: 'سورة التكاثر - Surah At-Takatsur',
+        hadis_takwa: 'حديث عن التقوى - Hadis tentang Takwa',
+        hadis_niat: 'حديث عن النية - Hadis tentang Niat'
+    };
+    
+    document.getElementById('subMenuTitle').textContent = titles[topic] || topic;
+    stopAudio();
+}
 
-        function showContent(contentType) {
-            currentContent = contentType;
-            document.getElementById('subMenu').classList.add('hidden');
-            document.getElementById('contentArea').classList.remove('hidden');
-            
-            const titles = {
-                materi: 'مواد التعلم - Materi Pembelajaran',
-                game: 'الألعاب التعليمية - Game Edukasi',
-                evaluasi: 'التقييم - Evaluasi'
-            };
-            
-            document.getElementById('contentTitle').textContent = titles[contentType];
-            loadContent(currentTopic, contentType);
-            stopAudio();
-        }
+ function showContent(contentType) {
+    currentContent = contentType;
+    document.getElementById('subMenu').classList.add('hidden');
+    document.getElementById('contentArea').classList.remove('hidden');
+    
+    const titles = {
+        materi: 'مواد التعلم - Materi Pembelajaran',
+        game: 'الألعاب التعليمية - Game Edukasi',
+        evaluasi: 'التقييم - Evaluasi'
+    };
+    
+    document.getElementById('contentTitle').textContent = titles[contentType];
+    loadContent(currentTopic, contentType);
+    stopAudio();
+}
 
         // Content loading functions
         function loadContent(topic, contentType) {
