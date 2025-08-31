@@ -703,7 +703,7 @@
     <script>
         let currentTopic = '';
         let currentContent = '';
-        let totalPoints = parseInt(localStorage.getItem('totalPoints') || '0');
+        let totalPoints = 0;
         let stars = Math.floor(totalPoints / 100);
         let currentAudio = null;
         let isPlaying = false;
@@ -2288,6 +2288,9 @@
 
         // Initialize app
         document.addEventListener('DOMContentLoaded', function() {
+         const savedPoints = localStorage.getItem('totalPoints');
+            totalPoints = parseInt(savedPoints) || 0;
+            
             loadStudentData();
             updatePointsDisplay();
             updateStarsDisplay();
@@ -2800,9 +2803,9 @@
                 <div class="text-center mb-8">
                     <h3 class="text-3xl font-bold text-gray-800 mb-4">
                         <i class="fas fa-gamepad mr-3 text-purple-600"></i>
-                        الألعاب التعليمية
+                        Game Edukasi
                     </h3>
-                    <p class="text-xl text-gray-600 mb-2">اختر اللعبة التي تريد أن تلعبها</p>
+                    <p class="text-xl text-gray-600 mb-2">Pilih permainan yang kamu ingin mainkan</p>
                     <div class="bg-gradient-to-r from-purple-100 to-pink-100 px-6 py-3 rounded-full inline-block border-2 border-purple-200">
                         <p class="text-purple-800 font-bold text-lg">📚 Materi: ${topicNames[topic] || topic}</p>
                     </div>
@@ -2815,11 +2818,11 @@
                             <div class="text-5xl mb-4">
                                 <i class="fas fa-brain"></i>
                             </div>
-                            <h4 class="text-2xl font-bold mb-3">لعبة الذاكرة</h4>
-                            <p class="text-lg opacity-90">اعثر على الأزواج المتطابقة</p>
+                            <h4 class="text-2xl font-bold mb-3">Game Memory</h4>
+                            <p class="text-lg opacity-90">Temukan pasangan yang tepat!</p>
                             <div class="mt-4">
                                 <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
-                                    <i class="fas fa-star mr-1"></i>10-50 نقطة
+                                    <i class="fas fa-star mr-1"></i>10-50 langkah
                                 </span>
                             </div>
                         </div>
@@ -2831,11 +2834,11 @@
                             <div class="text-5xl mb-4">
                                 <i class="fas fa-question-circle"></i>
                             </div>
-                            <h4 class="text-2xl font-bold mb-3">لعبة الأسئلة</h4>
-                            <p class="text-lg opacity-90">أجب على الأسئلة بسرعة</p>
+                            <h4 class="text-2xl font-bold mb-3">Quick Quiz</h4>
+                            <p class="text-lg opacity-90">Jawab dengan cepat dan tepat!</p>
                             <div class="mt-4">
                                 <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
-                                    <i class="fas fa-trophy mr-1"></i>10-15 نقطة
+                                    <i class="fas fa-trophy mr-1"></i>10-15 langkah
                                 </span>
                             </div>
                         </div>
@@ -2847,11 +2850,11 @@
                             <div class="text-5xl mb-4">
                                 <i class="fas fa-link"></i>
                             </div>
-                            <h4 class="text-2xl font-bold mb-3">لعبة المطابقة</h4>
-                            <p class="text-lg opacity-90">اربط النص بالمعنى</p>
+                            <h4 class="text-2xl font-bold mb-3">Jodohkan</h4>
+                            <p class="text-lg opacity-90">Jodohkan teks Arab dengan artinya!</p>
                             <div class="mt-4">
                                 <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
-                                    <i class="fas fa-puzzle-piece mr-1"></i>5-20 نقطة
+                                    <i class="fas fa-puzzle-piece mr-1"></i>5-20 langkah
                                 </span>
                             </div>
                         </div>
@@ -3603,68 +3606,78 @@ function sendResultToSheet(nama, kelas, mapel, materi, skor, total) {
 
 
         // Points and progress system
-        function addPoints(points) {
-            totalPoints += points;
-            localStorage.setItem('totalPoints', totalPoints.toString());
-            updatePointsDisplay();
-            updateStarsDisplay();
-            
-            // Show points animation
-            Swal.fire({
-                title: `+${points} Poin!`,
-                icon: 'success',
-                timer: 1500,
-                showConfirmButton: false,
-                toast: true,
-                position: 'top-end'
-            });
-        }
+function addPoints(points) {
+    // Pastikan points adalah number
+    points = parseInt(points) || 0;
+    
+    // Pastikan totalPoints adalah number
+    totalPoints = parseInt(totalPoints) || 0;
+    
+    totalPoints += points;
+    localStorage.setItem('totalPoints', totalPoints.toString());
+    updatePointsDisplay();
+    updateStarsDisplay();
+    
+    // Show points animation
+    Swal.fire({
+        title: `+${points} Poin!`,
+        icon: 'success',
+        timer: 1500,
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end'
+    });
+}
+ function updatePointsDisplay() {
+    // Pastikan totalPoints adalah number
+    totalPoints = parseInt(totalPoints) || 0;
+    
+    document.getElementById('totalPoints').textContent = totalPoints;
+    const mobilePointsEl = document.getElementById('totalPointsMobile');
+    if (mobilePointsEl) mobilePointsEl.textContent = totalPoints;
+}
 
-        function updatePointsDisplay() {
-            document.getElementById('totalPoints').textContent = totalPoints;
-            const mobilePointsEl = document.getElementById('totalPointsMobile');
-            if (mobilePointsEl) mobilePointsEl.textContent = totalPoints;
+function updateStarsDisplay() {
+    // Pastikan totalPoints adalah number
+    totalPoints = parseInt(totalPoints) || 0;
+    
+    const starsContainer = document.getElementById('stars');
+    const mobileStarsContainer = document.getElementById('starsMobile');
+    const newStars = Math.floor(totalPoints / 100);
+    
+    // Desktop stars
+    if (starsContainer) {
+        starsContainer.innerHTML = '';
+        for (let i = 0; i < Math.min(newStars, 5); i++) {
+            const star = document.createElement('div');
+            star.className = 'text-yellow-400 text-xl';
+            star.innerHTML = '<i class="fas fa-star"></i>';
+            starsContainer.appendChild(star);
         }
-
-        function updateStarsDisplay() {
-            const starsContainer = document.getElementById('stars');
-            const mobileStarsContainer = document.getElementById('starsMobile');
-            const newStars = Math.floor(totalPoints / 100);
-            
-            // Desktop stars
-            if (starsContainer) {
-                starsContainer.innerHTML = '';
-                for (let i = 0; i < Math.min(newStars, 5); i++) {
-                    const star = document.createElement('div');
-                    star.className = 'text-yellow-400 text-xl';
-                    star.innerHTML = '<i class="fas fa-star"></i>';
-                    starsContainer.appendChild(star);
-                }
-            }
-            
-            // Mobile stars
-            if (mobileStarsContainer) {
-                mobileStarsContainer.innerHTML = '';
-                for (let i = 0; i < Math.min(newStars, 5); i++) {
-                    const star = document.createElement('div');
-                    star.className = 'text-yellow-400 text-sm';
-                    star.innerHTML = '<i class="fas fa-star"></i>';
-                    mobileStarsContainer.appendChild(star);
-                }
-            }
-            
-            if (newStars > stars) {
-                Swal.fire({
-                    title: 'Bintang Baru!',
-                    text: `Selamat! Kamu mendapat bintang ke-${newStars}!`,
-                    icon: 'success',
-                    timer: 3000
-                });
-            }
-            
-            stars = newStars;
+    }
+    
+    // Mobile stars
+    if (mobileStarsContainer) {
+        mobileStarsContainer.innerHTML = '';
+        for (let i = 0; i < Math.min(newStars, 5); i++) {
+            const star = document.createElement('div');
+            star.className = 'text-yellow-400 text-sm';
+            star.innerHTML = '<i class="fas fa-star"></i>';
+            mobileStarsContainer.appendChild(star);
         }
-
+    }
+    
+    if (newStars > stars) {
+        Swal.fire({
+            title: 'Bintang Baru!',
+            text: `Selamat! Kamu mendapat bintang ke-${newStars}!`,
+            icon: 'success',
+            timer: 3000
+        });
+    }
+    
+    stars = newStars;
+}
         // Student data management
         function loadStudentData() {
             const savedName = localStorage.getItem('studentName');
@@ -4265,6 +4278,23 @@ function resetMemoryGame() {
     matchedPairs = 0;
     canFlip = true;
 }
+
+function resetPoints() {
+    totalPoints = 0;
+    localStorage.setItem('totalPoints', '0');
+    updatePointsDisplay();
+    updateStarsDisplay();
+    
+    Swal.fire({
+        title: 'Poin Direset',
+        text: 'Semua poin telah direset ke 0',
+        icon: 'info',
+        timer: 2000
+    });
+}
+
+// Untuk debugging, bisa tambahkan di console:
+// resetPoints()
 function loadQuizGame(topic, quizData) {
     const contentBody = document.getElementById('contentBody');
     let currentQuestion = 0;
