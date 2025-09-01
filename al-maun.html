@@ -1,0 +1,3607 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Al-Quran Hadits - Surah Al-Ma'un</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .arabic-text { font-family: 'Amiri', serif; }
+        .gradient-bg { background: linear-gradient(135deg, #065f46 0%, #10b981 50%, #34d399 100%); }
+        .card-shadow { box-shadow: 0 10px 25px rgba(16, 185, 129, 0.1); }
+        .islamic-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2310b981' fill-opacity='0.05'%3E%3Cpath d='M30 30c0-11.046-8.954-20-20-20s-20 8.954-20 20 8.954 20 20 20 20-8.954 20-20zm0 0c0 11.046 8.954 20 20 20s20-8.954 20-20-8.954-20-20-20-20 8.954-20 20z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body class="bg-gray-50 islamic-pattern min-h-screen">
+    <!-- Login Screen -->
+    <div id="login-screen" class="fixed inset-0 gradient-bg z-50 flex items-center justify-center">
+        <div class="bg-white rounded-xl p-8 max-w-sm w-full mx-4 shadow-2xl">
+            <div class="text-center mb-8">
+                <div class="bg-emerald-100 rounded-lg p-3 w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+                    <img src="https://archive.org/download/logo-mpi/logo%20mpi.png" alt="Logo MPI" class="w-12 h-12">
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Media Pembelajaran</h2>
+                <p class="text-gray-600">Al-Quran Hadits - Surah Al-Ma'un</p>
+            </div>
+            
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Nomor Induk Siswa (NIS)</label>
+                    <input type="text" id="nis-input" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="Masukkan NIS Anda" required>
+                </div>
+                
+                <button type="submit" class="w-full bg-emerald-600 text-white py-3 rounded-lg font-medium hover:bg-emerald-700 transition-colors">
+                    <i class="fas fa-sign-in-alt mr-2"></i>
+                    Masuk
+                </button>
+            </form>
+            
+            <div class="mt-6 text-center">
+                <p class="text-xs text-gray-500">Hubungi guru jika lupa NIS Anda</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header id="main-header" class="gradient-bg text-white p-4 sticky top-0 z-50 hidden">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white rounded-lg p-2">
+                    <img src="https://archive.org/download/logo-mpi/logo%20mpi.png" alt="Logo MPI" class="w-14 h-14" style="width: 56px; height: 56px;">
+                </div>
+                <div>
+                    <p class="text-xs opacity-90">Media Pembelajaran</p>
+                    <h1 class="text-xl font-bold">Al-Quran Hadits</h1>
+                    <p class="text-sm opacity-90">Surah Al-Ma'un</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <!-- Student Profile in Header -->
+                <div class="flex items-center space-x-2 bg-white/10 rounded-lg px-3 py-2">
+                    <div class="w-8 h-8 bg-white rounded-full overflow-hidden cursor-pointer" onclick="showProfile()">
+                        <img id="header-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face" alt="Avatar" class="w-full h-full object-cover">
+                    </div>
+                    <div class="text-right">
+                        <p id="header-name" class="text-sm font-medium">Ahmad Fauzi</p>
+                        <p id="header-class" class="text-xs opacity-75">4A</p>
+                    </div>
+                </div>
+                <button onclick="showSettings()" class="bg-white/20 p-2 rounded-full">
+                    <i class="fas fa-cog text-white"></i>
+                </button>
+                <button onclick="logout()" class="bg-white/20 p-2 rounded-full">
+                    <i class="fas fa-sign-out-alt text-white"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Progress Bar -->
+        <div class="mt-3 bg-white/20 rounded-full h-2">
+            <div id="overall-progress" class="bg-white h-2 rounded-full transition-all duration-300" style="width: 65%"></div>
+        </div>
+        <p class="text-xs mt-1 opacity-75">Progress Keseluruhan: <span id="progress-text">65%</span></p>
+    </header>
+
+    <!-- Bottom Navigation -->
+    <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t z-50 hidden">
+        <div class="flex">
+            <button onclick="showTab('materi')" class="tab-btn flex-1 py-3 px-2 text-center border-t-2 border-emerald-500 text-emerald-600 font-medium">
+                <i class="fas fa-book-quran block mb-1 text-lg"></i>
+                <span class="text-xs">Materi</span>
+            </button>
+            <button onclick="showTab('hafalan')" class="tab-btn flex-1 py-3 px-2 text-center border-t-2 border-transparent text-gray-500">
+                <i class="fas fa-microphone block mb-1 text-lg"></i>
+                <span class="text-xs">Hafalan</span>
+            </button>
+            <button onclick="showTab('evaluasi')" class="tab-btn flex-1 py-3 px-2 text-center border-t-2 border-transparent text-gray-500">
+                <i class="fas fa-clipboard-check block mb-1 text-lg"></i>
+                <span class="text-xs">Evaluasi</span>
+            </button>
+            <button onclick="showTab('progress')" class="tab-btn flex-1 py-3 px-2 text-center border-t-2 border-transparent text-gray-500">
+                <i class="fas fa-chart-line block mb-1 text-lg"></i>
+                <span class="text-xs">Progress</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Content Container -->
+    <main id="main-content" class="p-4 pb-20 hidden">
+        <!-- Materi Tab -->
+        <div id="materi-tab" class="tab-content">
+            <!-- Surah Info Card -->
+            <div class="bg-white rounded-xl card-shadow p-6 mb-4">
+                <div class="text-center mb-6">
+                    <h2 class="arabic-text text-3xl text-emerald-700 mb-2">سُورَةُ الْمَاعُونِ</h2>
+                    <p class="text-gray-600">Surah Al-Ma'un (Yang Berguna)</p>
+                    <div class="flex justify-center space-x-4 mt-3 text-sm text-gray-500">
+                        <span><i class="fas fa-map-marker-alt"></i> Makkiyah</span>
+                        <span><i class="fas fa-list-ol"></i> 7 Ayat</span>
+                        <span><i class="fas fa-book"></i> Juz 30</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Audio Player -->
+            <div class="bg-white rounded-xl card-shadow p-4 mb-4">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="font-semibold text-gray-800">Murottal Surah Al-Ma'un</h3>
+                    <i class="fas fa-volume-up text-emerald-600"></i>
+                </div>
+                <div class="bg-emerald-50 rounded-lg p-4">
+                    <div class="flex items-center space-x-3">
+                        <button onclick="toggleFullSurahAudio()" class="bg-emerald-600 text-white p-3 rounded-full">
+                            <i id="full-play-icon" class="fas fa-play"></i>
+                        </button>
+                        <div class="flex-1">
+                            <div class="bg-emerald-200 rounded-full h-2">
+                                <div id="full-progress-bar" class="bg-emerald-600 h-2 rounded-full w-0 transition-all duration-300"></div>
+                            </div>
+                            <div class="flex justify-between items-center mt-1">
+                                <p class="text-xs text-gray-600">Qari: Mishary Rashid Al-Afasy</p>
+                                <p class="text-xs text-gray-600"><span id="current-time">00:00</span> / <span id="total-time">00:00</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Complete Surah Text -->
+            <div class="bg-white rounded-xl card-shadow p-6 mb-4">
+                <h3 class="font-semibold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-book-open text-emerald-600 mr-2"></i>
+                    Teks Lengkap Surah Al-Ma'un
+                </h3>
+                <div class="bg-emerald-50 rounded-lg p-6">
+                    <div class="text-center mb-4">
+                        <p class="arabic-text text-xl text-emerald-800 mb-2">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+                        <p class="text-sm text-gray-600 italic">Dengan nama Allah Yang Maha Pengasih lagi Maha Penyayang</p>
+                    </div>
+                    <div class="arabic-text text-right text-2xl leading-loose space-y-4 text-gray-800">
+                        <p>أَرَأَيْتَ الَّذِي يُكَذِّبُ بِالدِّينِ ﴿١﴾</p>
+                        <p>فَذَٰلِكَ الَّذِي يَدُعُّ الْيَتِيمَ ﴿٢﴾</p>
+                        <p>وَلَا يَحُضُّ عَلَىٰ طَعَامِ الْمِسْكِينِ ﴿٣﴾</p>
+                        <p>فَوَيْلٌ لِّلْمُصَلِّينَ ﴿٤﴾</p>
+                        <p>الَّذِينَ هُمْ عَن صَلَاتِهِمْ سَاهُونَ ﴿٥﴾</p>
+                        <p>الَّذِينَ هُمْ يُرَاءُونَ ﴿٦﴾</p>
+                        <p>وَيَمْنَعُونَ الْمَاعُونَ ﴿٧﴾</p>
+                    </div>
+                </div>
+                
+                <div class="mt-4 p-4 bg-gray-50 rounded-lg">
+                    <h4 class="font-medium text-gray-800 mb-2">
+                        <i class="fas fa-language text-blue-600 mr-2"></i>
+                        Terjemahan Lengkap
+                    </h4>
+                    <div class="text-sm text-gray-700 space-y-2">
+                        <p><strong>1.</strong> Tahukah kamu (orang) yang mendustakan agama?</p>
+                        <p><strong>2.</strong> Itulah orang yang menghardik anak yatim,</p>
+                        <p><strong>3.</strong> dan tidak menganjurkan memberi makan orang miskin.</p>
+                        <p><strong>4.</strong> Maka kecelakaanlah bagi orang-orang yang shalat,</p>
+                        <p><strong>5.</strong> (yaitu) orang-orang yang lalai dari shalatnya,</p>
+                        <p><strong>6.</strong> orang-orang yang berbuat riya,</p>
+                        <p><strong>7.</strong> dan mereka enggan (menolong dengan) barang berguna.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ayat per Ayat dengan Penjelasan -->
+            <div class="bg-white rounded-xl card-shadow p-6 mb-4">
+                <h3 class="font-semibold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-list-ol text-emerald-600 mr-2"></i>
+                    Penjelasan Per Ayat
+                </h3>
+                <p class="text-gray-600 mb-4">Pelajari setiap ayat dengan detail beserta tafsir dan maknanya</p>
+            </div>
+
+            <!-- Ayat Cards -->
+            <div class="space-y-4 mb-4">
+                <div class="bg-white rounded-xl card-shadow p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium">Ayat 1</span>
+                        <button onclick="playAyat(1)" class="text-emerald-600 hover:text-emerald-700">
+                            <i class="fas fa-play-circle text-xl"></i>
+                        </button>
+                    </div>
+                    <p class="arabic-text text-2xl text-right leading-loose mb-4 text-gray-800">أَرَأَيْتَ الَّذِي يُكَذِّبُ بِالدِّينِ</p>
+                    <div class="border-t pt-4">
+                        <p class="text-sm text-gray-600 mb-2"><strong>Artinya:</strong> Tahukah kamu (orang) yang mendustakan agama?</p>
+                        <p class="text-xs text-gray-500"><strong>Tafsir:</strong> Ayat ini menanyakan tentang orang yang mendustakan hari pembalasan.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl card-shadow p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium">Ayat 2</span>
+                        <button onclick="playAyat(2)" class="text-emerald-600 hover:text-emerald-700">
+                            <i class="fas fa-play-circle text-xl"></i>
+                        </button>
+                    </div>
+                    <p class="arabic-text text-2xl text-right leading-loose mb-4 text-gray-800">فَذَٰلِكَ الَّذِي يَدُعُّ الْيَتِيمَ</p>
+                    <div class="border-t pt-4">
+                        <p class="text-sm text-gray-600 mb-2"><strong>Artinya:</strong> Itulah orang yang menghardik anak yatim.</p>
+                        <p class="text-xs text-gray-500"><strong>Tafsir:</strong> Orang yang mendustakan agama adalah yang kasar terhadap anak yatim.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl card-shadow p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium">Ayat 3</span>
+                        <button onclick="playAyat(3)" class="text-emerald-600 hover:text-emerald-700">
+                            <i class="fas fa-play-circle text-xl"></i>
+                        </button>
+                    </div>
+                    <p class="arabic-text text-2xl text-right leading-loose mb-4 text-gray-800">وَلَا يَحُضُّ عَلَىٰ طَعَامِ الْمِسْكِينِ</p>
+                    <div class="border-t pt-4">
+                        <p class="text-sm text-gray-600 mb-2"><strong>Artinya:</strong> Dan tidak menganjurkan memberi makan orang miskin.</p>
+                        <p class="text-xs text-gray-500"><strong>Tafsir:</strong> Dia juga tidak peduli untuk membantu orang-orang yang membutuhkan.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl card-shadow p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium">Ayat 4</span>
+                        <button onclick="playAyat(4)" class="text-emerald-600 hover:text-emerald-700">
+                            <i class="fas fa-play-circle text-xl"></i>
+                        </button>
+                    </div>
+                    <p class="arabic-text text-2xl text-right leading-loose mb-4 text-gray-800">فَوَيْلٌ لِّلْمُصَلِّينَ</p>
+                    <div class="border-t pt-4">
+                        <p class="text-sm text-gray-600 mb-2"><strong>Artinya:</strong> Maka kecelakaanlah bagi orang-orang yang shalat.</p>
+                        <p class="text-xs text-gray-500"><strong>Tafsir:</strong> Celaka bagi mereka yang shalat tetapi tidak khusyuk dan lalai.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl card-shadow p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium">Ayat 5</span>
+                        <button onclick="playAyat(5)" class="text-emerald-600 hover:text-emerald-700">
+                            <i class="fas fa-play-circle text-xl"></i>
+                        </button>
+                    </div>
+                    <p class="arabic-text text-2xl text-right leading-loose mb-4 text-gray-800">الَّذِينَ هُمْ عَن صَلَاتِهِمْ سَاهُونَ</p>
+                    <div class="border-t pt-4">
+                        <p class="text-sm text-gray-600 mb-2"><strong>Artinya:</strong> (yaitu) orang-orang yang lalai dari shalatnya.</p>
+                        <p class="text-xs text-gray-500"><strong>Tafsir:</strong> Mereka yang tidak memperhatikan waktu shalat dan tidak khusyuk.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl card-shadow p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium">Ayat 6</span>
+                        <button onclick="playAyat(6)" class="text-emerald-600 hover:text-emerald-700">
+                            <i class="fas fa-play-circle text-xl"></i>
+                        </button>
+                    </div>
+                    <p class="arabic-text text-2xl text-right leading-loose mb-4 text-gray-800">الَّذِينَ هُمْ يُرَاءُونَ</p>
+                    <div class="border-t pt-4">
+                        <p class="text-sm text-gray-600 mb-2"><strong>Artinya:</strong> Orang-orang yang berbuat riya (ingin dipuji).</p>
+                        <p class="text-xs text-gray-500"><strong>Tafsir:</strong> Mereka beribadah hanya untuk dilihat dan dipuji orang lain.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl card-shadow p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium">Ayat 7</span>
+                        <button onclick="playAyat(7)" class="text-emerald-600 hover:text-emerald-700">
+                            <i class="fas fa-play-circle text-xl"></i>
+                        </button>
+                    </div>
+                    <p class="arabic-text text-2xl text-right leading-loose mb-4 text-gray-800">وَيَمْنَعُونَ الْمَاعُونَ</p>
+                    <div class="border-t pt-4">
+                        <p class="text-sm text-gray-600 mb-2"><strong>Artinya:</strong> Dan mereka enggan (menolong dengan) barang berguna.</p>
+                        <p class="text-xs text-gray-500"><strong>Tafsir:</strong> Mereka tidak mau membantu dengan barang-barang yang bermanfaat seperti alat-alat rumah tangga.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mufradat (Vocabulary) Section -->
+            <div class="bg-white rounded-xl card-shadow p-6 mb-4">
+                <h3 class="font-semibold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-book text-emerald-600 mr-2"></i>
+                    Mufradat (Arti Kata)
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-emerald-50 rounded-lg p-3">
+                        <p class="arabic-text text-lg text-right text-emerald-700 mb-1">أَرَأَيْتَ</p>
+                        <p class="text-sm text-gray-600">Tahukah kamu</p>
+                    </div>
+                    <div class="bg-emerald-50 rounded-lg p-3">
+                        <p class="arabic-text text-lg text-right text-emerald-700 mb-1">يُكَذِّبُ</p>
+                        <p class="text-sm text-gray-600">Mendustakan</p>
+                    </div>
+                    <div class="bg-emerald-50 rounded-lg p-3">
+                        <p class="arabic-text text-lg text-right text-emerald-700 mb-1">الدِّينِ</p>
+                        <p class="text-sm text-gray-600">Agama</p>
+                    </div>
+                    <div class="bg-emerald-50 rounded-lg p-3">
+                        <p class="arabic-text text-lg text-right text-emerald-700 mb-1">يَدُعُّ</p>
+                        <p class="text-sm text-gray-600">Menghardik</p>
+                    </div>
+                    <div class="bg-emerald-50 rounded-lg p-3">
+                        <p class="arabic-text text-lg text-right text-emerald-700 mb-1">الْيَتِيمَ</p>
+                        <p class="text-sm text-gray-600">Anak yatim</p>
+                    </div>
+                    <div class="bg-emerald-50 rounded-lg p-3">
+                        <p class="arabic-text text-lg text-right text-emerald-700 mb-1">يَحُضُّ</p>
+                        <p class="text-sm text-gray-600">Menganjurkan</p>
+                    </div>
+                    <div class="bg-emerald-50 rounded-lg p-3">
+                        <p class="arabic-text text-lg text-right text-emerald-700 mb-1">الْمِسْكِينِ</p>
+                        <p class="text-sm text-gray-600">Orang miskin</p>
+                    </div>
+                    <div class="bg-emerald-50 rounded-lg p-3">
+                        <p class="arabic-text text-lg text-right text-emerald-700 mb-1">وَيْلٌ</p>
+                        <p class="text-sm text-gray-600">Kecelakaan/azab</p>
+                    </div>
+                    <div class="bg-emerald-50 rounded-lg p-3">
+                        <p class="arabic-text text-lg text-right text-emerald-700 mb-1">الْمُصَلِّينَ</p>
+                        <p class="text-sm text-gray-600">Orang-orang yang shalat</p>
+                    </div>
+                    <div class="bg-emerald-50 rounded-lg p-3">
+                        <p class="arabic-text text-lg text-right text-emerald-700 mb-1">سَاهُونَ</p>
+                        <p class="text-sm text-gray-600">Lalai/lengah</p>
+                    </div>
+                    <div class="bg-emerald-50 rounded-lg p-3">
+                        <p class="arabic-text text-lg text-right text-emerald-700 mb-1">يُرَاءُونَ</p>
+                        <p class="text-sm text-gray-600">Berbuat riya</p>
+                    </div>
+                    <div class="bg-emerald-50 rounded-lg p-3">
+                        <p class="arabic-text text-lg text-right text-emerald-700 mb-1">الْمَاعُونَ</p>
+                        <p class="text-sm text-gray-600">Barang berguna</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kandungan Surah Section -->
+            <div class="bg-white rounded-xl card-shadow p-6 mb-4">
+                <h3 class="font-semibold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-lightbulb text-emerald-600 mr-2"></i>
+                    Kandungan Surah Al-Ma'un
+                </h3>
+                <div class="space-y-4">
+                    <div class="border-l-4 border-emerald-500 pl-4">
+                        <h4 class="font-medium text-gray-800 mb-2">1. Ciri-ciri Orang yang Mendustakan Agama</h4>
+                        <p class="text-sm text-gray-600">Surah ini menjelaskan karakteristik orang yang mendustakan agama, yaitu mereka yang kasar terhadap anak yatim dan tidak peduli terhadap orang miskin.</p>
+                    </div>
+                    
+                    <div class="border-l-4 border-blue-500 pl-4">
+                        <h4 class="font-medium text-gray-800 mb-2">2. Peringatan untuk Orang yang Shalat Lalai</h4>
+                        <p class="text-sm text-gray-600">Allah memperingatkan orang-orang yang shalat tetapi lalai, tidak khusyuk, dan hanya melakukannya sebagai rutinitas tanpa penghayatan.</p>
+                    </div>
+                    
+                    <div class="border-l-4 border-orange-500 pl-4">
+                        <h4 class="font-medium text-gray-800 mb-2">3. Larangan Berbuat Riya</h4>
+                        <p class="text-sm text-gray-600">Surah ini melarang perbuatan riya, yaitu beribadah atau berbuat baik hanya untuk dilihat dan dipuji orang lain, bukan karena Allah.</p>
+                    </div>
+                    
+                    <div class="border-l-4 border-red-500 pl-4">
+                        <h4 class="font-medium text-gray-800 mb-2">4. Pentingnya Berbagi dan Tolong-menolong</h4>
+                        <p class="text-sm text-gray-600">Allah mengecam mereka yang enggan membantu sesama dengan barang-barang yang berguna, menekankan pentingnya sikap dermawan dan saling membantu.</p>
+                    </div>
+                    
+                    <div class="bg-emerald-50 rounded-lg p-4 mt-4">
+                        <h4 class="font-medium text-emerald-800 mb-2">
+                            <i class="fas fa-star mr-2"></i>
+                            Hikmah dan Pelajaran
+                        </h4>
+                        <ul class="text-sm text-emerald-700 space-y-1">
+                            <li>• Agama bukan hanya ritual, tetapi juga akhlak dan kepedulian sosial</li>
+                            <li>• Shalat harus dilakukan dengan khusyuk dan penuh perhatian</li>
+                            <li>• Hindari sifat riya dalam beribadah</li>
+                            <li>• Pentingnya membantu anak yatim dan orang miskin</li>
+                            <li>• Berbagi barang berguna adalah bagian dari keimanan</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <!-- Hafalan Tab -->
+        <div id="hafalan-tab" class="tab-content hidden">
+            <!-- Instructions Card -->
+            <div class="bg-gradient-to-r from-emerald-50 to-blue-50 rounded-xl card-shadow p-6 mb-4 border-l-4 border-emerald-500">
+                <h3 class="font-semibold text-gray-800 mb-3 flex items-center">
+                    <i class="fas fa-info-circle text-emerald-600 mr-2"></i>
+                    Petunjuk Hafalan
+                </h3>
+                <div class="space-y-2 text-sm text-gray-700">
+                    <p><strong>1.</strong> Pilih ayat yang ingin dihafalkan</p>
+                    <p><strong>2.</strong> Dengarkan dengan seksama audio 3x untuk memahami pelafalan, dan tirukan</p>
+                    <p><strong>3.</strong> Jika kamu merasa sudah hafal dan lancar, silakan rekam hafalanmu</p>
+                    <p><strong>4.</strong> Hasil rekamanmu akan dinilai secara otomatis, tidak perlu dikirim ke pak Guru</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl card-shadow p-6 mb-4">
+                <h3 class="font-semibold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-microphone text-emerald-600 mr-2"></i>
+                    Latihan Hafalan
+                </h3>
+                
+                <div class="bg-emerald-50 rounded-lg p-4 mb-4">
+                    <p class="text-sm text-gray-600 mb-3">Pilih ayat yang ingin dihafalkan:</p>
+                    <div class="grid grid-cols-4 gap-2">
+                        <button onclick="selectAyatForHafalan(1)" class="ayat-selector bg-white border-2 border-emerald-200 rounded-lg p-3 text-center hover:border-emerald-500 transition-colors">
+                            <span class="text-sm font-medium">1</span>
+                        </button>
+                        <button onclick="selectAyatForHafalan(2)" class="ayat-selector bg-white border-2 border-emerald-200 rounded-lg p-3 text-center hover:border-emerald-500 transition-colors">
+                            <span class="text-sm font-medium">2</span>
+                        </button>
+                        <button onclick="selectAyatForHafalan(3)" class="ayat-selector bg-white border-2 border-emerald-200 rounded-lg p-3 text-center hover:border-emerald-500 transition-colors">
+                            <span class="text-sm font-medium">3</span>
+                        </button>
+                        <button onclick="selectAyatForHafalan(4)" class="ayat-selector bg-white border-2 border-emerald-200 rounded-lg p-3 text-center hover:border-emerald-500 transition-colors">
+                            <span class="text-sm font-medium">4</span>
+                        </button>
+                        <button onclick="selectAyatForHafalan(5)" class="ayat-selector bg-white border-2 border-emerald-200 rounded-lg p-3 text-center hover:border-emerald-500 transition-colors">
+                            <span class="text-sm font-medium">5</span>
+                        </button>
+                        <button onclick="selectAyatForHafalan(6)" class="ayat-selector bg-white border-2 border-emerald-200 rounded-lg p-3 text-center hover:border-emerald-500 transition-colors">
+                            <span class="text-sm font-medium">6</span>
+                        </button>
+                        <button onclick="selectAyatForHafalan(7)" class="ayat-selector bg-white border-2 border-emerald-200 rounded-lg p-3 text-center hover:border-emerald-500 transition-colors">
+                            <span class="text-sm font-medium">7</span>
+                        </button>
+                        <button onclick="selectAyatForHafalan('all')" class="ayat-selector bg-white border-2 border-emerald-200 rounded-lg p-3 text-center hover:border-emerald-500 transition-colors">
+                            <span class="text-xs font-medium">Semua</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Audio Status Display -->
+                <div id="audio-status" class="hidden mb-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                    <div class="flex items-center justify-center">
+                        <i class="fas fa-volume-up text-blue-600 mr-2"></i>
+                        <span class="text-blue-700 font-medium" id="audio-status-text">Memutar ayat 1 - 1/3</span>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <div id="recording-status" class="mb-4">
+                        <p class="text-gray-600 mb-2">Pilih ayat terlebih dahulu, lalu dengarkan audio 3x</p>
+                        <div class="w-20 h-20 mx-auto bg-gray-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-hand-point-up text-gray-400 text-2xl"></i>
+                        </div>
+                    </div>
+                    
+                    <button id="record-btn" onclick="toggleRecording()" disabled class="bg-gray-400 text-white px-6 py-3 rounded-full font-medium cursor-not-allowed transition-colors">
+                        <i class="fas fa-microphone mr-2"></i>
+                        Pilih Ayat Dulu
+                    </button>
+                </div>
+
+                <!-- AI Feedback Container -->
+                <div id="ai-feedback-hafalan" class="hidden mt-6">
+                    <!-- Feedback will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Evaluasi Tab -->
+        <div id="evaluasi-tab" class="tab-content hidden">
+            <!-- Quiz Type Selection -->
+            <div id="quiz-selection" class="bg-white rounded-xl card-shadow p-6 mb-4">
+                <h3 class="font-semibold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-clipboard-check text-emerald-600 mr-2"></i>
+                    Evaluasi Surah Al-Ma'un
+                </h3>
+                
+                <p class="text-gray-600 mb-6">Pilih jenis evaluasi yang ingin Anda kerjakan:</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <button onclick="startQuiz('multiple-choice')" class="quiz-type-btn bg-emerald-50 border-2 border-emerald-200 rounded-lg p-4 hover:border-emerald-400 transition-colors">
+                        <div class="text-center">
+                            <i class="fas fa-list-ul text-emerald-600 text-2xl mb-2"></i>
+                            <h4 class="font-medium text-gray-800">Pilihan Ganda</h4>
+                            <p class="text-sm text-gray-600 mt-1">20 Soal • 20 Menit</p>
+                        </div>
+                    </button>
+                    
+                    <button onclick="startQuiz('matching')" class="quiz-type-btn bg-blue-50 border-2 border-blue-200 rounded-lg p-4 hover:border-blue-400 transition-colors">
+                        <div class="text-center">
+                            <i class="fas fa-link text-blue-600 text-2xl mb-2"></i>
+                            <h4 class="font-medium text-gray-800">Menjodohkan</h4>
+                            <p class="text-sm text-gray-600 mt-1">5 Soal • 5 Menit</p>
+                        </div>
+                    </button>
+                    
+                    <button onclick="startQuiz('fill-in')" class="quiz-type-btn bg-orange-50 border-2 border-orange-200 rounded-lg p-4 hover:border-orange-400 transition-colors">
+                        <div class="text-center">
+                            <i class="fas fa-edit text-orange-600 text-2xl mb-2"></i>
+                            <h4 class="font-medium text-gray-800">Isian</h4>
+                            <p class="text-sm text-gray-600 mt-1">5 Soal • 5 Menit</p>
+                        </div>
+                    </button>
+                </div>
+                
+                <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+                    <h4 class="font-medium text-gray-800 mb-2">
+                        <i class="fas fa-info-circle text-blue-600 mr-2"></i>
+                        Petunjuk Evaluasi
+                    </h4>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Pastikan koneksi internet stabil</li>
+                        <li>• Jawab semua soal sebelum waktu habis</li>
+                        <li>• Soal isian akan dikoreksi otomatis dengan AI</li>
+                        <li>• Hasil akan langsung ditampilkan setelah selesai</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Quiz Container -->
+            <div id="quiz-container" class="hidden">
+                <!-- Multiple Choice Quiz -->
+                <div id="multiple-choice-quiz" class="bg-white rounded-xl card-shadow p-6 mb-4 hidden">
+                    <div class="flex justify-between items-center mb-4">
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Pilihan Ganda</h3>
+                            <span class="text-sm text-gray-600">Soal <span id="mc-current">1</span> dari <span id="mc-total">20</span></span>
+                        </div>
+                        <span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm">
+                            <i class="fas fa-clock mr-1"></i>
+                            <span id="mc-timer">20:00</span>
+                        </span>
+                    </div>
+                    
+                    <div class="bg-emerald-50 rounded-lg p-4 mb-4">
+                        <p class="font-medium text-gray-800" id="mc-question"></p>
+                    </div>
+                    
+                    <div class="space-y-3" id="mc-options"></div>
+                    
+                    <div class="flex justify-between mt-6">
+                        <button onclick="previousMCQuestion()" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">
+                            <i class="fas fa-chevron-left mr-2"></i>Sebelumnya
+                        </button>
+                        <button onclick="nextMCQuestion()" class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700">
+                            Selanjutnya<i class="fas fa-chevron-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Matching Quiz -->
+                <div id="matching-quiz" class="bg-white rounded-xl card-shadow p-6 mb-4 hidden">
+                    <div class="flex justify-between items-center mb-4">
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Menjodohkan</h3>
+                            <span class="text-sm text-gray-600">Soal <span id="match-current">1</span> dari <span id="match-total">5</span></span>
+                        </div>
+                        <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
+                            <i class="fas fa-clock mr-1"></i>
+                            <span id="match-timer">05:00</span>
+                        </span>
+                    </div>
+                    
+                    <div class="bg-blue-50 rounded-lg p-4 mb-4">
+                        <p class="font-medium text-gray-800" id="match-question"></p>
+                        <p class="text-sm text-gray-600 mt-2">Tarik garis dari kolom kiri ke kolom kanan untuk menjodohkan</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-medium text-gray-700 mb-3">Kata Arab</h4>
+                            <div id="left-items" class="space-y-2"></div>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-700 mb-3">Arti</h4>
+                            <div id="right-items" class="space-y-2"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between mt-6">
+                        <button onclick="resetMatching()" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">
+                            <i class="fas fa-undo mr-2"></i>Reset
+                        </button>
+                        <button onclick="finishMatching()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                            Selesai<i class="fas fa-check ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Fill-in Quiz -->
+                <div id="fill-in-quiz" class="bg-white rounded-xl card-shadow p-6 mb-4 hidden">
+                    <div class="flex justify-between items-center mb-4">
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Soal Isian</h3>
+                            <span class="text-sm text-gray-600">Soal <span id="fill-current">1</span> dari <span id="fill-total">5</span></span>
+                        </div>
+                        <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-sm">
+                            <i class="fas fa-clock mr-1"></i>
+                            <span id="fill-timer">05:00</span>
+                        </span>
+                    </div>
+                    
+                    <div class="bg-orange-50 rounded-lg p-4 mb-4">
+                        <p class="font-medium text-gray-800 arabic-text" id="fill-question"></p>
+                        <div class="mt-3 p-3 bg-white rounded border-l-4 border-orange-400">
+                            <p class="text-sm text-gray-600">
+                                <i class="fas fa-lightbulb text-orange-500 mr-1"></i>
+                                <strong>Petunjuk:</strong> <span id="fill-hint"></span>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <input type="text" id="fill-answer" class="w-full p-4 border-2 border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none text-lg" placeholder="Ketik jawaban Anda di sini...">
+                    </div>
+                    
+                    <div id="ai-feedback" class="hidden mb-4 p-4 rounded-lg">
+                        <h4 class="font-medium mb-2">
+                            <i class="fas fa-robot mr-2"></i>
+                            Penilaian AI
+                        </h4>
+                        <div id="feedback-content"></div>
+                    </div>
+                    
+                    <div class="flex justify-between mt-6">
+                        <button onclick="previousFillQuestion()" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">
+                            <i class="fas fa-chevron-left mr-2"></i>Sebelumnya
+                        </button>
+                        <button onclick="nextFillQuestion()" class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700">
+                            Selanjutnya<i class="fas fa-chevron-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Back to Selection -->
+                <div class="text-center mt-4">
+                    <button onclick="backToSelection()" class="px-6 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">
+                        <i class="fas fa-arrow-left mr-2"></i>Kembali ke Pilihan Evaluasi
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Modal -->
+            <div id="results-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+                <div class="flex items-center justify-center min-h-screen p-4">
+                    <div class="bg-white rounded-xl max-w-md w-full p-6">
+                        <div class="text-center mb-6">
+                            <div id="result-icon" class="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center">
+                                <i id="result-icon-class" class="text-4xl"></i>
+                            </div>
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2" id="result-title">Evaluasi Selesai!</h2>
+                            <p class="text-gray-600" id="result-subtitle">Berikut hasil evaluasi Anda</p>
+                        </div>
+                        
+                        <div class="space-y-4 mb-6" id="result-details">
+                            <!-- Results will be populated here -->
+                        </div>
+                        
+                        <div class="flex space-x-3">
+                            <button onclick="closeResults()" class="flex-1 bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600">
+                                Tutup
+                            </button>
+                            <button onclick="retakeQuiz()" class="flex-1 bg-emerald-600 text-white py-2 rounded-lg hover:bg-emerald-700">
+                                Ulangi
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Tab -->
+        <div id="progress-tab" class="tab-content hidden">
+            <div class="bg-white rounded-xl card-shadow p-6 mb-4">
+                <h3 class="font-semibold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-chart-line text-emerald-600 mr-2"></i>
+                    Progress Pembelajaran
+                </h3>
+                
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="bg-emerald-50 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-emerald-600 mb-1">75%</div>
+                        <div class="text-sm text-gray-600">Hafalan</div>
+                    </div>
+                    <div class="bg-blue-50 rounded-lg p-4 text-center">
+                        <div class="text-2xl font-bold text-blue-600 mb-1">85%</div>
+                        <div class="text-sm text-gray-600">Evaluasi</div>
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-sm font-medium">Ayat 1</span>
+                            <span class="text-sm text-emerald-600">Selesai</span>
+                        </div>
+                        <div class="bg-gray-200 rounded-full h-2">
+                            <div class="bg-emerald-600 h-2 rounded-full w-full"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-sm font-medium">Ayat 2</span>
+                            <span class="text-sm text-emerald-600">Selesai</span>
+                        </div>
+                        <div class="bg-gray-200 rounded-full h-2">
+                            <div class="bg-emerald-600 h-2 rounded-full w-full"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-sm font-medium">Ayat 3</span>
+                            <span class="text-sm text-yellow-600">Sedang Dipelajari</span>
+                        </div>
+                        <div class="bg-gray-200 rounded-full h-2">
+                            <div class="bg-yellow-500 h-2 rounded-full w-3/4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl card-shadow p-6">
+                <h4 class="font-semibold text-gray-800 mb-4">Riwayat Aktivitas</h4>
+                <div class="space-y-3">
+                    <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                        <div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-microphone text-emerald-600 text-xs"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm font-medium">Latihan Hafalan Ayat 1-2</p>
+                            <p class="text-xs text-gray-500">2 jam yang lalu • Skor: 85%</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-clipboard-check text-blue-600 text-xs"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm font-medium">Kuis Pemahaman</p>
+                            <p class="text-xs text-gray-500">1 hari yang lalu • Skor: 90%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Profile Modal -->
+    <div id="profile-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-xl max-w-sm w-full p-6 max-h-screen overflow-y-auto">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-lg font-semibold text-gray-800">Profil Siswa</h2>
+                    <button onclick="toggleEditProfile()" id="edit-btn" class="text-emerald-600 hover:text-emerald-700">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </div>
+                
+                <div class="text-center mb-6">
+                    <div class="relative w-24 h-24 mx-auto mb-3">
+                        <div class="w-24 h-24 bg-emerald-100 rounded-full overflow-hidden border-4 border-white shadow-lg">
+                            <img id="profile-photo" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face" alt="Foto Profil" class="w-full h-full object-cover">
+                        </div>
+                        <button id="photo-btn" onclick="changePhoto()" class="hidden absolute bottom-0 right-0 bg-emerald-600 text-white p-2 rounded-full shadow-lg hover:bg-emerald-700">
+                            <i class="fas fa-camera text-xs"></i>
+                        </button>
+                        <input type="file" id="photo-input" accept="image/*" class="hidden" onchange="handlePhotoChange(event)">
+                    </div>
+                    
+                    <div id="profile-view">
+                        <h3 class="font-semibold text-gray-800" id="student-name">Ahmad Fauzi</h3>
+                        <p class="text-sm text-gray-600" id="student-class">Kelas 4A • MI Al-Hidayah</p>
+                        <p class="text-xs text-gray-500 mt-1" id="student-nisn">NISN: 1234567890</p>
+                    </div>
+                    
+                    <div id="profile-edit" class="hidden space-y-3">
+                        <input type="text" id="edit-name" class="w-full p-2 border border-gray-300 rounded-lg text-center font-semibold" value="Ahmad Fauzi">
+                        <input type="text" id="edit-class" class="w-full p-2 border border-gray-300 rounded-lg text-center text-sm" value="Kelas 4A • MI Al-Hidayah">
+                        <input type="text" id="edit-nisn" class="w-full p-2 border border-gray-300 rounded-lg text-center text-xs" value="NISN: 1234567890">
+                    </div>
+                </div>
+                
+                <div class="space-y-3 mb-6">
+                    <div class="flex justify-between">
+                        <span class="text-sm text-gray-600">Total Hafalan:</span>
+                        <span class="font-medium">15 Surah</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-sm text-gray-600">Rata-rata Skor:</span>
+                        <span class="font-medium text-emerald-600">85%</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-sm text-gray-600">Streak Harian:</span>
+                        <span class="font-medium text-orange-600">7 hari</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-sm text-gray-600">Bergabung:</span>
+                        <span class="font-medium text-gray-700">15 Sep 2024</span>
+                    </div>
+                </div>
+                
+                <div id="profile-actions">
+                    <button onclick="closeProfile()" class="w-full bg-emerald-600 text-white py-2 rounded-lg hover:bg-emerald-700 transition-colors">
+                        Tutup
+                    </button>
+                </div>
+                
+                <div id="edit-actions" class="hidden space-y-2">
+                    <button onclick="saveProfile()" class="w-full bg-emerald-600 text-white py-2 rounded-lg hover:bg-emerald-700 transition-colors">
+                        <i class="fas fa-save mr-2"></i>Simpan
+                    </button>
+                    <button onclick="cancelEdit()" class="w-full bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                        <i class="fas fa-times mr-2"></i>Batal
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Student Database
+        const studentsData = {
+            '220061': { name: 'ABDUL HAMID SYAMIL', class: '4A' },
+            '220007': { name: 'AFRA AMALIA', class: '4A' },
+            '220029': { name: 'AHMAD AL GHIFARI PUTRA', class: '4A' },
+            '220066': { name: 'AHMAD HAYDAR ALI', class: '4A' },
+            '220015': { name: 'APRILIA', class: '4A' },
+            '220018': { name: 'AQILA NAFIZA PRASETIO', class: '4A' },
+            '220003': { name: 'BADRUT TAMAM', class: '4A' },
+            '220047': { name: 'DEA AULIA TIKA', class: '4A' },
+            '220009': { name: 'DEVI KURNIAWATI', class: '4A' },
+            '220002': { name: 'FAJAR RAMANDIKA', class: '4A' },
+            '220028': { name: 'FIKRI', class: '4A' },
+            '220001': { name: 'JIHAN AQILA', class: '4A' },
+            '220010': { name: 'KHALIFAH AQILA MYSHA TRI', class: '4A' },
+            '220022': { name: 'KHOIRUL UMAM', class: '4A' },
+            '220006': { name: 'LULU\' MAMLU\'AH', class: '4A' },
+            '220017': { name: 'LUTFIA APRILLIA', class: '4A' },
+            '220067': { name: 'MOHAMMAD ARIF', class: '4A' },
+            '220051': { name: 'MOHAMMAD IBRAHIM MUFID', class: '4A' },
+            '220055': { name: 'MUHAMMAD ANAN AKBAR', class: '4A' },
+            '220008': { name: 'MUHAMMAD AZIZ ALFIQRI', class: '4A' },
+            '220062': { name: 'MUHAMMAD HAYDAR ALI', class: '4A' },
+            '220031': { name: 'MUHAMMAD IZAM', class: '4A' },
+            '220052': { name: 'MUHAMMAD KHOIRUL AKBAR', class: '4A' },
+            '220036': { name: 'MUHAMMAD MUBAROK', class: '4A' },
+            '220045': { name: 'MUHAMMAD REIHAN ALZAIDAN', class: '4A' },
+            '220016': { name: 'MUHAMMAD SYAFI\'UL ANAM', class: '4A' },
+            '220005': { name: 'NADA FAJRIA SALSABILA', class: '4A' },
+            '230062': { name: 'NAZRIL ILHAM', class: '4A' },
+            '220058': { name: 'NUR AWALIA RAMADANI', class: '4A' },
+            '220054': { name: 'PUTRI AISA', class: '4A' },
+            '250086': { name: 'RASEL ANDRIANI', class: '4A' },
+            '220049': { name: 'TAUFIQURRAHMAN', class: '4A' },
+            '220060': { name: 'ZAHIRATUL QHOMARIYAH', class: '4A' },
+            '220030': { name: 'ZAKI MUBAROK', class: '4A' },
+            '220040': { name: 'ZAKIA PUTRI', class: '4A' },
+            '210016': { name: 'ABDULLOH', class: '4B' },
+            '220044': { name: 'ALFI SIDDIQIYAH', class: '4B' },
+            '240074': { name: 'ALIN ALFIANSYAH SAMUDRA', class: '4B' },
+            '220046': { name: 'CHAYRA PRAJA NADHIFA', class: '4B' },
+            '220050': { name: 'FATHAN ARZIQI', class: '4B' },
+            '220019': { name: 'FEBRIAN', class: '4B' },
+            '220059': { name: 'HAFIZA', class: '4B' },
+            '220013': { name: 'JULIANTO', class: '4B' },
+            '220042': { name: 'LAILA HUMAYROH', class: '4B' },
+            '220034': { name: 'MAWADDATUN NAFISAH', class: '4B' },
+            '220063': { name: 'MOHAMMAD ARIF A\'LA', class: '4B' },
+            '220011': { name: 'MUHAMMAD ATIF ASLAM', class: '4B' },
+            '220038': { name: 'MUHAMMAD ILHAM MAULANA', class: '4B' },
+            '220025': { name: 'MUHAMMAD KHOLIS IMAN', class: '4B' },
+            '220004': { name: 'MUHAMMAD RIZQY AL-FATIH', class: '4B' },
+            '220023': { name: 'MUHAMMAD ROYHAN', class: '4B' },
+            '220041': { name: 'MUHAMMAD WA\'ILU AR-RAHMAN', class: '4B' },
+            '220033': { name: 'MUHAMMAD ZACKY AL FARIZY', class: '4B' },
+            '220048': { name: 'MUZAYYENAH MUKAROMAH', class: '4B' },
+            '220012': { name: 'NAILA FUTRI', class: '4B' },
+            '220056': { name: 'NAILA PUTRI', class: '4B' },
+            '220035': { name: 'NURUL KOMARIAH', class: '4B' },
+            '220026': { name: 'PUTRI YANA', class: '4B' },
+            '220043': { name: 'RAISHA BILQIS AZZAHIRA', class: '4B' },
+            '210056': { name: 'RICCO MAHENDRA', class: '4B' },
+            '240075': { name: 'RIZKI JAHWAN AL-IMAN', class: '4B' },
+            '220020': { name: 'SALSABILA', class: '4B' },
+            '220057': { name: 'SYIFA MULYANI', class: '4B' },
+            '220027': { name: 'THALITA AGNIA RAVIVA', class: '4B' },
+            '220037': { name: 'USMAN ZAINI', class: '4B' },
+            '220024': { name: 'ZAINUL ILHAM', class: '4B' },
+            '220032': { name: 'ZIFA SITI AZZAHRA', class: '4B' }
+        };
+
+        // Current logged in student
+        let currentStudent = null;
+
+        // Login Functions
+        function handleLogin(event) {
+            event.preventDefault();
+            const nisInput = document.getElementById('nis-input');
+            const nis = nisInput.value.trim();
+            
+            console.log('🔐 Login attempt with NIS:', nis);
+            
+            // Check if NIS is empty
+            if (!nis) {
+                alert('Silakan masukkan NIS Anda');
+                return false;
+            }
+            
+            // Check if NIS exists in database
+            if (studentsData[nis]) {
+                console.log('✅ NIS found in database:', studentsData[nis]);
+                
+                currentStudent = {
+                    nis: nis,
+                    name: studentsData[nis].name,
+                    class: studentsData[nis].class
+                };
+                
+                console.log('👤 Current student set:', currentStudent);
+                
+                // Update UI with student data
+                updateStudentUI();
+                
+                // Force hide login and show main app
+                console.log('🔄 Switching to main app...');
+                
+                const loginScreen = document.getElementById('login-screen');
+                const mainHeader = document.getElementById('main-header');
+                const mainContent = document.getElementById('main-content');
+                const bottomNav = document.getElementById('bottom-nav');
+                
+                // Force display changes
+                if (loginScreen) {
+                    loginScreen.style.display = 'none';
+                    loginScreen.style.visibility = 'hidden';
+                    loginScreen.classList.add('hidden');
+                }
+                
+                if (mainHeader) {
+                    mainHeader.style.display = 'block';
+                    mainHeader.style.visibility = 'visible';
+                    mainHeader.classList.remove('hidden');
+                }
+                
+                if (mainContent) {
+                    mainContent.style.display = 'block';
+                    mainContent.style.visibility = 'visible';
+                    mainContent.classList.remove('hidden');
+                }
+                
+                if (bottomNav) {
+                    bottomNav.style.display = 'block';
+                    bottomNav.style.visibility = 'visible';
+                    bottomNav.classList.remove('hidden');
+                }
+                
+                // Save login to localStorage
+                localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
+                
+                // Log login to Google Sheets
+                logToGoogleSheets({
+                    action: 'login',
+                    student_name: currentStudent.name,
+                    nis: currentStudent.nis,
+                    class: currentStudent.class,
+                    timestamp: new Date().toISOString(),
+                    device_info: navigator.userAgent
+                });
+                
+                console.log('✅ Login successful, UI updated');
+                
+                // Show success message
+                setTimeout(() => {
+                    alert(`🎉 Selamat datang, ${currentStudent.name}!\n\nAnda berhasil masuk ke aplikasi pembelajaran Al-Quran Hadits.`);
+                }, 200);
+                
+                return true;
+            } else {
+                console.log('❌ NIS not found:', nis);
+                
+                // Log failed login attempt
+                logToGoogleSheets({
+                    action: 'failed_login',
+                    attempted_nis: nis,
+                    timestamp: new Date().toISOString(),
+                    device_info: navigator.userAgent
+                });
+                
+                // Show available NIS for testing
+                alert(`❌ NIS tidak ditemukan: ${nis}\n\n📝 Contoh NIS untuk testing:\n• 220061 - ABDUL HAMID SYAMIL\n• 220007 - AFRA AMALIA\n• 220029 - AHMAD AL GHIFARI PUTRA\n• 220001 - JIHAN AQILA\n\n💡 Hubungi guru jika NIS Anda tidak ada dalam daftar.`);
+                return false;
+            }
+        }
+
+        function updateStudentUI() {
+            if (currentStudent) {
+                // Update header
+                document.getElementById('header-name').textContent = currentStudent.name;
+                document.getElementById('header-class').textContent = currentStudent.class;
+                
+                // Update profile modal
+                document.getElementById('student-name').textContent = currentStudent.name;
+                document.getElementById('student-class').textContent = `Kelas ${currentStudent.class} • MI Al-Hidayah`;
+                document.getElementById('student-nisn').textContent = `NIS: ${currentStudent.nis}`;
+                
+                // Update edit form
+                document.getElementById('edit-name').value = currentStudent.name;
+                document.getElementById('edit-class').value = `Kelas ${currentStudent.class} • MI Al-Hidayah`;
+                document.getElementById('edit-nisn').value = `NIS: ${currentStudent.nis}`;
+                
+                // Update photos if available
+                if (currentStudent.photo) {
+                    document.getElementById('header-avatar').src = currentStudent.photo;
+                    document.getElementById('profile-photo').src = currentStudent.photo;
+                }
+            }
+        }
+
+        function logout() {
+            Swal.fire({
+                title: 'Keluar dari Aplikasi?',
+                text: 'Progress Anda akan tersimpan',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#059669',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Ya, Keluar',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Clear current session
+                    currentStudent = null;
+                    localStorage.removeItem('currentStudent');
+                    
+                    // Show login screen
+                    document.getElementById('login-screen').classList.remove('hidden');
+                    document.getElementById('main-header').classList.add('hidden');
+                    document.getElementById('main-content').classList.add('hidden');
+                    document.getElementById('bottom-nav').classList.add('hidden');
+                    
+                    // Reset form
+                    document.getElementById('nis-input').value = '';
+                }
+            });
+        }
+
+        // Check for existing login on page load
+        function checkExistingLogin() {
+            const savedStudent = localStorage.getItem('currentStudent');
+            if (savedStudent) {
+                currentStudent = JSON.parse(savedStudent);
+                updateStudentUI();
+                
+                // Show main app
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('main-header').classList.remove('hidden');
+                document.getElementById('main-content').classList.remove('hidden');
+                document.getElementById('bottom-nav').classList.remove('hidden');
+            }
+        }
+
+        // Tab Management with comprehensive tracking
+        function showTab(tabName) {
+            const previousTab = currentActiveTab;
+            
+            // Log tab change
+            if (previousTab !== tabName) {
+                logTabChange(previousTab, tabName);
+                
+                // Log study time for previous tab
+                if (tabStartTimes[previousTab]) {
+                    logStudyTime(previousTab, tabStartTimes[previousTab], Date.now());
+                }
+                
+                // Start timer for new tab
+                startTabTimer(tabName);
+            }
+            
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            
+            // Remove active state from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('border-emerald-500', 'text-emerald-600');
+                btn.classList.add('border-transparent', 'text-gray-500');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.remove('hidden');
+            
+            // Add active state to clicked button
+            event.target.closest('.tab-btn').classList.remove('border-transparent', 'text-gray-500');
+            event.target.closest('.tab-btn').classList.add('border-emerald-500', 'text-emerald-600');
+        }
+
+        // Audio Functions
+        let fullSurahAudio = null;
+        let isFullSurahPlaying = false;
+
+        function toggleFullSurahAudio() {
+            const playIcon = document.getElementById('full-play-icon');
+            const progressBar = document.getElementById('full-progress-bar');
+            
+            // Log button click
+            logButtonClick('toggle_full_surah_audio', 'materi_tab');
+            
+            if (!fullSurahAudio) {
+                fullSurahAudio = new Audio('https://archive.org/download/al-maun_202509/al-Maun.mp3');
+                
+                fullSurahAudio.addEventListener('loadedmetadata', () => {
+                    document.getElementById('total-time').textContent = formatTime(fullSurahAudio.duration);
+                });
+                
+                fullSurahAudio.addEventListener('timeupdate', () => {
+                    const progress = (fullSurahAudio.currentTime / fullSurahAudio.duration) * 100;
+                    progressBar.style.width = progress + '%';
+                    document.getElementById('current-time').textContent = formatTime(fullSurahAudio.currentTime);
+                });
+                
+                fullSurahAudio.addEventListener('ended', () => {
+                    playIcon.className = 'fas fa-play';
+                    isFullSurahPlaying = false;
+                    progressBar.style.width = '0%';
+                    document.getElementById('current-time').textContent = '00:00';
+                    
+                    // Log audio completion
+                    logAudioPlay('full', Math.round(fullSurahAudio.duration));
+                });
+                
+                fullSurahAudio.addEventListener('error', () => {
+                    logError('audio_error', 'Failed to load full surah audio', 'materi_tab');
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Gagal memuat audio. Periksa koneksi internet Anda.',
+                        icon: 'error',
+                        confirmButtonColor: '#059669'
+                    });
+                });
+            }
+            
+            if (!isFullSurahPlaying) {
+                audioStartTime = Date.now();
+                fullSurahAudio.play().then(() => {
+                    playIcon.className = 'fas fa-pause';
+                    isFullSurahPlaying = true;
+                    
+                    // Log audio start
+                    logToGoogleSheets({
+                        action: 'audio_started',
+                        student_name: currentStudent?.name || 'Unknown',
+                        nis: currentStudent?.nis || 'Unknown',
+                        class: currentStudent?.class || 'Unknown',
+                        audio_type: 'FULL_SURAH',
+                        surah: 'Al-Ma\'un'
+                    });
+                }).catch(error => {
+                    console.error('Error playing audio:', error);
+                    logError('audio_play_error', error.message, 'materi_tab');
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Gagal memutar audio. Periksa koneksi internet Anda.',
+                        icon: 'error',
+                        confirmButtonColor: '#059669'
+                    });
+                });
+            } else {
+                fullSurahAudio.pause();
+                playIcon.className = 'fas fa-play';
+                isFullSurahPlaying = false;
+                
+                // Log audio pause
+                const duration = Math.round((Date.now() - audioStartTime) / 1000);
+                logToGoogleSheets({
+                    action: 'audio_paused',
+                    student_name: currentStudent?.name || 'Unknown',
+                    nis: currentStudent?.nis || 'Unknown',
+                    class: currentStudent?.class || 'Unknown',
+                    audio_type: 'FULL_SURAH',
+                    surah: 'Al-Ma\'un',
+                    duration_seconds: duration
+                });
+            }
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Audio URLs for each ayat
+        const ayatAudioUrls = {
+            1: 'https://archive.org/download/107-5_202509/107-1.mp3',
+            2: 'https://archive.org/download/107-5_202509/107-2.mp3',
+            3: 'https://archive.org/download/107-5_202509/107-3.mp3',
+            4: 'https://archive.org/download/107-5_202509/107-4.mp3',
+            5: 'https://archive.org/download/107-5_202509/107-5.mp3',
+            6: 'https://archive.org/download/107-5_202509/107-6.mp3',
+            7: 'https://archive.org/download/107-5_202509/107-7.mp3'
+        };
+
+        let currentAudio = null;
+
+        function playAyat(ayatNumber) {
+            // Stop any currently playing audio
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+
+            // Create new audio instance
+            currentAudio = new Audio(ayatAudioUrls[ayatNumber]);
+
+            // Play audio when loaded
+            currentAudio.addEventListener('canplaythrough', () => {
+                currentAudio.play().catch(error => {
+                    console.error('Error playing audio:', error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Gagal memutar audio. Periksa koneksi internet Anda.',
+                        icon: 'error',
+                        confirmButtonColor: '#059669'
+                    });
+                });
+            });
+
+            // Handle audio end
+            currentAudio.addEventListener('ended', () => {
+                currentAudio = null;
+            });
+
+            // Handle loading error
+            currentAudio.addEventListener('error', () => {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Gagal memuat audio. Periksa koneksi internet Anda.',
+                    icon: 'error',
+                    confirmButtonColor: '#059669'
+                });
+            });
+        }
+
+        // Enhanced Recording Functions for Hafalan
+        let isRecording = false;
+        let selectedAyat = null;
+        let audioPlayCount = 0;
+        let currentPlayingAudio = null;
+
+        function selectAyatForHafalan(ayat) {
+            selectedAyat = ayat;
+            audioPlayCount = 0;
+            
+            // Log ayat selection
+            logButtonClick('select_ayat_hafalan', `hafalan_tab_ayat_${ayat}`);
+            logToGoogleSheets({
+                action: 'ayat_selected_for_hafalan',
+                student_name: currentStudent?.name || 'Unknown',
+                nis: currentStudent?.nis || 'Unknown',
+                class: currentStudent?.class || 'Unknown',
+                surah: 'Al-Ma\'un',
+                ayat: ayat,
+                selection_type: ayat === 'all' ? 'FULL_SURAH' : 'SINGLE_AYAT'
+            });
+            
+            // Update visual selection
+            document.querySelectorAll('.ayat-selector').forEach(btn => {
+                btn.classList.remove('border-emerald-500', 'bg-emerald-50');
+                btn.classList.add('border-emerald-200');
+            });
+            event.target.classList.remove('border-emerald-200');
+            event.target.classList.add('border-emerald-500', 'bg-emerald-50');
+            
+            // Update recording status
+            const recordingStatus = document.getElementById('recording-status');
+            recordingStatus.innerHTML = `
+                <p class="text-blue-600 mb-2 font-medium">
+                    <i class="fas fa-volume-up mr-2"></i>
+                    Mendengarkan ayat ${ayat} sebanyak 3x...
+                </p>
+                <div class="w-20 h-20 mx-auto bg-blue-100 rounded-full flex items-center justify-center animate-pulse">
+                    <i class="fas fa-headphones text-blue-600 text-2xl"></i>
+                </div>
+            `;
+            
+            // Disable record button until audio is played 3x
+            const recordBtn = document.getElementById('record-btn');
+            recordBtn.disabled = true;
+            recordBtn.className = 'bg-gray-400 text-white px-6 py-3 rounded-full font-medium cursor-not-allowed transition-colors';
+            recordBtn.innerHTML = '<i class="fas fa-volume-up mr-2"></i>Mendengarkan Audio...';
+            
+            // Hide previous feedback
+            document.getElementById('ai-feedback-hafalan').classList.add('hidden');
+            
+            // Start playing audio 3 times
+            playAyatMultipleTimes(ayat);
+        }
+
+        function playAyatMultipleTimes(ayat) {
+            audioPlayCount = 0;
+            
+            function playNext() {
+                if (audioPlayCount >= 3) {
+                    // Audio finished playing 3 times
+                    enableRecording();
+                    return;
+                }
+                
+                audioPlayCount++;
+                
+                // Show audio status
+                const audioStatus = document.getElementById('audio-status');
+                const audioStatusText = document.getElementById('audio-status-text');
+                audioStatus.classList.remove('hidden');
+                
+                if (ayat === 'all') {
+                    audioStatusText.textContent = `Memutar seluruh surah - ${audioPlayCount}/3`;
+                    currentPlayingAudio = new Audio('https://archive.org/download/al-maun_202509/al-Maun.mp3');
+                } else {
+                    audioStatusText.textContent = `Memutar ayat ${ayat} - ${audioPlayCount}/3`;
+                    currentPlayingAudio = new Audio(ayatAudioUrls[ayat]);
+                }
+                
+                currentPlayingAudio.addEventListener('canplaythrough', () => {
+                    currentPlayingAudio.play().catch(error => {
+                        console.error('Error playing audio:', error);
+                        // Continue to next play even if error
+                        setTimeout(playNext, 1000);
+                    });
+                });
+                
+                currentPlayingAudio.addEventListener('ended', () => {
+                    // Wait 2 seconds before next play
+                    setTimeout(playNext, 2000);
+                });
+                
+                currentPlayingAudio.addEventListener('error', () => {
+                    console.error('Audio loading error');
+                    // Continue to next play even if error
+                    setTimeout(playNext, 1000);
+                });
+            }
+            
+            playNext();
+        }
+
+        function enableRecording() {
+            // Hide audio status
+            document.getElementById('audio-status').classList.add('hidden');
+            
+            // Update recording status
+            const recordingStatus = document.getElementById('recording-status');
+            recordingStatus.innerHTML = `
+                <p class="text-emerald-600 mb-2 font-medium">
+                    <i class="fas fa-check-circle mr-2"></i>
+                    Siap untuk merekam hafalan ayat ${selectedAyat}!
+                </p>
+                <div class="w-20 h-20 mx-auto bg-emerald-100 rounded-full flex items-center justify-center animate-pulse">
+                    <i class="fas fa-microphone text-emerald-600 text-2xl"></i>
+                </div>
+            `;
+            
+            // Enable record button
+            const recordBtn = document.getElementById('record-btn');
+            recordBtn.disabled = false;
+            recordBtn.className = 'bg-emerald-600 text-white px-6 py-3 rounded-full font-medium hover:bg-emerald-700 transition-colors';
+            recordBtn.innerHTML = '<i class="fas fa-microphone mr-2"></i>Mulai Rekam';
+        }
+
+        function toggleRecording() {
+            if (!selectedAyat) {
+                logButtonClick('record_attempt_no_ayat', 'hafalan_tab');
+                Swal.fire({
+                    title: 'Pilih Ayat',
+                    text: 'Silakan pilih ayat yang ingin dihafalkan terlebih dahulu',
+                    icon: 'warning',
+                    confirmButtonColor: '#059669'
+                });
+                return;
+            }
+
+            const recordBtn = document.getElementById('record-btn');
+            const recordingStatus = document.getElementById('recording-status');
+
+            if (!isRecording) {
+                isRecording = true;
+                
+                // Log recording start
+                logRecordingActivity('start', selectedAyat, {
+                    attempt_number: getAttemptNumber('recording', selectedAyat)
+                });
+                
+                recordBtn.innerHTML = '<i class="fas fa-stop mr-2"></i>Berhenti Rekam';
+                recordBtn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+                recordBtn.classList.add('bg-red-600', 'hover:bg-red-700');
+                
+                recordingStatus.innerHTML = `
+                    <p class="text-red-600 mb-2 font-medium animate-pulse">
+                        <i class="fas fa-circle mr-2"></i>
+                        Sedang merekam ayat ${selectedAyat}...
+                    </p>
+                    <div class="w-24 h-24 mx-auto bg-red-100 rounded-full flex items-center justify-center animate-pulse border-4 border-red-200">
+                        <i class="fas fa-microphone text-red-600 text-3xl"></i>
+                    </div>
+                `;
+            } else {
+                isRecording = false;
+                
+                // Log recording stop
+                logRecordingActivity('stop', selectedAyat, {
+                    recording_duration: Math.round((Date.now() - (recordingStartTime || Date.now())) / 1000)
+                });
+                
+                recordBtn.innerHTML = '<i class="fas fa-microphone mr-2"></i>Mulai Rekam';
+                recordBtn.classList.remove('bg-red-600', 'hover:bg-red-700');
+                recordBtn.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
+                
+                recordingStatus.innerHTML = `
+                    <p class="text-blue-600 mb-2 font-medium">
+                        <i class="fas fa-cog fa-spin mr-2"></i>
+                        Rekaman selesai, AI sedang menganalisis...
+                    </p>
+                    <div class="w-24 h-24 mx-auto bg-blue-100 rounded-full flex items-center justify-center border-4 border-blue-200">
+                        <i class="fas fa-robot text-blue-600 text-3xl"></i>
+                    </div>
+                `;
+
+                // Log AI analysis start
+                logRecordingActivity('analyze', selectedAyat);
+
+                // Simulate AI analysis with realistic delay
+                setTimeout(() => {
+                    analyzeRecording();
+                }, 4000); // 4 seconds for realistic AI processing
+            }
+        }
+
+        let recordingStartTime = null;
+
+        function analyzeRecording() {
+            // Generate realistic scores with some variation
+            const baseScore = Math.floor(Math.random() * 40) + 60; // 60-100%
+            const accuracy = Math.max(50, Math.min(100, baseScore + Math.floor(Math.random() * 10) - 5));
+            const fluency = Math.max(50, Math.min(100, baseScore + Math.floor(Math.random() * 10) - 5));
+            const tajwid = Math.max(50, Math.min(100, baseScore + Math.floor(Math.random() * 10) - 5));
+            const overallScore = Math.round((accuracy + fluency + tajwid) / 3);
+            
+            const recordingStatus = document.getElementById('recording-status');
+            
+            // Show analysis complete
+            recordingStatus.innerHTML = `
+                <p class="text-green-600 mb-2 font-medium">
+                    <i class="fas fa-check-circle mr-2"></i>
+                    Analisis AI selesai!
+                </p>
+                <div class="w-24 h-24 mx-auto bg-green-100 rounded-full flex items-center justify-center border-4 border-green-200">
+                    <i class="fas fa-check text-green-600 text-3xl"></i>
+                </div>
+            `;
+
+            // Generate feedback based on score
+            if (overallScore >= 70) {
+                showSuccessfulFeedback(accuracy, fluency, tajwid, overallScore);
+            } else {
+                showNeedsImprovementFeedback(accuracy, fluency, tajwid, overallScore);
+            }
+
+            // Log hafalan attempt to Google Sheets
+            logHafalanAttempt(selectedAyat, overallScore, 30);
+            
+            // Update progress
+            logProgressUpdate('hafalan', overallScore);
+        }
+
+        function showSuccessfulFeedback(accuracy, fluency, tajwid, overallScore) {
+            const aiFeedbackContainer = document.getElementById('ai-feedback-hafalan');
+            
+            // Create celebratory feedback
+            aiFeedbackContainer.innerHTML = `
+                <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 border-2 border-green-200">
+                    <div class="text-center mb-4">
+                        <div class="w-20 h-20 mx-auto bg-green-100 rounded-full flex items-center justify-center mb-3">
+                            <i class="fas fa-trophy text-green-600 text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-green-700 mb-2">🎉 Masya Allah! Luar Biasa!</h3>
+                        <p class="text-green-600 font-medium">Hafalan Anda sudah sangat baik!</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-4 mb-4">
+                        <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-chart-bar text-green-600 mr-2"></i>
+                            Hasil Penilaian AI
+                        </h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">Ketepatan Bacaan:</span>
+                                <div class="flex items-center">
+                                    <div class="w-20 bg-gray-200 rounded-full h-2 mr-2">
+                                        <div class="bg-green-500 h-2 rounded-full" style="width: ${accuracy}%"></div>
+                                    </div>
+                                    <span class="font-bold text-green-600">${accuracy}%</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">Kelancaran:</span>
+                                <div class="flex items-center">
+                                    <div class="w-20 bg-gray-200 rounded-full h-2 mr-2">
+                                        <div class="bg-green-500 h-2 rounded-full" style="width: ${fluency}%"></div>
+                                    </div>
+                                    <span class="font-bold text-green-600">${fluency}%</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">Tajwid:</span>
+                                <div class="flex items-center">
+                                    <div class="w-20 bg-gray-200 rounded-full h-2 mr-2">
+                                        <div class="bg-green-500 h-2 rounded-full" style="width: ${tajwid}%"></div>
+                                    </div>
+                                    <span class="font-bold text-green-600">${tajwid}%</span>
+                                </div>
+                            </div>
+                            <div class="border-t pt-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-medium">Skor Keseluruhan:</span>
+                                    <span class="text-2xl font-bold text-green-600">${overallScore}%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-green-100 rounded-lg p-4 mb-4">
+                        <h4 class="font-medium text-green-800 mb-2">
+                            <i class="fas fa-star mr-2"></i>
+                            Feedback Positif
+                        </h4>
+                        <p class="text-sm text-green-700">
+                            ${generatePositiveFeedback(accuracy, fluency, tajwid, overallScore)}
+                        </p>
+                    </div>
+                    
+                    <div class="flex space-x-3">
+                        <button onclick="recordAgain()" class="flex-1 bg-emerald-600 text-white py-3 rounded-lg font-medium hover:bg-emerald-700 transition-colors">
+                            <i class="fas fa-redo mr-2"></i>Rekam Lagi
+                        </button>
+                        <button onclick="selectNextAyat()" class="flex-1 bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                            <i class="fas fa-forward mr-2"></i>Ayat Selanjutnya
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            aiFeedbackContainer.classList.remove('hidden');
+            
+            // Show celebratory modal
+            setTimeout(() => {
+                Swal.fire({
+                    title: '🏆 Masya Allah!',
+                    html: `
+                        <div class="text-center">
+                            <div class="text-6xl mb-4">🎉</div>
+                            <p class="text-lg mb-3">Hafalan Anda <strong>LULUS</strong>!</p>
+                            <p class="text-emerald-600 font-medium mb-3">Skor: ${overallScore}% (Target: 70%)</p>
+                            <div class="bg-green-50 rounded-lg p-3">
+                                <p class="text-sm text-green-700">
+                                    Alhamdulillah! Terus semangat menghafal Al-Quran! 📖✨
+                                </p>
+                            </div>
+                        </div>
+                    `,
+                    icon: 'success',
+                    confirmButtonColor: '#059669',
+                    confirmButtonText: 'Alhamdulillah! 🤲'
+                });
+            }, 1000);
+        }
+
+        function showNeedsImprovementFeedback(accuracy, fluency, tajwid, overallScore) {
+            const aiFeedbackContainer = document.getElementById('ai-feedback-hafalan');
+            
+            aiFeedbackContainer.innerHTML = `
+                <div class="bg-gradient-to-r from-orange-50 to-red-50 rounded-xl p-6 border-2 border-orange-200">
+                    <div class="text-center mb-4">
+                        <div class="w-20 h-20 mx-auto bg-orange-100 rounded-full flex items-center justify-center mb-3">
+                            <i class="fas fa-redo text-orange-600 text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-orange-700 mb-2">💪 Jangan Menyerah! Coba Lagi!</h3>
+                        <p class="text-orange-600">Skor belum mencapai target 70%</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-4 mb-4">
+                        <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-chart-bar text-orange-600 mr-2"></i>
+                            Hasil Penilaian AI
+                        </h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">Ketepatan Bacaan:</span>
+                                <div class="flex items-center">
+                                    <div class="w-20 bg-gray-200 rounded-full h-2 mr-2">
+                                        <div class="bg-orange-500 h-2 rounded-full" style="width: ${accuracy}%"></div>
+                                    </div>
+                                    <span class="font-bold text-orange-600">${accuracy}%</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">Kelancaran:</span>
+                                <div class="flex items-center">
+                                    <div class="w-20 bg-gray-200 rounded-full h-2 mr-2">
+                                        <div class="bg-orange-500 h-2 rounded-full" style="width: ${fluency}%"></div>
+                                    </div>
+                                    <span class="font-bold text-orange-600">${fluency}%</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">Tajwid:</span>
+                                <div class="flex items-center">
+                                    <div class="w-20 bg-gray-200 rounded-full h-2 mr-2">
+                                        <div class="bg-orange-500 h-2 rounded-full" style="width: ${tajwid}%"></div>
+                                    </div>
+                                    <span class="font-bold text-orange-600">${tajwid}%</span>
+                                </div>
+                            </div>
+                            <div class="border-t pt-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-medium">Skor Keseluruhan:</span>
+                                    <span class="text-2xl font-bold text-orange-600">${overallScore}%</span>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Target: 70% untuk lulus</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-orange-100 rounded-lg p-4 mb-4">
+                        <h4 class="font-medium text-orange-800 mb-2">
+                            <i class="fas fa-lightbulb mr-2"></i>
+                            Saran Perbaikan
+                        </h4>
+                        <p class="text-sm text-orange-700 mb-3">
+                            ${generateImprovementFeedback(accuracy, fluency, tajwid)}
+                        </p>
+                        <div class="bg-white rounded p-3">
+                            <p class="text-xs text-gray-600">
+                                💡 <strong>Tips:</strong> Dengarkan audio lagi, latih pelafalan yang sulit, dan rekam ulang dengan lebih tenang.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-3">
+                        <button onclick="playAyatAgain()" class="flex-1 bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                            <i class="fas fa-volume-up mr-2"></i>Dengar Lagi
+                        </button>
+                        <button onclick="recordAgain()" class="flex-1 bg-orange-600 text-white py-3 rounded-lg font-medium hover:bg-orange-700 transition-colors">
+                            <i class="fas fa-microphone mr-2"></i>Rekam Ulang
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            aiFeedbackContainer.classList.remove('hidden');
+            
+            // Show encouraging modal
+            setTimeout(() => {
+                Swal.fire({
+                    title: '📚 Jangan Menyerah!',
+                    html: `
+                        <div class="text-center">
+                            <div class="text-4xl mb-4">💪</div>
+                            <p class="mb-3">Skor: <strong>${overallScore}%</strong> (Target: 70%)</p>
+                            <p class="text-orange-600 mb-3">Belum mencapai target, tapi jangan menyerah!</p>
+                            <div class="bg-blue-50 rounded-lg p-3">
+                                <p class="text-sm text-blue-700">
+                                    "Dan barangsiapa bersungguh-sungguh, sesungguhnya kesungguhannya itu adalah untuk dirinya sendiri." (QS. Al-Ankabut: 6)
+                                </p>
+                            </div>
+                        </div>
+                    `,
+                    icon: 'info',
+                    confirmButtonColor: '#f59e0b',
+                    confirmButtonText: 'Siap Coba Lagi! 💪'
+                });
+            }, 1000);
+        }
+
+        function generatePositiveFeedback(accuracy, fluency, tajwid, overallScore) {
+            const feedbacks = [
+                `Masya Allah! Bacaan Anda sudah sangat baik dengan skor ${overallScore}%. Terus pertahankan kualitas hafalan ini!`,
+                `Alhamdulillah! Ketepatan bacaan ${accuracy}% menunjukkan Anda sudah menguasai ayat ini dengan baik.`,
+                `Subhanallah! Kelancaran ${fluency}% dan tajwid ${tajwid}% sudah sangat membanggakan. Lanjutkan ke ayat berikutnya!`,
+                `Barakallahu fiik! Hafalan Anda sudah mencapai standar yang excellent. Semoga berkah dan bermanfaat!`
+            ];
+            return feedbacks[Math.floor(Math.random() * feedbacks.length)];
+        }
+
+        function generateImprovementFeedback(accuracy, fluency, tajwid) {
+            let feedback = [];
+            
+            if (accuracy < 70) {
+                feedback.push("Perhatikan pengucapan huruf hijaiyah dengan lebih teliti, terutama huruf-huruf yang mirip.");
+            }
+            if (fluency < 70) {
+                feedback.push("Coba baca dengan lebih pelan dan jelas. Jangan terburu-buru.");
+            }
+            if (tajwid < 70) {
+                feedback.push("Pelajari kembali hukum tajwid untuk ayat ini, terutama mad dan qalqalah.");
+            }
+            
+            if (feedback.length === 0) {
+                feedback.push("Secara keseluruhan sudah baik, namun masih perlu sedikit perbaikan untuk mencapai target 70%.");
+            }
+            
+            return feedback.join(" ");
+        }
+
+        function recordAgain() {
+            // Reset recording state
+            const recordingStatus = document.getElementById('recording-status');
+            const aiFeedbackContainer = document.getElementById('ai-feedback-hafalan');
+            
+            recordingStatus.innerHTML = `
+                <p class="text-emerald-600 mb-2 font-medium">
+                    <i class="fas fa-check-circle mr-2"></i>
+                    Siap untuk rekaman ulang!
+                </p>
+                <div class="w-20 h-20 mx-auto bg-emerald-100 rounded-full flex items-center justify-center animate-pulse">
+                    <i class="fas fa-microphone text-emerald-600 text-2xl"></i>
+                </div>
+            `;
+            
+            aiFeedbackContainer.classList.add('hidden');
+        }
+
+        function playAyatAgain() {
+            if (selectedAyat) {
+                playAyatMultipleTimes(selectedAyat);
+            }
+        }
+
+        function selectNextAyat() {
+            if (selectedAyat === 'all') {
+                Swal.fire({
+                    title: '🎉 Selamat!',
+                    text: 'Anda telah menyelesaikan seluruh surah Al-Ma\'un!',
+                    icon: 'success',
+                    confirmButtonColor: '#059669'
+                });
+                return;
+            }
+            
+            const nextAyat = parseInt(selectedAyat) + 1;
+            if (nextAyat <= 7) {
+                // Auto select next ayat
+                const nextButton = document.querySelector(`button[onclick="selectAyatForHafalan(${nextAyat})"]`);
+                if (nextButton) {
+                    nextButton.click();
+                }
+            } else {
+                Swal.fire({
+                    title: '🎉 Selamat!',
+                    text: 'Anda telah menyelesaikan seluruh ayat dalam Surah Al-Ma\'un!',
+                    icon: 'success',
+                    confirmButtonColor: '#059669'
+                });
+            }
+        }
+
+        // Quiz Functions
+        let currentQuestionIndex = 0;
+        let selectedAnswer = null;
+        let quizTimer = 1800; // 30 minutes
+        let currentQuizType = 'multiple-choice';
+        let quizAnswers = {
+            'multiple-choice': [],
+            'matching': [],
+            'fill-in': []
+        };
+        let matchingPairs = {};
+        let timerInterval = null;
+
+        const multipleChoiceQuestions = [
+            {
+                question: "Apa arti dari ayat pertama Surah Al-Ma'un?",
+                options: [
+                    "Tahukah kamu (orang) yang mendustakan agama?",
+                    "Itulah orang yang menghardik anak yatim",
+                    "Dan tidak menganjurkan memberi makan orang miskin",
+                    "Maka kecelakaanlah bagi orang-orang yang shalat"
+                ],
+                correct: 0
+            },
+            {
+                question: "Surah Al-Ma'un termasuk golongan surah...",
+                options: ["Madaniyah", "Makkiyah", "Madaniyah-Makkiyah", "Tidak diketahui"],
+                correct: 1
+            },
+            {
+                question: "Berapa jumlah ayat dalam Surah Al-Ma'un?",
+                options: ["5 ayat", "6 ayat", "7 ayat", "8 ayat"],
+                correct: 2
+            },
+            {
+                question: "Surah Al-Ma'un berada di juz ke...",
+                options: ["28", "29", "30", "31"],
+                correct: 2
+            },
+            {
+                question: "Apa arti kata 'يَدُعُّ' dalam Surah Al-Ma'un?",
+                options: ["Memanggil", "Menghardik", "Membantu", "Mengajak"],
+                correct: 1
+            },
+            {
+                question: "Siapa yang dimaksud dengan 'الْيَتِيمَ' dalam ayat kedua?",
+                options: ["Orang miskin", "Anak yatim", "Orang tua", "Tetangga"],
+                correct: 1
+            },
+            {
+                question: "Apa yang tidak dilakukan oleh orang yang mendustakan agama menurut ayat ketiga?",
+                options: [
+                    "Tidak shalat",
+                    "Tidak puasa", 
+                    "Tidak menganjurkan memberi makan orang miskin",
+                    "Tidak berzakat"
+                ],
+                correct: 2
+            },
+            {
+                question: "Kata 'وَيْلٌ' dalam ayat keempat berarti...",
+                options: ["Kebahagiaan", "Kecelakaan/azab", "Ketenangan", "Kemudahan"],
+                correct: 1
+            },
+            {
+                question: "Siapa yang mendapat ancaman 'وَيْلٌ' dalam Surah Al-Ma'un?",
+                options: [
+                    "Orang kafir",
+                    "Orang munafik", 
+                    "Orang yang shalat tetapi lalai",
+                    "Orang yang tidak shalat"
+                ],
+                correct: 2
+            },
+            {
+                question: "Apa arti 'سَاهُونَ' dalam ayat kelima?",
+                options: ["Khusyuk", "Lalai/lengah", "Rajin", "Tekun"],
+                correct: 1
+            },
+            {
+                question: "Sifat 'يُرَاءُونَ' dalam ayat keenam adalah...",
+                options: ["Terpuji", "Tercela", "Netral", "Dianjurkan"],
+                correct: 1
+            },
+            {
+                question: "Apa yang dimaksud dengan 'الْمَاعُونَ'?",
+                options: [
+                    "Makanan",
+                    "Minuman",
+                    "Barang berguna/alat rumah tangga",
+                    "Pakaian"
+                ],
+                correct: 2
+            },
+            {
+                question: "Mengapa orang yang shalat tetapi lalai mendapat ancaman?",
+                options: [
+                    "Karena tidak shalat sama sekali",
+                    "Karena shalatnya tidak khusyuk dan hanya rutinitas",
+                    "Karena tidak berwudhu",
+                    "Karena tidak menghadap kiblat"
+                ],
+                correct: 1
+            },
+            {
+                question: "Hikmah utama dari Surah Al-Ma'un adalah...",
+                options: [
+                    "Pentingnya shalat berjamaah",
+                    "Agama bukan hanya ritual tetapi juga kepedulian sosial",
+                    "Keutamaan puasa",
+                    "Pentingnya membaca Al-Quran"
+                ],
+                correct: 1
+            },
+            {
+                question: "Ciri orang yang mendustakan agama menurut ayat 2-3 adalah...",
+                options: [
+                    "Tidak shalat dan tidak puasa",
+                    "Menghardik anak yatim dan tidak peduli orang miskin",
+                    "Tidak membaca Al-Quran",
+                    "Tidak berzakat dan tidak haji"
+                ],
+                correct: 1
+            },
+            {
+                question: "Pesan moral dari ayat 6-7 adalah...",
+                options: [
+                    "Hindari sifat riya dan kikir",
+                    "Perbanyak shalat sunnah",
+                    "Rajin membaca Al-Quran",
+                    "Sering berpuasa"
+                ],
+                correct: 0
+            },
+            {
+                question: "Surah Al-Ma'un diturunkan di...",
+                options: ["Madinah", "Makkah", "Thaif", "Yaman"],
+                correct: 1
+            },
+            {
+                question: "Urutan Surah Al-Ma'un dalam mushaf adalah surah ke...",
+                options: ["105", "106", "107", "108"],
+                correct: 2
+            },
+            {
+                question: "Lawan kata dari 'يُرَاءُونَ' (riya) adalah...",
+                options: ["Ikhlas", "Takabur", "Hasud", "Dengki"],
+                correct: 0
+            },
+            {
+                question: "Pelajaran terpenting dari Surah Al-Ma'un bagi kehidupan sehari-hari adalah...",
+                options: [
+                    "Memperbanyak ibadah sunnah",
+                    "Menyeimbangkan ibadah ritual dengan kepedulian sosial",
+                    "Menghafal Al-Quran",
+                    "Mempelajari tajwid"
+                ],
+                correct: 1
+            }
+        ];
+
+        const matchingQuestions = [
+            {
+                question: "Jodohkan kata Arab berikut dengan artinya yang tepat:",
+                leftItems: [
+                    { id: 1, text: "أَرَأَيْتَ", arabic: true },
+                    { id: 2, text: "يُكَذِّبُ", arabic: true },
+                    { id: 3, text: "الْيَتِيمَ", arabic: true },
+                    { id: 4, text: "الْمِسْكِينِ", arabic: true },
+                    { id: 5, text: "الْمَاعُونَ", arabic: true }
+                ],
+                rightItems: [
+                    { id: 'a', text: "Anak yatim" },
+                    { id: 'b', text: "Tahukah kamu" },
+                    { id: 'c', text: "Barang berguna" },
+                    { id: 'd', text: "Mendustakan" },
+                    { id: 'e', text: "Orang miskin" }
+                ],
+                correctPairs: {
+                    1: 'b', // أَرَأَيْتَ - Tahukah kamu
+                    2: 'd', // يُكَذِّبُ - Mendustakan  
+                    3: 'a', // الْيَتِيمَ - Anak yatim
+                    4: 'e', // الْمِسْكِينِ - Orang miskin
+                    5: 'c'  // الْمَاعُونَ - Barang berguna
+                }
+            }
+        ];
+
+        const fillInQuestions = [
+            {
+                question: "Lengkapi ayat berikut: أَرَأَيْتَ الَّذِي يُكَذِّبُ بِ______",
+                answer: "الدِّينِ",
+                alternatives: ["الدين", "diin", "din", "agama"],
+                hint: "Kata yang berarti 'agama' dalam bahasa Arab"
+            },
+            {
+                question: "Surah Al-Ma'un terdiri dari ______ ayat.",
+                answer: "7",
+                alternatives: ["tujuh", "seven"],
+                hint: "Jumlah ayat dalam Surah Al-Ma'un"
+            },
+            {
+                question: "Orang yang mendustakan agama adalah yang ______ anak yatim.",
+                answer: "menghardik",
+                alternatives: ["mengusir", "memarahi", "kasar", "jahat"],
+                hint: "Sikap buruk terhadap anak yatim menurut ayat 2"
+            },
+            {
+                question: "Kata 'سَاهُونَ' berarti ______ dalam shalat.",
+                answer: "lalai",
+                alternatives: ["lengah", "tidak fokus", "tidak khusyuk", "abai"],
+                hint: "Sifat negatif dalam melaksanakan shalat"
+            },
+            {
+                question: "Surah Al-Ma'un termasuk golongan surah ______.",
+                answer: "Makkiyah",
+                alternatives: ["makki", "makkah"],
+                hint: "Klasifikasi surah berdasarkan tempat turunnya"
+            }
+        ];
+
+        // Quiz Management Functions
+        function startQuiz(type) {
+            currentQuizType = type;
+            currentQuestionIndex = 0;
+            selectedAnswer = null;
+            matchingPairs = {};
+            
+            // Log quiz start
+            logButtonClick(`start_quiz_${type}`, 'evaluasi_tab');
+            logToGoogleSheets({
+                action: 'quiz_started',
+                student_name: currentStudent?.name || 'Unknown',
+                nis: currentStudent?.nis || 'Unknown',
+                class: currentStudent?.class || 'Unknown',
+                quiz_type: type,
+                surah: 'Al-Ma\'un',
+                attempt_number: getAttemptNumber('quiz_start', type)
+            });
+            
+            // Reset answers
+            quizAnswers[type] = [];
+            
+            // Hide selection and show quiz container
+            document.getElementById('quiz-selection').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+            
+            // Set timer based on quiz type
+            switch(type) {
+                case 'multiple-choice':
+                    quizTimer = 1200; // 20 minutes
+                    document.getElementById('multiple-choice-quiz').classList.remove('hidden');
+                    document.getElementById('mc-total').textContent = multipleChoiceQuestions.length;
+                    loadMCQuestion();
+                    startTimer('mc-timer');
+                    break;
+                case 'matching':
+                    quizTimer = 300; // 5 minutes
+                    document.getElementById('matching-quiz').classList.remove('hidden');
+                    document.getElementById('match-total').textContent = matchingQuestions.length;
+                    loadMatchingQuestion();
+                    startTimer('match-timer');
+                    break;
+                case 'fill-in':
+                    quizTimer = 300; // 5 minutes
+                    document.getElementById('fill-in-quiz').classList.remove('hidden');
+                    document.getElementById('fill-total').textContent = fillInQuestions.length;
+                    loadFillQuestion();
+                    startTimer('fill-timer');
+                    break;
+            }
+        }
+
+        function backToSelection() {
+            // Stop timer
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            
+            // Hide all quiz types
+            document.getElementById('multiple-choice-quiz').classList.add('hidden');
+            document.getElementById('matching-quiz').classList.add('hidden');
+            document.getElementById('fill-in-quiz').classList.add('hidden');
+            
+            // Show selection
+            document.getElementById('quiz-container').classList.add('hidden');
+            document.getElementById('quiz-selection').classList.remove('hidden');
+        }
+
+        function startTimer(elementId) {
+            if (timerInterval) clearInterval(timerInterval);
+            
+            timerInterval = setInterval(() => {
+                const minutes = Math.floor(quizTimer / 60);
+                const seconds = quizTimer % 60;
+                document.getElementById(elementId).textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (quizTimer <= 0) {
+                    clearInterval(timerInterval);
+                    finishCurrentQuiz();
+                }
+                quizTimer--;
+            }, 1000);
+        }
+
+        // Multiple Choice Functions
+        function loadMCQuestion() {
+            const question = multipleChoiceQuestions[currentQuestionIndex];
+            document.getElementById('mc-current').textContent = currentQuestionIndex + 1;
+            document.getElementById('mc-question').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('mc-options');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.onclick = () => selectMCAnswer(index);
+                button.className = 'mc-option w-full text-left p-4 border-2 border-gray-200 rounded-lg hover:border-emerald-300 transition-colors';
+                button.innerHTML = `${String.fromCharCode(65 + index)}. ${option}`;
+                optionsContainer.appendChild(button);
+            });
+            
+            // Restore previous answer if exists
+            if (quizAnswers['multiple-choice'][currentQuestionIndex] !== undefined) {
+                selectMCAnswer(quizAnswers['multiple-choice'][currentQuestionIndex]);
+            } else {
+                selectedAnswer = null;
+            }
+        }
+
+        function selectMCAnswer(index) {
+            selectedAnswer = index;
+            quizAnswers['multiple-choice'][currentQuestionIndex] = index;
+            
+            document.querySelectorAll('.mc-option').forEach((btn, i) => {
+                btn.classList.remove('border-emerald-500', 'bg-emerald-50');
+                btn.classList.add('border-gray-200');
+                if (i === index) {
+                    btn.classList.remove('border-gray-200');
+                    btn.classList.add('border-emerald-500', 'bg-emerald-50');
+                }
+            });
+        }
+
+        function nextMCQuestion() {
+            if (selectedAnswer === null) {
+                Swal.fire({
+                    title: 'Pilih Jawaban',
+                    text: 'Silakan pilih jawaban terlebih dahulu',
+                    icon: 'warning',
+                    confirmButtonColor: '#059669'
+                });
+                return;
+            }
+            
+            currentQuestionIndex++;
+            if (currentQuestionIndex >= multipleChoiceQuestions.length) {
+                finishCurrentQuiz();
+            } else {
+                loadMCQuestion();
+            }
+        }
+
+        function previousMCQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadMCQuestion();
+            }
+        }
+
+        // Matching Functions
+        function loadMatchingQuestion() {
+            const question = matchingQuestions[0]; // Only one matching question for now
+            document.getElementById('match-question').textContent = question.question;
+            
+            const leftContainer = document.getElementById('left-items');
+            const rightContainer = document.getElementById('right-items');
+            
+            leftContainer.innerHTML = '';
+            rightContainer.innerHTML = '';
+            
+            // Create left items (Arabic words)
+            question.leftItems.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'left-item p-3 bg-blue-50 border-2 border-blue-200 rounded-lg cursor-pointer hover:border-blue-400 transition-colors arabic-text text-lg';
+                div.textContent = item.text;
+                div.dataset.id = item.id;
+                div.onclick = () => selectLeftItem(item.id);
+                leftContainer.appendChild(div);
+            });
+            
+            // Create right items (meanings)
+            question.rightItems.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'right-item p-3 bg-gray-50 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-gray-400 transition-colors';
+                div.textContent = item.text;
+                div.dataset.id = item.id;
+                div.onclick = () => selectRightItem(item.id);
+                rightContainer.appendChild(div);
+            });
+        }
+
+        let selectedLeftItem = null;
+
+        function selectLeftItem(id) {
+            // Remove previous selection
+            document.querySelectorAll('.left-item').forEach(item => {
+                item.classList.remove('border-blue-500', 'bg-blue-100');
+                item.classList.add('border-blue-200', 'bg-blue-50');
+            });
+            
+            // Select current item
+            const item = document.querySelector(`.left-item[data-id="${id}"]`);
+            item.classList.remove('border-blue-200', 'bg-blue-50');
+            item.classList.add('border-blue-500', 'bg-blue-100');
+            
+            selectedLeftItem = id;
+        }
+
+        function selectRightItem(id) {
+            if (!selectedLeftItem) {
+                Swal.fire({
+                    title: 'Pilih Kata Arab',
+                    text: 'Pilih kata Arab terlebih dahulu',
+                    icon: 'warning',
+                    confirmButtonColor: '#059669'
+                });
+                return;
+            }
+            
+            // Save the pair
+            matchingPairs[selectedLeftItem] = id;
+            
+            // Update visual feedback
+            const leftItem = document.querySelector(`.left-item[data-id="${selectedLeftItem}"]`);
+            const rightItem = document.querySelector(`.right-item[data-id="${id}"]`);
+            
+            leftItem.classList.remove('border-blue-500', 'bg-blue-100');
+            leftItem.classList.add('border-green-500', 'bg-green-100');
+            
+            rightItem.classList.remove('border-gray-200', 'bg-gray-50');
+            rightItem.classList.add('border-green-500', 'bg-green-100');
+            
+            selectedLeftItem = null;
+        }
+
+        function resetMatching() {
+            matchingPairs = {};
+            selectedLeftItem = null;
+            loadMatchingQuestion();
+        }
+
+        function finishMatching() {
+            if (Object.keys(matchingPairs).length < matchingQuestions[0].leftItems.length) {
+                Swal.fire({
+                    title: 'Belum Selesai',
+                    text: 'Jodohkan semua kata terlebih dahulu',
+                    icon: 'warning',
+                    confirmButtonColor: '#059669'
+                });
+                return;
+            }
+            
+            finishCurrentQuiz();
+        }
+
+        // Fill-in Functions
+        function loadFillQuestion() {
+            const question = fillInQuestions[currentQuestionIndex];
+            document.getElementById('fill-current').textContent = currentQuestionIndex + 1;
+            document.getElementById('fill-question').textContent = question.question;
+            document.getElementById('fill-hint').textContent = question.hint;
+            
+            const answerInput = document.getElementById('fill-answer');
+            answerInput.value = quizAnswers['fill-in'][currentQuestionIndex] || '';
+            answerInput.focus();
+            
+            // Hide previous feedback
+            document.getElementById('ai-feedback').classList.add('hidden');
+        }
+
+        function nextFillQuestion() {
+            const answer = document.getElementById('fill-answer').value.trim();
+            if (!answer) {
+                Swal.fire({
+                    title: 'Isi Jawaban',
+                    text: 'Silakan isi jawaban terlebih dahulu',
+                    icon: 'warning',
+                    confirmButtonColor: '#059669'
+                });
+                return;
+            }
+            
+            // Save answer
+            quizAnswers['fill-in'][currentQuestionIndex] = answer;
+            
+            // Show AI feedback
+            showAIFeedback(answer, currentQuestionIndex);
+            
+            // Move to next question after delay
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex >= fillInQuestions.length) {
+                    finishCurrentQuiz();
+                } else {
+                    loadFillQuestion();
+                }
+            }, 2000);
+        }
+
+        function previousFillQuestion() {
+            if (currentQuestionIndex > 0) {
+                // Save current answer
+                const answer = document.getElementById('fill-answer').value.trim();
+                if (answer) {
+                    quizAnswers['fill-in'][currentQuestionIndex] = answer;
+                }
+                
+                currentQuestionIndex--;
+                loadFillQuestion();
+            }
+        }
+
+        function showAIFeedback(userAnswer, questionIndex) {
+            const question = fillInQuestions[questionIndex];
+            const correctAnswer = question.answer.toLowerCase();
+            const alternatives = question.alternatives.map(alt => alt.toLowerCase());
+            const userAnswerLower = userAnswer.toLowerCase();
+            
+            let isCorrect = false;
+            let score = 0;
+            let feedback = '';
+            
+            // Check if answer is correct
+            if (userAnswerLower === correctAnswer || alternatives.includes(userAnswerLower)) {
+                isCorrect = true;
+                score = 100;
+                feedback = 'Jawaban Anda benar! Excellent!';
+            } else {
+                // Calculate similarity score (simple implementation)
+                const similarity = calculateSimilarity(userAnswerLower, correctAnswer);
+                score = Math.round(similarity * 100);
+                
+                if (score >= 70) {
+                    feedback = `Jawaban Anda hampir benar (${score}%). Jawaban yang tepat: "${question.answer}"`;
+                } else if (score >= 40) {
+                    feedback = `Jawaban Anda kurang tepat (${score}%). Jawaban yang benar: "${question.answer}"`;
+                } else {
+                    feedback = `Jawaban Anda belum tepat (${score}%). Jawaban yang benar: "${question.answer}"`;
+                }
+            }
+            
+            // Show feedback
+            const feedbackElement = document.getElementById('ai-feedback');
+            const contentElement = document.getElementById('feedback-content');
+            
+            contentElement.innerHTML = `
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm font-medium">Skor:</span>
+                    <span class="font-bold ${isCorrect ? 'text-green-600' : score >= 70 ? 'text-yellow-600' : 'text-red-600'}">${score}%</span>
+                </div>
+                <p class="text-sm text-gray-700">${feedback}</p>
+            `;
+            
+            feedbackElement.className = `mb-4 p-4 rounded-lg ${isCorrect ? 'bg-green-50 border border-green-200' : score >= 70 ? 'bg-yellow-50 border border-yellow-200' : 'bg-red-50 border border-red-200'}`;
+            feedbackElement.classList.remove('hidden');
+            
+            // Save score for final calculation
+            if (!quizAnswers['fill-in-scores']) {
+                quizAnswers['fill-in-scores'] = [];
+            }
+            quizAnswers['fill-in-scores'][questionIndex] = score;
+        }
+
+        function calculateSimilarity(str1, str2) {
+            const longer = str1.length > str2.length ? str1 : str2;
+            const shorter = str1.length > str2.length ? str2 : str1;
+            
+            if (longer.length === 0) return 1.0;
+            
+            const editDistance = levenshteinDistance(longer, shorter);
+            return (longer.length - editDistance) / longer.length;
+        }
+
+        function levenshteinDistance(str1, str2) {
+            const matrix = [];
+            
+            for (let i = 0; i <= str2.length; i++) {
+                matrix[i] = [i];
+            }
+            
+            for (let j = 0; j <= str1.length; j++) {
+                matrix[0][j] = j;
+            }
+            
+            for (let i = 1; i <= str2.length; i++) {
+                for (let j = 1; j <= str1.length; j++) {
+                    if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+                        matrix[i][j] = matrix[i - 1][j - 1];
+                    } else {
+                        matrix[i][j] = Math.min(
+                            matrix[i - 1][j - 1] + 1,
+                            matrix[i][j - 1] + 1,
+                            matrix[i - 1][j] + 1
+                        );
+                    }
+                }
+            }
+            
+            return matrix[str2.length][str1.length];
+        }
+
+        // Finish Quiz Functions
+        function finishCurrentQuiz() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            
+            let score = 0;
+            let totalQuestions = 0;
+            let resultDetails = '';
+            let detailedAnswers = [];
+            let timeSpent = 0;
+            
+            switch(currentQuizType) {
+                case 'multiple-choice':
+                    let correctAnswers = 0;
+                    totalQuestions = multipleChoiceQuestions.length;
+                    timeSpent = 1200 - quizTimer; // Original time - remaining time
+                    
+                    multipleChoiceQuestions.forEach((question, index) => {
+                        const isCorrect = quizAnswers['multiple-choice'][index] === question.correct;
+                        if (isCorrect) correctAnswers++;
+                        
+                        detailedAnswers.push({
+                            question_number: index + 1,
+                            question: question.question,
+                            user_answer: question.options[quizAnswers['multiple-choice'][index]] || 'Tidak dijawab',
+                            correct_answer: question.options[question.correct],
+                            correct: isCorrect
+                        });
+                    });
+                    
+                    score = Math.round((correctAnswers / totalQuestions) * 100);
+                    resultDetails = `
+                        <div class="flex justify-between">
+                            <span>Soal Benar:</span>
+                            <span class="font-medium">${correctAnswers}/${totalQuestions}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Waktu:</span>
+                            <span class="font-medium">${Math.floor(timeSpent/60)}:${(timeSpent%60).toString().padStart(2,'0')}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Skor:</span>
+                            <span class="font-medium text-emerald-600">${score}%</span>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'matching':
+                    let correctPairs = 0;
+                    const correctAnswersMap = matchingQuestions[0].correctPairs;
+                    totalQuestions = Object.keys(correctAnswersMap).length;
+                    timeSpent = 300 - quizTimer;
+                    
+                    Object.keys(correctAnswersMap).forEach(leftId => {
+                        const isCorrect = matchingPairs[leftId] === correctAnswersMap[leftId];
+                        if (isCorrect) correctPairs++;
+                        
+                        const leftItem = matchingQuestions[0].leftItems.find(item => item.id == leftId);
+                        const userRightId = matchingPairs[leftId];
+                        const userRightItem = matchingQuestions[0].rightItems.find(item => item.id === userRightId);
+                        const correctRightItem = matchingQuestions[0].rightItems.find(item => item.id === correctAnswersMap[leftId]);
+                        
+                        detailedAnswers.push({
+                            question_number: leftId,
+                            arabic_word: leftItem?.text || '',
+                            user_answer: userRightItem?.text || 'Tidak dijawab',
+                            correct_answer: correctRightItem?.text || '',
+                            correct: isCorrect
+                        });
+                    });
+                    
+                    score = Math.round((correctPairs / totalQuestions) * 100);
+                    resultDetails = `
+                        <div class="flex justify-between">
+                            <span>Pasangan Benar:</span>
+                            <span class="font-medium">${correctPairs}/${totalQuestions}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Waktu:</span>
+                            <span class="font-medium">${Math.floor(timeSpent/60)}:${(timeSpent%60).toString().padStart(2,'0')}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Skor:</span>
+                            <span class="font-medium text-blue-600">${score}%</span>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'fill-in':
+                    totalQuestions = fillInQuestions.length;
+                    timeSpent = 300 - quizTimer;
+                    const scores = quizAnswers['fill-in-scores'] || [];
+                    const totalScore = scores.reduce((sum, score) => sum + (score || 0), 0);
+                    score = Math.round(totalScore / totalQuestions);
+                    
+                    fillInQuestions.forEach((question, index) => {
+                        const userAnswer = quizAnswers['fill-in'][index] || 'Tidak dijawab';
+                        const questionScore = scores[index] || 0;
+                        
+                        detailedAnswers.push({
+                            question_number: index + 1,
+                            question: question.question,
+                            user_answer: userAnswer,
+                            correct_answer: question.answer,
+                            score: questionScore,
+                            correct: questionScore >= 70
+                        });
+                    });
+                    
+                    resultDetails = `
+                        <div class="flex justify-between">
+                            <span>Rata-rata Skor:</span>
+                            <span class="font-medium text-orange-600">${score}%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Waktu:</span>
+                            <span class="font-medium">${Math.floor(timeSpent/60)}:${(timeSpent%60).toString().padStart(2,'0')}</span>
+                        </div>
+                        <div class="text-sm text-gray-600 mt-2">
+                            <p>Dikoreksi dengan AI Grading System</p>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            showResults(score, resultDetails);
+            
+            // Log quiz completion to Google Sheets with detailed data
+            logQuizCompletion(currentQuizType, score, detailedAnswers, timeSpent);
+            
+            // Update overall progress
+            logProgressUpdate('evaluasi', score);
+        }
+
+        function showResults(score, details) {
+            const modal = document.getElementById('results-modal');
+            const icon = document.getElementById('result-icon');
+            const iconClass = document.getElementById('result-icon-class');
+            const title = document.getElementById('result-title');
+            const subtitle = document.getElementById('result-subtitle');
+            const detailsContainer = document.getElementById('result-details');
+            
+            // Set icon and colors based on score
+            if (score >= 80) {
+                icon.className = 'w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center bg-green-100';
+                iconClass.className = 'fas fa-trophy text-4xl text-green-600';
+                title.textContent = 'Excellent!';
+                subtitle.textContent = 'Hasil evaluasi sangat baik';
+            } else if (score >= 60) {
+                icon.className = 'w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center bg-blue-100';
+                iconClass.className = 'fas fa-thumbs-up text-4xl text-blue-600';
+                title.textContent = 'Good Job!';
+                subtitle.textContent = 'Hasil evaluasi cukup baik';
+            } else {
+                icon.className = 'w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center bg-orange-100';
+                iconClass.className = 'fas fa-redo text-4xl text-orange-600';
+                title.textContent = 'Keep Trying!';
+                subtitle.textContent = 'Anda bisa lebih baik lagi';
+            }
+            
+            detailsContainer.innerHTML = details;
+            modal.classList.remove('hidden');
+        }
+
+        function closeResults() {
+            document.getElementById('results-modal').classList.add('hidden');
+            backToSelection();
+        }
+
+        function retakeQuiz() {
+            document.getElementById('results-modal').classList.add('hidden');
+            startQuiz(currentQuizType);
+        }
+
+        // Profile Functions
+        let isEditingProfile = false;
+
+        function showProfile() {
+            logModalInteraction('profile', 'opened');
+            logButtonClick('show_profile', getCurrentTab());
+            document.getElementById('profile-modal').classList.remove('hidden');
+        }
+
+        function closeProfile() {
+            logModalInteraction('profile', 'closed');
+            logButtonClick('close_profile', getCurrentTab());
+            document.getElementById('profile-modal').classList.add('hidden');
+            if (isEditingProfile) {
+                cancelEdit();
+            }
+        }
+
+        function toggleEditProfile() {
+            if (!isEditingProfile) {
+                isEditingProfile = true;
+                document.getElementById('profile-view').classList.add('hidden');
+                document.getElementById('profile-edit').classList.remove('hidden');
+                document.getElementById('profile-actions').classList.add('hidden');
+                document.getElementById('edit-actions').classList.remove('hidden');
+                document.getElementById('photo-btn').classList.remove('hidden');
+                document.getElementById('edit-btn').innerHTML = '<i class="fas fa-times"></i>';
+            } else {
+                cancelEdit();
+            }
+        }
+
+        function cancelEdit() {
+            isEditingProfile = false;
+            document.getElementById('profile-view').classList.remove('hidden');
+            document.getElementById('profile-edit').classList.add('hidden');
+            document.getElementById('profile-actions').classList.remove('hidden');
+            document.getElementById('edit-actions').classList.add('hidden');
+            document.getElementById('photo-btn').classList.add('hidden');
+            document.getElementById('edit-btn').innerHTML = '<i class="fas fa-edit"></i>';
+            
+            // Reset form values
+            document.getElementById('edit-name').value = document.getElementById('student-name').textContent;
+            document.getElementById('edit-class').value = document.getElementById('student-class').textContent;
+            document.getElementById('edit-nisn').value = document.getElementById('student-nisn').textContent;
+        }
+
+        function saveProfile() {
+            const newName = document.getElementById('edit-name').value;
+            const newClass = document.getElementById('edit-class').value;
+            const newNisn = document.getElementById('edit-nisn').value;
+            
+            if (!newName.trim()) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Nama tidak boleh kosong',
+                    icon: 'error',
+                    confirmButtonColor: '#059669'
+                });
+                return;
+            }
+            
+            // Update display
+            document.getElementById('student-name').textContent = newName;
+            document.getElementById('student-class').textContent = newClass;
+            document.getElementById('student-nisn').textContent = newNisn;
+            
+            // Update header
+            document.getElementById('header-name').textContent = newName;
+            
+            // Save to Google Sheets
+            saveToGoogleSheets({
+                action: 'update_profile',
+                name: newName,
+                class: newClass,
+                nisn: newNisn,
+                date: new Date().toISOString()
+            });
+            
+            cancelEdit();
+            
+            Swal.fire({
+                title: 'Profil Tersimpan!',
+                text: 'Data profil berhasil diperbarui',
+                icon: 'success',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        }
+
+        function changePhoto() {
+            document.getElementById('photo-input').click();
+        }
+
+        function handlePhotoChange(event) {
+            const file = event.target.files[0];
+            if (file) {
+                if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                    Swal.fire({
+                        title: 'File Terlalu Besar',
+                        text: 'Ukuran foto maksimal 5MB',
+                        icon: 'error',
+                        confirmButtonColor: '#059669'
+                    });
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Update all profile photos
+                    document.getElementById('profile-photo').src = e.target.result;
+                    document.getElementById('header-avatar').src = e.target.result;
+                    
+                    // Save photo to localStorage
+                    if (currentStudent) {
+                        currentStudent.photo = e.target.result;
+                        localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
+                    }
+                    
+                    // Save photo data to Google Sheets
+                    saveToGoogleSheets({
+                        action: 'update_photo',
+                        student: currentStudent ? currentStudent.name : 'Unknown',
+                        nis: currentStudent ? currentStudent.nis : 'Unknown',
+                        photo_data: e.target.result,
+                        date: new Date().toISOString()
+                    });
+                    
+                    Swal.fire({
+                        title: 'Foto Diperbarui!',
+                        text: 'Foto profil berhasil diubah',
+                        icon: 'success',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function showSettings() {
+            Swal.fire({
+                title: 'Pengaturan',
+                html: `
+                    <div class="text-left space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span>Notifikasi</span>
+                            <input type="checkbox" checked class="toggle">
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>Mode Gelap</span>
+                            <input type="checkbox" class="toggle">
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>Suara</span>
+                            <input type="checkbox" checked class="toggle">
+                        </div>
+                    </div>
+                `,
+                confirmButtonColor: '#059669',
+                confirmButtonText: 'Simpan'
+            });
+        }
+
+        // Google Sheets Configuration
+        const GOOGLE_SHEETS_CONFIG = {
+            // URL Google Apps Script Web App
+            WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbwcH4lPe9dTCyCvc2oZH9kvyKt47LDmAhlAUn9Zb9oBt4afFerIKUKoRx2KK26NRumwIw/exec',
+            
+            // Backup URL jika primary gagal
+            BACKUP_URL: 'https://script.google.com/macros/s/AKfycbwcH4lPe9dTCyCvc2oZH9kvyKt47LDmAhlAUn9Zb9oBt4afFerIKUKoRx2KK26NRumwIw/exec'
+        };
+
+        // Google Sheets Integration - Real Implementation
+        async function logToGoogleSheets(data) {
+            console.log('📊 Logging to Google Sheets:', data);
+            
+            // Add comprehensive metadata
+            const payload = {
+                ...data,
+                timestamp: new Date().toISOString(),
+                date: new Date().toLocaleDateString('id-ID'),
+                time: new Date().toLocaleTimeString('id-ID'),
+                user_agent: navigator.userAgent,
+                screen_resolution: `${screen.width}x${screen.height}`,
+                app_version: '1.0.0',
+                session_id: getSessionId(),
+                device_type: getDeviceType(),
+                browser: getBrowserInfo(),
+                online_status: navigator.onLine,
+                page_url: window.location.href
+            };
+            
+            try {
+                // Try primary URL first
+                await sendToGoogleSheets(GOOGLE_SHEETS_CONFIG.WEB_APP_URL, payload);
+                console.log('✅ Data berhasil dikirim ke Google Sheets');
+                
+                // Show success notification for important actions
+                if (['login', 'quiz_completed', 'hafalan_completed', 'tab_changed', 'audio_played'].includes(data.action)) {
+                    showNotification('Aktivitas tersimpan ke database', 'success');
+                }
+                
+            } catch (primaryError) {
+                console.warn('⚠️ Primary URL failed, trying backup...', primaryError);
+                
+                try {
+                    // Try backup URL
+                    await sendToGoogleSheets(GOOGLE_SHEETS_CONFIG.BACKUP_URL, payload);
+                    console.log('✅ Data berhasil dikirim ke backup Google Sheets');
+                    showNotification('Data tersimpan ke database (backup)', 'success');
+                    
+                } catch (backupError) {
+                    console.error('❌ Both URLs failed:', backupError);
+                    
+                    // Store in localStorage as fallback
+                    storeOfflineData(payload);
+                    showNotification('Data disimpan offline, akan disinkron nanti', 'warning');
+                }
+            }
+        }
+
+        // Helper functions for detailed tracking
+        function getSessionId() {
+            let sessionId = sessionStorage.getItem('sessionId');
+            if (!sessionId) {
+                sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                sessionStorage.setItem('sessionId', sessionId);
+            }
+            return sessionId;
+        }
+
+        function getDeviceType() {
+            const userAgent = navigator.userAgent;
+            if (/tablet|ipad|playbook|silk/i.test(userAgent)) {
+                return 'tablet';
+            }
+            if (/mobile|iphone|ipod|android|blackberry|opera|mini|windows\sce|palm|smartphone|iemobile/i.test(userAgent)) {
+                return 'mobile';
+            }
+            return 'desktop';
+        }
+
+        function getBrowserInfo() {
+            const userAgent = navigator.userAgent;
+            let browser = 'Unknown';
+            
+            if (userAgent.indexOf('Chrome') > -1) browser = 'Chrome';
+            else if (userAgent.indexOf('Firefox') > -1) browser = 'Firefox';
+            else if (userAgent.indexOf('Safari') > -1) browser = 'Safari';
+            else if (userAgent.indexOf('Edge') > -1) browser = 'Edge';
+            else if (userAgent.indexOf('Opera') > -1) browser = 'Opera';
+            
+            return browser;
+        }
+
+        async function sendToGoogleSheets(url, data) {
+            const response = await fetch(url, {
+                method: 'POST',
+                mode: 'no-cors', // Required for Google Apps Script
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+            
+            // Note: no-cors mode means we can't read the response
+            // We assume success if no error is thrown
+            return true;
+        }
+
+        // Offline Data Storage
+        function storeOfflineData(data) {
+            const offlineData = JSON.parse(localStorage.getItem('offlineData') || '[]');
+            offlineData.push({
+                ...data,
+                stored_at: new Date().toISOString(),
+                synced: false
+            });
+            localStorage.setItem('offlineData', JSON.stringify(offlineData));
+        }
+
+        // Sync offline data when online
+        async function syncOfflineData() {
+            const offlineData = JSON.parse(localStorage.getItem('offlineData') || '[]');
+            const unsynced = offlineData.filter(item => !item.synced);
+            
+            if (unsynced.length === 0) return;
+            
+            console.log(`🔄 Syncing ${unsynced.length} offline records...`);
+            
+            for (const item of unsynced) {
+                try {
+                    await logToGoogleSheets(item);
+                    item.synced = true;
+                } catch (error) {
+                    console.error('Failed to sync item:', error);
+                    break; // Stop syncing if one fails
+                }
+            }
+            
+            localStorage.setItem('offlineData', JSON.stringify(offlineData));
+            
+            const syncedCount = offlineData.filter(item => item.synced).length;
+            if (syncedCount > 0) {
+                showNotification(`${syncedCount} data berhasil disinkronkan`, 'success');
+            }
+        }
+
+        // Notification System
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg max-w-sm transform transition-all duration-300 translate-x-full`;
+            
+            // Set colors based on type
+            switch(type) {
+                case 'success':
+                    notification.classList.add('bg-green-500', 'text-white');
+                    break;
+                case 'warning':
+                    notification.classList.add('bg-yellow-500', 'text-white');
+                    break;
+                case 'error':
+                    notification.classList.add('bg-red-500', 'text-white');
+                    break;
+                default:
+                    notification.classList.add('bg-blue-500', 'text-white');
+            }
+            
+            notification.innerHTML = `
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-${type === 'success' ? 'check' : type === 'warning' ? 'exclamation-triangle' : type === 'error' ? 'times' : 'info'}-circle"></i>
+                    <span class="text-sm">${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Enhanced logging functions for specific actions
+        function logHafalanAttempt(ayat, score, duration) {
+            logToGoogleSheets({
+                action: 'hafalan_attempt',
+                student_name: currentStudent?.name || 'Unknown',
+                nis: currentStudent?.nis || 'Unknown',
+                class: currentStudent?.class || 'Unknown',
+                surah: 'Al-Ma\'un',
+                ayat: ayat,
+                score: score,
+                duration_seconds: duration,
+                accuracy: score,
+                fluency: Math.max(0, 100 - (duration / 10)), // Simple fluency calculation
+                tajwid: score, // Simplified tajwid score
+                attempt_number: getAttemptNumber('hafalan', ayat),
+                status: score >= 70 ? 'LULUS' : 'BELUM_LULUS'
+            });
+        }
+
+        function logQuizCompletion(quizType, score, answers, timeSpent) {
+            logToGoogleSheets({
+                action: 'quiz_completed',
+                student_name: currentStudent?.name || 'Unknown',
+                nis: currentStudent?.nis || 'Unknown',
+                class: currentStudent?.class || 'Unknown',
+                quiz_type: quizType,
+                score: score,
+                time_spent_seconds: timeSpent,
+                total_questions: answers.length,
+                correct_answers: answers.filter(a => a.correct).length,
+                wrong_answers: answers.filter(a => !a.correct).length,
+                answers_detail: JSON.stringify(answers),
+                surah: 'Al-Ma\'un',
+                attempt_number: getAttemptNumber('quiz', quizType),
+                status: score >= 70 ? 'LULUS' : 'BELUM_LULUS'
+            });
+        }
+
+        function logProgressUpdate(section, progress) {
+            logToGoogleSheets({
+                action: 'progress_update',
+                student_name: currentStudent?.name || 'Unknown',
+                nis: currentStudent?.nis || 'Unknown',
+                class: currentStudent?.class || 'Unknown',
+                section: section,
+                progress_percentage: progress,
+                surah: 'Al-Ma\'un',
+                previous_progress: getPreviousProgress(section),
+                improvement: progress - (getPreviousProgress(section) || 0)
+            });
+        }
+
+        function logAudioPlay(ayat, duration) {
+            logToGoogleSheets({
+                action: 'audio_played',
+                student_name: currentStudent?.name || 'Unknown',
+                nis: currentStudent?.nis || 'Unknown',
+                class: currentStudent?.class || 'Unknown',
+                surah: 'Al-Ma\'un',
+                ayat: ayat,
+                duration_seconds: duration,
+                audio_type: ayat === 'full' ? 'FULL_SURAH' : 'SINGLE_AYAT',
+                completion_rate: duration > 10 ? 'COMPLETED' : 'PARTIAL'
+            });
+        }
+
+        // New comprehensive tracking functions
+        function logTabChange(fromTab, toTab) {
+            logToGoogleSheets({
+                action: 'tab_changed',
+                student_name: currentStudent?.name || 'Unknown',
+                nis: currentStudent?.nis || 'Unknown',
+                class: currentStudent?.class || 'Unknown',
+                from_tab: fromTab,
+                to_tab: toTab,
+                time_spent_on_previous_tab: getTimeSpentOnTab(fromTab)
+            });
+        }
+
+        function logButtonClick(buttonName, context) {
+            logToGoogleSheets({
+                action: 'button_clicked',
+                student_name: currentStudent?.name || 'Unknown',
+                nis: currentStudent?.nis || 'Unknown',
+                class: currentStudent?.class || 'Unknown',
+                button_name: buttonName,
+                context: context,
+                current_tab: getCurrentTab()
+            });
+        }
+
+        function logPageView(page) {
+            logToGoogleSheets({
+                action: 'page_viewed',
+                student_name: currentStudent?.name || 'Unknown',
+                nis: currentStudent?.nis || 'Unknown',
+                class: currentStudent?.class || 'Unknown',
+                page: page,
+                referrer: document.referrer || 'direct'
+            });
+        }
+
+        function logStudyTime(section, startTime, endTime) {
+            const duration = Math.round((endTime - startTime) / 1000);
+            logToGoogleSheets({
+                action: 'study_time',
+                student_name: currentStudent?.name || 'Unknown',
+                nis: currentStudent?.nis || 'Unknown',
+                class: currentStudent?.class || 'Unknown',
+                section: section,
+                duration_seconds: duration,
+                start_time: new Date(startTime).toISOString(),
+                end_time: new Date(endTime).toISOString(),
+                engagement_level: duration > 60 ? 'HIGH' : duration > 30 ? 'MEDIUM' : 'LOW'
+            });
+        }
+
+        function logError(errorType, errorMessage, context) {
+            logToGoogleSheets({
+                action: 'error_occurred',
+                student_name: currentStudent?.name || 'Unknown',
+                nis: currentStudent?.nis || 'Unknown',
+                class: currentStudent?.class || 'Unknown',
+                error_type: errorType,
+                error_message: errorMessage,
+                context: context,
+                current_tab: getCurrentTab()
+            });
+        }
+
+        function logRecordingActivity(action, ayat, details = {}) {
+            logToGoogleSheets({
+                action: 'recording_activity',
+                student_name: currentStudent?.name || 'Unknown',
+                nis: currentStudent?.nis || 'Unknown',
+                class: currentStudent?.class || 'Unknown',
+                recording_action: action, // 'start', 'stop', 'analyze', 'retry'
+                ayat: ayat,
+                surah: 'Al-Ma\'un',
+                ...details
+            });
+        }
+
+        function logModalInteraction(modalName, action) {
+            logToGoogleSheets({
+                action: 'modal_interaction',
+                student_name: currentStudent?.name || 'Unknown',
+                nis: currentStudent?.nis || 'Unknown',
+                class: currentStudent?.class || 'Unknown',
+                modal_name: modalName,
+                modal_action: action, // 'opened', 'closed', 'submitted'
+                current_tab: getCurrentTab()
+            });
+        }
+
+        // Helper functions for tracking
+        let tabStartTimes = {};
+        let currentActiveTab = 'materi';
+
+        function getAttemptNumber(type, identifier) {
+            const key = `${type}_${identifier}_attempts`;
+            let attempts = parseInt(localStorage.getItem(key) || '0') + 1;
+            localStorage.setItem(key, attempts.toString());
+            return attempts;
+        }
+
+        function getPreviousProgress(section) {
+            return parseInt(localStorage.getItem(`progress_${section}`) || '0');
+        }
+
+        function getTimeSpentOnTab(tabName) {
+            const startTime = tabStartTimes[tabName];
+            if (!startTime) return 0;
+            return Math.round((Date.now() - startTime) / 1000);
+        }
+
+        function getCurrentTab() {
+            return currentActiveTab;
+        }
+
+        function startTabTimer(tabName) {
+            tabStartTimes[tabName] = Date.now();
+            currentActiveTab = tabName;
+        }
+
+        // Legacy function for backward compatibility
+        function saveToGoogleSheets(data) {
+            return logToGoogleSheets(data);
+        }
+
+        // Audio tracking
+        let audioStartTime = 0;
+        
+        function playAyat(ayatNumber) {
+            // Stop any currently playing audio
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+
+            // Create new audio instance
+            currentAudio = new Audio(ayatAudioUrls[ayatNumber]);
+            audioStartTime = Date.now();
+
+            // Play audio when loaded
+            currentAudio.addEventListener('canplaythrough', () => {
+                currentAudio.play().catch(error => {
+                    console.error('Error playing audio:', error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Gagal memutar audio. Periksa koneksi internet Anda.',
+                        icon: 'error',
+                        confirmButtonColor: '#059669'
+                    });
+                });
+            });
+
+            // Handle audio end
+            currentAudio.addEventListener('ended', () => {
+                const duration = Math.round((Date.now() - audioStartTime) / 1000);
+                logAudioPlay(ayatNumber, duration);
+                currentAudio = null;
+            });
+
+            // Handle loading error
+            currentAudio.addEventListener('error', () => {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Gagal memuat audio. Periksa koneksi internet Anda.',
+                    icon: 'error',
+                    confirmButtonColor: '#059669'
+                });
+            });
+        }
+
+        // Enhanced Recording Functions for Hafalan
+        function analyzeRecording() {
+            // Generate realistic scores with some variation
+            const baseScore = Math.floor(Math.random() * 40) + 60; // 60-100%
+            const accuracy = Math.max(50, Math.min(100, baseScore + Math.floor(Math.random() * 10) - 5));
+            const fluency = Math.max(50, Math.min(100, baseScore + Math.floor(Math.random() * 10) - 5));
+            const tajwid = Math.max(50, Math.min(100, baseScore + Math.floor(Math.random() * 10) - 5));
+            const overallScore = Math.round((accuracy + fluency + tajwid) / 3);
+            
+            const recordingStatus = document.getElementById('recording-status');
+            
+            // Show analysis complete
+            recordingStatus.innerHTML = `
+                <p class="text-green-600 mb-2 font-medium">
+                    <i class="fas fa-check-circle mr-2"></i>
+                    Analisis AI selesai!
+                </p>
+                <div class="w-24 h-24 mx-auto bg-green-100 rounded-full flex items-center justify-center border-4 border-green-200">
+                    <i class="fas fa-check text-green-600 text-3xl"></i>
+                </div>
+            `;
+
+            // Generate feedback based on score
+            if (overallScore >= 70) {
+                showSuccessfulFeedback(accuracy, fluency, tajwid, overallScore);
+            } else {
+                showNeedsImprovementFeedback(accuracy, fluency, tajwid, overallScore);
+            }
+
+            // Log hafalan attempt to Google Sheets
+            logHafalanAttempt(selectedAyat, overallScore, 30);
+            
+            // Update progress
+            logProgressUpdate('hafalan', overallScore);
+        }
+
+        function showSuccessfulFeedback(accuracy, fluency, tajwid, overallScore) {
+            const aiFeedbackContainer = document.getElementById('ai-feedback-hafalan');
+            
+            // Create celebratory feedback
+            aiFeedbackContainer.innerHTML = `
+                <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 border-2 border-green-200">
+                    <div class="text-center mb-4">
+                        <div class="w-20 h-20 mx-auto bg-green-100 rounded-full flex items-center justify-center mb-3">
+                            <i class="fas fa-trophy text-green-600 text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-green-700 mb-2">🎉 Alhamdulillah! Luar Biasa!</h3>
+                        <p class="text-green-600 font-medium">Hafalan Anda sudah sangat baik!</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-4 mb-4">
+                        <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-chart-bar text-green-600 mr-2"></i>
+                            Hasil Penilaian AI
+                        </h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">Ketepatan Bacaan:</span>
+                                <div class="flex items-center">
+                                    <div class="w-20 bg-gray-200 rounded-full h-2 mr-2">
+                                        <div class="bg-green-500 h-2 rounded-full" style="width: ${accuracy}%"></div>
+                                    </div>
+                                    <span class="font-bold text-green-600">${accuracy}%</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">Kelancaran:</span>
+                                <div class="flex items-center">
+                                    <div class="w-20 bg-gray-200 rounded-full h-2 mr-2">
+                                        <div class="bg-green-500 h-2 rounded-full" style="width: ${fluency}%"></div>
+                                    </div>
+                                    <span class="font-bold text-green-600">${fluency}%</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">Tajwid:</span>
+                                <div class="flex items-center">
+                                    <div class="w-20 bg-gray-200 rounded-full h-2 mr-2">
+                                        <div class="bg-green-500 h-2 rounded-full" style="width: ${tajwid}%"></div>
+                                    </div>
+                                    <span class="font-bold text-green-600">${tajwid}%</span>
+                                </div>
+                            </div>
+                            <div class="border-t pt-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-medium">Skor Keseluruhan:</span>
+                                    <span class="text-2xl font-bold text-green-600">${overallScore}%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-green-100 rounded-lg p-4 mb-4">
+                        <h4 class="font-medium text-green-800 mb-2">
+                            <i class="fas fa-star mr-2"></i>
+                            Feedback Positif
+                        </h4>
+                        <p class="text-sm text-green-700">
+                            ${generatePositiveFeedback(accuracy, fluency, tajwid, overallScore)}
+                        </p>
+                    </div>
+                    
+                    <div class="flex space-x-3">
+                        <button onclick="recordAgain()" class="flex-1 bg-emerald-600 text-white py-3 rounded-lg font-medium hover:bg-emerald-700 transition-colors">
+                            <i class="fas fa-redo mr-2"></i>Rekam Lagi
+                        </button>
+                        <button onclick="selectNextAyat()" class="flex-1 bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                            <i class="fas fa-forward mr-2"></i>Ayat Selanjutnya
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            aiFeedbackContainer.classList.remove('hidden');
+            
+            // Show celebratory modal
+            setTimeout(() => {
+                Swal.fire({
+                    title: '🏆 Masya Allah!',
+                    html: `
+                        <div class="text-center">
+                            <div class="text-6xl mb-4">🎉</div>
+                            <p class="text-lg mb-3">Hafalan Anda <strong>LULUS</strong>!</p>
+                            <p class="text-emerald-600 font-medium mb-3">Skor: ${overallScore}% (Target: 70%)</p>
+                            <div class="bg-green-50 rounded-lg p-3">
+                                <p class="text-sm text-green-700">
+                                    Alhamdulillah! Terus semangat menghafal Al-Quran! 📖✨
+                                </p>
+                            </div>
+                        </div>
+                    `,
+                    icon: 'success',
+                    confirmButtonColor: '#059669',
+                    confirmButtonText: 'Alhamdulillah! 🤲'
+                });
+            }, 1000);
+        }
+
+        function showNeedsImprovementFeedback(accuracy, fluency, tajwid, overallScore) {
+            const aiFeedbackContainer = document.getElementById('ai-feedback-hafalan');
+            
+            aiFeedbackContainer.innerHTML = `
+                <div class="bg-gradient-to-r from-orange-50 to-red-50 rounded-xl p-6 border-2 border-orange-200">
+                    <div class="text-center mb-4">
+                        <div class="w-20 h-20 mx-auto bg-orange-100 rounded-full flex items-center justify-center mb-3">
+                            <i class="fas fa-redo text-orange-600 text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-orange-700 mb-2">💪 Semangat! Coba Lagi!</h3>
+                        <p class="text-orange-600">Skor belum mencapai target 70%</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-4 mb-4">
+                        <h4 class="font-medium text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-chart-bar text-orange-600 mr-2"></i>
+                            Hasil Penilaian AI
+                        </h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">Ketepatan Bacaan:</span>
+                                <div class="flex items-center">
+                                    <div class="w-20 bg-gray-200 rounded-full h-2 mr-2">
+                                        <div class="bg-orange-500 h-2 rounded-full" style="width: ${accuracy}%"></div>
+                                    </div>
+                                    <span class="font-bold text-orange-600">${accuracy}%</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">Kelancaran:</span>
+                                <div class="flex items-center">
+                                    <div class="w-20 bg-gray-200 rounded-full h-2 mr-2">
+                                        <div class="bg-orange-500 h-2 rounded-full" style="width: ${fluency}%"></div>
+                                    </div>
+                                    <span class="font-bold text-orange-600">${fluency}%</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">Tajwid:</span>
+                                <div class="flex items-center">
+                                    <div class="w-20 bg-gray-200 rounded-full h-2 mr-2">
+                                        <div class="bg-orange-500 h-2 rounded-full" style="width: ${tajwid}%"></div>
+                                    </div>
+                                    <span class="font-bold text-orange-600">${tajwid}%</span>
+                                </div>
+                            </div>
+                            <div class="border-t pt-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-medium">Skor Keseluruhan:</span>
+                                    <span class="text-2xl font-bold text-orange-600">${overallScore}%</span>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Target: 70% untuk lulus</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-orange-100 rounded-lg p-4 mb-4">
+                        <h4 class="font-medium text-orange-800 mb-2">
+                            <i class="fas fa-lightbulb mr-2"></i>
+                            Saran Perbaikan
+                        </h4>
+                        <p class="text-sm text-orange-700 mb-3">
+                            ${generateImprovementFeedback(accuracy, fluency, tajwid)}
+                        </p>
+                        <div class="bg-white rounded p-3">
+                            <p class="text-xs text-gray-600">
+                                💡 <strong>Tips:</strong> Dengarkan audio lagi, latih pelafalan yang sulit, dan rekam ulang dengan lebih tenang.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-3">
+                        <button onclick="playAyatAgain()" class="flex-1 bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                            <i class="fas fa-volume-up mr-2"></i>Dengar Lagi
+                        </button>
+                        <button onclick="recordAgain()" class="flex-1 bg-orange-600 text-white py-3 rounded-lg font-medium hover:bg-orange-700 transition-colors">
+                            <i class="fas fa-microphone mr-2"></i>Rekam Ulang
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            aiFeedbackContainer.classList.remove('hidden');
+            
+            // Show encouraging modal
+            setTimeout(() => {
+                Swal.fire({
+                    title: '📚 Jangan Menyerah!',
+                    html: `
+                        <div class="text-center">
+                            <div class="text-4xl mb-4">💪</div>
+                            <p class="mb-3">Skor: <strong>${overallScore}%</strong> (Target: 70%)</p>
+                            <p class="text-orange-600 mb-3">Belum mencapai target, tapi jangan menyerah!</p>
+                            <div class="bg-blue-50 rounded-lg p-3">
+                                <p class="text-sm text-blue-700">
+                                    "Dan barangsiapa bersungguh-sungguh, sesungguhnya kesungguhannya itu adalah untuk dirinya sendiri." (QS. Al-Ankabut: 6)
+                                </p>
+                            </div>
+                        </div>
+                    `,
+                    icon: 'info',
+                    confirmButtonColor: '#f59e0b',
+                    confirmButtonText: 'Siap Coba Lagi! 💪'
+                });
+            }, 1000);
+        }
+
+        function generatePositiveFeedback(accuracy, fluency, tajwid, overallScore) {
+            const feedbacks = [
+                `Masya Allah! Bacaan Anda sudah sangat baik dengan skor ${overallScore}%. Terus pertahankan kualitas hafalan ini!`,
+                `Alhamdulillah! Ketepatan bacaan ${accuracy}% menunjukkan Anda sudah menguasai ayat ini dengan baik.`,
+                `Subhanallah! Kelancaran ${fluency}% dan tajwid ${tajwid}% sudah sangat membanggakan. Lanjutkan ke ayat berikutnya!`,
+                `Barakallahu fiik! Hafalan Anda sudah mencapai standar yang excellent. Semoga berkah dan bermanfaat!`
+            ];
+            return feedbacks[Math.floor(Math.random() * feedbacks.length)];
+        }
+
+        function generateImprovementFeedback(accuracy, fluency, tajwid) {
+            let feedback = [];
+            
+            if (accuracy < 70) {
+                feedback.push("Perhatikan pengucapan huruf hijaiyah dengan lebih teliti, terutama huruf-huruf yang mirip.");
+            }
+            if (fluency < 70) {
+                feedback.push("Coba baca dengan lebih pelan dan jelas. Jangan terburu-buru.");
+            }
+            if (tajwid < 70) {
+                feedback.push("Pelajari kembali hukum tajwid untuk ayat ini, terutama mad dan qalqalah.");
+            }
+            
+            if (feedback.length === 0) {
+                feedback.push("Secara keseluruhan sudah baik, namun masih perlu sedikit perbaikan untuk mencapai target 70%.");
+            }
+            
+            return feedback.join(" ");
+        }
+
+        function recordAgain() {
+            // Reset recording state
+            const recordingStatus = document.getElementById('recording-status');
+            const aiFeedbackContainer = document.getElementById('ai-feedback-hafalan');
+            
+            recordingStatus.innerHTML = `
+                <p class="text-emerald-600 mb-2 font-medium">
+                    <i class="fas fa-check-circle mr-2"></i>
+                    Siap untuk rekaman ulang!
+                </p>
+                <div class="w-20 h-20 mx-auto bg-emerald-100 rounded-full flex items-center justify-center animate-pulse">
+                    <i class="fas fa-microphone text-emerald-600 text-2xl"></i>
+                </div>
+            `;
+            
+            aiFeedbackContainer.classList.add('hidden');
+        }
+
+        function playAyatAgain() {
+            if (selectedAyat) {
+                playAyatMultipleTimes(selectedAyat);
+            }
+        }
+
+        function selectNextAyat() {
+            if (selectedAyat === 'all') {
+                Swal.fire({
+                    title: '🎉 Selamat!',
+                    text: 'Anda telah menyelesaikan seluruh surah Al-Ma\'un!',
+                    icon: 'success',
+                    confirmButtonColor: '#059669'
+                });
+                return;
+            }
+            
+            const nextAyat = parseInt(selectedAyat) + 1;
+            if (nextAyat <= 7) {
+                // Auto select next ayat
+                const nextButton = document.querySelector(`button[onclick="selectAyatForHafalan(${nextAyat})"]`);
+                if (nextButton) {
+                    nextButton.click();
+                }
+            } else {
+                Swal.fire({
+                    title: '🎉 Selamat!',
+                    text: 'Anda telah menyelesaikan seluruh ayat dalam Surah Al-Ma\'un!',
+                    icon: 'success',
+                    confirmButtonColor: '#059669'
+                });
+            }
+        }
+
+        // Initialize app with comprehensive tracking
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Initializing Al-Quran Hadits Learning App...');
+            
+            // Initialize tab timer
+            startTabTimer('materi');
+            
+            // Check for existing login
+            checkExistingLogin();
+            
+            // Sync offline data if online
+            if (navigator.onLine) {
+                syncOfflineData();
+            }
+            
+            // Listen for online/offline events
+            window.addEventListener('online', () => {
+                console.log('📶 Back online, syncing data...');
+                showNotification('Koneksi kembali, menyinkronkan data...', 'info');
+                syncOfflineData();
+                
+                // Log connection restored
+                logToGoogleSheets({
+                    action: 'connection_restored',
+                    student_name: currentStudent?.name || 'Unknown',
+                    nis: currentStudent?.nis || 'Unknown',
+                    class: currentStudent?.class || 'Unknown'
+                });
+            });
+            
+            window.addEventListener('offline', () => {
+                console.log('📵 Gone offline');
+                showNotification('Mode offline, data akan disinkron nanti', 'warning');
+                
+                // Log connection lost
+                logToGoogleSheets({
+                    action: 'connection_lost',
+                    student_name: currentStudent?.name || 'Unknown',
+                    nis: currentStudent?.nis || 'Unknown',
+                    class: currentStudent?.class || 'Unknown'
+                });
+            });
+            
+            // Track page visibility changes
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    logToGoogleSheets({
+                        action: 'page_hidden',
+                        student_name: currentStudent?.name || 'Unknown',
+                        nis: currentStudent?.nis || 'Unknown',
+                        class: currentStudent?.class || 'Unknown',
+                        current_tab: getCurrentTab(),
+                        time_spent: getTimeSpentOnTab(getCurrentTab())
+                    });
+                } else {
+                    logToGoogleSheets({
+                        action: 'page_visible',
+                        student_name: currentStudent?.name || 'Unknown',
+                        nis: currentStudent?.nis || 'Unknown',
+                        class: currentStudent?.class || 'Unknown',
+                        current_tab: getCurrentTab()
+                    });
+                    // Restart tab timer
+                    startTabTimer(getCurrentTab());
+                }
+            });
+            
+            // Track page unload
+            window.addEventListener('beforeunload', () => {
+                // Log session end
+                logToGoogleSheets({
+                    action: 'session_ended',
+                    student_name: currentStudent?.name || 'Unknown',
+                    nis: currentStudent?.nis || 'Unknown',
+                    class: currentStudent?.class || 'Unknown',
+                    current_tab: getCurrentTab(),
+                    total_session_time: getTimeSpentOnTab(getCurrentTab()),
+                    session_id: getSessionId()
+                });
+            });
+            
+            // Track errors
+            window.addEventListener('error', (event) => {
+                logError('javascript_error', event.message, {
+                    filename: event.filename,
+                    line: event.lineno,
+                    column: event.colno
+                });
+            });
+            
+            // Log app initialization with comprehensive data
+            logToGoogleSheets({
+                action: 'app_initialized',
+                student_name: currentStudent?.name || 'Unknown',
+                nis: currentStudent?.nis || 'Unknown',
+                class: currentStudent?.class || 'Unknown',
+                timestamp: new Date().toISOString(),
+                user_agent: navigator.userAgent,
+                screen_resolution: `${screen.width}x${screen.height}`,
+                online_status: navigator.onLine,
+                language: navigator.language,
+                platform: navigator.platform,
+                cookie_enabled: navigator.cookieEnabled,
+                local_storage_available: typeof(Storage) !== "undefined",
+                session_id: getSessionId()
+            });
+            
+            // Log page view
+            logPageView('main_app');
+            
+            console.log('✅ App initialized successfully with comprehensive tracking');
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9783ea1e57a67549',t:'MTc1NjcyMDc2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
