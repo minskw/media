@@ -1732,6 +1732,28 @@ function tajwidScore(hypothesis, reference) {
                 });
             }
         }
+// Ambil teks ayat dari DOM berdasarkan nomor ayat
+function getAyatText(ayatNumber) {
+    if (!ayatNumber) return '';
+    
+    // cari elemen dengan atribut data-ayat
+    let el = document.querySelector(`[data-ayat="${ayatNumber}"]`);
+    if (el) return el.textContent.trim();
+    
+    // fallback: cari elemen dengan id ayat-{nomor}
+    el = document.getElementById(`ayat-${ayatNumber}`);
+    if (el) return el.textContent.trim();
+    
+    // fallback terakhir: cari semua elemen yang mengandung teks ayat
+    const allAyat = document.querySelectorAll('.ayat-text, .ayat, .text-arab');
+    for (const node of allAyat) {
+        if (node.dataset && node.dataset.ayat == ayatNumber) {
+            return node.textContent.trim();
+        }
+    }
+    
+    return '';
+}
 
         // Quiz Functions
         let currentQuestionIndex = 0;
