@@ -916,104 +916,107 @@
         let currentStudent = null;
 
         // Login Functions
-        function handleLogin(event) {
-            event.preventDefault();
-            const nisInput = document.getElementById('nis-input');
-            const nis = nisInput.value.trim();
-            
-            console.log('🔐 Login attempt with NIS:', nis);
-            
-            // Check if NIS is empty
-            if (!nis) {
-                alert('Silakan masukkan NIS Anda');
-                return false;
-            }
-            
-            // Check if NIS exists in database
-            if (studentsData[nis]) {
-                console.log('✅ NIS found in database:', studentsData[nis]);
-                
-                currentStudent = {
-                    nis: nis,
-                    name: studentsData[nis].name,
-                    class: studentsData[nis].class
-                };
-                
-                console.log('👤 Current student set:', currentStudent);
-                
-                // Update UI with student data
-                updateStudentUI();
-                
-                // Force hide login and show main app
-                console.log('🔄 Switching to main app...');
-                
-                const loginScreen = document.getElementById('login-screen');
-                const mainHeader = document.getElementById('main-header');
-                const mainContent = document.getElementById('main-content');
-                const bottomNav = document.getElementById('bottom-nav');
-                
-                // Force display changes
-                if (loginScreen) {
-                    loginScreen.style.display = 'none';
-                    loginScreen.style.visibility = 'hidden';
-                    loginScreen.classList.add('hidden');
-                }
-                
-                if (mainHeader) {
-                    mainHeader.style.display = 'block';
-                    mainHeader.style.visibility = 'visible';
-                    mainHeader.classList.remove('hidden');
-                }
-                
-                if (mainContent) {
-                    mainContent.style.display = 'block';
-                    mainContent.style.visibility = 'visible';
-                    mainContent.classList.remove('hidden');
-                }
-                
-                if (bottomNav) {
-                    bottomNav.style.display = 'block';
-                    bottomNav.style.visibility = 'visible';
-                    bottomNav.classList.remove('hidden');
-                }
-                
-                // Save login to localStorage
-                localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
-                
-                // Log login to Google Sheets
-                logToGoogleSheets({
-                    action: 'login',
-                    student_name: currentStudent.name,
-                    nis: currentStudent.nis,
-                    class: currentStudent.class,
-                    timestamp: new Date().toISOString(),
-                    device_info: navigator.userAgent
-                });
-                
-                console.log('✅ Login successful, UI updated');
-                
-                // Show success message
-                setTimeout(() => {
-                    alert(`🎉 Selamat datang, ${currentStudent.name}!\n\nAnda berhasil masuk ke aplikasi pembelajaran Al-Quran Hadits.`);
-                }, 200);
-                
-                return true;
-            } else {
-                console.log('❌ NIS not found:', nis);
-                
-                // Log failed login attempt
-                logToGoogleSheets({
-                    action: 'failed_login',
-                    attempted_nis: nis,
-                    timestamp: new Date().toISOString(),
-                    device_info: navigator.userAgent
-                });
-                
-                // Show available NIS for testing
-                alert(`❌ NIS tidak ditemukan: ${nis}\n\n📝 Contoh NIS untuk testing:\n• 220061 - ABDUL HAMID SYAMIL\n• 220007 - AFRA AMALIA\n• 220029 - AHMAD AL GHIFARI PUTRA\n• 220001 - JIHAN AQILA\n\n💡 Hubungi guru jika NIS Anda tidak ada dalam daftar.`);
-                return false;
-            }
+ function handleLogin(event) {
+    event.preventDefault();
+    const nisInput = document.getElementById('nis-input');
+    const nis = nisInput.value.trim();
+    
+    console.log('🔐 Login attempt with NIS:', nis);
+    
+    // Check if NIS is empty
+    if (!nis) {
+        alert('Silakan masukkan NIS Anda');
+        return false;
+    }
+
+    // ✅ Tambahan: cek apakah studentsData sudah ada
+    if (typeof studentsData !== "object") {
+        alert("⚠️ Data siswa belum dimuat. Silakan coba lagi.");
+        console.error("studentsData belum terdefinisi");
+        return false;
+    }
+    
+    // Check if NIS exists in database
+    if (studentsData[nis]) {
+        console.log('✅ NIS found in database:', studentsData[nis]);
+        
+        currentStudent = {
+            nis: nis,
+            name: studentsData[nis].name,
+            class: studentsData[nis].class
+        };
+        
+        console.log('👤 Current student set:', currentStudent);
+        
+        // Update UI with student data
+        updateStudentUI();
+        
+        // Force hide login and show main app
+        console.log('🔄 Switching to main app...');
+        
+        const loginScreen = document.getElementById('login-screen');
+        const mainHeader = document.getElementById('main-header');
+        const mainContent = document.getElementById('main-content');
+        const bottomNav = document.getElementById('bottom-nav');
+        
+        if (loginScreen) {
+            loginScreen.style.display = 'none';
+            loginScreen.style.visibility = 'hidden';
+            loginScreen.classList.add('hidden');
         }
+        
+        if (mainHeader) {
+            mainHeader.style.display = 'block';
+            mainHeader.style.visibility = 'visible';
+            mainHeader.classList.remove('hidden');
+        }
+        
+        if (mainContent) {
+            mainContent.style.display = 'block';
+            mainContent.style.visibility = 'visible';
+            mainContent.classList.remove('hidden');
+        }
+        
+        if (bottomNav) {
+            bottomNav.style.display = 'block';
+            bottomNav.style.visibility = 'visible';
+            bottomNav.classList.remove('hidden');
+        }
+        
+        // Save login to localStorage
+        localStorage.setItem('currentStudent', JSON.stringify(currentStudent));
+        
+        // Log login to Google Sheets
+        logToGoogleSheets({
+            action: 'login',
+            student_name: currentStudent.name,
+            nis: currentStudent.nis,
+            class: currentStudent.class,
+            timestamp: new Date().toISOString(),
+            device_info: navigator.userAgent
+        });
+        
+        console.log('✅ Login successful, UI updated');
+        
+        setTimeout(() => {
+            alert(`🎉 Selamat datang, ${currentStudent.name}!\n\nAnda berhasil masuk ke aplikasi pembelajaran Al-Quran Hadits.`);
+        }, 200);
+        
+        return true;
+    } else {
+        console.log('❌ NIS not found:', nis);
+        
+        logToGoogleSheets({
+            action: 'failed_login',
+            attempted_nis: nis,
+            timestamp: new Date().toISOString(),
+            device_info: navigator.userAgent
+        });
+        
+        alert(`❌ NIS tidak ditemukan: ${nis}\n\n📝 Contoh NIS untuk testing:\n• 220061 - ABDUL HAMID SYAMIL\n• 220007 - AFRA AMALIA\n• 220029 - AHMAD AL GHIFARI PUTRA\n• 220001 - JIHAN AQILA\n\n💡 Hubungi guru jika NIS Anda tidak ada dalam daftar.`);
+        return false;
+    }
+}
 
         function updateStudentUI() {
             if (currentStudent) {
