@@ -1391,212 +1391,158 @@
             recordBtn.innerHTML = '<i class="fas fa-microphone mr-2"></i>Mulai Rekam';
         }
 
-        function toggleRecording() {
-            if (!selectedAyat) {
-                logButtonClick('record_attempt_no_ayat', 'hafalan_tab');
-                Swal.fire({
-                    title: 'Pilih Ayat',
-                    text: 'Silakan pilih ayat yang ingin dihafalkan terlebih dahulu',
-                    icon: 'warning',
-                    confirmButtonColor: '#059669'
-                });
-                return;
-            }
+// === REPLACE mulai toggleRecording sampai showNeedsImprovementFeedback ===
 
-            const recordBtn = document.getElementById('record-btn');
-            const recordingStatus = document.getElementById('recording-status');
+let recognition = null;
+let isRecording = false;
+let finalTranscript = '';
+let recordingStartTime = null;
 
-            if (!isRecording) {
-                isRecording = true;
-                
-                // Log recording start
-                logRecordingActivity('start', selectedAyat, {
-                    attempt_number: getAttemptNumber('recording', selectedAyat)
-                });
-                
-                recordBtn.innerHTML = '<i class="fas fa-stop mr-2"></i>Berhenti Rekam';
-                recordBtn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
-                recordBtn.classList.add('bg-red-600', 'hover:bg-red-700');
-                
-                recordingStatus.innerHTML = `
-                    <p class="text-red-600 mb-2 font-medium animate-pulse">
-                        <i class="fas fa-circle mr-2"></i>
-                        Sedang merekam ayat ${selectedAyat}...
-                    </p>
-                    <div class="w-24 h-24 mx-auto bg-red-100 rounded-full flex items-center justify-center animate-pulse border-4 border-red-200">
-                        <i class="fas fa-microphone text-red-600 text-3xl"></i>
-                    </div>
-                `;
-            } else {
-                isRecording = false;
-                
-                // Log recording stop
-                logRecordingActivity('stop', selectedAyat, {
-                    recording_duration: Math.round((Date.now() - (recordingStartTime || Date.now())) / 1000)
-                });
-                
-                recordBtn.innerHTML = '<i class="fas fa-microphone mr-2"></i>Mulai Rekam';
-                recordBtn.classList.remove('bg-red-600', 'hover:bg-red-700');
-                recordBtn.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
-                
-                recordingStatus.innerHTML = `
-                    <p class="text-blue-600 mb-2 font-medium">
-                        <i class="fas fa-cog fa-spin mr-2"></i>
-                        Rekaman selesai, AI sedang menganalisis...
-                    </p>
-                    <div class="w-24 h-24 mx-auto bg-blue-100 rounded-full flex items-center justify-center border-4 border-blue-200">
-                        <i class="fas fa-robot text-blue-600 text-3xl"></i>
-                    </div>
-                `;
+function toggleRecording() {
+    if (!selectedAyat) {
+        Swal.fire({
+            title: 'Pilih Ayat',
+            text: 'Silakan pilih ayat yang ingin dihafalkan terlebih dahulu',
+            icon: 'warning',
+            confirmButtonColor: '#059669'
+        });
+        return;
+    }
 
-                // Log AI analysis start
-                logRecordingActivity('analyze', selectedAyat);
+    const recordBtn = document.getElementById('record-btn');
+    const recordingStatus = document.getElementById('recording-status');
 
-                // Simulate AI analysis with realistic delay
-                setTimeout(() => {
-                    analyzeRecording();
-                }, 4000); // 4 seconds for realistic AI processing
-            }
+    if (!isRecording) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+            Swal.fire('Unsupported', 'Browser Anda tidak mendukung SpeechRecognition API. Gunakan Chrome/Edge terbaru.', 'error');
+            return;
         }
 
-        let recordingStartTime = null;
+        recognition = new SpeechRecognition();
+        recognition.lang = 'ar-SA';
+        recognition.interimResults = true;
+        recognition.continuous = true;
+        finalTranscript = '';
+        recordingStartTime = Date.now();
 
-        function analyzeRecording() {
-            // Generate realistic scores with some variation
-            const baseScore = Math.floor(Math.random() * 40) + 60; // 60-100%
-            const accuracy = Math.max(50, Math.min(100, baseScore + Math.floor(Math.random() * 10) - 5));
-            const fluency = Math.max(50, Math.min(100, baseScore + Math.floor(Math.random() * 10) - 5));
-            const tajwid = Math.max(50, Math.min(100, baseScore + Math.floor(Math.random() * 10) - 5));
-            const overallScore = Math.round((accuracy + fluency + tajwid) / 3);
-            
-            const recordingStatus = document.getElementById('recording-status');
-            
-            // Show analysis complete
-            recordingStatus.innerHTML = `
-                <p class="text-green-600 mb-2 font-medium">
-                    <i class="fas fa-check-circle mr-2"></i>
-                    Analisis AI selesai!
-                </p>
-                <div class="w-24 h-24 mx-auto bg-green-100 rounded-full flex items-center justify-center border-4 border-green-200">
-                    <i class="fas fa-check text-green-600 text-3xl"></i>
-                </div>
-            `;
+        isRecording = true;
+        recordBtn.innerHTML = '<i class="fas fa-stop mr-2"></i>Berhenti Rekam';
+        recordBtn.classList.replace('bg-emerald-600', 'bg-red-600');
+        recordBtn.classList.replace('hover:bg-emerald-700', 'hover:bg-red-700');
 
-            // Generate feedback based on score
-            if (overallScore >= 70) {
-                showSuccessfulFeedback(accuracy, fluency, tajwid, overallScore);
-            } else {
-                showNeedsImprovementFeedback(accuracy, fluency, tajwid, overallScore);
+        recordingStatus.innerHTML = `
+            <p class="text-red-600 mb-2 font-medium animate-pulse">
+                <i class="fas fa-circle mr-2"></i>
+                Sedang merekam ayat ${selectedAyat}.
+            </p>
+            <div class="w-24 h-24 mx-auto bg-red-100 rounded-full flex items-center justify-center animate-pulse border-4 border-red-200">
+                <i class="fas fa-microphone text-red-600 text-3xl"></i>
+            </div>
+        `;
+
+        recognition.onresult = function (event) {
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                if (event.results[i].isFinal) {
+                    finalTranscript += (finalTranscript ? ' ' : '') + event.results[i][0].transcript.trim();
+                }
             }
+        };
 
-            // Log hafalan attempt to Google Sheets
-            logHafalanAttempt(selectedAyat, overallScore, 30);
-            
-            // Update progress
-            logProgressUpdate('hafalan', overallScore);
-        }
+        recognition.onerror = function (err) {
+            console.error('SpeechRecognition error:', err);
+            Swal.fire('Error', 'Gagal mengenali suara: ' + (err.error || err.message || 'unknown'), 'error');
+        };
 
-        function showSuccessfulFeedback(accuracy, fluency, tajwid, overallScore) {
-            const aiFeedbackContainer = document.getElementById('ai-feedback-hafalan');
-            
-            // Create celebratory feedback
-            aiFeedbackContainer.innerHTML = `
-                <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 border-2 border-green-200">
-                    <div class="text-center mb-4">
-                        <div class="w-20 h-20 mx-auto bg-green-100 rounded-full flex items-center justify-center mb-3">
-                            <i class="fas fa-trophy text-green-600 text-3xl"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-green-700 mb-2">🎉 Masya Allah! Luar Biasa!</h3>
-                        <p class="text-green-600 font-medium">Hafalan Anda sudah sangat baik!</p>
-                    </div>
-                    
-                    <div class="bg-white rounded-lg p-4 mb-4">
-                        <h4 class="font-medium text-gray-800 mb-3 flex items-center">
-                            <i class="fas fa-chart-bar text-green-600 mr-2"></i>
-                            Hasil Penilaian AI
-                        </h4>
-                        <div class="space-y-3">
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm">Ketepatan Bacaan:</span>
-                                <div class="flex items-center">
-                                    <div class="w-20 bg-gray-200 rounded-full h-2 mr-2">
-                                        <div class="bg-green-500 h-2 rounded-full" style="width: ${accuracy}%"></div>
-                                    </div>
-                                    <span class="font-bold text-green-600">${accuracy}%</span>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm">Kelancaran:</span>
-                                <div class="flex items-center">
-                                    <div class="w-20 bg-gray-200 rounded-full h-2 mr-2">
-                                        <div class="bg-green-500 h-2 rounded-full" style="width: ${fluency}%"></div>
-                                    </div>
-                                    <span class="font-bold text-green-600">${fluency}%</span>
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm">Tajwid:</span>
-                                <div class="flex items-center">
-                                    <div class="w-20 bg-gray-200 rounded-full h-2 mr-2">
-                                        <div class="bg-green-500 h-2 rounded-full" style="width: ${tajwid}%"></div>
-                                    </div>
-                                    <span class="font-bold text-green-600">${tajwid}%</span>
-                                </div>
-                            </div>
-                            <div class="border-t pt-3">
-                                <div class="flex justify-between items-center">
-                                    <span class="font-medium">Skor Keseluruhan:</span>
-                                    <span class="text-2xl font-bold text-green-600">${overallScore}%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-green-100 rounded-lg p-4 mb-4">
-                        <h4 class="font-medium text-green-800 mb-2">
-                            <i class="fas fa-star mr-2"></i>
-                            Feedback Positif
-                        </h4>
-                        <p class="text-sm text-green-700">
-                            ${generatePositiveFeedback(accuracy, fluency, tajwid, overallScore)}
-                        </p>
-                    </div>
-                    
-                    <div class="flex space-x-3">
-                        <button onclick="recordAgain()" class="flex-1 bg-emerald-600 text-white py-3 rounded-lg font-medium hover:bg-emerald-700 transition-colors">
-                            <i class="fas fa-redo mr-2"></i>Rekam Lagi
-                        </button>
-                        <button onclick="selectNextAyat()" class="flex-1 bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
-                            <i class="fas fa-forward mr-2"></i>Ayat Selanjutnya
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            aiFeedbackContainer.classList.remove('hidden');
-            
-            // Show celebratory modal
-            setTimeout(() => {
-                Swal.fire({
-                    title: '🏆 Masya Allah!',
-                    html: `
-                        <div class="text-center">
-                            <div class="text-6xl mb-4">🎉</div>
-                            <p class="text-lg mb-3">Hafalan Anda <strong>LULUS</strong>!</p>
-                            <p class="text-emerald-600 font-medium mb-3">Skor: ${overallScore}% (Target: 70%)</p>
-                            <div class="bg-green-50 rounded-lg p-3">
-                                <p class="text-sm text-green-700">
-                                    Alhamdulillah! Terus semangat menghafal Al-Quran! 📖✨
-                                </p>
-                            </div>
-                        </div>
-                    `,
-                    icon: 'success',
-                    confirmButtonColor: '#059669',
-                    confirmButtonText: 'Alhamdulillah! 🤲'
-                });
-            }, 1000);
+        recognition.onend = function () {
+            const duration = Math.max(1, Math.round((Date.now() - (recordingStartTime || Date.now())) / 1000));
+            evaluateTranscript(finalTranscript.trim(), duration);
+        };
+
+        recognition.start();
+
+    } else {
+        isRecording = false;
+        if (recognition) recognition.stop();
+
+        recordBtn.innerHTML = '<i class="fas fa-microphone mr-2"></i>Mulai Rekam';
+        recordBtn.classList.replace('bg-red-600', 'bg-emerald-600');
+        recordBtn.classList.replace('hover:bg-red-700', 'hover:bg-emerald-700');
+
+        recordingStatus.innerHTML = `
+            <p class="text-blue-600 mb-2 font-medium">
+                <i class="fas fa-cog fa-spin mr-2"></i>
+                Rekaman selesai, AI sedang menganalisis.
+            </p>
+            <div class="w-24 h-24 mx-auto bg-blue-100 rounded-full flex items-center justify-center border-4 border-blue-200">
+                <i class="fas fa-robot text-blue-600 text-3xl"></i>
+            </div>
+        `;
+    }
+}
+
+function evaluateTranscript(transcript, durationSeconds) {
+    const ref = getAyatText(selectedAyat) || '';
+    const wer = wordErrorRate(transcript, ref);
+    const accuracy = Math.max(0, Math.round((1 - wer) * 100));
+
+    const words = transcript.trim() ? transcript.trim().split(/\s+/).length : 0;
+    const fluency = Math.min(100, Math.round((words / Math.max(1, durationSeconds)) * 30));
+
+    const tajwid = tajwidScore(transcript, ref);
+    const overallScore = Math.round((accuracy + fluency + tajwid) / 3);
+
+    if (overallScore >= 70) {
+        showSuccessfulFeedback(accuracy, fluency, tajwid, overallScore);
+    } else {
+        showNeedsImprovementFeedback(accuracy, fluency, tajwid, overallScore);
+    }
+}
+
+// --- Helpers ---
+function normalizeArabic(text) {
+    if (!text) return '';
+    return text
+        .replace(/[\u064B-\u0652\u0640]/g, '')
+        .replace(/[^\u0621-\u064A0-9\s]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+function tokenizeArabic(text) {
+    return normalizeArabic(text).split(/\s+/).filter(Boolean);
+}
+
+function wordErrorRate(hypothesis, reference) {
+    const h = tokenizeArabic(hypothesis);
+    const r = tokenizeArabic(reference);
+    const n = r.length, m = h.length;
+    if (!n && !m) return 0;
+    const d = Array.from({ length: n + 1 }, () => new Array(m + 1).fill(0));
+    for (let i = 0; i <= n; i++) d[i][0] = i;
+    for (let j = 0; j <= m; j++) d[0][j] = j;
+    for (let i = 1; i <= n; i++) {
+        for (let j = 1; j <= m; j++) {
+            const sub = r[i - 1] === h[j - 1] ? 0 : 1;
+            d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + sub);
         }
+    }
+    return d[n][m] / Math.max(1, n);
+}
+
+function tajwidScore(hypothesis, reference) {
+    const h = normalizeArabic(hypothesis).replace(/\s+/g, '');
+    const r = normalizeArabic(reference).replace(/\s+/g, '');
+    if (!r.length) return 0;
+    let match = 0;
+    for (let i = 0; i < Math.min(h.length, r.length); i++) {
+        if (h[i] === r[i]) match++;
+    }
+    return Math.round((match / r.length) * 100);
+}
+
+// === END REPLACE ===
+
 
         function showNeedsImprovementFeedback(accuracy, fluency, tajwid, overallScore) {
             const aiFeedbackContainer = document.getElementById('ai-feedback-hafalan');
