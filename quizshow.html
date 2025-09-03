@@ -143,7 +143,8 @@
             0% { transform: translateY(0); opacity: 1; }
             100% { transform: translateY(-100%); opacity: 0; }
         }
-/* Mengubah background container soal menjadi gradiasi hijau/biru */
+
+        /* Mengubah background container soal menjadi gradiasi hijau/biru */
 .question-container {
     background: linear-gradient(135deg, #0f766e 0%, #0e7490 100%) !important;
 }
@@ -1017,14 +1018,15 @@
             
             // Check if question contains Arabic text and apply Arabic font
             const arabicRegex = /[\u0600-\u06FF]/;
-if (arabicRegex.test(question.question)) {
-    questionTextEl.classList.add('arabic-font');
-    // Tambahkan kelas untuk memastikan arah LTR
-    questionTextEl.classList.add('mixed-text');
-} else {
-    questionTextEl.classList.remove('arabic-font');
-    questionTextEl.classList.remove('mixed-text');
-}
+            if (arabicRegex.test(question.question)) {
+                questionTextEl.classList.add('arabic-font');
+                // Tambahkan kelas untuk memastikan arah LTR
+                questionTextEl.classList.add('mixed-text');
+            } else {
+                questionTextEl.classList.remove('arabic-font');
+                questionTextEl.classList.remove('mixed-text');
+            }
+
             // Update answer options
             const answerButtons = document.querySelectorAll('.answer-btn');
             answerButtons.forEach((btn, index) => {
@@ -1036,15 +1038,15 @@ if (arabicRegex.test(question.question)) {
                 btn.style.background = '';
                 
                 // Apply Arabic font to options if they contain Arabic text
-    if (arabicRegex.test(question.options[index])) {
-        btn.classList.add('arabic-font');
-        // Tambahkan kelas untuk memastikan arah LTR
-        btn.classList.add('mixed-text');
-    } else {
-        btn.classList.remove('arabic-font');
-        btn.classList.remove('mixed-text');
-    }
-});
+                if (arabicRegex.test(question.options[index])) {
+                    btn.classList.add('arabic-font');
+                    // Tambahkan kelas untuk memastikan arah LTR
+                    btn.classList.add('mixed-text');
+                } else {
+                    btn.classList.remove('arabic-font');
+                    btn.classList.remove('mixed-text');
+                }
+            });
 
             // Add dramatic entrance effect
             const questionStage = document.getElementById('question-stage');
@@ -1214,64 +1216,81 @@ if (arabicRegex.test(question.question)) {
             console.log("Host: " + message);
         }
 
-let audioContext;
-let applauseBuffer = null;
-let buzzerBuffer = null;
+        // Audio Functions
+        let audioContext;
+        let applauseAudio = null;
+        let buzzerAudio = null;
+        
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            
+            // Load sound effects
+            if (!applauseAudio) {
+                applauseAudio = new Audio('https://archive.org/download/tepuk-meriah/crowd-cheer-in-school-auditorium-236699.mp3');
+                applauseAudio.volume = 0.7;
+                applauseAudio.preload = 'auto';
+            }
+            
+            if (!buzzerAudio) {
+                buzzerAudio = new Audio('https://archive.org/download/tepuk-meriah/fail-jingle-stereo-mix-88784.mp3');
+                buzzerAudio.volume = 0.8;
+                buzzerAudio.preload = 'auto';
+            }
+        }
 
-// Helper untuk download sekali lalu cache di localStorage
-async function fetchAndCacheAudio(url, key) {
-    // cek apakah sudah ada cache
-    let base64 = localStorage.getItem(key);
-    if (!base64) {
-        const res = await fetch(url);
-        const arrayBuffer = await res.arrayBuffer();
-        // convert ArrayBuffer -> Base64 string
-        base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
-        localStorage.setItem(key, base64);
-        console.log("✅ Audio cached:", key);
-    }
+        function generateApplauseSound() {
+            if (gameState.soundEnabled) {
+                if (applauseAudio) {
+                    applauseAudio.currentTime = 0;
+                    applauseAudio.play().catch(e => console.log('Audio play failed:', e));
+                } else {
+                    // Fallback to generated sound
+                    initAudio();
+                    const duration = 2;
+                    const sampleRate = audioContext.sampleRate;
+                    const buffer = audioContext.createBuffer(1, duration * sampleRate, sampleRate);
+                    const data = buffer.getChannelData(0);
+                    
+                    for (let i = 0; i < buffer.length; i++) {
+                        data[i] = (Math.random() * 2 - 1) * 0.3 * Math.sin(i * 0.01);
+                    }
+                    
+                    const source = audioContext.createBufferSource();
+                    source.buffer = buffer;
+                    source.connect(audioContext.destination);
+                    source.start();
+                }
+            }
+        }
 
-    // decode base64 -> AudioBuffer
-    const binary = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
-    return audioContext.decodeAudioData(binary.buffer);
-}
-
-// Init audio dan preload buffer (sekali saja)
-async function initAudio() {
-    if (!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    }
-
-    applauseBuffer = await fetchAndCacheAudio(
-        "https://archive.org/download/tepuk-meriah/crowd-cheer-in-school-auditorium-236699.mp3",
-        "applauseAudio"
-    );
-    buzzerBuffer = await fetchAndCacheAudio(
-        "https://archive.org/download/tepuk-meriah/fail-jingle-stereo-mix-88784.mp3",
-        "buzzerAudio"
-    );
-}
-
-// Mainkan applause
-function generateApplauseSound() {
-    if (gameState.soundEnabled && applauseBuffer) {
-        const source = audioContext.createBufferSource();
-        source.buffer = applauseBuffer;
-        source.connect(audioContext.destination);
-        source.start(0);
-    }
-}
-
-// Mainkan buzzer
-function generateBuzzerSound() {
-    if (gameState.soundEnabled && buzzerBuffer) {
-        const source = audioContext.createBufferSource();
-        source.buffer = buzzerBuffer;
-        source.connect(audioContext.destination);
-        source.start(0);
-    }
-}
-
+        function generateBuzzerSound() {
+            if (gameState.soundEnabled) {
+                if (buzzerAudio) {
+                    buzzerAudio.currentTime = 0;
+                    buzzerAudio.play().catch(e => console.log('Audio play failed:', e));
+                } else {
+                    // Fallback to generated sound
+                    initAudio();
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
+                    oscillator.frequency.setValueAtTime(150, audioContext.currentTime + 0.1);
+                    oscillator.frequency.setValueAtTime(100, audioContext.currentTime + 0.2);
+                    
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                    
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.5);
+                }
+            }
+        }
 
         function generateTickSound() {
             initAudio();
@@ -1472,10 +1491,7 @@ function generateBuzzerSound() {
         }
 
         // Event Listeners
-        document.getElementById('start-quiz-show').addEventListener('click', () => {
-    playApplause();   // 🔊 mainkan applause saat game dimulai
-    startQuizShow();
-});
+        document.getElementById('start-quiz-show').addEventListener('click', startQuizShow);
         document.getElementById('team1-btn').addEventListener('click', () => teamCorrect(1));
         document.getElementById('team2-btn').addEventListener('click', () => teamCorrect(2));
         document.getElementById('next-question').addEventListener('click', nextQuestion);
@@ -1496,38 +1512,43 @@ function generateBuzzerSound() {
         });
 
         // Answer button clicks
-document.getElementById('answer-container').addEventListener('click', (e) => {
-    if (e.target.classList.contains('answer-btn') && gameState.showStarted) {
-        if (gameState.timerInterval) {
-            clearInterval(gameState.timerInterval);
-        }
-
-        const question = gameState.questions[gameState.currentQuestion - 1];
-        const isCorrect = e.target.dataset.answer === question.correct;
-
-        // Disable semua tombol
-        document.querySelectorAll('.answer-btn').forEach(btn => {
-            btn.disabled = true;
+        document.getElementById('answer-container').addEventListener('click', (e) => {
+            if (e.target.classList.contains('answer-btn') && gameState.showStarted) {
+                // Stop timer immediately when answer is selected
+                if (gameState.timerInterval) {
+                    clearInterval(gameState.timerInterval);
+                }
+                
+                const question = gameState.questions[gameState.currentQuestion - 1];
+                const isCorrect = e.target.dataset.answer === question.correct;
+                
+                // Disable all buttons
+                document.querySelectorAll('.answer-btn').forEach(btn => {
+                    btn.disabled = true;
+                });
+                
+                if (isCorrect) {
+                    e.target.classList.add('correct-celebration');
+                    e.target.style.background = 'linear-gradient(45deg, #10b981, #059669)';
+                    updateHostMessage("🎉 JAWABAN BENAR! Luar biasa! 🎉");
+                    playApplause();
+                } else {
+                    // Automatically trigger buzzer for wrong answer
+                    e.target.classList.add('buzzer-effect');
+                    e.target.style.background = 'linear-gradient(45deg, #ef4444, #dc2626)';
+                    
+                    // Show correct answer
+                    const correctBtn = document.querySelector(`[data-answer="${question.correct}"]`);
+                    correctBtn.classList.add('correct-celebration');
+                    correctBtn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
+                    
+                    updateHostMessage("❌ Jawaban salah! Ini jawaban yang benar!");
+                    playBuzzer();
+                }
+                
+                saveGameSession();
+            }
         });
-
-        if (isCorrect) {
-            playApplause(); // 🔊 mainkan dulu suaranya
-            e.target.classList.add('correct-celebration');
-            e.target.style.background = 'linear-gradient(45deg, #10b981, #059669)';
-            updateHostMessage("🎉 JAWABAN BENAR! Luar biasa! 🎉");
-        } else {
-            playBuzzer(); // 🔊 mainkan dulu suaranya
-            e.target.classList.add('buzzer-effect');
-            e.target.style.background = 'linear-gradient(45deg, #ef4444, #dc2626)';
-
-            const correctBtn = document.querySelector(`[data-answer="${question.correct}"]`);
-            correctBtn.classList.add('correct-celebration');
-            correctBtn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
-
-            updateHostMessage("❌ Jawaban salah! Ini jawaban yang benar!");
-        }
-    }
-});
 
         // Initialize app
         init();
