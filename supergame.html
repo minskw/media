@@ -1472,7 +1472,10 @@ function generateBuzzerSound() {
         }
 
         // Event Listeners
-        document.getElementById('start-quiz-show').addEventListener('click', startQuizShow);
+        document.getElementById('start-quiz-show').addEventListener('click', () => {
+    playApplause();   // 🔊 mainkan applause saat game dimulai
+    startQuizShow();
+});
         document.getElementById('team1-btn').addEventListener('click', () => teamCorrect(1));
         document.getElementById('team2-btn').addEventListener('click', () => teamCorrect(2));
         document.getElementById('next-question').addEventListener('click', nextQuestion);
@@ -1493,43 +1496,38 @@ function generateBuzzerSound() {
         });
 
         // Answer button clicks
-        document.getElementById('answer-container').addEventListener('click', (e) => {
-            if (e.target.classList.contains('answer-btn') && gameState.showStarted) {
-                // Stop timer immediately when answer is selected
-                if (gameState.timerInterval) {
-                    clearInterval(gameState.timerInterval);
-                }
-                
-                const question = gameState.questions[gameState.currentQuestion - 1];
-                const isCorrect = e.target.dataset.answer === question.correct;
-                
-                // Disable all buttons
-                document.querySelectorAll('.answer-btn').forEach(btn => {
-                    btn.disabled = true;
-                });
-                
-                if (isCorrect) {
-                    e.target.classList.add('correct-celebration');
-                    e.target.style.background = 'linear-gradient(45deg, #10b981, #059669)';
-                    updateHostMessage("🎉 JAWABAN BENAR! Luar biasa! 🎉");
-                    playApplause();
-                } else {
-                    // Automatically trigger buzzer for wrong answer
-                    e.target.classList.add('buzzer-effect');
-                    e.target.style.background = 'linear-gradient(45deg, #ef4444, #dc2626)';
-                    
-                    // Show correct answer
-                    const correctBtn = document.querySelector(`[data-answer="${question.correct}"]`);
-                    correctBtn.classList.add('correct-celebration');
-                    correctBtn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
-                    
-                    updateHostMessage("❌ Jawaban salah! Ini jawaban yang benar!");
-                    playBuzzer();
-                }
-                
-                saveGameSession();
-            }
+document.getElementById('answer-container').addEventListener('click', (e) => {
+    if (e.target.classList.contains('answer-btn') && gameState.showStarted) {
+        if (gameState.timerInterval) {
+            clearInterval(gameState.timerInterval);
+        }
+
+        const question = gameState.questions[gameState.currentQuestion - 1];
+        const isCorrect = e.target.dataset.answer === question.correct;
+
+        // Disable semua tombol
+        document.querySelectorAll('.answer-btn').forEach(btn => {
+            btn.disabled = true;
         });
+
+        if (isCorrect) {
+            playApplause(); // 🔊 mainkan dulu suaranya
+            e.target.classList.add('correct-celebration');
+            e.target.style.background = 'linear-gradient(45deg, #10b981, #059669)';
+            updateHostMessage("🎉 JAWABAN BENAR! Luar biasa! 🎉");
+        } else {
+            playBuzzer(); // 🔊 mainkan dulu suaranya
+            e.target.classList.add('buzzer-effect');
+            e.target.style.background = 'linear-gradient(45deg, #ef4444, #dc2626)';
+
+            const correctBtn = document.querySelector(`[data-answer="${question.correct}"]`);
+            correctBtn.classList.add('correct-celebration');
+            correctBtn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
+
+            updateHostMessage("❌ Jawaban salah! Ini jawaban yang benar!");
+        }
+    }
+});
 
         // Initialize app
         init();
