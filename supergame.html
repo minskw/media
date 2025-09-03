@@ -1218,48 +1218,60 @@ let audioContext;
 let applauseBuffer = null;
 let buzzerBuffer = null;
 
-function initAudio() {
+// Helper untuk download sekali lalu cache di localStorage
+async function fetchAndCacheAudio(url, key) {
+    // cek apakah sudah ada cache
+    let base64 = localStorage.getItem(key);
+    if (!base64) {
+        const res = await fetch(url);
+        const arrayBuffer = await res.arrayBuffer();
+        // convert ArrayBuffer -> Base64 string
+        base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+        localStorage.setItem(key, base64);
+        console.log("✅ Audio cached:", key);
+    }
+
+    // decode base64 -> AudioBuffer
+    const binary = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
+    return audioContext.decodeAudioData(binary.buffer);
+}
+
+// Init audio dan preload buffer (sekali saja)
+async function initAudio() {
     if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
     }
 
-    // Helper untuk preload file audio lokal
-    function loadSound(url, callback) {
-        fetch(url)
-            .then(res => res.arrayBuffer())
-            .then(data => audioContext.decodeAudioData(data))
-            .then(decoded => callback(decoded))
-            .catch(err => console.error("Gagal load sound:", url, err));
-    }
-
-    // Preload applause & buzzer dari folder lokal
-    loadSound("sounds/applause.mp3", (buffer) => applauseBuffer = buffer);
-    loadSound("sounds/buzzer.mp3", (buffer) => buzzerBuffer = buffer);
+    applauseBuffer = await fetchAndCacheAudio(
+        "https://archive.org/download/tepuk-meriah/crowd-cheer-in-school-auditorium-236699.mp3",
+        "applauseAudio"
+    );
+    buzzerBuffer = await fetchAndCacheAudio(
+        "https://archive.org/download/tepuk-meriah/fail-jingle-stereo-mix-88784.mp3",
+        "buzzerAudio"
+    );
 }
 
+// Mainkan applause
 function generateApplauseSound() {
     if (gameState.soundEnabled && applauseBuffer) {
         const source = audioContext.createBufferSource();
-        const gainNode = audioContext.createGain();
         source.buffer = applauseBuffer;
-        source.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-        gainNode.gain.value = 0.7;
+        source.connect(audioContext.destination);
         source.start(0);
     }
 }
 
+// Mainkan buzzer
 function generateBuzzerSound() {
     if (gameState.soundEnabled && buzzerBuffer) {
         const source = audioContext.createBufferSource();
-        const gainNode = audioContext.createGain();
         source.buffer = buzzerBuffer;
-        source.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-        gainNode.gain.value = 0.8;
+        source.connect(audioContext.destination);
         source.start(0);
     }
 }
+
 
         function generateTickSound() {
             initAudio();
