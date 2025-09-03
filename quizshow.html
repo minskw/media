@@ -149,6 +149,49 @@
             background: #1a1a1a !important;
             border: 2px solid #fcd34d !important;
         }
+
+		/* Perbaikan tampilan header soal */
+#question-category {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    padding: 0.5rem;
+}
+
+#timer {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#current-prize {
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Untuk tampilan mobile */
+@media (max-width: 768px) {
+    #question-category {
+        font-size: 0.9rem;
+    }
+    
+    #timer {
+        font-size: 1.2rem;
+    }
+    
+    #current-prize {
+        font-size: 1.1rem;
+    }
+    
+    .grid.grid-cols-3.gap-2.mb-4 {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+}
     </style>
 </head>
 <body class="bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600 min-h-screen content-font overflow-x-hidden">
