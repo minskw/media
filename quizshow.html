@@ -575,47 +575,73 @@
             localStorage.setItem('quizShowData', JSON.stringify(dataToSave));
         }
 
-        function loadFromLocalStorage() {
-            const savedData = localStorage.getItem('quizShowData');
-            if (savedData) {
-                try {
-                    const data = JSON.parse(savedData);
-                    
-                    // Restore game state
-                    if (data.gameState) {
-                        Object.assign(gameState, data.gameState);
+function loadFromLocalStorage() {
+    const savedData = localStorage.getItem('quizShowData');
+    if (savedData) {
+        try {
+            const data = JSON.parse(savedData);
+            
+            // Restore game state - dengan validasi
+            if (data.gameState) {
+                // Simpan questions terlebih dahulu untuk validasi
+                const savedQuestions = data.gameState.questions;
+                
+                // Hanya assign properties yang valid
+                const validProperties = [
+                    'team1Score', 'team2Score', 'currentQuestion', 'totalQuestions',
+                    'timeLeft', 'showStarted', 'team1Name', 'team1Icon', 'team2Name',
+                    'team2Icon', 'timerDuration', 'soundEnabled', 'timerSoundEnabled',
+                    'autoTimer', 'pointsPerQuestion', 'progressivePoints', 'activeTemplate',
+                    'activeTeam'
+                ];
+                
+                validProperties.forEach(prop => {
+                    if (data.gameState.hasOwnProperty(prop)) {
+                        gameState[prop] = data.gameState[prop];
                     }
-                    
-                    // Restore templates and metadata
-                    if (data.questionTemplates) {
-                        Object.assign(questionTemplates, data.questionTemplates);
-                    }
-                    if (data.templateMetadata) {
-                        Object.assign(templateMetadata, data.templateMetadata);
-                    }
-                    
-                    // Restore settings
-                    if (data.settings) {
-                        document.getElementById('team1-name').value = data.settings.team1Name || 'TIM MERAH';
-                        document.getElementById('team1-icon').value = data.settings.team1Icon || '🔥';
-                        document.getElementById('team2-name').value = data.settings.team2Name || 'TIM BIRU';
-                        document.getElementById('team2-icon').value = data.settings.team2Icon || '⚡';
-                        document.getElementById('timer-duration').value = data.settings.timerDuration || 30;
-                        document.getElementById('sound-effects').checked = data.settings.soundEffects !== false;
-                        document.getElementById('timer-sound').checked = data.settings.timerSound !== false;
-                        document.getElementById('auto-timer').checked = data.settings.autoTimer !== false;
-                        document.getElementById('points-per-question').value = data.settings.pointsPerQuestion || 100;
-                        document.getElementById('progressive-points').checked = data.settings.progressivePoints || false;
-                    }
-                    
-                    return true;
-                } catch (error) {
-                    console.error('Error loading saved data:', error);
-                    return false;
+                });
+                
+                // Validasi questions array sebelum assign
+                if (savedQuestions && Array.isArray(savedQuestions) && savedQuestions.length > 0) {
+                    gameState.questions = savedQuestions;
+                    gameState.totalQuestions = savedQuestions.length;
                 }
             }
+            
+            // Restore templates and metadata dengan validasi
+            if (data.questionTemplates && typeof data.questionTemplates === 'object') {
+                Object.assign(questionTemplates, data.questionTemplates);
+            }
+            
+            if (data.templateMetadata && typeof data.templateMetadata === 'object') {
+                Object.assign(templateMetadata, data.templateMetadata);
+            }
+            
+            // Restore settings dengan validasi
+            if (data.settings) {
+                const settings = data.settings;
+                if (settings.team1Name) document.getElementById('team1-name').value = settings.team1Name;
+                if (settings.team1Icon) document.getElementById('team1-icon').value = settings.team1Icon;
+                if (settings.team2Name) document.getElementById('team2-name').value = settings.team2Name;
+                if (settings.team2Icon) document.getElementById('team2-icon').value = settings.team2Icon;
+                if (settings.timerDuration) document.getElementById('timer-duration').value = settings.timerDuration;
+                if (settings.soundEffects !== undefined) document.getElementById('sound-effects').checked = settings.soundEffects;
+                if (settings.timerSound !== undefined) document.getElementById('timer-sound').checked = settings.timerSound;
+                if (settings.autoTimer !== undefined) document.getElementById('auto-timer').checked = settings.autoTimer;
+                if (settings.pointsPerQuestion) document.getElementById('points-per-question').value = settings.pointsPerQuestion;
+                if (settings.progressivePoints !== undefined) document.getElementById('progressive-points').checked = settings.progressivePoints;
+            }
+            
+            return true;
+        } catch (error) {
+            console.error('Error loading saved data:', error);
+            // Hapus data yang corrupt
+            localStorage.removeItem('quizShowData');
             return false;
         }
+    }
+    return false;
+}
 
         function renderTemplateButtons() {
             const templateContainer = document.getElementById('template-container');
@@ -725,51 +751,83 @@
             }
         }
 
-        function checkForSavedSession() {
-            const savedData = localStorage.getItem('quizShowData');
-            if (savedData) {
-                try {
-                    const data = JSON.parse(savedData);
-                    if (data.gameState && data.gameState.showStarted) {
-                        const resume = confirm('Ditemukan sesi permainan yang tersimpan. Apakah Anda ingin melanjutkan permainan?');
-                        if (resume) {
-                            resumeGame();
-                            return true;
-                        } else {
-                            // Clear saved session if user doesn't want to resume
-                            localStorage.removeItem('quizShowData');
-                        }
-                    }
-                } catch (error) {
-                    console.error('Error checking saved session:', error);
+function checkForSavedSession() {
+    const savedData = localStorage.getItem('quizShowData');
+    if (savedData) {
+        try {
+            const data = JSON.parse(savedData);
+            if (data.gameState && data.gameState.showStarted) {
+                // Periksa apakah data questions valid
+                if (!data.gameState.questions || !Array.isArray(data.gameState.questions)) {
+                    console.warn('Data questions tidak valid dalam sesi tersimpan');
+                    return false;
+                }
+                
+                const resume = confirm('Ditemukan sesi permainan yang tersimpan. Apakah Anda ingin melanjutkan permainan?');
+                if (resume) {
+                    resumeGame();
+                    return true;
+                } else {
+                    // Clear saved session if user doesn't want to resume
+                    localStorage.removeItem('quizShowData');
                 }
             }
+        } catch (error) {
+            console.error('Error checking saved session:', error);
+            // Hapus data corrupt
+            localStorage.removeItem('quizShowData');
             return false;
         }
+    }
+    return false;
+}
 
-        function resumeGame() {
-            const savedData = JSON.parse(localStorage.getItem('quizShowData'));
-            if (savedData && savedData.gameState && savedData.gameState.showStarted) {
-                // Restore complete game state
-                Object.assign(gameState, savedData.gameState);
-                
-                // Switch to quiz view
-                document.getElementById('settings-section').classList.add('hidden');
-                document.getElementById('quiz-section').classList.remove('hidden');
-                
-                // Update displays
-                updateTeamDisplay();
-                updateQuizDisplay();
-                loadQuestion();
-                
-                // Resume timer if it was running
-                if (gameState.timeLeft > 0 && gameState.autoTimer) {
-                    startTimer();
+
+function resumeGame() {
+    const savedData = JSON.parse(localStorage.getItem('quizShowData'));
+    if (savedData && savedData.gameState && savedData.gameState.showStarted) {
+        try {
+            // Restore complete game state
+            Object.assign(gameState, savedData.gameState);
+            
+            // Pastikan questions array valid
+            if (!gameState.questions || !Array.isArray(gameState.questions)) {
+                // Jika questions tidak valid, muat template default
+                const firstTemplate = Object.keys(questionTemplates)[0];
+                if (firstTemplate) {
+                    loadTemplate(firstTemplate);
+                } else {
+                    createDefaultTemplate();
                 }
-                
-                updateHostMessage('Permainan dilanjutkan dari sesi sebelumnya!');
             }
+            
+            // Pastikan currentQuestion valid
+            if (gameState.currentQuestion > gameState.questions.length) {
+                gameState.currentQuestion = 1;
+            }
+            
+            // Switch to quiz view
+            document.getElementById('settings-section').classList.add('hidden');
+            document.getElementById('quiz-section').classList.remove('hidden');
+            
+            // Update displays
+            updateTeamDisplay();
+            updateQuizDisplay();
+            loadQuestion();
+            
+            // Resume timer if it was running
+            if (gameState.timeLeft > 0 && gameState.autoTimer && gameState.activeTeam) {
+                startTimer();
+            }
+            
+            updateHostMessage('Permainan dilanjutkan dari sesi sebelumnya!');
+        } catch (error) {
+            console.error('Error resuming game:', error);
+            alert('Error saat melanjutkan permainan. Membuka pengaturan...');
+            backToSettings();
         }
+    }
+}
 
         function clearAllData() {
             const confirm_clear = confirm('Apakah Anda yakin ingin menghapus semua data tersimpan? Ini akan menghapus pengaturan, soal import, dan sesi permainan.');
@@ -794,55 +852,59 @@
         }
 
         // Initialize
-        function init() {
-            // Initialize audio
-            initAudio();
-            
-            // Load saved data first
-            const hasData = loadFromLocalStorage();
-            
-            // Create default template if no templates exist
-            if (Object.keys(questionTemplates).length === 0) {
-                createDefaultTemplate();
-            }
-            
-            // Load first available template if no active template
-            if (!gameState.questions || gameState.questions.length === 0) {
-                const firstTemplate = Object.keys(questionTemplates)[0];
-                if (firstTemplate) {
-                    loadTemplate(firstTemplate);
-                }
-            }
-            
-            // Render template buttons
-            renderTemplateButtons();
-            updateSettingsDisplay();
-            
-            // Setup emoji pickers
-            setupEmojiPickers();
-            
-            // Check for saved game session
-            setTimeout(() => {
-                checkForSavedSession();
-            }, 500);
-            
-            // Auto-save every 10 seconds during game
-            setInterval(() => {
-                if (gameState.showStarted) {
-                    saveGameSession();
-                }
-            }, 10000);
-            
-            // Save settings when changed
-            document.querySelectorAll('input').forEach(input => {
-                input.addEventListener('change', () => {
-                    if (!gameState.showStarted) {
-                        saveToLocalStorage();
-                    }
-                });
-            });
+ function init() {
+    // Initialize audio
+    initAudio();
+    
+    // Load saved data first
+    const hasData = loadFromLocalStorage();
+    
+    // Create default template if no templates exist
+    if (Object.keys(questionTemplates).length === 0) {
+        createDefaultTemplate();
+    }
+    
+    // Load first available template if no active template or questions invalid
+    if (!gameState.questions || !Array.isArray(gameState.questions) || gameState.questions.length === 0) {
+        const firstTemplate = Object.keys(questionTemplates)[0];
+        if (firstTemplate) {
+            loadTemplate(firstTemplate);
         }
-        
+    }
+    
+    // Pastikan currentQuestion valid
+    if (gameState.currentQuestion < 1 || gameState.currentQuestion > gameState.questions.length) {
+        gameState.currentQuestion = 1;
+    }
+    
+    // Render template buttons
+    renderTemplateButtons();
+    updateSettingsDisplay();
+    
+    // Setup emoji pickers
+    setupEmojiPickers();
+    
+    // Check for saved game session
+    setTimeout(() => {
+        checkForSavedSession();
+    }, 500);
+    
+    // Auto-save every 10 seconds during game
+    setInterval(() => {
+        if (gameState.showStarted) {
+            saveGameSession();
+        }
+    }, 10000);
+    
+    // Save settings when changed
+    document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('change', () => {
+            if (!gameState.showStarted) {
+                saveToLocalStorage();
+            }
+        });
+    });
+}
         function setupEmojiPickers() {
             // Team 1 emoji picker
             document.getElementById('team1-emoji-btn').addEventListener('click', () => {
@@ -1071,20 +1133,36 @@ function updateQuizDisplay() {
     document.getElementById('team2-score').textContent = gameState.team2Score;
     document.getElementById('timer').textContent = "⏰ " + gameState.timeLeft;
     
-    // Tampilkan poin dari data soal, bukan dari pengaturan
-    if (gameState.currentQuestion <= gameState.totalQuestions) {
+    // Perbaikan: Pastikan currentQuestion valid sebelum mengakses questions array
+    if (gameState.currentQuestion <= gameState.totalQuestions && 
+        gameState.questions && 
+        gameState.questions.length >= gameState.currentQuestion) {
+        
         const currentQ = gameState.questions[gameState.currentQuestion - 1];
-        document.getElementById('current-prize').textContent = "🏆 " + question.prize + " POIN";
+        if (currentQ) {
+            document.getElementById('current-prize').textContent = "🏆 " + (currentQ.prize || 100) + " POIN";
+        } else {
+            document.getElementById('current-prize').textContent = "🏆 100 POIN";
+        }
+    } else {
+        document.getElementById('current-prize').textContent = "🏆 100 POIN";
     }
 }
-
         // Load Question
 function loadQuestion() {
-    // Validasi apakah ada soal
-    if (!gameState.questions || gameState.questions.length === 0) {
+    // Validasi apakah questions array valid
+    if (!gameState.questions || !Array.isArray(gameState.questions) || gameState.questions.length === 0) {
         console.error("Tidak ada soal yang dimuat!");
-        alert("Tidak ada soal yang dimuat! Kembali ke pengaturan.");
-        backToSettings();
+        
+        // Coba muat template yang tersedia
+        const availableTemplates = Object.keys(questionTemplates);
+        if (availableTemplates.length > 0) {
+            loadTemplate(availableTemplates[0]);
+            alert("Soal tidak valid, memuat template yang tersedia.");
+        } else {
+            createDefaultTemplate();
+            alert("Tidak ada soal, menggunakan soal default.");
+        }
         return;
     }
     
@@ -1093,13 +1171,25 @@ function loadQuestion() {
         return;
     }
 
+    // Pastikan currentQuestion valid
+    if (gameState.currentQuestion < 1 || gameState.currentQuestion > gameState.questions.length) {
+        gameState.currentQuestion = 1;
+    }
+
     const question = gameState.questions[gameState.currentQuestion - 1];
     
     // Validasi struktur soal
     if (!question || !question.options) {
         console.error("Soal tidak valid:", question);
-        alert("Soal tidak valid! Kembali ke pengaturan.");
-        backToSettings();
+        
+        // Coba muat ulang template
+        if (gameState.activeTemplate && questionTemplates[gameState.activeTemplate]) {
+            gameState.questions = [...questionTemplates[gameState.activeTemplate]];
+            loadQuestion(); // Coba lagi
+        } else {
+            alert("Soal tidak valid! Kembali ke pengaturan.");
+            backToSettings();
+        }
         return;
     }
     
@@ -1143,11 +1233,19 @@ function loadQuestion() {
         }
     });
 
+    // Update poin dari data soal (bukan dari pengaturan)
+    document.getElementById('current-prize').textContent = "🏆 " + (question.prize || 100) + " POIN";
+
+    // Reset timer display
+    gameState.timeLeft = gameState.timerDuration;
+    document.getElementById('timer').textContent = "⏰ " + gameState.timeLeft;
+
     // Add dramatic entrance effect
     const questionStage = document.getElementById('question-stage');
     questionStage.classList.remove('dramatic-entrance');
     setTimeout(() => questionStage.classList.add('dramatic-entrance'), 10);
 }
+
         // Timer functions
         let timerPaused = false;
 
