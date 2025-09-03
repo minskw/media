@@ -1240,57 +1240,100 @@
             }
         }
 
-        function generateApplauseSound() {
-            if (gameState.soundEnabled) {
-                if (applauseAudio) {
-                    applauseAudio.currentTime = 0;
-                    applauseAudio.play().catch(e => console.log('Audio play failed:', e));
-                } else {
-                    // Fallback to generated sound
-                    initAudio();
-                    const duration = 2;
-                    const sampleRate = audioContext.sampleRate;
-                    const buffer = audioContext.createBuffer(1, duration * sampleRate, sampleRate);
-                    const data = buffer.getChannelData(0);
-                    
-                    for (let i = 0; i < buffer.length; i++) {
-                        data[i] = (Math.random() * 2 - 1) * 0.3 * Math.sin(i * 0.01);
-                    }
-                    
-                    const source = audioContext.createBufferSource();
-                    source.buffer = buffer;
-                    source.connect(audioContext.destination);
-                    source.start();
-                }
-            }
+function generateApplauseSound() {
+    // Pastikan audioContext sudah diinisialisasi
+    if (!audioContext) {
+        initAudio();
+    }
+    
+    if (applauseAudio) {
+        try {
+            applauseAudio.currentTime = 0;
+            applauseAudio.play().catch(e => {
+                console.log('Audio play failed, trying fallback:', e);
+                // Fallback to generated sound
+                playFallbackApplause();
+            });
+        } catch (e) {
+            console.log('Error playing applause audio:', e);
+            playFallbackApplause();
         }
+    } else {
+        playFallbackApplause();
+    }
+}
 
-        function generateBuzzerSound() {
-            if (gameState.soundEnabled) {
-                if (buzzerAudio) {
-                    buzzerAudio.currentTime = 0;
-                    buzzerAudio.play().catch(e => console.log('Audio play failed:', e));
-                } else {
-                    // Fallback to generated sound
-                    initAudio();
-                    const oscillator = audioContext.createOscillator();
-                    const gainNode = audioContext.createGain();
-                    
-                    oscillator.connect(gainNode);
-                    gainNode.connect(audioContext.destination);
-                    
-                    oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
-                    oscillator.frequency.setValueAtTime(150, audioContext.currentTime + 0.1);
-                    oscillator.frequency.setValueAtTime(100, audioContext.currentTime + 0.2);
-                    
-                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-                    
-                    oscillator.start(audioContext.currentTime);
-                    oscillator.stop(audioContext.currentTime + 0.5);
-                }
-            }
+function generateBuzzerSound() {
+    // Pastikan audioContext sudah diinisialisasi
+    if (!audioContext) {
+        initAudio();
+    }
+    
+    if (buzzerAudio) {
+        try {
+            buzzerAudio.currentTime = 0;
+            buzzerAudio.play().catch(e => {
+                console.log('Buzzer audio play failed, trying fallback:', e);
+                // Fallback to generated sound
+                playFallbackBuzzer();
+            });
+        } catch (e) {
+            console.log('Error playing buzzer audio:', e);
+            playFallbackBuzzer();
         }
+    } else {
+        playFallbackBuzzer();
+    }
+}
+
+// Fungsi fallback untuk applause
+function playFallbackApplause() {
+    if (!audioContext) {
+        initAudio();
+    }
+    
+    const duration = 2;
+    const sampleRate = audioContext.sampleRate;
+    const buffer = audioContext.createBuffer(2, duration * sampleRate, sampleRate);
+    
+    for (let channel = 0; channel < 2; channel++) {
+        const data = buffer.getChannelData(channel);
+        for (let i = 0; i < buffer.length; i++) {
+            // Create applause-like sound
+            data[i] = (Math.random() * 2 - 1) * 0.3 * Math.sin(i * 0.01) * 
+                     (1 - (i / buffer.length)); // Fade out
+        }
+    }
+    
+    const source = audioContext.createBufferSource();
+    source.buffer = buffer;
+    source.connect(audioContext.destination);
+    source.start();
+}
+
+// Fungsi fallback untuk buzzer
+function playFallbackBuzzer() {
+    if (!audioContext) {
+        initAudio();
+    }
+    
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.type = 'square';
+    oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
+    oscillator.frequency.setValueAtTime(150, audioContext.currentTime + 0.1);
+    oscillator.frequency.setValueAtTime(100, audioContext.currentTime + 0.2);
+    
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.5);
+}
 
         function generateTickSound() {
             initAudio();
@@ -1512,43 +1555,57 @@
         });
 
         // Answer button clicks
-        document.getElementById('answer-container').addEventListener('click', (e) => {
-            if (e.target.classList.contains('answer-btn') && gameState.showStarted) {
-                // Stop timer immediately when answer is selected
-                if (gameState.timerInterval) {
-                    clearInterval(gameState.timerInterval);
-                }
-                
-                const question = gameState.questions[gameState.currentQuestion - 1];
-                const isCorrect = e.target.dataset.answer === question.correct;
-                
-                // Disable all buttons
-                document.querySelectorAll('.answer-btn').forEach(btn => {
-                    btn.disabled = true;
-                });
-                
-                if (isCorrect) {
-                    e.target.classList.add('correct-celebration');
-                    e.target.style.background = 'linear-gradient(45deg, #10b981, #059669)';
-                    updateHostMessage("🎉 JAWABAN BENAR! Luar biasa! 🎉");
-                    playApplause();
-                } else {
-                    // Automatically trigger buzzer for wrong answer
-                    e.target.classList.add('buzzer-effect');
-                    e.target.style.background = 'linear-gradient(45deg, #ef4444, #dc2626)';
-                    
-                    // Show correct answer
-                    const correctBtn = document.querySelector(`[data-answer="${question.correct}"]`);
-                    correctBtn.classList.add('correct-celebration');
-                    correctBtn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
-                    
-                    updateHostMessage("❌ Jawaban salah! Ini jawaban yang benar!");
-                    playBuzzer();
-                }
-                
-                saveGameSession();
-            }
+// Answer button clicks
+document.getElementById('answer-container').addEventListener('click', (e) => {
+    if (e.target.classList.contains('answer-btn') && gameState.showStarted) {
+        // Stop timer immediately when answer is selected
+        if (gameState.timerInterval) {
+            clearInterval(gameState.timerInterval);
+        }
+        
+        const question = gameState.questions[gameState.currentQuestion - 1];
+        const isCorrect = e.target.dataset.answer === question.correct;
+        
+        // Disable all buttons
+        document.querySelectorAll('.answer-btn').forEach(btn => {
+            btn.disabled = true;
         });
+        
+        if (isCorrect) {
+            // Mainkan applause untuk jawaban benar
+            if (gameState.soundEnabled) {
+                generateApplauseSound();
+            }
+            e.target.classList.add('correct-celebration');
+            e.target.style.background = 'linear-gradient(45deg, #10b981, #059669)';
+            updateHostMessage("🎉 JAWABAN BENAR! Luar biasa! 🎉");
+            createMoneyRain();
+        } else {
+            // Mainkan buzzer untuk jawaban salah
+            if (gameState.soundEnabled) {
+                generateBuzzerSound();
+            }
+            e.target.classList.add('buzzer-effect');
+            e.target.style.background = 'linear-gradient(45deg, #ef4444, #dc2626)';
+            
+            // Show correct answer
+            const correctBtn = document.querySelector(`[data-answer="${question.correct}"]`);
+            if (correctBtn) {
+                correctBtn.classList.add('correct-celebration');
+                correctBtn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
+            }
+            
+            updateHostMessage("❌ Jawaban salah! Ini jawaban yang benar!");
+            
+            document.body.classList.add('buzzer-effect');
+            setTimeout(() => {
+                document.body.classList.remove('buzzer-effect');
+            }, 500);
+        }
+        
+        saveGameSession();
+    }
+});
 
         // Initialize app
         init();
