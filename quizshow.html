@@ -937,7 +937,7 @@
                 document.getElementById('quiz-section').classList.add('slide-up');
                 
                 // Initialize quiz
-                initializeQuiz();
+                ();
             }, 500);
         }
 
@@ -965,23 +965,72 @@
                 });
             }
         }
+// Fungsi untuk mengacak array (Fisher-Yates shuffle)
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
 
+// Fungsi untuk mengacak soal dan opsi jawaban
+function shuffleQuestionsAndOptions() {
+    // Acak urutan soal
+    gameState.questions = shuffleArray([...gameState.questions]);
+    
+    // Acak urutan opsi untuk setiap soal
+    gameState.questions.forEach(question => {
+        // Simpan jawaban yang benar
+        const correctAnswer = question.correct;
+        
+        // Ekstrak opsi tanpa huruf A., B., C., D.
+        const optionsWithoutPrefix = question.options.map(opt => opt.substring(3));
+        
+        // Gabungkan opsi dengan huruf jawaban
+        const optionsWithLetters = [
+            { option: optionsWithoutPrefix[0], letter: 'A' },
+            { option: optionsWithoutPrefix[1], letter: 'B' },
+            { option: optionsWithoutPrefix[2], letter: 'C' },
+            { option: optionsWithoutPrefix[3], letter: 'D' }
+        ];
+        
+        // Acak urutan opsi
+        const shuffledOptions = shuffleArray([...optionsWithLetters]);
+        
+        // Temukan huruf jawaban yang benar setelah pengacakan
+        const newCorrectIndex = shuffledOptions.findIndex(opt => opt.letter === correctAnswer);
+        const newCorrectLetter = ['A', 'B', 'C', 'D'][newCorrectIndex];
+        
+        // Update opsi dan jawaban yang benar
+        question.options = shuffledOptions.map((opt, index) => {
+            return `${['A', 'B', 'C', 'D'][index]}. ${opt.option}`;
+        });
+        question.correct = newCorrectLetter;
+    });
+    
+    console.log("Soal dan opsi telah diacak!");
+}
         // Initialize Quiz
-        function initializeQuiz() {
-            gameState.team1Score = 0;
-            gameState.team2Score = 0;
-            gameState.currentQuestion = 1;
-            gameState.timeLeft = gameState.timerDuration;
-            gameState.showStarted = true;
-            
-            updateTeamDisplay();
-            updateQuizDisplay();
-            loadQuestion();
-            startTimer();
-            saveGameSession();
-            
-            updateHostMessage("Quiz Show dimulai! Mari kita lihat pertanyaan pertama!");
-        }
+// Initialize Quiz
+function initializeQuiz() {
+    gameState.team1Score = 0;
+    gameState.team2Score = 0;
+    gameState.currentQuestion = 1;
+    gameState.timeLeft = gameState.timerDuration;
+    gameState.showStarted = true;
+    
+    // Acak soal dan opsi sebelum memulai
+    shuffleQuestionsAndOptions();
+    
+    updateTeamDisplay();
+    updateQuizDisplay();
+    loadQuestion();
+    startTimer();
+    saveGameSession();
+    
+    updateHostMessage("Quiz Show dimulai! Mari kita lihat pertanyaan pertama!");
+}
 
         // Update Team Display
         function updateTeamDisplay() {
@@ -1351,21 +1400,51 @@ function playFallbackBuzzer() {
             oscillator.stop(audioContext.currentTime + 0.1);
         }
 
-        function playApplause() {
-            updateHostMessage("👏 TEPUK TANGAN MERIAH! 👏");
+function playApplause() {
+    console.log("Memainkan applause...");
+    if (gameState.soundEnabled) {
+        if (applauseAudio) {
+            try {
+                applauseAudio.currentTime = 0;
+                applauseAudio.play().catch(e => {
+                    console.error("Error playing applause:", e);
+                    generateApplauseSound();
+                });
+            } catch (e) {
+                console.error("Exception playing applause:", e);
+                generateApplauseSound();
+            }
+        } else {
             generateApplauseSound();
-            createMoneyRain();
         }
+    }
+    createMoneyRain();
+}
 
-        function playBuzzer() {
-            updateHostMessage("🚨 BUZZER! Jawaban salah atau waktu habis! 🚨");
+function playBuzzer() {
+    console.log("Memainkan buzzer...");
+    if (gameState.soundEnabled) {
+        if (buzzerAudio) {
+            try {
+                buzzerAudio.currentTime = 0;
+                buzzerAudio.play().catch(e => {
+                    console.error("Error playing buzzer:", e);
+                    generateBuzzerSound();
+                });
+            } catch (e) {
+                console.error("Exception playing buzzer:", e);
+                generateBuzzerSound();
+            }
+        } else {
             generateBuzzerSound();
-            
-            document.body.classList.add('buzzer-effect');
-            setTimeout(() => {
-                document.body.classList.remove('buzzer-effect');
-            }, 500);
         }
+    }
+    
+    document.body.classList.add('buzzer-effect');
+    setTimeout(() => {
+        document.body.classList.remove('buzzer-effect');
+    }, 500);
+}
 
         // Money Rain Effect
         function createMoneyRain() {
@@ -1556,15 +1635,17 @@ function playFallbackBuzzer() {
 
         // Answer button clicks
 // Answer button clicks
+// Answer button clicks
 document.getElementById('answer-container').addEventListener('click', (e) => {
-    if (e.target.classList.contains('answer-btn') && gameState.showStarted) {
+    if (e.target.classList.contains('answer-btn') && gameState.showStarted && !e.target.disabled) {
         // Stop timer immediately when answer is selected
         if (gameState.timerInterval) {
             clearInterval(gameState.timerInterval);
         }
         
         const question = gameState.questions[gameState.currentQuestion - 1];
-        const isCorrect = e.target.dataset.answer === question.correct;
+        const selectedAnswer = e.target.dataset.answer;
+        const isCorrect = selectedAnswer === question.correct;
         
         // Disable all buttons
         document.querySelectorAll('.answer-btn').forEach(btn => {
@@ -1572,35 +1653,39 @@ document.getElementById('answer-container').addEventListener('click', (e) => {
         });
         
         if (isCorrect) {
-            // Mainkan applause untuk jawaban benar
+            // Jawaban benar - mainkan applause
             if (gameState.soundEnabled) {
-                generateApplauseSound();
+                console.log("Memainkan applause untuk jawaban benar");
+                playApplause();
             }
             e.target.classList.add('correct-celebration');
             e.target.style.background = 'linear-gradient(45deg, #10b981, #059669)';
             updateHostMessage("🎉 JAWABAN BENAR! Luar biasa! 🎉");
-            createMoneyRain();
+            
+            // Tambahkan poin ke tim yang aktif
+            if (gameState.activeTeam === 1) {
+                gameState.team1Score += question.prize;
+            } else if (gameState.activeTeam === 2) {
+                gameState.team2Score += question.prize;
+            }
+            updateQuizDisplay();
         } else {
-            // Mainkan buzzer untuk jawaban salah
+            // Jawaban salah - mainkan buzzer
             if (gameState.soundEnabled) {
-                generateBuzzerSound();
+                console.log("Memainkan buzzer untuk jawaban salah");
+                playBuzzer();
             }
             e.target.classList.add('buzzer-effect');
             e.target.style.background = 'linear-gradient(45deg, #ef4444, #dc2626)';
             
-            // Show correct answer
-            const correctBtn = document.querySelector(`[data-answer="${question.correct}"]`);
+            // Tampilkan jawaban yang benar
+            const correctBtn = document.querySelector(`.answer-btn[data-answer="${question.correct}"]`);
             if (correctBtn) {
                 correctBtn.classList.add('correct-celebration');
                 correctBtn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
             }
             
             updateHostMessage("❌ Jawaban salah! Ini jawaban yang benar!");
-            
-            document.body.classList.add('buzzer-effect');
-            setTimeout(() => {
-                document.body.classList.remove('buzzer-effect');
-            }, 500);
         }
         
         saveGameSession();
