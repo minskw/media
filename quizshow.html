@@ -150,47 +150,10 @@
             border: 2px solid #fcd34d !important;
         }
 
-		/* Perbaikan tampilan header soal */
-#question-category {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.1rem;
-    padding: 0.5rem;
-}
-
-#timer {
-    font-size: 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#current-prize {
-    font-size: 1.3rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Untuk tampilan mobile */
-@media (max-width: 768px) {
-    #question-category {
-        font-size: 0.9rem;
-    }
-    
-    #timer {
-        font-size: 1.2rem;
-    }
-    
-    #current-prize {
-        font-size: 1.1rem;
-    }
-    
-    .grid.grid-cols-3.gap-2.mb-4 {
-        grid-template-columns: 1fr;
-        gap: 0.5rem;
-    }
+.team-active {
+    box-shadow: 0 0 0 4px #fcd34d;
+    transform: scale(1.05);
+    transition: all 0.3s ease;
 }
     </style>
 </head>
@@ -1076,21 +1039,23 @@ function applySettings() {
         }
 
         // Initialize Quiz
-        function initializeQuiz() {
-            gameState.team1Score = 0;
-            gameState.team2Score = 0;
-            gameState.currentQuestion = 1;
-            gameState.timeLeft = gameState.timerDuration;
-            gameState.showStarted = true;
-            
-            updateTeamDisplay();
-            updateQuizDisplay();
-            loadQuestion();
-            startTimer();
-            saveGameSession();
-            
-            updateHostMessage("Quiz Show dimulai! Mari kita lihat pertanyaan pertama!");
-        }
+function initializeQuiz() {
+    gameState.team1Score = 0;
+    gameState.team2Score = 0;
+    gameState.currentQuestion = 1;
+    gameState.timeLeft = gameState.timerDuration;
+    gameState.showStarted = true;
+    gameState.activeTeam = null; // Reset tim aktif
+    
+    updateTeamDisplay();
+    updateQuizDisplay();
+    loadQuestion();
+    // Jangan mulai timer di sini - timer akan dimulai saat tim dipilih
+    saveGameSession();
+    
+    updateHostMessage("Quiz Show dimulai! Pilih tim yang akan menjawab!");
+}
+
 
         // Update Team Display
         function updateTeamDisplay() {
@@ -1109,81 +1074,80 @@ function updateQuizDisplay() {
     // Tampilkan poin dari data soal, bukan dari pengaturan
     if (gameState.currentQuestion <= gameState.totalQuestions) {
         const currentQ = gameState.questions[gameState.currentQuestion - 1];
-        document.getElementById('current-prize').textContent = "🏆 " + currentQ.prize + " POIN";
+        document.getElementById('current-prize').textContent = "🏆 " + question.prize + " POIN";
     }
 }
 
         // Load Question
-		function loadQuestion() {
-			// Validasi apakah ada soal
-			if (!gameState.questions || gameState.questions.length === 0) {
-				console.error("Tidak ada soal yang dimuat!");
-				alert("Tidak ada soal yang dimuat! Kembali ke pengaturan.");
-				backToSettings();
-				return;
-			}
-			
-			if (gameState.currentQuestion > gameState.totalQuestions) {
-				endQuiz();
-				return;
-			}
+function loadQuestion() {
+    // Validasi apakah ada soal
+    if (!gameState.questions || gameState.questions.length === 0) {
+        console.error("Tidak ada soal yang dimuat!");
+        alert("Tidak ada soal yang dimuat! Kembali ke pengaturan.");
+        backToSettings();
+        return;
+    }
+    
+    if (gameState.currentQuestion > gameState.totalQuestions) {
+        endQuiz();
+        return;
+    }
 
-			const question = gameState.questions[gameState.currentQuestion - 1];
-			
-			// Validasi struktur soal
-			if (!question || !question.options) {
-				console.error("Soal tidak valid:", question);
-				alert("Soal tidak valid! Kembali ke pengaturan.");
-				backToSettings();
-				return;
-			}
-			
-			// Tampilkan kategori dengan ikon
-			const categoryIcon = question.categoryIcon || "🧠";
-			document.getElementById('question-category').innerHTML = 
-				`<span class="text-xl mr-2">${categoryIcon}</span> ${question.category || "KATEGORI"}`;
-			
-			const questionTextEl = document.getElementById('question-text');
-			questionTextEl.textContent = question.question || "Pertanyaan tidak tersedia";
-			
-			// Check if question contains Arabic text and apply Arabic font
-			const arabicRegex = /[\u0600-\u06FF]/;
-			if (arabicRegex.test(question.question)) {
-				questionTextEl.classList.add('arabic-font');
-			} else {
-				questionTextEl.classList.remove('arabic-font');
-			}
+    const question = gameState.questions[gameState.currentQuestion - 1];
+    
+    // Validasi struktur soal
+    if (!question || !question.options) {
+        console.error("Soal tidak valid:", question);
+        alert("Soal tidak valid! Kembali ke pengaturan.");
+        backToSettings();
+        return;
+    }
+    
+    // Tampilkan kategori dengan ikon
+    const categoryIcon = question.categoryIcon || "🧠";
+    document.getElementById('question-category').innerHTML = 
+        `<span class="text-xl mr-2">${categoryIcon}</span> ${question.category || "KATEGORI"}`;
+    
+    const questionTextEl = document.getElementById('question-text');
+    questionTextEl.textContent = question.question || "Pertanyaan tidak tersedia";
+    
+    // Check if question contains Arabic text and apply Arabic font
+    const arabicRegex = /[\u0600-\u06FF]/;
+    if (arabicRegex.test(question.question)) {
+        questionTextEl.classList.add('arabic-font');
+    } else {
+        questionTextEl.classList.remove('arabic-font');
+    }
 
-			// Update answer options
-			const answerButtons = document.querySelectorAll('.answer-btn');
-			answerButtons.forEach((btn, index) => {
-				if (index < question.options.length) {
-					btn.textContent = question.options[index];
-					btn.dataset.answer = ['A', 'B', 'C', 'D'][index];
-					btn.classList.remove('bg-green-600', 'bg-red-600');
-					btn.disabled = false;
-					btn.classList.remove('correct-celebration', 'buzzer-effect');
-					btn.style.background = '';
-					
-					// Apply Arabic font to options if they contain Arabic text
-					if (arabicRegex.test(question.options[index])) {
-						btn.classList.add('arabic-font');
-					} else {
-						btn.classList.remove('arabic-font');
-					}
-				} else {
-					// Jika opsi tidak ada, nonaktifkan tombol
-					btn.textContent = ['A', 'B', 'C', 'D'][index] + ". Opsi tidak tersedia";
-					btn.disabled = true;
-				}
-			});
+    // Update answer options - nonaktifkan sampai tim dipilih
+    const answerButtons = document.querySelectorAll('.answer-btn');
+    answerButtons.forEach((btn, index) => {
+        if (index < question.options.length) {
+            btn.textContent = question.options[index];
+            btn.dataset.answer = ['A', 'B', 'C', 'D'][index];
+            btn.classList.remove('bg-green-600', 'bg-red-600');
+            btn.disabled = true; // Nonaktifkan sampai tim dipilih
+            btn.classList.remove('correct-celebration', 'buzzer-effect');
+            btn.style.background = '';
+            
+            // Apply Arabic font to options if they contain Arabic text
+            if (arabicRegex.test(question.options[index])) {
+                btn.classList.add('arabic-font');
+            } else {
+                btn.classList.remove('arabic-font');
+            }
+        } else {
+            // Jika opsi tidak ada, nonaktifkan tombol
+            btn.textContent = ['A', 'B', 'C', 'D'][index] + ". Opsi tidak tersedia";
+            btn.disabled = true;
+        }
+    });
 
     // Add dramatic entrance effect
     const questionStage = document.getElementById('question-stage');
     questionStage.classList.remove('dramatic-entrance');
     setTimeout(() => questionStage.classList.add('dramatic-entrance'), 10);
 }
-
         // Timer functions
         let timerPaused = false;
 
@@ -1227,49 +1191,80 @@ function startTimer() {
     }
 }
 
-        function pauseTimer() {
-            timerPaused = !timerPaused;
-            const btn = document.getElementById('pause-timer');
-            if (timerPaused) {
-                btn.innerHTML = "▶️ Resume";
-                updateHostMessage("Timer dijeda!");
-            } else {
-                btn.innerHTML = "⏸️ Pause";
-                updateHostMessage("Timer dilanjutkan!");
-            }
-        }
+function pauseTimer() {
+    // Hanya izinkan pause jika timer sedang berjalan (ada tim aktif)
+    if (!gameState.activeTeam) {
+        updateHostMessage("Pilih tim terlebih dahulu!");
+        return;
+    }
+    
+    timerPaused = !timerPaused;
+    const btn = document.getElementById('pause-timer');
+    if (timerPaused) {
+        btn.innerHTML = "▶️ Resume";
+        updateHostMessage("Timer dijeda!");
+    } else {
+        btn.innerHTML = "⏸️ Pause";
+        updateHostMessage("Timer dilanjutkan!");
+    }
+}
 
         // Team scoring
-        function teamCorrect(teamNumber) {
-            // Set tim aktif
-            gameState.activeTeam = teamNumber;
-            updateHostMessage(`Sekarang giliran ${teamNumber === 1 ? gameState.team1Name : gameState.team2Name} untuk menjawab!`);
-            
-            // Aktifkan opsi jawaban
-            document.querySelectorAll('.answer-btn').forEach(btn => {
-                btn.disabled = false;
-            });
-        }
+function teamCorrect(teamNumber) {
+    // Set tim aktif
+    gameState.activeTeam = teamNumber;
+    updateHostMessage(`Giliran ${teamNumber === 1 ? gameState.team1Name : gameState.team2Name} untuk menjawab!`);
+    
+    // Aktifkan opsi jawaban
+    document.querySelectorAll('.answer-btn').forEach(btn => {
+        btn.disabled = false;
+    });
+    
+    // Mulai timer hanya jika autoTimer diaktifkan
+    if (gameState.autoTimer) {
+        startTimer();
+    }
+    
+    // Highlight tim yang aktif
+    document.getElementById('team1-btn').classList.remove('ring-4', 'ring-yellow-400');
+    document.getElementById('team2-btn').classList.remove('ring-4', 'ring-yellow-400');
+    
+    if (teamNumber === 1) {
+        document.getElementById('team1-btn').classList.add('ring-4', 'ring-yellow-400');
+    } else {
+        document.getElementById('team2-btn').classList.add('ring-4', 'ring-yellow-400');
+    }
+}
 
         // Next Question
-        function nextQuestion() {
-            if (gameState.timerInterval) {
-                clearInterval(gameState.timerInterval);
-            }
-            
-            gameState.currentQuestion++;
-            gameState.timeLeft = gameState.timerDuration;
-            document.getElementById('timer').parentElement.classList.remove('buzzer-effect');
-            
-            updateQuizDisplay();
-            loadQuestion();
-            
-            if (gameState.currentQuestion <= gameState.totalQuestions) {
-                startTimer();
-            }
-            
-            saveGameSession();
-        }
+function nextQuestion() {
+    if (gameState.timerInterval) {
+        clearInterval(gameState.timerInterval);
+    }
+    
+    // Reset status tim aktif
+    gameState.activeTeam = null;
+    document.getElementById('team1-btn').classList.remove('ring-4', 'ring-yellow-400');
+    document.getElementById('team2-btn').classList.remove('ring-4', 'ring-yellow-400');
+    
+    gameState.currentQuestion++;
+  gameState.timeLeft = gameState.timerDuration;
+    document.getElementById('timer').textContent = "⏰ " + gameState.timeLeft;
+    
+    // Nonaktifkan opsi jawaban sampai tim dipilih
+    document.querySelectorAll('.answer-btn').forEach(btn => {
+        btn.disabled = true;
+    });
+    
+    updateQuizDisplay();
+    loadQuestion();
+    
+    if (gameState.currentQuestion <= gameState.totalQuestions) {
+        updateHostMessage("Pilih tim yang akan menjawab soal berikutnya!");
+    }
+    
+    saveGameSession();
+}
 
         // End Quiz
         function endQuiz() {
@@ -1696,61 +1691,68 @@ function startTimer() {
         });
 
         // Answer button clicks
-        document.getElementById('answer-container').addEventListener('click', (e) => {
-            if (e.target.classList.contains('answer-btn') && gameState.showStarted && !e.target.disabled) {
-                // Stop timer immediately when answer is selected
-                if (gameState.timerInterval) {
-                    clearInterval(gameState.timerInterval);
-                }
-                
-                const question = gameState.questions[gameState.currentQuestion - 1];
-                const selectedAnswer = e.target.dataset.answer;
-                const isCorrect = selectedAnswer === question.correct;
-                
-                // Disable all buttons
-                document.querySelectorAll('.answer-btn').forEach(btn => {
-                    btn.disabled = true;
-                });
-                
-                if (isCorrect) {
-                    // Jawaban benar - mainkan applause
-                    if (gameState.soundEnabled) {
-                        console.log("Memainkan applause untuk jawaban benar");
-                        playApplause();
-                    }
-                    e.target.classList.add('correct-celebration');
-                    e.target.style.background = 'linear-gradient(45deg, #10b981, #059669)';
-                    updateHostMessage("🎉 JAWABAN BENAR! Luar biasa! 🎉");
-                    
-                    // Tambahkan poin ke tim yang aktif
-                    if (gameState.activeTeam === 1) {
-                        gameState.team1Score += question.prize;
-                    } else if (gameState.activeTeam === 2) {
-                        gameState.team2Score += question.prize;
-                    }
-                    updateQuizDisplay();
-                } else {
-                    // Jawaban salah - mainkan buzzer
-                    if (gameState.soundEnabled) {
-                        console.log("Memainkan buzzer untuk jawaban salah");
-                        playBuzzer();
-                    }
-                    e.target.classList.add('buzzer-effect');
-                    e.target.style.background = 'linear-gradient(45deg, #ef4444, #dc2626)';
-                    
-                    // Tampilkan jawaban yang benar
-                    const correctBtn = document.querySelector(`.answer-btn[data-answer="${question.correct}"]`);
-                    if (correctBtn) {
-                        correctBtn.classList.add('correct-celebration');
-                        correctBtn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
-                    }
-                    
-                    updateHostMessage("❌ Jawaban salah! Ini jawaban yang benar!");
-                }
-                
-                saveGameSession();
-            }
+document.getElementById('answer-container').addEventListener('click', (e) => {
+    if (e.target.classList.contains('answer-btn') && gameState.showStarted && !e.target.disabled) {
+        // Pastikan ada tim yang aktif
+        if (!gameState.activeTeam) {
+            updateHostMessage("Pilih tim terlebih dahulu sebelum menjawab!");
+            return;
+        }
+        
+        // Stop timer ketika jawaban dipilih
+        if (gameState.timerInterval) {
+            clearInterval(gameState.timerInterval);
+        }
+        
+        const question = gameState.questions[gameState.currentQuestion - 1];
+        const selectedAnswer = e.target.dataset.answer;
+        const isCorrect = selectedAnswer === question.correct;
+        
+        // Disable all buttons
+        document.querySelectorAll('.answer-btn').forEach(btn => {
+            btn.disabled = true;
         });
+        
+        if (isCorrect) {
+            // Jawaban benar - mainkan applause
+            if (gameState.soundEnabled) {
+                console.log("Memainkan applause untuk jawaban benar");
+                playApplause();
+            }
+            e.target.classList.add('correct-celebration');
+            e.target.style.background = 'linear-gradient(45deg, #10b981, #059669)';
+            updateHostMessage("🎉 JAWABAN BENAR! Luar biasa! 🎉");
+            
+            // Tambahkan poin ke tim yang aktif
+            if (gameState.activeTeam === 1) {
+                gameState.team1Score += question.prize;
+            } else if (gameState.activeTeam === 2) {
+                gameState.team2Score += question.prize;
+            }
+            updateQuizDisplay();
+        } else {
+            // Jawaban salah - mainkan buzzer
+            if (gameState.soundEnabled) {
+                console.log("Memainkan buzzer untuk jawaban salah");
+                playBuzzer();
+            }
+            e.target.classList.add('buzzer-effect');
+            e.target.style.background = 'linear-gradient(45deg, #ef4444, #dc2626)';
+            
+            // Tampilkan jawaban yang benar
+            const correctBtn = document.querySelector(`.answer-btn[data-answer="${question.correct}"]`);
+            if (correctBtn) {
+                correctBtn.classList.add('correct-celebration');
+                correctBtn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
+            }
+            
+            updateHostMessage("❌ Jawaban salah! Ini jawaban yang benar!");
+        }
+        
+        saveGameSession();
+    }
+});
+
 
         // Initialize app
         init();
