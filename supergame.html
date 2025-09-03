@@ -143,6 +143,29 @@
             0% { transform: translateY(0); opacity: 1; }
             100% { transform: translateY(-100%); opacity: 0; }
         }
+/* Mengubah background container soal menjadi gradiasi hijau/biru */
+.question-container {
+    background: linear-gradient(135deg, #0f766e 0%, #0e7490 100%) !important;
+}
+
+/* Atau untuk background hitam */
+/* .question-container {
+    background: #1a1a1a !important;
+} */
+
+/* Mengatur teks campuran Arab-Latin agar tetap LTR */
+.mixed-text {
+    direction: ltr;
+    text-align: left;
+    unicode-bidi: plaintext;
+}
+
+/* Memastikan teks Arab dalam container soal tetap LTR */
+#question-stage .arabic-font {
+    direction: ltr;
+    text-align: left;
+    unicode-bidi: plaintext;
+}
     </style>
 </head>
 <body class="bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600 min-h-screen content-font overflow-x-hidden">
@@ -434,7 +457,7 @@
 
         <!-- Question Stage -->
         <div class="max-w-6xl mx-auto px-6 mb-2">
-            <div class="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-xl p-4 shadow-xl border-2 border-yellow-400 dramatic-entrance" id="question-stage">
+            <div class="question-container rounded-xl p-4 shadow-xl border-2 border-yellow-400 dramatic-entrance" id="question-stage">
                 <!-- Question Header with 3 sections -->
                 <div class="grid grid-cols-3 gap-2 mb-4">
                     <!-- Left: Category -->
@@ -994,12 +1017,14 @@
             
             // Check if question contains Arabic text and apply Arabic font
             const arabicRegex = /[\u0600-\u06FF]/;
-            if (arabicRegex.test(question.question)) {
-                questionTextEl.classList.add('arabic-font');
-            } else {
-                questionTextEl.classList.remove('arabic-font');
-            }
-
+if (arabicRegex.test(question.question)) {
+    questionTextEl.classList.add('arabic-font');
+    // Tambahkan kelas untuk memastikan arah LTR
+    questionTextEl.classList.add('mixed-text');
+} else {
+    questionTextEl.classList.remove('arabic-font');
+    questionTextEl.classList.remove('mixed-text');
+}
             // Update answer options
             const answerButtons = document.querySelectorAll('.answer-btn');
             answerButtons.forEach((btn, index) => {
@@ -1011,12 +1036,15 @@
                 btn.style.background = '';
                 
                 // Apply Arabic font to options if they contain Arabic text
-                if (arabicRegex.test(question.options[index])) {
-                    btn.classList.add('arabic-font');
-                } else {
-                    btn.classList.remove('arabic-font');
-                }
-            });
+    if (arabicRegex.test(question.options[index])) {
+        btn.classList.add('arabic-font');
+        // Tambahkan kelas untuk memastikan arah LTR
+        btn.classList.add('mixed-text');
+    } else {
+        btn.classList.remove('arabic-font');
+        btn.classList.remove('mixed-text');
+    }
+});
 
             // Add dramatic entrance effect
             const questionStage = document.getElementById('question-stage');
